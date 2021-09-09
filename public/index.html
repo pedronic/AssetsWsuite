@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <!-- Call App Mode on ios devices -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <!-- Remove Tap Highlight on Windows Phone IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+  <!-- base css -->
+  <!-- <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">
+  <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">
+  <link id="mytheme" rel="stylesheet" media="screen, print" href="#">
+  <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css"> -->
+</head>
+
+<body  class=" mod-bg-1 mod-nav-link nav-function-hidden">
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+
+  <script src="js/vendors.bundle.js"></script>
+  <script src="js/app.bundle.js"></script>
+</body>
+
+</html>
