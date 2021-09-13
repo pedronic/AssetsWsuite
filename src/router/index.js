@@ -44,6 +44,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/RelatoriosFaturamento.vue')
   },
   {
+    path: '/agentes',
+    name: 'Agentes',
+    component: () => import( '../views/Agentes.vue')
+  },
+  {
+    path: '/lista-de-agentes',
+    name: 'ListaAgentes',
+    component: () => import( '../views/ListaAgentes.vue')
+  },
+  {
     path: '/dash-analitico',
     name: 'DashAnalitico',
     // route level code-splitting
