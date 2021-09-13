@@ -45,12 +45,12 @@
             <div class="col-6">
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-user"></i
+                  ><i class="fal fa-user-secret"></i
                 ></span>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Usuário"
+                  placeholder="Login"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                   minlength="3"
@@ -82,19 +82,18 @@
           <div class="row justify-content-center orientation">
             <div class="col-6">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-id-card"></i
-                ></span>
-                <select
-                  class="custom-select"
-                  id="inputGroupSelect01"
-                >
-                  <option selected disabled>Perfil</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-              </div>
+                  <span class="input-group-text" id="basic-addon1"
+                    ><i class="fal fa-address-card"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Documento"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    
+                  />
+                </div>
             </div>
             <div class="col-6">
               <div class="d-inline">
@@ -120,18 +119,41 @@
             </div>
           </div>
         </div>
-        <div class="input-group mb-3 bar">
-          <span class="input-group-text" id="basic-addon1"
-            ><i class="fal fa-road"></i
-          ></span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Filas"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            
-          />
+        <div class="d-inline">
+          <div class="row justify-content-center orientation">
+            <div class="col-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"
+                  ><i class="fal fa-traffic-light-stop"></i
+                ></span>
+                <select
+                  class="custom-select"
+                  id="inputGroupSelect01"
+                >
+                  <option selected disabled>Grupo de pausas</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"
+                  ><i class="fal fa-calendar-alt"></i
+                ></span>
+                <select
+                  class="custom-select"
+                  id="inputGroupSelect01"
+                >
+                  <option selected disabled>Jornada</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="header">
           <div class="d-inline">

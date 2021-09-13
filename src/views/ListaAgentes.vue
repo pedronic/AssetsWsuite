@@ -29,7 +29,7 @@
                     type="checkbox"
                     class="custom-control-input bg-dark"
                     id="customSwitch1"
-                    disabled
+                    
                   />
                   <label
                     class="custom-control-label"
@@ -49,7 +49,7 @@
         <div class="panel ">
             <div class="panel-container show">
                 <div class="panel-content">
-                    <TabelaUsuariosCadastrados/>
+                    <TabelaAgentes/>
                 </div>
             </div>
         </div>
@@ -58,12 +58,12 @@
 
 <script>
 // import UsuarioMetodos from "../domain/User/UsuarioMetodos";
-// import TabelaUsuariosCadastrados from '../components/DataTables/TabelaUsuariosCadastrados.vue'
+import TabelaAgentes from '../components/DataTables/TabelaAgentes.vue'
 import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
 export default {
   components: {
     PagesSubHeader,
-    // TabelaUsuariosCadastrados,
+    TabelaAgentes,
   },
   data() {
     return {
