@@ -1,16 +1,55 @@
 <template>
-    <div class="profile-content user-name-line d-flex col-10">
-        <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
-        <b-form-input id="profile-name-input" v-model="text" placeholder="Nome do Perfil"/>
-        <b-button variant="outline-dark"><span class="fal fa-angle-down"/></b-button>
-        <b-button variant="outline-dark"><span class="fal fa-pencil"/></b-button>
-        <b-button variant="outline-dark"><span class="fal fa-trash-alt"/></b-button>
+    <div>
+        <div class="profile-content user-name-line d-flex col-10">
+            <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
+            <b-form-input id="profile-name-input" v-model="text" :disabled="this.edit_name"  />
+            <b-button variant="outline-dark" @click="showDetails">
+                <span class="fal fa-angle-down"/>
+            </b-button>
+            <b-button variant="outline-dark"><span class="fal fa-pencil" @click="enableEditName"/></b-button>
+            <b-button variant="outline-dark"><span class="fal fa-trash-alt"/></b-button>
+        </div>
+        <div :class="this.show_details">
+            <tabela-acesso-usuario :items="items"/>
+        </div>
     </div>
 </template>
 
 <script>
+import TabelaAcessoUsuario from './TabelaAcessoUsuario.vue'
 export default {
-    name: "NomeDoPerfilHead"
+    name: "NomeDoPerfilHead",
+    components: {
+        TabelaAcessoUsuario
+    },
+    props: {
+        items: Array,
+        user: Array,
+        colID: String,
+        rowID: String,
+    },
+    methods: {
+        // chamaAa(){
+        //     console.log("Clicado");
+        // },
+        showDetails(){
+            if(this.show_details.length > 0) this.show_details = "";
+            else this.show_details = "d-none";
+            // this.chamaAa();   
+        },
+        enableEditName(){
+            // console.clear();
+            // console.log(e.target.disabled);
+            this.edit_name = !(this.edit_name);
+        }
+    },
+    data() {
+        return {
+            show_details:"d-none",
+            text: this.user.name,
+            edit_name: true,
+        }
+    }
 }
 </script>
 

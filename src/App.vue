@@ -3,15 +3,15 @@
     <div class="page-inner" :class="{'bg-brand-gradient' : !user}" >
       <Sidebar v-if="user" />
       <div class="page-content-wrapper" :class="{'bg-transparent m-0': !user}">
-        <Header v-if="user" />
-        <Loading v-if="validatingToken" />
+        <Header/>
+        <!-- <Loading v-if="validatingToken" /> -->
         <!-- <div id="nav">
           <router-link to="/">Home</router-link> |
           <router-link to="/about">About</router-link>
         </div> 
         <router-view /> -->
-        <Content v-else />
-        <Footer v-if="user"  />
+        <Content />
+        <Footer />
       </div>
     </div>
     <!-- <div class="page-inner bg-brand-gradient" v-else>
@@ -19,10 +19,11 @@
     </div> -->
   </div>
 </template>
+
 <script>
 import { mapState } from "vuex";
-import axios from "axios";
-import { baseApiUrl, userKey } from "@/config/global"
+// import axios from "axios";
+// import { baseApiUrl, userKey } from "@/config/global"
 import Header from "@/views/layout/Header.vue";
 import Sidebar from "@/views/layout/Sidebar.vue";
 import Footer from "@/views/layout/Footer.vue";
@@ -43,29 +44,29 @@ export default {
 		}
 	},
 	methods: {
-		async validateToken() {
-			this.validatingToken = true
-			const json = localStorage.getItem(userKey)
-			const userData = JSON.parse(json)
-			this.$store.commit('setUser', null)
-			if(!userData) {
-				this.validatingToken = false
-				this.$router.push({ name: 'Login' })
-				return
-			}
-			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
-			if (res.data) {
-				this.$store.commit('setUser', userData)
+		// async validateToken() {
+		// 	this.validatingToken = true
+		// 	const json = localStorage.getItem(userKey)
+		// 	const userData = JSON.parse(json)
+		// 	this.$store.commit('setUser', null)
+		// 	if(!userData) {
+		// 		this.validatingToken = false
+		// 		this.$router.push({ name: 'Login' })
+		// 		return
+		// 	}
+		// 	const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
+		// 	if (res.data) {
+		// 		this.$store.commit('setUser', userData)
 				
-				if(this.$mq === 'xs' || this.$mq === 'sm') {
-					this.$store.commit('toggleMenu', false)
-				}
-			} else {
-				localStorage.removeItem(userKey)
-				this.$router.push({ name: 'Login' })
-			}
-			this.validatingToken = false
-		}
+		// 		if(this.$mq === 'xs' || this.$mq === 'sm') {
+		// 			this.$store.commit('toggleMenu', false)
+		// 		}
+		// 	} else {
+		// 		localStorage.removeItem(userKey)
+		// 		this.$router.push({ name: 'Login' })
+		// 	}
+		// 	this.validatingToken = false
+		// }
 	},
 	created() {
 		this.validateToken()
@@ -73,6 +74,7 @@ export default {
   computed: mapState(["user"]),
 };
 </script>
+
 <style lang="scss">
 // #app {
 //   font-family: Avenir, Helvetica, Arial, sans-serif;
