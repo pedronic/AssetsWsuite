@@ -54,6 +54,16 @@ const routes = [
     component: () => import( '../views/ListaAgentes.vue')
   },
   {
+    path:'/registro',
+    name: 'Registro',
+    component: () => import('../views/RegistroUsuarios.vue')
+  },
+  {
+    path:'/lista-de-usuarios',
+    name: 'ListaUsuarios',
+    component: () => import('../views/ListaUsuarios.vue')
+  },
+  {
     path: '/dash-analitico',
     name: 'DashAnalitico',
     // route level code-splitting

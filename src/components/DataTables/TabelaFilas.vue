@@ -7,22 +7,44 @@
       :fields="fields"
       class="
         table-sm
-        able-bordered
         table-hover table-striped
         w-100
         dt-responsive
         dtr-inline
       "
+      :select-mode="selectMode"
+      ref="selectableTable"
+      selectable
+      @row-selected="onRowSelected"
     >
-      <template #cell(status)>
-        <b-form-checkbox v-model="checked" name="check-button" switch disabled>
+    
+    <template #head(selected)>
+        <i class="fal fa-road"></i>
+    </template>
+      <template #cell(selected)="{ rowSelected }">
+        <template v-if="rowSelected">
+          <span aria-hidden="true">&check;</span>
+          <span class="sr-only">Selected</span>
+        </template>
+        <template v-else>
+          <span aria-hidden="true">&nbsp;</span>
+          <span class="sr-only">Not selected</span>
+        </template>
+      </template>  
+      <template #cell(0)>
+        <b-form-checkbox >
+         
         </b-form-checkbox>
       </template>
-      <template #cell(editar)>
-        <router-link :to="{ name: 'Registro' }">
-          <i class="fal fa-pencil d-inline"></i>
-        </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
+      <template #cell(1)>
+        <b-form-checkbox >
+         
+        </b-form-checkbox>
+      </template>
+      <template #cell(2)>
+        <b-form-checkbox >
+         
+        </b-form-checkbox>
       </template>
     </b-table>
   </div>
@@ -30,22 +52,25 @@
 
 <script>
 export default {
+    props: {
+        fila: {
+            required: true
+        }
+    },
   data() {
     return {
       fields: [
-        "Login",
-        "nome",
-        "Documento",
-        "e-mail",
-        "Login em",
-        "status",
-        "editar",
+        "selected",
+        "filas",
+        "0",
+        "1",
+        "2",
       ],
       items: [
-        { Login: "Dickerson", nome: "Macdonald" },
-        { Login: "Larsen", nome: "Shaw" },
+        { filas: 'Fila 1000' },
+        { filas: 'Fila 2000' },
       ],
-      checked: true,
+        selectMode: 'multi',
     };
   },
 };
@@ -59,6 +84,7 @@ export default {
   background-color: #0d6d9d;
   color: #fff;
 }
+
 .table.b-table.table-sm > thead > tr > [aria-sort]:not(.b-table-sort-icon-left),
 .table.b-table.table-sm
   > tfoot
