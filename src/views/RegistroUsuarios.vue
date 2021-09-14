@@ -121,18 +121,12 @@
             </div>
           </div>
         </div>
-        <div class="input-group mb-3 bar">
-          <span class="input-group-text" id="basic-addon1"
-            ><i class="fal fa-road"></i
-          ></span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Filas"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            v-model.lazy="usuario.user"
-          />
+        <div class="panel orientation">
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <TabelaFilas/>
+                </div>
+            </div>
         </div>
         <div class="header">
           <div class="d-inline">
@@ -166,12 +160,12 @@
 <script>
 import Usuario from "../domain/User/Usuario";
 import UsuarioMetodos from "../domain/User/UsuarioMetodos";
+import TabelaFilas from '../components/DataTables/TabelaFilas.vue'
+
+
 export default {
   components: {
-    // Header,
-    // Sidebar,
-    // Footer,
-    // Content,
+    TabelaFilas,
   },
   methods: {
     carregar() {
@@ -221,20 +215,13 @@ export default {
   width: 955.5px !important;
 }
 .header {
-  margin-top: 225px;
+  margin-top: 139px;
 }
-/* .control {
-  font-size: 1.2em;
-  margin-bottom: 20px;
+
+.panel-content{
+    overflow: auto;
 }
-.control label {
-  display: block;
-  font-weight: bold;
+.panel .panel-container .panel-content {
+    padding: 0;
 }
-.control label + input,
-.control textarea {
-  width: 100%;
-  font-size: inherit;
-  border-radius: 5px;
-} */
 </style> 

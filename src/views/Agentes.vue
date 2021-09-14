@@ -243,7 +243,7 @@ export default {
   width: 955.5px !important;
 }
 .header {
-  margin-top: 90px;
+  margin-top: 85px;
 }
 .panel-content{
     overflow: auto;
