@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <h1 class="title">agentes</h1>
+  <div class="relatorios">
+    <PagesSubHeader titulo="Agentes" icon="fal fa-user-headset" />
+    <h1 class="title">{{ msg }}</h1>
     <div>
       <form class="register-form">
         <div class="d-inline">
@@ -33,7 +34,6 @@
                     placeholder="Email"
                     aria-label="Username"
                     aria-describedby="basic-addon1"
-                    
                   />
                 </div>
               </div>
@@ -55,7 +55,6 @@
                   aria-describedby="basic-addon1"
                   minlength="3"
                   maxlength="120"
-                  
                 />
               </div>
             </div>
@@ -71,7 +70,6 @@
                     placeholder="Senha"
                     aria-label="Username"
                     aria-describedby="basic-addon1"
-                    
                   />
                 </div>
               </div>
@@ -82,18 +80,17 @@
           <div class="row justify-content-center orientation">
             <div class="col-6">
               <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon1"
-                    ><i class="fal fa-address-card"></i
-                  ></span>
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Documento"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                    
-                  />
-                </div>
+                <span class="input-group-text" id="basic-addon1"
+                  ><i class="fal fa-address-card"></i
+                ></span>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Documento"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                />
+              </div>
             </div>
             <div class="col-6">
               <div class="d-inline">
@@ -126,10 +123,7 @@
                 <span class="input-group-text" id="basic-addon1"
                   ><i class="fal fa-traffic-light-stop"></i
                 ></span>
-                <select
-                  class="custom-select"
-                  id="inputGroupSelect01"
-                >
+                <select class="custom-select" id="inputGroupSelect01">
                   <option selected disabled>Grupo de pausas</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
@@ -142,10 +136,7 @@
                 <span class="input-group-text" id="basic-addon1"
                   ><i class="fal fa-calendar-alt"></i
                 ></span>
-                <select
-                  class="custom-select"
-                  id="inputGroupSelect01"
-                >
+                <select class="custom-select" id="inputGroupSelect01">
                   <option selected disabled>Jornada</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
@@ -156,11 +147,11 @@
           </div>
         </div>
         <div class="panel orientation">
-            <div class="panel-container show">
-                <div class="panel-content">
-                    <TabelaFilas/>
-                </div>
+          <div class="panel-container show">
+            <div class="panel-content">
+              <TabelaFilas />
             </div>
+          </div>
         </div>
         <div class="header">
           <div class="d-inline">
@@ -189,11 +180,13 @@
 </template>
 
 <script>
-import TabelaFilas from '../components/DataTables/TabelaFilas.vue'
+import TabelaFilas from "../components/DataTables/TabelaFilas.vue";
+import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
 
 export default {
   components: {
     TabelaFilas,
+    PagesSubHeader,
   },
   methods: {
     // carregar() {
@@ -208,8 +201,9 @@ export default {
   },
   data() {
     return {
-    //   usuario: new Usuario(),
-    //   id: this.$route.params.id,
+      msg: "",
+      //   usuario: new Usuario(),
+      //   id: this.$route.params.id,
     };
   },
   created() {
@@ -245,11 +239,10 @@ export default {
 .header {
   margin-top: 85px;
 }
-.panel-content{
-    overflow: auto;
+.panel-content {
+  overflow: auto;
 }
 .panel .panel-container .panel-content {
-    padding: 0;
+  padding: 0;
 }
-
 </style> 

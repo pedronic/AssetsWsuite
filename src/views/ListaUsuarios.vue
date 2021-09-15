@@ -42,7 +42,7 @@
         </form>
         <!-- <div class="socorro ajuda"> -->
 
-      <router-link :to="{ name: 'Registro' }">
+      <router-link :to="{ name: 'RegistroUsuarios' }">
               <i class="fal fa-plus"></i>
               <h9 class="ml-2">Novo Usuário</h9>
           </router-link>

@@ -44,9 +44,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/RelatoriosFaturamento.vue')
   },
   {
-    path: '/agentes',
-    name: 'Agentes',
-    component: () => import( '../views/Agentes.vue')
+    path: '/registro-agentes',
+    name: 'RegistroAgentes',
+    component: () => import( '../views/RegistroAgentes.vue')
   },
   {
     path: '/lista-de-agentes',
@@ -54,8 +54,8 @@ const routes = [
     component: () => import( '../views/ListaAgentes.vue')
   },
   {
-    path:'/registro',
-    name: 'Registro',
+    path:'/registro-usuarios',
+    name: 'RegistroUsuarios',
     component: () => import('../views/RegistroUsuarios.vue')
   },
   {

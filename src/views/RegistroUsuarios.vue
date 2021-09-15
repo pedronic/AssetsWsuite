@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title">usuários do sistema</h1>
+    <PagesSubHeader titulo="Usuários do sistema" icon="fal fa-user" />
     <div>
       <form @submit.prevent="carregar()" class="register-form">
         <div class="d-inline">
@@ -86,10 +86,7 @@
                 <span class="input-group-text" id="basic-addon1"
                   ><i class="fal fa-id-card"></i
                 ></span>
-                <select
-                  class="custom-select"
-                  id="inputGroupSelect01"
-                >
+                <select class="custom-select" id="inputGroupSelect01">
                   <option selected disabled>Perfil</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
@@ -122,11 +119,11 @@
           </div>
         </div>
         <div class="panel orientation">
-            <div class="panel-container show">
-                <div class="panel-content">
-                    <TabelaFilas/>
-                </div>
+          <div class="panel-container show">
+            <div class="panel-content">
+              <TabelaFilas />
             </div>
+          </div>
         </div>
         <div class="header">
           <div class="d-inline">
@@ -160,12 +157,13 @@
 <script>
 import Usuario from "../domain/User/Usuario";
 import UsuarioMetodos from "../domain/User/UsuarioMetodos";
-import TabelaFilas from '../components/DataTables/TabelaFilas.vue'
-
+import TabelaFilas from "../components/DataTables/TabelaFilas.vue";
+import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
 
 export default {
   components: {
     TabelaFilas,
+    PagesSubHeader,
   },
   methods: {
     carregar() {
@@ -182,6 +180,7 @@ export default {
     return {
       usuario: new Usuario(),
       id: this.$route.params.id,
+      msg: '',
     };
   },
   created() {
@@ -218,10 +217,10 @@ export default {
   margin-top: 139px;
 }
 
-.panel-content{
-    overflow: auto;
+.panel-content {
+  overflow: auto;
 }
 .panel .panel-container .panel-content {
-    padding: 0;
+  padding: 0;
 }
 </style> 

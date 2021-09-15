@@ -19,7 +19,7 @@
         </b-form-checkbox>
       </template>
       <template #cell(editar)>
-        <router-link :to="{ name: 'Registro' }">
+        <router-link :to="{ name: 'RegistroUsuarios' }">
           <i class="fal fa-pencil d-inline"></i>
         </router-link>
         <i class="fal fa-trash-alt d-inline ml-2"></i>
