@@ -5,7 +5,6 @@
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" placeholder="Nome do Perfil"/>
         </div>
-        <!-- <nome-do-perfil-head/> -->
         <tabela-acesso-usuario :items="headItems"/>
         <b-button variant="dark">SALVAR</b-button>
     </div>
@@ -14,14 +13,12 @@
 <script>
 import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
 import TabelaAcessoUsuario from '@/components/ProfileAccessTable/TabelaAcessoUsuario.vue';
-// import NomeDoPerfilHead from '@/components/ProfileAccessTable/NomeDoPerfilHead.vue';
-// import NomeDoPerfilHead from '../../components/ProfileAccessTable/NomeDoPerfilHead.vue';
+
 export default {
     name: "Perfil",
     components: {
         PagesSubHeader,
         TabelaAcessoUsuario,
-        // NomeDoPerfilHead
     },
  
   data() {
@@ -53,33 +50,22 @@ export default {
                 {
                     key:'acesso',
                     label: 'Acesso',
-                    // tdClass: "col-8"
                 },
                 {
                     key:'add',
                     label:"",
-                    // thClass:"fal fa-plus col-2 head-items",
-                    // tdClass: "col-2"
                 },
                 {
                     key:'view',
                     label:"",
-                    // thClass:"fal fa-eye col-2 head-items",
-                    // tdClass: "col-2"
                 },
                 {
                     key:'edit',
                     label:"",
-                    // thClass:"fal fa-pencil col-2 head-items",
-                    // tdClass: "col-2"
                 },
                 {
                     key:'delete',
                     label:"",
-                    // thClass:"fal fa-trash-alt col-2 head-items",
-                    // tdClass: "col-2"
-                    // formatter: value => {
-                    //     return `<i class="fal fa-trash-alt" >${value}</i>`
                 }
             ],
         }

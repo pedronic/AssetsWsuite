@@ -20,18 +20,18 @@
             <template v-slot:cell(acesso)="data">
                 <span>{{data.value}}</span>
             </template>
-                    <template v-slot:cell(add)="slot">
-                        <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false"/>
-                    </template>
-                    <template v-slot:cell(view)="slot">
-                        <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false"/>
-                    </template>
-                    <template v-slot:cell(edit)="slot">
-                        <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false"/>
-                    </template>
-                    <template v-slot:cell(delete)="slot">
-                        <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false"/>
-                    </template>
+            <template v-slot:cell(add)="slot">
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false"/>
+            </template>
+            <template v-slot:cell(view)="slot">
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false"/>
+            </template>
+            <template v-slot:cell(edit)="slot">
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false"/>
+            </template>
+            <template v-slot:cell(delete)="slot">
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false"/>
+            </template>
         </b-table>
     </div>    
 </template>
@@ -42,33 +42,12 @@ export default {
     props:{
         items: Array,
     },
-    mounted: function() {
-        // this.localLabel = this.props.labels;
-        // this.localItem = this.props.items;
-        // this.data = this.items;
-        // for (let it in this.props.items){
-        //     t"rowLabel"cesso} = it.acesso;
-        //     console.log("acesso ok");
-        //     this.data.add = it.add;
-        //     this.data.view = it.view;
-        //     this.data.edit = it.edit;
-        //     this.data.delete = it.delete;
-        // }
+    mounted() {
     },
-    computed: function() {
-        // for (let it in this.props.items){
-        //     t"rowLabel"cesso} = it.acesso;
-        //     console.clear();
-        //     console.log("acesso ok");
-        //     this.data.add = it.add;
-        //     this.data.view = it.view;
-        //     this.data.edit = it.edit;
-        //     this.data.delete = it.delete;
-        // }
+    computed() {
     },
     data() {
         return {
-            // localItem: this.props.items,
             data: this.items,
             rowLabel: this.items.acesso,
             row: this.items,
@@ -102,8 +81,6 @@ export default {
 
 <style>
 .profile-content {
-    /* margin-left: 40px;
-    margin-right: 40px; */
     margin-top: 5px;
     margin-bottom: 5px;
 }
