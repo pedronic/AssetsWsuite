@@ -1,5 +1,5 @@
 <template>
-  <header class="page-header" role="banner">
+  <header class="page-header" role="banner" responsive>
     <!-- we need this logo when user switches to nav-function-top -->
     <!-- DOC: nav menu layout change shortcut -->
    

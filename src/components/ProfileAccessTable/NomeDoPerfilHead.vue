@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="profile-content user-name-line d-flex col-10">
+        <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" :disabled="this.edit_name"  />
             <b-button variant="outline-dark" @click="showDetails">
@@ -59,8 +59,6 @@ export default {
     align-items: center;
 }
 .profile-content {
-    margin-left: 40px;
-    margin-right: 40px;
     margin-top: 5px;
     margin-bottom: 5px;
 }

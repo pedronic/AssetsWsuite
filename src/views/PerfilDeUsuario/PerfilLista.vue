@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <pages-sub-header titulo="LISTA DE PERFIL"/>
-        <nome-do-perfil-head v-for="user in users" :items="headItems" :user="user" :key="user.id"/>
+    <div class="perfil">
+        <pages-sub-header titulo="Lista de Perfil"/>
+        <nome-do-perfil-head v-for="user in users" :items="user.data" :user="user" :key="user.id"/>
     </div>
 </template>
 
@@ -31,8 +31,8 @@ export default{
                         },
                         {
                             acesso:"Teste2",
-                            add:true,
-                            view:false,
+                            add:false,
+                            view:true,
                             edit:true,
                             delete:false
                         },
@@ -75,7 +75,7 @@ export default{
             ]
             ,
             headItems: [
-                {
+                 {
                     acesso:"Teste",
                     add:true,
                     view:false,
@@ -96,9 +96,16 @@ export default{
                     edit:false,
                     delete:false
                 }
-                ],
+            ],
         }
     }
 }
 </script>
 
+<style scoped>
+.perfil{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
     <div>        
         <pages-sub-header titulo="PERFIL DE USUÁRIOS"/>
-        <div class="profile-content user-name-line d-flex col-6">
+        <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" placeholder="Nome do Perfil"/>
         </div>
@@ -28,27 +28,27 @@ export default {
         return {
             headItems: [
                 {
-                    'acesso':"Teste",
-                    'add':true,
-                    'view':false,
-                    'edit':false,
-                    'delete':false
+                    acesso:"Teste",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false
                 },
                 {
-                    'acesso':"Teste2",
-                    'add':true,
-                    'view':false,
-                    'edit':false,
-                    'delete':false
+                    acesso:"Teste2",
+                    add:false,
+                    view:false,
+                    edit:false,
+                    delete:false
                 },
                 {
-                    'acesso':"Teste3",
-                    'add':true,
-                    'view':false,
-                    'edit':false,
-                    'delete':false
+                    acesso:"Teste3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false
                 }
-                ],
+            ],
             labels: [
                 {
                     key:'acesso',
@@ -93,8 +93,6 @@ export default {
     align-items: center;
 }
 .profile-content {
-    margin-left: 40px;
-    margin-right: 40px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
