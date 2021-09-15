@@ -2,11 +2,11 @@
     <div>
         <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
-            <b-form-input id="profile-name-input" v-model="text" :disabled="isDisabled"/>
+            <b-form-input id="profile-name-input" v-model="text" :disabled="this.edit_name"/>
             <b-button variant="outline-dark" @click="showDetails">
                 <span class="fal fa-angle-down"/>
             </b-button>
-            <b-button variant="outline-dark"><span class="fal fa-pencil" @click="enableEditName"/></b-button>
+            <b-button variant="outline-dark" @click="enableEditName"><span class="fal fa-pencil"/></b-button>
             <b-button variant="outline-dark"><span class="fal fa-trash-alt"/></b-button>
         </div>
         <div :class="this.show_details">
@@ -28,14 +28,7 @@ export default {
         colID: String,
         rowID: String,
     },
-    computed:{
-        isDisabled(){
-            let d = !(this.edit_name);
-            // let el = ev.target;
-            // this.edit_name = !el.parentElement.children[1].disabled;
-            // console.log(el.parentElement.children[1].disabled);
-            return d;
-        }
+    computed:{        
     },
     methods: {
         showDetails(){
@@ -44,7 +37,9 @@ export default {
         },
         enableEditName(){
             this.edit_name = !this.edit_name;
-        }
+        },
+    },
+    watch: {
     },
     data() {
         return {
