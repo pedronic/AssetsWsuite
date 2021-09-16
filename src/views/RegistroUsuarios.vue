@@ -114,12 +114,12 @@
             </div>
           </div>
         </div>
-        <b-select class="select2-selection__rendered orientation" :multiple="multiple">
+<!--        <b-select class="select2-selection__rendered orientation" :multiple="multiple">
           <option selected disabled>Filas</option>
           <option value="1000">fila 1000</option>
           <option value="2000">fila 2000</option>
-        </b-select>
-        
+        </b-select> -->
+
         <div class="bottom">
           <div class="d-inline">
             <button type="submit" class="btn btn-dark d-inline">Salvar</button>
