@@ -1,12 +1,17 @@
 <template>
-    <div>        
-        <pages-sub-header titulo="PERFIL DE USUÁRIOS"/>
+    <div class="relatorios">        
+        <pages-sub-header icon="fal fa-briefcase" titulo="Perfil de Usuários">
+            <div class="card">
+                <div class="card-body"/>
+            </div>
+        </pages-sub-header>
+        <!-- <pages-sub-header/> -->
         <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" placeholder="Nome do Perfil"/>
         </div>
         <tabela-acesso-usuario :items="headItems"/>
-        <b-button variant="dark">SALVAR</b-button>
+        <b-button variant="primary">SALVAR</b-button>
     </div>
 </template>
 
@@ -78,9 +83,21 @@ export default {
     align-content: center;
     align-items: center;
 }
-.profile-content {
+/* .profile-content {
     margin-top: 5px;
     margin-bottom: 5px;
+} */
+
+.card-body{
+    padding: 5px;
+    height: 50px;
+    width: 0;
+    border: 0px;
+    color: #ffffff transparent;
+}
+.card{
+    box-shadow: none;
+    border: none;
 }
 .user-name-line {
     align-items: center !important;

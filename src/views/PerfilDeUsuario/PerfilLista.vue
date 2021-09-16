@@ -1,6 +1,10 @@
 <template>
     <div class="perfil">
-        <pages-sub-header titulo="Lista de Perfil"/>
+        <pages-sub-header icon="fal fa-briefcase" titulo="Lista de Perfil">
+            <div class="card">
+                <div class="card-body"/>
+            </div>
+        </pages-sub-header>
         <nome-do-perfil-head v-for="user in users" :items="user.data" :user="user" :key="user.id"/>
     </div>
 </template>
@@ -103,6 +107,17 @@ export default{
 </script>
 
 <style scoped>
+.card-body{
+    padding: 5px;
+    height: 50px;
+    width: 0;
+    border: 0px;
+    color: #ffffff transparent;
+}
+.card{
+    box-shadow: none;
+    border: none;
+}
 .perfil{
     width: 100%;
     padding: 0;
