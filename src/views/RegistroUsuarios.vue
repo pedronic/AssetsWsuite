@@ -1,3 +1,4 @@
+<!--  este é um componente que faz um formulário para castrar usuários no banco de dados-->
 <template>
   <div>
     <PagesSubHeader titulo="Usuários do sistema" icon="fal fa-user" />
@@ -114,6 +115,81 @@
             </div>
           </div>
         </div>
+<!--        <div class="form-group">-->
+<!--          <label class="form-label" for="multiple-basic">-->
+<!--            Basic Multi Select-->
+<!--          </label>-->
+<!--          <select class="select2 form-control select2-hidden-accessible" multiple="multiple" id="multiple-basic" data-select2-id="multiple-basic" tabindex="-1" aria-hidden="true">-->
+<!--            <optgroup label="Alaskan/Hawaiian Time Zone">-->
+<!--              <option value="AK">Alaska</option>-->
+<!--              <option value="HI">Hawaii</option>-->
+<!--            </optgroup>-->
+<!--            <optgroup label="Pacific Time Zone">-->
+<!--              <option value="CA" selected="">California</option>-->
+<!--              <option value="NV">Nevada</option>-->
+<!--              <option value="OR">Oregon</option>-->
+<!--              <option value="WA">Washington</option>-->
+<!--            </optgroup>-->
+<!--            <optgroup label="Mountain Time Zone">-->
+<!--              <option value="AZ">Arizona</option>-->
+<!--              <option value="CO" selected="">Colorado</option>-->
+<!--              <option value="ID">Idaho</option>-->
+<!--              <option value="MT">Montana</option>-->
+<!--              <option value="NE">Nebraska</option>-->
+<!--              <option value="NM">New Mexico</option>-->
+<!--              <option value="ND">North Dakota</option>-->
+<!--              <option value="UT">Utah</option>-->
+<!--              <option value="WY">Wyoming</option>-->
+<!--            </optgroup>-->
+<!--            <optgroup label="Central Time Zone">-->
+<!--              <option value="AL">Alabama</option>-->
+<!--              <option value="AR">Arkansas</option>-->
+<!--              <option value="IL">Illinois</option>-->
+<!--              <option value="IA">Iowa</option>-->
+<!--              <option value="KS">Kansas</option>-->
+<!--              <option value="KY">Kentucky</option>-->
+<!--              <option value="LA">Louisiana</option>-->
+<!--              <option value="MN">Minnesota</option>-->
+<!--              <option value="MS">Mississippi</option>-->
+<!--              <option value="MO">Missouri</option>-->
+<!--              <option value="OK">Oklahoma</option>-->
+<!--              <option value="SD">South Dakota</option>-->
+<!--              <option value="TX">Texas</option>-->
+<!--              <option value="TN">Tennessee</option>-->
+<!--              <option value="WI">Wisconsin</option>-->
+<!--            </optgroup>-->
+<!--            <optgroup label="Eastern Time Zone">-->
+<!--              <option value="CT">Connecticut</option>-->
+<!--              <option value="DE">Delaware</option>-->
+<!--              <option value="FL">Florida</option>-->
+<!--              <option value="GA">Georgia</option>-->
+<!--              <option value="IN">Indiana</option>-->
+<!--              <option value="ME">Maine</option>-->
+<!--              <option value="MD">Maryland</option>-->
+<!--              <option value="MA">Massachusetts</option>-->
+<!--              <option value="MI">Michigan</option>-->
+<!--              <option value="NH">New Hampshire</option>-->
+<!--              <option value="NJ">New Jersey</option>-->
+<!--              <option value="NY">New York</option>-->
+<!--              <option value="NC">North Carolina</option>-->
+<!--              <option value="OH">Ohio</option>-->
+<!--              <option value="PA">Pennsylvania</option>-->
+<!--              <option value="RI">Rhode Island</option>-->
+<!--              <option value="SC">South Carolina</option>-->
+<!--              <option value="VT">Vermont</option>-->
+<!--              <option value="VA">Virginia</option>-->
+<!--              <option value="WV">West Virginia</option>-->
+<!--            </optgroup>-->
+<!--          </select>-->
+<!--          <span class="select2 select2-container select2-container&#45;&#45;default select2-container&#45;&#45;below" dir="ltr" data-select2-id="9">-->
+<!--            <span class="selection">-->
+<!--              <span class="select2-selection select2-selection&#45;&#45;multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="false">-->
+<!--                <ul class="select2-selection__rendered">-->
+<!--                  <li class="select2-selection__choice" title="California" data-select2-id="103">-->
+<!--                    <span class="select2-selection__choice__remove" role="presentation">×</span>-->
+<!--                  </li>-->
+<!--                  -->
+<!--        </div>-->
 <!--        <b-select class="select2-selection__rendered orientation" :multiple="multiple">
           <option selected disabled>Filas</option>
           <option value="1000">fila 1000</option>
