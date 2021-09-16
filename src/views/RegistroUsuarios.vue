@@ -4,8 +4,8 @@
     <div>
       <form @submit.prevent="carregar()" class="register-form">
         <div class="d-inline">
-          <div class="row justify-content-center orientation">
-            <div class="col-6">
+          <div class="row orientation">
+            <div class="col-4">
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
                   ><i class="far fa-ad"></i
@@ -22,7 +22,7 @@
                 />
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon1"
@@ -39,11 +39,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="d-inline">
-          <div class="row justify-content-center orientation">
-            <div class="col-6">
+            <div class="col-4">
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
                   ><i class="fal fa-user"></i
@@ -60,7 +56,11 @@
                 />
               </div>
             </div>
-            <div class="col-6">
+          </div>
+        </div>
+        <div class="d-inline">
+          <div class="row justify-content-center orientation">
+            <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="basic-addon1"
@@ -77,11 +77,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="d-inline">
-          <div class="row justify-content-center orientation">
-            <div class="col-6">
+            <div class="col-4">
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"
                   ><i class="fal fa-id-card"></i
@@ -94,7 +90,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -118,14 +114,13 @@
             </div>
           </div>
         </div>
-        <div class="panel orientation">
-          <div class="panel-container show">
-            <div class="panel-content">
-              <TabelaFilas />
-            </div>
-          </div>
-        </div>
-        <div class="header">
+        <b-select class="select2 orientation" :multiple="multiple">
+          <option selected disabled>Filas</option>
+          <option value="1000">fila 1000</option>
+          <option value="2000">fila 2000</option>
+        </b-select>
+        
+        <div class="bottom">
           <div class="d-inline">
             <button type="submit" class="btn btn-dark d-inline">Salvar</button>
           </div>
@@ -157,12 +152,12 @@
 <script>
 import Usuario from "../domain/User/Usuario";
 import UsuarioMetodos from "../domain/User/UsuarioMetodos";
-import TabelaFilas from "../components/DataTables/TabelaFilas.vue";
+// import TabelaFilas from "../components/DataTables/TabelaFilas.vue";
 import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
 
 export default {
   components: {
-    TabelaFilas,
+    // TabelaFilas,
     PagesSubHeader,
   },
   methods: {
@@ -196,7 +191,7 @@ export default {
   margin-left: 450px;
 }
 .orientation {
-  width: 985px;
+  width: 100%;
 }
 .invalid {
   color: brown;
@@ -208,13 +203,11 @@ export default {
   margin-top: 15px;
 }
 .register-form {
-  margin: 50px 65px 40px;
+  margin: 50px 0px 40px;
 }
-.bar {
-  width: 955.5px !important;
-}
-.header {
-  margin-top: 139px;
+
+.bottom {
+  margin-top: 20px;
 }
 
 .panel-content {
