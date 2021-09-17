@@ -1,17 +1,36 @@
 <template>
-    <div>
+    <div class="nome-do-perfil-head">
         <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
-            <b-form-input id="profile-name-input" v-model="text" :disabled="this.edit_name"/>
-            <b-button variant="outline-dark" @click="showDetails">
-                <span class="fal fa-angle-down"/>
+            <b-form-input id="profile-name-input" v-model="text" :disabled="true"/>
+            <b-button variant="outline-dark" @click="showDetails()">
+                <span :class="this.arrow_icon_now"/>
             </b-button>
-            <b-button variant="outline-dark" @click="enableEditName"><span class="fal fa-pencil"/></b-button>
-            <b-button variant="outline-dark"><span class="fal fa-trash-alt"/></b-button>
+                <router-link to="/perfil-usuario">
+                    <b-button variant="outline-dark" @click="enableEditName">
+                        <span class="fal fa-pencil"/>
+                    </b-button>
+                </router-link>
+            <b-button v-b-modal="text" variant="outline-dark">
+                <span class="fal fa-trash-alt"/>
+            </b-button>
         </div>
         <div :class="this.show_details">
-            <tabela-acesso-usuario :items="items"/>
+            <tabela-acesso-usuario :viewOnly="viewOnly" :items="items"/>
         </div>
+        <b-modal 
+        :id="text" 
+        title="ATENÇÃO!!!"
+        hide-header-close="true"
+        no-close-on-backdrop="true"
+        no-close-on-esc="true"
+        lazy="true"
+        ok-title="EXCLUIR"
+        ok-variant="danger" 
+        cancel-title="MANTER" 
+        cancel-variant="success">
+            Tem certeza que deseja excluir o perfil de <b>{{this.text}}</b>?
+        </b-modal>
     </div>
 </template>
 
@@ -25,6 +44,7 @@ export default {
     props: {
         items: Array,
         user: Array,
+        viewOnly: Boolean,
         colID: String,
         rowID: String,
     },
@@ -32,12 +52,17 @@ export default {
     },
     methods: {
         showDetails(){
+            this.show_details_count++;
+            this.arrow_icon_now = this.arrow_icon_list[this.show_details_count % 2];
             if(this.show_details.length > 0) this.show_details = "";
             else this.show_details = "d-none";
         },
         enableEditName(){
-            this.edit_name = !this.edit_name;
+            // this.edit_name = !this.edit_name;
         },
+        confirmDelete(){
+            this.confirmDeleteModal = !this.confirmDeleteModal;
+        }
     },
     watch: {
     },
@@ -45,18 +70,30 @@ export default {
         return {
             show_details:"d-none",
             text: this.user.name,
-            edit_name: true,
+            // edit_name: true,
+            arrow_icon_list: ["fal fa-angle-down","fal fa-angle-up"],
+            arrow_icon_now: "fal fa-angle-down",
+            show_details_count: 0,
+            confirmDeleteModal: false,
         }
     }
 }
 </script>
 
 <style scoped>
+.nome-do-perfil-head{
+    background-color: white;    
+}
 .head-items{
     align-content: center;
     align-items: center;
 }
 .profile-content {
+    background-color: white;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 2px;
+    /* z-index: 2; */
     margin-top: 5px;
     margin-bottom: 5px;
 }
