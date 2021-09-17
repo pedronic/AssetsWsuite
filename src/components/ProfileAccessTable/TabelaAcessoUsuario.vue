@@ -24,19 +24,19 @@
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="isDisabled"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="state"/>
             </template>
             <template v-slot:cell(view)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="isDisabled"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="state"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="isDisabled"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="state"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="isDisabled"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="state"/>
             </template>
             <template v-slot:cell(browse)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="isDisabled"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="isDisabled" :browsable="slot.value"/>
             </template>
         </b-table>
     </div>    
@@ -48,17 +48,24 @@ export default {
     props:{
         items: Array,
         viewOnly: Boolean,
+        browsable: Boolean,
     },
-    mounted() {
+    mounted: {
+        state() {
+            let d;
+            if (this.viewOnly) d=true;
+            else d= this.browsable;
+            return d;
+        }
     },
-    computed() {
+    computed: {
     },
     data() {
         return {
             data: this.items,
             rowLabel: this.items.acesso,
             row: this.items,
-            isDisabled: this.viewOnly,
+            isDisabled: this.state,
             fields: [
                 {
                     key:"acesso",
