@@ -1,51 +1,66 @@
 <template>
    <div class="relatorios">
-        <PagesSubHeader titulo="Usuários do sistema" icon="fal fa-list" />
-    <h2 class="title"> {{ msg }}</h2>      
-      <form class="register-form">
-        <div class="d-inline">
-              <div class="input-group mb-3 bar">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-search"></i
-                ></span>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder=""
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                  v-on:input="filter = $event.target.value"
-                />
-                <div
-                  class="
-                    input-group-append
-                    custom-control custom-switch
-                    border border-0
-                    pl-1
-                    pt-1
-                  "
-                >
-                  <input
-                    type="checkbox"
-                    class="custom-control-input bg-dark"
-                    id="customSwitch1"
-                    
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="customSwitch1"
-                  ></label>
+        <PagesSubHeader titulo="Lista de usuários do sistema" icon="fal fa-list" >
+          <div class="card">
+            <div class="card-body"/>
+          </div>
+          <form class="container">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-7 col-inputs">
+                  <div class="input-group d-flex">
+
+                    <input
+                        aria-describedby="basic-addon1"
+                        aria-label="Username"
+                        class="form-control"
+                        placeholder=""
+                        type="text"
+                        v-on:input="filter = $event.target.value"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-2 col-botoes">
+                  <button class="btn btn-info waves-effect waves-themed" name="pesquisa-faturamento" type="submit"><i
+                      class="fal fa-search"></i></button>
+
+                </div>
+                <div class="col-1 col-inputs mr-4">
+                  <div
+                      class="
+
+                                      custom-control custom-switch
+                                      border border-0
+                                      mt-1
+                                    "
+                  >
+                    <input
+                        id="customSwitch1"
+                        class="custom-control-input bg-dark"
+                        type="checkbox"
+
+                    />
+                    <label
+                        class="custom-control-label"
+                        for="customSwitch1"
+                    ></label>
+                  </div>
+
+                </div>
+                <div class="col-1 col-botoes">
+                <router-link :to="{ name: 'RegistroUsuarios' }">
+                  <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
+                          type="submit"><i class="fal fa-plus"></i></button>
+
+                </router-link>
                 </div>
               </div>
-        </div>
+            </div>
+          </form>
+        </PagesSubHeader>
+<!--    <h2 class="title"> {{ msg }}</h2>      -->
 
-        </form>
-        <!-- <div class="socorro ajuda"> -->
-
-      <router-link :to="{ name: 'RegistroUsuarios' }">
-              <i class="fal fa-plus"></i>
-              <h9 class="ml-2">Novo Usuário</h9>
-          </router-link>
         <div class="panel ">
             <div class="panel-container show">
                 <div class="panel-content">
@@ -189,6 +204,14 @@ export default {
     padding: 0;
 }
 .card-body{
-    padding: 5px;
+  padding: 5px;
+  height: 50px;
+  width: 0;
+  border: 0;
+  color: #ffffff;
+}
+.card{
+  box-shadow: none;
+  border: none;
 }
 </style> 

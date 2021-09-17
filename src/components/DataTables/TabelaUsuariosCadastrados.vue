@@ -18,7 +18,7 @@
         <b-form-checkbox v-model="checked" name="check-button" switch disabled>
         </b-form-checkbox>
       </template>
-      <template #cell(editar)>
+      <template #cell(ação)>
         <router-link :to="{ name: 'RegistroUsuarios' }">
           <i class="fal fa-pencil d-inline"></i>
         </router-link>
@@ -60,8 +60,8 @@ export default {
             sortable: false,
           },
           {
-            key: 'Editar',
-            label: 'Editar',
+            key: 'Ação',
+            label: 'Ação',
             sortable: false
           },
             ],

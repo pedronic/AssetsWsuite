@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-table
-      striped
+        sticky-header
+        head-variant="blue"
+        striped
       hover
       :items="items"
       :fields="fields"
@@ -23,29 +25,25 @@
     </template>
       <template #cell(selected)="{ rowSelected }">
         <template v-if="rowSelected">
-          <span aria-hidden="true">&check;</span>
+          <span aria-hidden="true">&nbsp;</span>
           <span class="sr-only">Selected</span>
         </template>
         <template v-else>
           <span aria-hidden="true">&nbsp;</span>
           <span class="sr-only">Not selected</span>
         </template>
-      </template>  
+      </template>
+
       <template #cell(0)>
-        <b-form-checkbox >
-         
-        </b-form-checkbox>
+            <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="0"></b-form-radio>
       </template>
-      <template #cell(1)>
-        <b-form-checkbox >
-         
-        </b-form-checkbox>
-      </template>
-      <template #cell(2)>
-        <b-form-checkbox >
-         
-        </b-form-checkbox>
-      </template>
+            <template #cell(1)>
+            <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="1"></b-form-radio>
+            </template>
+            <template #cell(2)>
+            <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="2"></b-form-radio>
+            </template>
+
     </b-table>
   </div>
 </template>
@@ -67,10 +65,10 @@ export default {
         "2",
       ],
       items: [
-        { filas: 'Fila 1000' },
-        { filas: 'Fila 2000' },
+        { isChecked: true, filas: 'Fila 1000' },
+        { isChecked: false, filas: 'Fila 2000' },
       ],
-        selectMode: 'multi',
+        selected: '',
     };
   },
 };

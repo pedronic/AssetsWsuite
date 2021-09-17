@@ -1,90 +1,94 @@
 <!--  este é um componente que faz um formulário para castrar usuários no banco de dados-->
 <template>
-  <div>
-    <PagesSubHeader titulo="Usuários do sistema" icon="fal fa-user" />
-    <div>
-      <form @submit.prevent="carregar()" class="register-form">
+  <div class="relatorios">
+    <PagesSubHeader icon="fal fa-user" titulo="Usuários do sistema">
+      <div class="card">
+        <div class="card-body"/>
+      </div>
+</PagesSubHeader>
+      <form @submit.prevent="carregar()">
+        <div class="form-group">
         <div class="d-inline">
-          <div class="row orientation">
+          <div class="row ">
             <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="far fa-ad"></i
+                <span id="basic-addon1" class="input-group-text form-icon"
+                ><i class="far fa-ad"></i
                 ></span>
                 <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nome"
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                  minlength="3"
-                  maxlength="120"
-                  v-model.lazy="usuario.nome"
+                    v-model.lazy="usuario.nome"
+                    aria-describedby="basic-addon1"
+                    aria-label="Username"
+                    class="form-control"
+                    maxlength="120"
+                    minlength="3"
+                    placeholder="Nome"
+                    type="text"
                 />
               </div>
             </div>
             <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon1"
-                    ><i class="fal fa-at"></i
+                  <span id="basic-addon1" class="input-group-text form-icon"
+                  ><i class="fal fa-at"></i
                   ></span>
                   <input
-                    type="email"
-                    class="form-control"
-                    placeholder="Email"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                    v-model.lazy="usuario.email"
+                      v-model.lazy="usuario.email"
+                      aria-describedby="basic-addon1"
+                      aria-label="Username"
+                      class="form-control"
+                      placeholder="Email"
+                      type="email"
                   />
                 </div>
               </div>
             </div>
             <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-user"></i
+                <span id="basic-addon1" class="input-group-text form-icon"
+                ><i class="fal fa-user"></i
                 ></span>
                 <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Usuário"
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                  minlength="3"
-                  maxlength="120"
-                  v-model.lazy="usuario.user"
+                    v-model.lazy="usuario.user"
+                    aria-describedby="basic-addon1"
+                    aria-label="Username"
+                    class="form-control"
+                    maxlength="120"
+                    minlength="3"
+                    placeholder="Usuário"
+                    type="text"
                 />
               </div>
             </div>
           </div>
         </div>
         <div class="d-inline">
-          <div class="row justify-content-center orientation">
+          <div class="row justify-content-center ">
             <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon1"
-                    ><i class="fal fa-key"></i
+                  <span id="basic-addon1" class="input-group-text form-icon"
+                  ><i class="fal fa-key"></i
                   ></span>
                   <input
-                    type="password"
-                    class="form-control"
-                    placeholder="Senha"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                    v-model.lazy="usuario.senha"
+                      v-model.lazy="usuario.senha"
+                      aria-describedby="basic-addon1"
+                      aria-label="Username"
+                      class="form-control"
+                      placeholder="Senha"
+                      type="password"
                   />
                 </div>
               </div>
             </div>
             <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-id-card"></i
+                <span id="basic-addon1" class="input-group-text form-icon"
+                ><i class="fal fa-id-card"></i
                 ></span>
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected disabled>Perfil</option>
+                <select id="inputGroupSelect01" class="custom-select">
+                  <option disabled selected>Perfil</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
@@ -95,19 +99,19 @@
               <div class="d-inline">
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01"
-                      ><i class="fal fa-image"></i
+                    <span id="inputGroupFileAddon01" class="input-group-text form-icon"
+                    ><i class="fal fa-image"></i
                     ></span>
                   </div>
                   <div class="custom-file">
                     <input
-                      type="file"
-                      class="custom-file-input"
-                      id="inputGroupFile01"
-                      aria-describedby="inputGroupFileAddon01"
+                        id="inputGroupFile01"
+                        aria-describedby="inputGroupFileAddon01"
+                        class="custom-file-input"
+                        type="file"
                     />
                     <label class="custom-file-label" for="inputGroupFile01"
-                      >Foto</label
+                    >Foto</label
                     >
                   </div>
                 </div>
@@ -119,20 +123,21 @@
 <!--          <label class="form-label" for="multiple-basic">-->
 <!--            Basic Multi Select-->
 <!--          </label>-->
-<!--          <select class="select2 form-control select2-hidden-accessible" multiple="multiple" id="multiple-basic" data-select2-id="multiple-basic" tabindex="-1" aria-hidden="true">-->
+<!--          <select id="multiple-basic" aria-hidden="true" class="select2 form-control select2-hidden-accessible"-->
+<!--                  data-select2-id="multiple-basic" multiple="multiple" tabindex="-1">-->
 <!--            <optgroup label="Alaskan/Hawaiian Time Zone">-->
 <!--              <option value="AK">Alaska</option>-->
 <!--              <option value="HI">Hawaii</option>-->
 <!--            </optgroup>-->
 <!--            <optgroup label="Pacific Time Zone">-->
-<!--              <option value="CA" selected="">California</option>-->
+<!--              <option selected="" value="CA">California</option>-->
 <!--              <option value="NV">Nevada</option>-->
 <!--              <option value="OR">Oregon</option>-->
 <!--              <option value="WA">Washington</option>-->
 <!--            </optgroup>-->
 <!--            <optgroup label="Mountain Time Zone">-->
 <!--              <option value="AZ">Arizona</option>-->
-<!--              <option value="CO" selected="">Colorado</option>-->
+<!--              <option selected="" value="CO">Colorado</option>-->
 <!--              <option value="ID">Idaho</option>-->
 <!--              <option value="MT">Montana</option>-->
 <!--              <option value="NE">Nebraska</option>-->
@@ -181,69 +186,85 @@
 <!--              <option value="WV">West Virginia</option>-->
 <!--            </optgroup>-->
 <!--          </select>-->
-<!--          <span class="select2 select2-container select2-container&#45;&#45;default select2-container&#45;&#45;below" dir="ltr" data-select2-id="9">-->
+<!--          <span class="select2 select2-container select2-container&#45;&#45;default select2-container&#45;&#45;below" data-select2-id="9"-->
+<!--                dir="ltr">-->
 <!--            <span class="selection">-->
-<!--              <span class="select2-selection select2-selection&#45;&#45;multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="false">-->
+<!--              <span aria-disabled="false" aria-expanded="false" aria-haspopup="true"-->
+<!--                    class="select2-selection select2-selection&#45;&#45;multiple" role="combobox" tabindex="-1">-->
 <!--                <ul class="select2-selection__rendered">-->
-<!--                  <li class="select2-selection__choice" title="California" data-select2-id="103">-->
+<!--                  <li class="select2-selection__choice" data-select2-id="103" title="California">-->
 <!--                    <span class="select2-selection__choice__remove" role="presentation">×</span>-->
+<!--                    "California"-->
 <!--                  </li>-->
-<!--                  -->
+<!--                  <li class="select2-selection__choice" data-select2-id="13" title="Colorado">-->
+<!--                    <span class="select2-selection__choice__remove" role="presentation">×</span>-->
+<!--                    "Colorado"-->
+<!--                  </li>-->
+<!--                  <li class="select2-search select2-search&#45;&#45;inline">-->
+<!--<input aria-autocomplete="list" autocapitalize="none" autocomplete="off" autocorrect="off" class="select2-search__field"-->
+<!--       placeholder role="searchbox" spellcheck="false" style="width: 9em;" tabindex="0"-->
+<!--       type="search">-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </span>-->
+<!--            </span>-->
+<!--            <span class="dropdown-wrapper" aria-hidden="true"></span>-->
+<!--          </span>-->
 <!--        </div>-->
-<!--        <b-select class="select2-selection__rendered orientation" :multiple="multiple">
-          <option selected disabled>Filas</option>
-          <option value="1000">fila 1000</option>
-          <option value="2000">fila 2000</option>
-        </b-select> -->
+        <!--        <b-select class="select2-selection__rendered " :multiple="multiple">
+                  <option selected disabled>Filas</option>
+                  <option value="1000">fila 1000</option>
+                  <option value="2000">fila 2000</option>
+                </b-select> -->
 
         <div class="bottom">
           <div class="d-inline">
-            <button type="submit" class="btn btn-dark d-inline">Salvar</button>
+            <button class="btn btn-dark d-inline botao-salvar" type="submit">Salvar</button>
           </div>
           <div class="custom-control custom-switch d-inline centralize">
             <input
-              v-if="usuario.status"
-              type="checkbox"
-              class="custom-control-input bg-dark"
-              id="customSwitch1"
-              checked
+                v-if="usuario.status"
+                id="customSwitch1"
+                checked
+                class="custom-control-input bg-dark"
+                type="checkbox"
             />
             <input
-              v-else
-              type="checkbox"
-              class="custom-control-input bg-dark"
-              id="customSwitch1"
+                v-else
+                id="customSwitch1"
+                class="custom-control-input bg-dark"
+                type="checkbox"
             />
-            <label class="custom-control-label" for="customSwitch1"
-              >Status</label
+            <label class="custom-control-label" id="kkk" for="customSwitch1"
+            >Status</label
             >
           </div>
         </div>
-        <!-- </div> -->
+         </div>
       </form>
     </div>
-  </div>
+
+
 </template>
 
 <script>
 import Usuario from "../domain/User/Usuario";
 import UsuarioMetodos from "../domain/User/UsuarioMetodos";
-// import TabelaFilas from "../components/DataTables/TabelaFilas.vue";
 import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
 
 export default {
   components: {
-    // TabelaFilas,
+
     PagesSubHeader,
   },
   methods: {
     carregar() {
       this.service.register(this.usuario).then(
-        () => {
-          if (this.id) this.$router.push({ name: "Home" });
-          this.usuario = new Usuario();
-        },
-        (err) => console.log(err)
+          () => {
+            if (this.id) this.$router.push({name: "Home"});
+            this.usuario = new Usuario();
+          },
+          (err) => console.log(err)
       );
     },
   },
@@ -263,21 +284,35 @@ export default {
 };
 </script>
 <style scoped>
+label#kkk {
+  padding-top: 2.7px;
+}
+.botao-salvar{
+  background-color: #0d6d9d;
+}
+.botao-salvar:hover{
+  background-color: #0d6d9dad;
+}
+.form-icon, .form-icon:hover {
+  width: 42px;
+}
 .centralize {
   margin-left: 450px;
 }
-.orientation {
-  width: 100%;
-}
+
+
+
 .invalid {
   color: brown;
 }
+
 .title {
   font-family: Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   margin-left: 30px;
   margin-top: 15px;
 }
+
 .register-form {
   margin: 50px 0px 40px;
 }
@@ -289,7 +324,22 @@ export default {
 .panel-content {
   overflow: auto;
 }
+
 .panel .panel-container .panel-content {
   padding: 0;
+}
+.form-label {
+  font-weight: 500;
+}
+.card-body{
+  padding: 5px;
+  height: 50px;
+  width: 0;
+  border: 0;
+  color: #ffffff;
+}
+.card{
+  box-shadow: none;
+  border: none;
 }
 </style> 

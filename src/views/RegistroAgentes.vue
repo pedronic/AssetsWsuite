@@ -1,14 +1,19 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader titulo="Agentes" icon="fal fa-user-headset" />
+    <PagesSubHeader titulo="Agentes" icon="fal fa-user-headset">
+      <div class="card">
+        <div class="card-body"/>
+      </div>
+    </PagesSubHeader>
     <h1 class="title">{{ msg }}</h1>
     <div>
-      <form class="register-form">
+      <form>
+        <div class="form-group">
         <div class="d-inline">
-          <div class="row justify-content-center orientation">
-            <div class="col-6">
+          <div class="row justify-content-center ">
+            <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
+                <span class="input-group-text form-icon" id="basic-addon1"
                   ><i class="far fa-ad"></i
                 ></span>
                 <input
@@ -22,10 +27,10 @@
                 />
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon1"
+                  <span class="input-group-text form-icon" id="basic-addon1"
                     ><i class="fal fa-at"></i
                   ></span>
                   <input
@@ -38,30 +43,31 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="d-inline">
-          <div class="row justify-content-center orientation">
-            <div class="col-6">
+            <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-user-secret"></i
+                <span class="input-group-text form-icon" id="basic-addon1"
+                ><i class="fal fa-user-secret"></i
                 ></span>
                 <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Login"
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                  minlength="3"
-                  maxlength="120"
+                    type="text"
+                    class="form-control"
+                    placeholder="Login"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    minlength="3"
+                    maxlength="120"
                 />
               </div>
             </div>
-            <div class="col-6">
+          </div>
+        </div>
+        <div class="d-inline">
+          <div class="row justify-content-center ">
+
+            <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
-                  <span class="input-group-text" id="basic-addon1"
+                  <span class="input-group-text form-icon" id="basic-addon1"
                     ><i class="fal fa-key"></i
                   ></span>
                   <input
@@ -74,41 +80,37 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="d-inline">
-          <div class="row justify-content-center orientation">
-            <div class="col-6">
+            <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-address-card"></i
+                <span class="input-group-text form-icon" id="basic-addon1"
+                ><i class="fal fa-address-card"></i
                 ></span>
                 <input
-                  type="password"
-                  class="form-control"
-                  placeholder="Documento"
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
+                    type="password"
+                    class="form-control"
+                    placeholder="Documento"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
                 />
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <div class="d-inline">
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01"
-                      ><i class="fal fa-image"></i
+                    <span class="input-group-text form-icon" id="inputGroupFileAddon01"
+                    ><i class="fal fa-image"></i
                     ></span>
                   </div>
                   <div class="custom-file">
                     <input
-                      type="file"
-                      class="custom-file-input"
-                      id="inputGroupFile01"
-                      aria-describedby="inputGroupFileAddon01"
+                        type="file"
+                        class="custom-file-input"
+                        id="inputGroupFile01"
+                        aria-describedby="inputGroupFileAddon01"
                     />
                     <label class="custom-file-label" for="inputGroupFile01"
-                      >Foto</label
+                    >Foto</label
                     >
                   </div>
                 </div>
@@ -117,10 +119,16 @@
           </div>
         </div>
         <div class="d-inline">
-          <div class="row justify-content-center orientation">
-            <div class="col-6">
+          <div class="row justify-content-center ">
+
+
+          </div>
+        </div>
+        <div class="d-inline">
+          <div class="row ">
+            <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
+                <span class="input-group-text form-icon" id="basic-addon1"
                   ><i class="fal fa-traffic-light-stop"></i
                 ></span>
                 <select class="custom-select" id="inputGroupSelect01">
@@ -131,9 +139,9 @@
                 </select>
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"
+                <span class="input-group-text form-icon" id="basic-addon1"
                   ><i class="fal fa-calendar-alt"></i
                 ></span>
                 <select class="custom-select" id="inputGroupSelect01">
@@ -146,16 +154,16 @@
             </div>
           </div>
         </div>
-        <div class="panel orientation">
+        <div class="panel ">
           <div class="panel-container show">
             <div class="panel-content">
               <TabelaFilas />
             </div>
           </div>
         </div>
-        <div class="header">
+        <div class="bottom">
           <div class="d-inline">
-            <button type="submit" class="btn btn-dark d-inline">Salvar</button>
+            <button type="submit" class="btn btn-dark botao-salvar d-inline">Salvar</button>
           </div>
           <div class="custom-control custom-switch d-inline centralize">
             <input
@@ -169,10 +177,11 @@
               class="custom-control-input bg-dark"
               id="customSwitch1"
             />
-            <label class="custom-control-label" for="customSwitch1"
-              >Status</label
+            <label class="custom-control-label " for="customSwitch1"
+              id="kkk">Status</label
             >
           </div>
+        </div>
         </div>
       </form>
     </div>
@@ -215,11 +224,21 @@ export default {
 };
 </script>
 <style scoped>
+label#kkk {
+  padding-top: 2.7px;
+}
+
+.form-icon, .form-icon:hover {
+  width: 42px;
+}
 .centralize {
   margin-left: 450px;
 }
-.orientation {
-  width: 985px;
+.botao-salvar{
+  background-color: #0d6d9d;
+}
+.botao-salvar:hover{
+  background-color: #0d6d9dad;
 }
 .invalid {
   color: brown;
@@ -236,8 +255,8 @@ export default {
 .bar {
   width: 955.5px !important;
 }
-.header {
-  margin-top: 85px;
+.bottom {
+  margin-top: 20px;
 }
 .panel-content {
   overflow: auto;
@@ -245,4 +264,16 @@ export default {
 .panel .panel-container .panel-content {
   padding: 0;
 }
+.card-body{
+  padding: 5px;
+  height: 50px;
+  width: 0;
+  border: 0;
+  color: #ffffff;
+}
+.card{
+  box-shadow: none;
+  border: none;
+}
+
 </style> 

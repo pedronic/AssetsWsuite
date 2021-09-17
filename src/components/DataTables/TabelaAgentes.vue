@@ -18,7 +18,7 @@
         <b-form-checkbox v-model="checked" name="check-button" switch disabled>
         </b-form-checkbox>
       </template>
-      <template #cell(editar)>
+      <template #cell(ação)>
         <router-link :to="{ name: 'RegistroAgentes' }">
           <i class="fal fa-pencil d-inline"></i>
         </router-link>
@@ -39,7 +39,7 @@ export default {
         "e-mail",
         "Login em",
         "status",
-        "editar",
+        "ação",
       ],
       items: [
         { Login: "Dickerson", nome: "Macdonald" },

@@ -1,65 +1,95 @@
 <template>
-   <div class="relatorios">
-        <PagesSubHeader titulo="Lista de agentes" icon="fal fa-list" />
-    <h2 class="title"> {{ msg }}</h2>      
-      <form class="register-form">
-        <div class="d-inline">
-              <div class="input-group mb-3 bar">
-                <span class="input-group-text" id="basic-addon1"
-                  ><i class="fal fa-search"></i
-                ></span>
+  <div class="relatorios">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de agentes">
+      <div class="card">
+        <div class="card-body"/>
+      </div>
+      <form class="container">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-7 col-inputs">
+              <div class="input-group d-flex">
+
                 <input
-                  type="text"
-                  class="form-control"
-                  placeholder=""
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                  v-on:input="filter = $event.target.value"
+                    aria-describedby="basic-addon1"
+                    aria-label="Username"
+                    class="form-control"
+                    placeholder=""
+                    type="text"
+                    v-on:input="filter = $event.target.value"
                 />
-                <div
+              </div>
+            </div>
+
+            <div class="col-2 col-botoes">
+              <button class="btn btn-info waves-effect waves-themed" name="pesquisa-faturamento" type="submit"><i
+                  class="fal fa-search"></i></button>
+
+            </div>
+            <div class="col-1 col-inputs mr-4">
+              <div
                   class="
-                    input-group-append
-                    custom-control custom-switch
-                    border border-0
-                    pl-1
-                    pt-1
-                  "
-                >
-                  <input
-                    type="checkbox"
-                    class="custom-control-input bg-dark"
+
+                                      custom-control custom-switch
+                                      border border-0
+                                      mt-1
+                                    "
+              >
+                <input
                     id="customSwitch1"
-                    
-                  />
-                  <label
+                    class="custom-control-input bg-dark"
+                    type="checkbox"
+
+                />
+                <label
                     class="custom-control-label"
                     for="customSwitch1"
-                  ></label>
-                </div>
+                ></label>
               </div>
-        </div>
 
-        </form>
-        <!-- <div class="socorro ajuda"> -->
-
-      <router-link :to="{ name: 'RegistroAgentes' }">
-              <i class="fal fa-plus"></i>
-              <h9 class="ml-2">Novo Usuário</h9>
-          </router-link>
-        <div class="panel ">
-            <div class="panel-container show">
-                <div class="panel-content">
-                    <TabelaAgentes/>
-                </div>
             </div>
+            <div class="col-1 col-botoes">
+            <router-link :to="{ name: 'RegistroAgentes' }">
+              <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
+                      type="submit"><i class="fal fa-plus"></i></button>
+            </router-link>
+            </div>
+
+          </div>
         </div>
+      </form>
+    </PagesSubHeader>
+    <!--     <form class="container">-->
+    <!--       <div class="form-group">-->
+    <!--         <div class="row">-->
+    <!--           <div class="col-4 col-inputs">-->
+
+    <!--           </div>-->
+
+
+    <!--         </div>-->
+    <!--       </div>-->
+    <!--     </form>-->
+    <h2 class="title"> {{ msg }}</h2>
+
+    <!-- <div class="socorro ajuda"> -->
+
+
+    <div class="panel ">
+      <div class="panel-container show">
+        <div class="panel-content">
+          <TabelaAgentes/>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 // import UsuarioMetodos from "../domain/User/UsuarioMetodos";
 import TabelaAgentes from '../components/DataTables/TabelaAgentes.vue'
 import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
+
 export default {
   components: {
     PagesSubHeader,
@@ -101,28 +131,45 @@ export default {
   display: flex;
   justify-content: end;
 }
+
 .ajuda {
   align-items: flex-end;
 }
+
 .bar {
-  width: 955.5px !important;
+  width: 33.333333% !important;
 }
+
 .title {
   font-family: Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   margin-left: 30px;
   margin-top: 15px;
 }
+
 .register-form {
   margin: 50px 65px 40px;
 }
-.panel-content{
-    overflow: auto;
+
+.panel-content {
+  overflow: auto;
 }
+
 .panel .panel-container .panel-content {
-    padding: 0;
+  padding: 0;
 }
-.card-body{
-    padding: 5px;
+
+.card-body {
+  padding: 5px;
+  height: 50px;
+  width: 0;
+  border: 0;
+  color: #ffffff;
 }
+
+.card {
+  box-shadow: none;
+  border: none;
+}
+
 </style> 
