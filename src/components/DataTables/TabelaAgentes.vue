@@ -33,11 +33,31 @@ export default {
   data() {
     return {
       fields: [
-        "Login",
-        "nome",
-        "Documento",
-        "e-mail",
-        "Login em",
+        {
+          key: "Login",
+          label: "Login",
+          sortable: true,
+          },
+          {
+          key: "Nome",
+          label: "Nome",
+          sortable: true,
+          },
+        {
+          key: "Documento",
+          label: "Documento",
+          sortable: true,
+        },
+        {
+          key: "e-mail",
+          label: "e-mail",
+          sortable: true,
+        },
+        { 
+          key: "Login_em",
+          label: "Login em",
+          sortable: true, 
+        },
         "status",
         "ação",
       ],

@@ -1,28 +1,21 @@
 <template>
   <div>
     <b-table
-        sticky-header
-        head-variant="blue"
-        striped
+      sticky-header
+      head-variant="blue"
+      striped
       hover
       :items="items"
       :fields="fields"
-      class="
-        table-sm
-        table-hover table-striped
-        w-100
-        dt-responsive
-        dtr-inline
-      "
+      class="table-sm table-hover table-striped w-100 dt-responsive dtr-inline"
       :select-mode="selectMode"
       ref="selectableTable"
       selectable
       @row-selected="onRowSelected"
     >
-    
-    <template #head(selected)>
+      <template #head(selected)>
         <i class="fal fa-road"></i>
-    </template>
+      </template>
       <template #cell(selected)="{ rowSelected }">
         <template v-if="rowSelected">
           <span aria-hidden="true">&nbsp;</span>
@@ -35,40 +28,48 @@
       </template>
 
       <template #cell(0)>
-            <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="0"></b-form-radio>
+        <b-form-radio
+          v-model="selected"
+          :aria-describedby="ariaDescribedby"
+          name="some-radios"
+          value="0"
+        ></b-form-radio>
       </template>
-            <template #cell(1)>
-            <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="1"></b-form-radio>
-            </template>
-            <template #cell(2)>
-            <b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="2"></b-form-radio>
-            </template>
-
+      <template #cell(1)>
+        <b-form-radio
+          v-model="selected"
+          :aria-describedby="ariaDescribedby"
+          name="some-radios"
+          value="1"
+        ></b-form-radio>
+      </template>
+      <template #cell(2)>
+        <b-form-radio
+          v-model="selected"
+          :aria-describedby="ariaDescribedby"
+          name="some-radios"
+          value="2"
+        ></b-form-radio>
+      </template>
     </b-table>
   </div>
 </template>
 
 <script>
 export default {
-    props: {
-        fila: {
-            required: true
-        }
+  props: {
+    fila: {
+      required: true,
     },
+  },
   data() {
     return {
-      fields: [
-        "selected",
-        "filas",
-        "0",
-        "1",
-        "2",
-      ],
+      fields: ["selected", "filas", "0", "1", "2"],
       items: [
-        { isChecked: true, filas: 'Fila 1000' },
-        { isChecked: false, filas: 'Fila 2000' },
+        { isChecked: true, filas: "Fila 1000" },
+        { isChecked: false, filas: "Fila 2000" },
       ],
-        selected: '',
+      selected: "",
     };
   },
 };
