@@ -34,420 +34,136 @@ export default {
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste2",
                     add:false,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:false
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 },
                 {
                     acesso:"Teste3",
                     add:true,
                     view:false,
                     edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
+                    delete:false,
+                    browse:true
                 }
             ],
             labels: [

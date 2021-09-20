@@ -19,24 +19,24 @@
             <template v-slot:head(browse)="data">
                 <span v-html="data.label"></span>
             </template>
-
+            
             <template v-slot:cell(acesso)="data">
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="state"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
             </template>
             <template v-slot:cell(view)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="state"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="state"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="state"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
             </template>
             <template v-slot:cell(browse)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="isDisabled" :browsable="slot.value"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="false" :browsable="slot.value" @click="toggleRowEnableDisable($event)"/>
             </template>
         </b-table>
     </div>    
@@ -48,7 +48,7 @@ export default {
     props:{
         items: Array,
         viewOnly: Boolean,
-        browsable: Boolean,
+        // browsable: Boolean,
     },
     mounted: {
         state() {
@@ -58,13 +58,18 @@ export default {
             return d;
         }
     },
-    computed: {
+    methods: {
+        toggleRowEnableDisable(ev){
+            let e = ev;
+            console.log(e)
+            console.log(e.target)
+        }
     },
     data() {
         return {
             data: this.items,
             rowLabel: this.items.acesso,
-            row: this.items,
+            row: [this.items],
             isDisabled: this.state,
             fields: [
                 {
