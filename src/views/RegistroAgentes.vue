@@ -1,11 +1,10 @@
 <template>
-  <div class="relatorios">
+  <div>
     <PagesSubHeader titulo="Agentes" icon="fal fa-user-headset">
       <div class="card">
         <div class="card-body"/>
       </div>
     </PagesSubHeader>
-    <h1 class="title">{{ msg }}</h1>
     <div>
       <form>
         <div class="form-group">
@@ -210,7 +209,7 @@ export default {
   },
   data() {
     return {
-      msg: "",
+      // msg: "",
       //   usuario: new Usuario(),
       //   id: this.$route.params.id,
     };
@@ -240,21 +239,14 @@ label#kkk {
 .botao-salvar:hover{
   background-color: #0d6d9dad;
 }
-.invalid {
-  color: brown;
-}
-.title {
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  margin-left: 30px;
-  margin-top: 15px;
-}
-.register-form {
-  margin: 50px 65px 40px;
-}
-.bar {
-  width: 955.5px !important;
-}
+
+/*.title {*/
+/*  font-family: Arial, Helvetica, sans-serif;*/
+/*  text-transform: uppercase;*/
+/*  margin-left: 30px;*/
+/*  margin-top: 15px;*/
+/*}*/
+
 .bottom {
   margin-top: 20px;
 }
