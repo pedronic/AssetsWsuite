@@ -59,7 +59,14 @@ const routes = [
   {
     path: '/lista-de-perfil',
     name: 'PerfilLista',
+    // replace: true,
     component: () => import('../views/PerfilDeUsuario/PerfilLista.vue')
+  },
+  {
+    path: '/pausas',
+    name: 'Pausas',
+    // replace: true,
+    component: () => import('../views/Pausas/Pausas.vue')
   }
 ]
 

@@ -1,6 +1,6 @@
 <template>
     <div class="tabela-acesso-usuario profile-content">
-        <b-table class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="items" responsive="true" :fields="fields" sticky-header>
+        <b-table class="tabela-acesso-usuario table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="items" responsive="true" :fields="fields" sticky-header>
             <template v-slot:head(acesso)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -24,19 +24,19 @@
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
             </template>
             <template v-slot:cell(view)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
             </template>
             <template v-slot:cell(browse)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="false" :browsable="slot.value" @click="toggleRowEnableDisable($event)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)" :browsable="slot.value" @click="toggleRowEnableDisable($event)"/>
             </template>
         </b-table>
     </div>    
@@ -70,7 +70,7 @@ export default {
             data: this.items,
             rowLabel: this.items.acesso,
             row: [this.items],
-            isDisabled: this.state,
+            isDisabled: this.viewOnly,
             fields: [
                 {
                     key:"acesso",
@@ -103,14 +103,14 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .profile-content {
     margin-top: 5px;
     margin-bottom: 5px;
     position: relative;
 }
 
-[aria-colindex="1"]{
+.tabela-acesso-usuario > .table.b-table > tbody > tr > [aria-colindex="1"]{
     width: 90%;
 }
 /* .table thead{
@@ -118,22 +118,22 @@ export default {
     color:#fff;
     position: sticky;
 } */
-.table.b-table.table-sm > thead > tr > [aria-sort]:not(.b-table-sort-icon-left), .table.b-table.table-sm > tfoot > tr > [aria-sort]:not(.b-table-sort-icon-left) {
+.tabela-acesso-usuario > .table.b-table.table-sm > thead > tr > [aria-sort]:not(.b-table-sort-icon-left), .tabela-acesso-usuario > .table.b-table.table-sm > tfoot > tr > [aria-sort]:not(.b-table-sort-icon-left) {
 background-position: right calc(0.3rem / 2) bottom 10px;
 padding-right: calc(0.3rem + 0.65em);
 
 }
-.table.b-table > thead > tr > [aria-sort=none], .table.b-table > tfoot > tr > [aria-sort=none] {
+.tabela-acesso-usuario > .table.b-table > thead > tr > [aria-sort=none], .tabela-acesso-usuario > .table.b-table > tfoot > tr > [aria-sort=none] {
 background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important;
 
 }
-.table.b-table > thead > tr > [aria-sort=ascending], .table.b-table > tfoot > tr > [aria-sort=ascending] {
+.tabela-acesso-usuario > .table.b-table > thead > tr > [aria-sort=ascending], .tabela-acesso-usuario > .table.b-table > tfoot > tr > [aria-sort=ascending] {
 background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' opacity='.3' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
-.table.b-table > thead > tr > [aria-sort=descending], .table.b-table > tfoot > tr > [aria-sort=descending] {
+.tabela-acesso-usuario > .table.b-table > thead > tr > [aria-sort=descending], .tabela-acesso-usuario > .table.b-table > tfoot > tr > [aria-sort=descending] {
 background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
-.table.b-table > thead > tr > .table-b-table-default {
+.tabela-acesso-usuario > .table.b-table > thead > tr > .table-b-table-default {
 background-color: #0d6d9d !important;
 color:#fff !important;
 /* position: sticky;
@@ -141,7 +141,7 @@ position: -webkit-sticky;
 top: 45px;
 z-index: 2; */
 }
-.table.b-table>tbody{
+.tabela-acesso-usuario > .table.b-table>tbody{
     z-index: 1;
 }
 </style>

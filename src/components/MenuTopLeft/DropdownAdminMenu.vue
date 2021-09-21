@@ -36,10 +36,10 @@
       <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <a href="#" class="mr-auto">
+      <router-link to="/pausas" class="mr-auto">
         <i class="fal fa-alarm-exclamation"></i>
         <span data-i18n="drpdwn.settings"> Pausas</span>
-      </a>
+      </router-link>
       <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
