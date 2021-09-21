@@ -67,7 +67,7 @@
           <div class="row justify-content-center ">
             <div class="col-4">
               <div class="d-inline">
-                <div class="input-group ">
+                <div class="input-group mb-3">
                   <span id="basic-addon1" class="input-group-text form-icon"
                   ><i class="fal fa-key"></i
                   ></span>
@@ -113,13 +113,28 @@
             </div>
           </div>
         </div>
-        <MultiSelectPlugin>
-        </MultiSelectPlugin>
-        <!--                <b-select class="select2-selection__rendered " :multiple="multiple">-->
-        <!--                  <option selected disabled>Filas</option>-->
-        <!--                  <option value="1000">fila 1000</option>-->
-        <!--                  <option value="2000">fila 2000</option>-->
-        <!--                </b-select>-->
+        <div class="col-4">
+<!--        <div class="input-group">-->
+<!--          <span id="basic-addon1" class="input-group-text form-icon"-->
+<!--          ><i class="fal fa-road"></i-->
+<!--          ></span>-->
+          <select class="js-example-basic-multiple" id="inputGroupSelect01" name="states" multiple="multiple">
+            <option value="AL">Fila 1000</option>
+            <option value="WY">Fila 2000</option>
+          </select>
+<!--        </div>-->
+<!--          <div class="input-group ">-->
+<!--                <span id="basic-addon1" class="input-group-text form-icon"-->
+<!--                ><i class="fal fa-id-card"></i-->
+<!--                ></span>-->
+<!--            <select id="inputGroupSelect01" class="custom-select">-->
+<!--              <option disabled selected>Perfil</option>-->
+<!--              <option value="1">One</option>-->
+<!--              <option value="2">Two</option>-->
+<!--              <option value="3">Three</option>-->
+<!--            </select>-->
+<!--          </div>-->
+        </div>
 
         <div class="bottom">
           <div class="d-inline">
@@ -150,17 +165,18 @@
 
 
 </template>
-
 <script>
 import Usuario from "../domain/User/Usuario";
 import UsuarioMetodos from "../domain/User/UsuarioMetodos";
 import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
-import MultiSelectPlugin from "../components/MultiSelect/MultiSelect.vue"
+import "jquery";
+// import Vue from 'vue'
+import "select2";
 
 export default {
   components: {
-    MultiSelectPlugin,
     PagesSubHeader,
+      // select2,
   },
   methods: {
     carregar() {
@@ -178,6 +194,7 @@ export default {
       usuario: new Usuario(),
       id: this.$route.params.id,
       msg: '',
+      states: [],
     };
   },
   created() {
@@ -185,6 +202,11 @@ export default {
     if (this.id) {
       this.service.search(this.id).then((user) => (this.user = user));
     }
+  },
+  mounted() {
+    // function ex() {
+      $('.js-example-basic-multiple').select2();
+    // }
   },
 };
 </script>
@@ -246,4 +268,4 @@ label#kkk {
   box-shadow: none;
   border: none;
 }
-</style> 
+</style>

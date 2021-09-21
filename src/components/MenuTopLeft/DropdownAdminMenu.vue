@@ -35,7 +35,7 @@
       <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <router-link :to="{ name: 'ListaUsuarios' }">
+      <router-link :to="{ name: 'ListaAgentes' }">
         <a class="mr-auto" href="#">
           <i class="fal fa-user-headset"></i>
           <span data-i18n="drpdwn.settings"> Agentes</span>
@@ -55,11 +55,15 @@
       <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
+      <router-link :to="{ name: 'ListaRobos' }">
       <a class="mr-auto" href="#">
         <i class="fal fa-user-robot"></i>
         <span data-i18n="drpdwn.settings"> Robos</span>
       </a>
-      <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
+      </router-link>
+
+      <a class="ml-auto" href="#"><router-link :to="{ name: 'RegistroRobos' }"><i class="fal fa-plus-circle"></i></router-link></a>
+
     </div>
     <div class="dropdown-item d-flex itens">
       <a class="mr-auto" href="#">

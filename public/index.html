@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link href="../node_modules/select2/dist/css/select2.min.css" rel="stylesheet" />
+<!--  <link href="../node_modules/select2/dist/css/select2.min.css" rel="stylesheet" />-->
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>
     <%= htmlWebpackPlugin.options.title %>
@@ -15,8 +15,10 @@
   <!-- Remove Tap Highlight on Windows Phone IE -->
   <meta name="msapplication-tap-highlight" content="no">
   <!-- base css -->
-  <!-- <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">
-  <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">
+    <link id="select2bundle" rel="stylesheet" media="screen, print" href="css/select2.bundle.css">
+    <link id="appbundle" rel="stylesheet" media="screen, print" href="css/app.bundle.css">
+    <link id="vendorsbundle" rel="stylesheet" media="screen, print" href="css/vendors.bundle.css">
+  <!--
   <link id="mytheme" rel="stylesheet" media="screen, print" href="#">
   <link id="myskin" rel="stylesheet" media="screen, print" href="css/skins/skin-master.css"> -->
 </head>
@@ -31,9 +33,13 @@
 
   <script src="js/vendors.bundle.js"></script>
   <script src="js/app.bundle.js"></script>
-<!--  <script src="js/formplugins/select2/select2.bundle.js"></script>-->
-  <script src="js/formplugins/select2/select2__teste.js"></script>
+  <script src="js/formplugins/select2/select2.bundle.js"></script>
   <script src="../node_modules/select2/dist/js/select2.min.js"></script>
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        $('.js-example-basic-multiple').select2();-->
+<!--    });-->
+<!--</script>-->
 
 </body>
 

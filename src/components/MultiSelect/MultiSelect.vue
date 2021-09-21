@@ -21,21 +21,16 @@
     }
 </style>
 <script>
-import Vue from "vue";
-import { MultiSelectPlugin } from "@syncfusion/ej2-vue-dropdowns";
-import * as data from './dataSource.json';
 
-Vue.use(MultiSelectPlugin);
-
-export default Vue.extend ({
-    data: function() {
+export default {
+    data() {
         return {
             waterMark: 'Favorite Sports',
             defaultMode: 'Default',
             boxMode: 'Box',
             delimiterMode: 'Delimiter',
-            sportsData: data['sportsData']
+            sportsData: this.data(['sportsData'])
         };
     }
-});
+};
 </script>

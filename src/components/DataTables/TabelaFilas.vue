@@ -27,13 +27,25 @@
         </template>
       </template>
 
-      <template #cell(0)>
+      <template #cell(0)="{ rowSelect }">
+        <template v-if="{ rowSelect }">
         <b-form-radio
           v-model="selected"
           :aria-describedby="ariaDescribedby"
           name="some-radios"
           value="0"
-        ></b-form-radio>
+          :disabled="disabled"
+        />
+          </template>
+<!--          <template v-else>-->
+<!--        <b-form-radio-->
+<!--            v-model="selected"-->
+<!--            :aria-describedby="ariaDescribedby"-->
+<!--            name="some-radios"-->
+<!--            value="0"-->
+<!--            :disabled="disabled"-->
+<!--        />-->
+<!--          </template>-->
       </template>
       <template #cell(1)>
         <b-form-radio
@@ -41,6 +53,7 @@
           :aria-describedby="ariaDescribedby"
           name="some-radios"
           value="1"
+          :disabled="disabled"
         ></b-form-radio>
       </template>
       <template #cell(2)>
@@ -49,6 +62,7 @@
           :aria-describedby="ariaDescribedby"
           name="some-radios"
           value="2"
+          :disabled="disabled"
         ></b-form-radio>
       </template>
     </b-table>
@@ -57,11 +71,11 @@
 
 <script>
 export default {
-  props: {
-    fila: {
-      required: true,
-    },
-  },
+  // props: {
+  //   fila: {
+  //     required: true,
+  //   },
+  // },
   data() {
     return {
       fields: ["selected", "filas", "0", "1", "2"],
@@ -70,6 +84,7 @@ export default {
         { isChecked: false, filas: "Fila 2000" },
       ],
       selected: "",
+      disabled: true,
     };
   },
 };

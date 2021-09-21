@@ -59,6 +59,16 @@ const routes = [
     component: () => import('../views/RegistroUsuarios.vue')
   },
   {
+    path: '/lista-de-robos',
+    name: 'ListaRobos',
+    component: () => import( '../views/ListaRobos.vue')
+  },
+  {
+    path:'/registro-robos',
+    name: 'RegistroRobos',
+    component: () => import('../views/RegistroRobos.vue')
+  },
+  {
     path:'/lista-de-usuarios',
     name: 'ListaUsuarios',
     component: () => import('../views/ListaUsuarios.vue')
