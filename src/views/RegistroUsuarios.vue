@@ -113,10 +113,8 @@
             </div>
           </div>
         </div>
-        <select class="js-example-basic-multiple" multiple="multiple">
-          <option value="AL">Alabama</option>
-          <option value="WY">Wyoming</option>
-        </select>
+        <MultiSelectPlugin>
+        </MultiSelectPlugin>
         <!--                <b-select class="select2-selection__rendered " :multiple="multiple">-->
         <!--                  <option selected disabled>Filas</option>-->
         <!--                  <option value="1000">fila 1000</option>-->
@@ -157,11 +155,11 @@
 import Usuario from "../domain/User/Usuario";
 import UsuarioMetodos from "../domain/User/UsuarioMetodos";
 import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
-// import Select2 from "select2";
+import MultiSelectPlugin from "../components/MultiSelect/MultiSelect.vue"
 
 export default {
   components: {
-
+    MultiSelectPlugin,
     PagesSubHeader,
   },
   methods: {
