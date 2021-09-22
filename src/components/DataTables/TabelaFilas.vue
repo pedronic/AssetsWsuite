@@ -1,81 +1,118 @@
 <template>
-  <div>
-    <b-table
-      sticky-header
-      head-variant="blue"
-      striped
-      hover
-      :items="items"
-      :fields="fields"
-      class="table-sm table-hover table-striped w-100 dt-responsive dtr-inline"
-      :select-mode="selectMode"
-      ref="selectableTable"
-      selectable
-      @row-selected="onRowSelected"
-    >
-      <template #head(selected)>
-        <i class="fal fa-road"></i>
-      </template>
-      <template #cell(selected)="{ rowSelected }">
-        <template v-if="rowSelected">
-          <span aria-hidden="true">&nbsp;</span>
-          <span class="sr-only">Selected</span>
-        </template>
-        <template v-else>
-          <span aria-hidden="true">&nbsp;</span>
-          <span class="sr-only">Not selected</span>
-        </template>
-      </template>
+  <div class="frame-wrap p-0 border-0 m-0">
+    <table class="table m-0 table-sm table-light table-hover table-striped w-100" id="table-example">
+      <thead>
+      <tr>
+        <th><i class="fal fa-road mr-2"></i
+        >Filas {{ nome }}</th>
+        <th>0</th>
+        <th>1</th>
+        <th>2</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><b-form-checkbox
+            id="checkbox-1"
+            v-model="status"
+            name="checkbox-1"
+            value="accepted"
+            unchecked-value="not_accepted"
+        >
+          Fila 1000
+        </b-form-checkbox>
+        </td>
+        <td> </td>
+        <td> </td>
+        <td>srfweg</td>
+      </tr>
+      <tr>
+        <td><b-form-checkbox
+            id="checkbox-1"
+            v-model="status"
+            name="checkbox-1"
+            value="accepted"
+            unchecked-value="not_accepted"
+        >
+          Fila 2000
+        </b-form-checkbox>
+        </td>
+        <td> </td>
+        <td> </td>
+        <td>dsbdsb</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+<!--  <div>-->
+<!--    <b-table-->
+<!--      sticky-header-->
+<!--      head-variant="blue"-->
+<!--      striped-->
+<!--      hover-->
+<!--      :items="items"-->
+<!--      :fields="fields"-->
+<!--      class="table-sm table-hover table-striped w-100 dt-responsive dtr-inline"-->
+<!--      :select-mode="selectMode"-->
+<!--      ref="selectableTable"-->
+<!--      selectable-->
+<!--      @row-selected="onRowSelected"-->
+<!--    >-->
+<!--      <template #head(selected)>-->
+<!--        <i class="fal fa-road"></i>-->
+<!--      </template>-->
+<!--      <template #cell(selected)="{ rowSelected }">-->
+<!--        <template v-if="rowSelected">-->
+<!--          <span aria-hidden="true">&nbsp;</span>-->
+<!--          <span class="sr-only">Selected</span>-->
+<!--        </template>-->
+<!--        <template v-else>-->
+<!--          <span aria-hidden="true">&nbsp;</span>-->
+<!--          <span class="sr-only">Not selected</span>-->
+<!--        </template>-->
+<!--      </template>-->
 
-      <template #cell(0)="{ rowSelect }">
-        <template v-if="{ rowSelect }">
-        <b-form-radio
-          v-model="selected"
-          :aria-describedby="ariaDescribedby"
-          name="some-radios"
-          value="0"
-          :disabled="disabled"
-        />
-          </template>
-<!--          <template v-else>-->
+<!--      <template #cell(0)="{ rowSelect }">-->
+<!--        <template v-if="{ rowSelect }">-->
 <!--        <b-form-radio-->
-<!--            v-model="selected"-->
-<!--            :aria-describedby="ariaDescribedby"-->
-<!--            name="some-radios"-->
-<!--            value="0"-->
-<!--            :disabled="disabled"-->
+<!--          v-model="selected"-->
+<!--          :aria-describedby="ariaDescribedby"-->
+<!--          name="some-radios"-->
+<!--          value="0"-->
+<!--          :disabled="disabled"-->
 <!--        />-->
 <!--          </template>-->
-      </template>
-      <template #cell(1)>
-        <b-form-radio
-          v-model="selected"
-          :aria-describedby="ariaDescribedby"
-          name="some-radios"
-          value="1"
-          :disabled="disabled"
-        ></b-form-radio>
-      </template>
-      <template #cell(2)>
-        <b-form-radio
-          v-model="selected"
-          :aria-describedby="ariaDescribedby"
-          name="some-radios"
-          value="2"
-          :disabled="disabled"
-        ></b-form-radio>
-      </template>
-    </b-table>
-  </div>
+
+<!--      </template>-->
+<!--      <template #cell(1)>-->
+<!--        <b-form-radio-->
+<!--          v-model="selected"-->
+<!--          :aria-describedby="ariaDescribedby"-->
+<!--          name="some-radios"-->
+<!--          value="1"-->
+<!--          :disabled="disabled"-->
+<!--        ></b-form-radio>-->
+<!--      </template>-->
+<!--      <template #cell(2)>-->
+<!--        <b-form-radio-->
+<!--          v-model="selected"-->
+<!--          :aria-describedby="ariaDescribedby"-->
+<!--          name="some-radios"-->
+<!--          value="2"-->
+<!--          :disabled="disabled"-->
+<!--        ></b-form-radio>-->
+<!--      </template>-->
+<!--    </b-table>-->
+<!--  </div>-->
 </template>
 
 <script>
 export default {
-  // props: {
-  //   fila: {
-  //     required: true,
-  //   },
-  // },
+  props: {
+    nome: {
+      required: false,
+    },
+  },
   data() {
     return {
       fields: ["selected", "filas", "0", "1", "2"],
@@ -87,6 +124,19 @@ export default {
       disabled: true,
     };
   },
+  mounted() {
+    // $('input:checkbox').change(function()
+    // {
+    //   if ($(this).is(":checked"))
+    //   {
+    //     $('#table-example').addClass($(this).attr("data-class"));
+    //   }
+    //   else
+    //   {
+    //     $('#table-example').removeClass($(this).attr("data-class"));
+    //   }
+    // });
+  }
 };
 </script>
 

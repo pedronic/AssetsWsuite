@@ -98,9 +98,17 @@
             <div class="col-4">
               <div class="d-inline">
                 <div class="input-group ">
-                  <span id="basic-addon1" class="input-group-text form-icon"
+                  <label id="basic-addon1" for="selecao-arquivo" class="input-group-text form-icon"
                   ><i class="fal fa-image"></i
-                  ></span>
+                  ></label>
+                  <input
+                      aria-describedby="basic-addon1"
+                      aria-label="Username"
+                      class="form-control pt-1 d-none"
+                      placeholder="Foto"
+                      type="text"
+                      disabled
+                  />
                   <input
                       aria-describedby="basic-addon1"
                       aria-label="Username"
@@ -113,30 +121,24 @@
             </div>
           </div>
         </div>
-        <div class="row justify-content-left ">
-        <div class="col-4">
-<!--        <div class="input-group">-->
-<!--          <span id="basic-addon1" class="input-group-text form-icon"-->
-<!--          ><i class="fal fa-road"></i-->
-<!--          ></span>-->
-          <select class="js-example-basic-multiple" id="inputGroupSelect01" name="states" multiple="multiple">
-            <option selected disabled value=" ">Fila</option>
-            <option value="AL">Fila 1000</option>
-            <option value="WY">Fila 2000</option>
-          </select>
-<!--        </div>-->
-<!--          <div class="input-group ">-->
-<!--                <span id="basic-addon1" class="input-group-text form-icon"-->
-<!--                ><i class="fal fa-id-card"></i-->
-<!--                ></span>-->
-<!--            <select id="inputGroupSelect01" class="custom-select">-->
-<!--              <option disabled selected>Perfil</option>-->
-<!--              <option value="1">One</option>-->
-<!--              <option value="2">Two</option>-->
-<!--              <option value="3">Three</option>-->
-<!--            </select>-->
-<!--          </div>-->
-        </div>
+
+          <!--        <div class="col-10">-->
+          <!--          <div class="input-group">-->
+        <div class="row justify-content-center">
+          <div class="coluna">
+<!--            <div class="d-inline">-->
+            <span id="basic-addon1" class="input-group-text form-icon d-inline"
+            ><i class="fal fa-road"></i
+            ></span>
+<!--            </div>-->
+<!--            <div class="d-inline">-->
+            <select class="js-example-basic-multiple" multiple="multiple" name="states">
+              <option disabled selected value=" ">Fila</option>
+              <option value="AL">Fila 1000</option>
+              <option value="WY">Fila 2000</option>
+            </select>
+<!--              </div>-->
+          </div>
         </div>
         <div class="bottom">
           <div class="d-inline">
@@ -178,7 +180,7 @@ import "select2";
 export default {
   components: {
     PagesSubHeader,
-      // select2,
+    // select2,
   },
   methods: {
     carregar() {
@@ -190,6 +192,9 @@ export default {
           (err) => console.log(err)
       );
     },
+    FotoSelect() {
+
+    }
   },
   data() {
     return {
@@ -207,12 +212,17 @@ export default {
   },
   mounted() {
     // function ex() {
-      $('.js-example-basic-multiple').select2();
+    $('.js-example-basic-multiple').select2();
     // }
   },
 };
 </script>
 <style scoped>
+
+.coluna {
+  flex: 0 0 91.666667%;
+  max-width: 91.566667%;
+}
 
 label#kkk {
   padding-top: 2.7px;
@@ -231,7 +241,7 @@ label#kkk {
 }
 
 .centralize {
-  margin-left: 450px;
+  margin-left: 89%;
 }
 
 .invalid {

@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="col-2 col-botoes">
-                  <button class="btn btn-info waves-effect waves-themed" name="pesquisa-faturamento" type="submit"><i
+                  <button class="btn btn-info waves-effect waves-themed"  type="submit"><i
                       class="fal fa-search"></i></button>
 
                 </div>
@@ -49,12 +49,12 @@
 
                 </div>
                 <div class="col-1 col-botoes">
-                <router-link :to="{ name: 'RegistroUsuarios' }">
-                  <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
-                          type="submit"><i class="fal fa-plus"></i></button>
-
-                </router-link>
+                  <router-link :to="{ name: 'RegistroUsuarios' }">
+                    <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
+                            type="submit"><i class="fal fa-plus"></i></button>
+                  </router-link>
                 </div>
+
               </div>
             </div>
           </form>
@@ -177,26 +177,26 @@ export default {
 };
 </script>
 
-<style>
-.socorro {
-  display: flex;
-  justify-content: end;
-}
-.ajuda {
-  align-items: flex-end;
-}
-.bar {
-  width: 955.5px !important;
-}
-.title {
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  margin-left: 30px;
-  margin-top: 15px;
-}
-.register-form {
-  margin: 50px 65px 40px;
-}
+<style >
+/*.socorro {*/
+/*  display: flex;*/
+/*  justify-content: end;*/
+/*}*/
+/*.ajuda {*/
+/*  align-items: flex-end;*/
+/*}*/
+/*.bar {*/
+/*  width: 955.5px !important;*/
+/*}*/
+/*.title {*/
+/*  font-family: Arial, Helvetica, sans-serif;*/
+/*  text-transform: uppercase;*/
+/*  margin-left: 30px;*/
+/*  margin-top: 15px;*/
+/*}*/
+/*.register-form {*/
+/*  margin: 50px 65px 40px;*/
+/*}*/
 .panel-content{
     overflow: auto;
 }

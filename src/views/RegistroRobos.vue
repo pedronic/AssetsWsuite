@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PagesSubHeader titulo="Robos" icon="fal fa-user-headset">
+    <PagesSubHeader titulo="Robôs" icon="fal fa-user-headset">
       <div class="card">
         <div class="card-body"/>
       </div>
@@ -63,7 +63,7 @@
           <div class="panel ">
             <div class="panel-container show">
               <div class="panel-content">
-                <TabelaFilas />
+                <TabelaFilas nome="Robô" />
               </div>
             </div>
           </div>
