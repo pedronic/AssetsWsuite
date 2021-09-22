@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table class="tabela-pausas table-sm table-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" responsive="true" :fields="fields" sticky-header>
+        <b-table class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" responsive="true" :fields="fields" sticky-header>
             <template v-slot:head(pausa)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -87,7 +87,8 @@
             ok-variant="success" 
             cancel-title="CANCELAR" 
             cancel-variant="danger"
-            @ok="addNewRow($event)">
+            @ok="okays += 1"
+            @hide="addNewRow">
                 <b-table class="tabela-pausas table-sm table-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="newRowInput" responsive="true" :fields="newRowFields" sticky-header>
                     <template v-slot:cell(pausa)="slot">
                         <b-form-input v-model="slot.value" :id="'new_row_pausa'" type="text">{{slot.value}}</b-form-input>
@@ -102,10 +103,10 @@
                         <b-form-checkbox v-model="slot.value" :id="'new_row_obrigatoria'" value="true" unchecked-value="false" />
                     </template>
                     <template v-slot:cell(alerta)="slot">
-                        <b-form-input v-model="slot.value" :id="'new_row_alerta'" type="number">{{slot.value}}</b-form-input>
+                        <b-form-input v-model="slot.value" :id="'new_row_alerta'" type="text" v-mask="'##:##:##'" :no-wheel="true">{{slot.value}}</b-form-input>
                     </template>
                     <template v-slot:cell(limite)="slot">
-                        <b-form-input v-model="slot.value" :id="'new_row_limite'" type="number">{{slot.value}}</b-form-input>
+                        <b-form-input v-model="slot.value" :id="'new_row_limite'" type="text" v-mask="'##:##:##'" :no-wheel="true">{{slot.value}}</b-form-input>
                     </template>                       
                 </b-table>
         </b-modal>
@@ -123,28 +124,46 @@ export default {
             this.filas.splice(this.pausas.indexOf(ev.target.id),1);
         },
         addNewRow(){
-            this.filas.push(this.newRowInput[0]);
-            this.newRowInput[0] = {
-                pausa:'',
-                fila:['1000','2000','3000'],
-                filas:[],
-                produtiva: Boolean,
-                obrigatoria: Boolean,
-                alerta:'',
-                limite: '',
-                icone: '',
-                ativa: Boolean,
-                add: '<i class="fal fa-trash-alt"/>',                
+            // console.log(ev.target)
+            if (this.okays>0){
+                this.filas.push(this.newRowInput[this.newRowInput.length-1]);
+
+                console.log(this.newRowInput)
+                // let nri = {
+                //     pausa:'',
+                //     fila:['1000','2000','3000'],
+                //     filas:[],
+                //     produtiva: Boolean,
+                //     obrigatoria: Boolean,
+                //     alerta:'',
+                //     limite: '',
+                //     icone: '',
+                //     ativa: Boolean,
+                //     add: '<i class="fal fa-trash-alt"/>',                
+                // }
+                // this.newRowInput.push(nri);
             }
-        }
+        },
+        // loadList(params){
+        //     this.filas = params;
+
+        // }
+    },
+    computed: {
+        // filas: function() {
+        //     let v = [];
+        //     v = this.items.slice(1,this.items.length);
+        //     return v;
+        // }
     },
     data(){
         return {
             filas: this.items.slice(1,this.items.length),
+            okays: 0,
             pausas: this.items[0].pausas,
             newRowInput: [
                 {
-                    pausa:'',
+                    pausa:'test',
                     fila:['1000','2000','3000'],
                     filas:[],
                     produtiva: Boolean,
@@ -241,6 +260,17 @@ export default {
     display: contents;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#new_row_limite, #new_row_alerta {
+    width: 8ch;
+    padding: 0.2ch;
+}
+
 /* .head-add-button, .head-add-button>i{
     background-color: forestgreen !important;
     display: contents;
@@ -267,10 +297,12 @@ background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/s
 .tabela-pausas > .table.b-table > thead > tr > .table-b-table-default {
 background-color: #0d6d9d !important;
 color:#fff !important;
+border-color: #0d6d9d !important;
 align-items: center !important;
 align-content: center !important;
 text-align: center;
 vertical-align: middle !important;
+/* z-index: 4; */
 }
 
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="9"], .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="9"]{

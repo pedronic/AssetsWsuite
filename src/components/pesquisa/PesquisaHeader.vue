@@ -26,7 +26,12 @@
 
 <script>
 export default {
-    name: "PesquisaHeader"
+    name: "PesquisaHeader",
+    data(){
+        return{
+            text:''
+        }
+    }
 }
 </script>
 
