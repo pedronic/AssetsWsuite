@@ -113,12 +113,14 @@
             </div>
           </div>
         </div>
+        <div class="row justify-content-left ">
         <div class="col-4">
 <!--        <div class="input-group">-->
 <!--          <span id="basic-addon1" class="input-group-text form-icon"-->
 <!--          ><i class="fal fa-road"></i-->
 <!--          ></span>-->
           <select class="js-example-basic-multiple" id="inputGroupSelect01" name="states" multiple="multiple">
+            <option selected disabled value=" ">Fila</option>
             <option value="AL">Fila 1000</option>
             <option value="WY">Fila 2000</option>
           </select>
@@ -135,7 +137,7 @@
 <!--            </select>-->
 <!--          </div>-->
         </div>
-
+        </div>
         <div class="bottom">
           <div class="d-inline">
             <button class="btn btn-dark d-inline botao-salvar" type="submit">Salvar</button>
