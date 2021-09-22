@@ -26,7 +26,7 @@
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(add)="data">
-                <b-button class="head-add-button btn-success">
+                <b-button class="head-add-button btn-success" >
                     <span v-html="data.label" class="head-add-button"/>
                 </b-button>
             </template>
@@ -56,10 +56,25 @@
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" value="true" unchecked-value="false" switch />
             </template>
             <template v-slot:cell(add)="slot">
-                <b-btn :id="(slot.item.pausa)+'_add'" v-html="slot.value" class="add-btn fa-2x" variant="outline"/>
-            </template>
-                
+                <b-btn :id="(slot.item.pausa)+'_add'" v-html="slot.value" class="add-btn fa-2x" variant="outline" v-b-modal="slot.item.pausa"/>
+            </template>                
         </b-table>
+        <div v-for="i in filas" :key="i.pausa">
+            <b-modal 
+                :id="i.pausa" 
+                title="ATENÇÃO!!!"
+                :hide-header-close="false"
+                :no-close-on-backdrop="false"
+                :no-close-on-esc="false"
+                :lazy="true"
+                ok-title="EXCLUIR"
+                ok-variant="danger" 
+                cancel-title="MANTER" 
+                cancel-variant="success"
+                @ok="deleteLine($event)">
+                       Tem certeza que deseja excluir a pausa <b>{{i.pausa}}</b>?
+            </b-modal>
+        </div>
     </div>
 </template>
 
@@ -69,9 +84,15 @@ export default {
     props:{
         items: Array,
     },
+    methods: {
+        deleteLine(ev){
+            this.filas.splice(this.pausas.indexOf(ev.target.id),1);
+        }
+    },
     data(){
         return {
-            filas: this.items,
+            filas: this.items.slice(1,this.items.length),
+            pausas: this.items[0].pausas,
             fields: [
                 {
                     key:'pausa',
@@ -156,7 +177,7 @@ vertical-align: middle !important;
 }
 
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="9"], .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="9"]{
-    width: 2.5%;
+    width: 4.5%;
     text-align: center;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],[aria-colindex="7"], .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="8"],[aria-colindex="7"]{

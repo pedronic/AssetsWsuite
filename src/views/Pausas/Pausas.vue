@@ -23,6 +23,9 @@ export default {
     data(){
         return{
             items:[
+                {   
+                    pausas: ["Banheiro","OVNI"]
+                },
                 {
                     pausa:"Banheiro",
                     fila:['1000','2000','3000'],
