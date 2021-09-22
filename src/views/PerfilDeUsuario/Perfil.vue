@@ -8,7 +8,7 @@
         <!-- <pages-sub-header/> -->
         <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
-            <b-form-input id="profile-name-input" v-model="text" placeholder="Nome do Perfil"/>
+            <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
         <tabela-acesso-usuario :items="headItems"/>
         <b-button class="botao-salvar">SALVAR</b-button>
@@ -188,6 +188,7 @@ export default {
                     label:"",
                 }
             ],
+            text: ''
         }
     }
 };

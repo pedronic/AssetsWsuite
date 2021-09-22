@@ -26,7 +26,7 @@
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(add)="data">
-                <b-button class="head-add-button btn-success" >
+                <b-button class="head-add-button btn-success" v-b-modal="'new_line'">
                     <span v-html="data.label" class="head-add-button"/>
                 </b-button>
             </template>
@@ -41,7 +41,7 @@
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" value="true" unchecked-value="false"/>
             </template>
             <template v-slot:cell(obrigatoria)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" value="true" unchecked-value="false" :switches="true"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" value="true" unchecked-value="false" />
             </template>
             <template v-slot:cell(alerta)="slot">
                 <span :id="(slot.item.pausa)+'_alerta'">{{slot.value}}</span>
@@ -71,10 +71,44 @@
                 ok-variant="danger" 
                 cancel-title="MANTER" 
                 cancel-variant="success"
-                @ok="deleteLine($event)">
+                @ok="deleteRow($event)">
                        Tem certeza que deseja excluir a pausa <b>{{i.pausa}}</b>?
             </b-modal>
         </div>
+        <b-modal 
+            id="new_line" 
+            title="Adicionar Nova Pausa"
+            size="xl"
+            :hide-header-close="false"
+            :no-close-on-backdrop="false"
+            :no-close-on-esc="false"
+            :lazy="true"
+            ok-title="ADICIONAR"
+            ok-variant="success" 
+            cancel-title="CANCELAR" 
+            cancel-variant="danger"
+            @ok="addNewRow($event)">
+                <b-table class="tabela-pausas table-sm table-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="newRowInput" responsive="true" :fields="newRowFields" sticky-header>
+                    <template v-slot:cell(pausa)="slot">
+                        <b-form-input v-model="slot.value" :id="'new_row_pausa'" type="text">{{slot.value}}</b-form-input>
+                    </template>
+                    <template v-slot:cell(fila)="slot">
+                        <b-form-select v-model="slot.item.filas" :id="'new_row_fila'" :options="slot.value" multiple :select-size="4" />
+                    </template>
+                    <template v-slot:cell(produtiva)="slot">
+                        <b-form-checkbox v-model="slot.value" :id="'new_row_produtiva'" value="true" unchecked-value="false"/>
+                    </template>
+                    <template v-slot:cell(obrigatoria)="slot">
+                        <b-form-checkbox v-model="slot.value" :id="'new_row_obrigatoria'" value="true" unchecked-value="false" />
+                    </template>
+                    <template v-slot:cell(alerta)="slot">
+                        <b-form-input v-model="slot.value" :id="'new_row_alerta'" type="number">{{slot.value}}</b-form-input>
+                    </template>
+                    <template v-slot:cell(limite)="slot">
+                        <b-form-input v-model="slot.value" :id="'new_row_limite'" type="number">{{slot.value}}</b-form-input>
+                    </template>                       
+                </b-table>
+        </b-modal>
     </div>
 </template>
 
@@ -85,14 +119,77 @@ export default {
         items: Array,
     },
     methods: {
-        deleteLine(ev){
+        deleteRow(ev){
             this.filas.splice(this.pausas.indexOf(ev.target.id),1);
+        },
+        addNewRow(){
+            this.filas.push(this.newRowInput[0]);
+            this.newRowInput[0] = {
+                pausa:'',
+                fila:['1000','2000','3000'],
+                filas:[],
+                produtiva: Boolean,
+                obrigatoria: Boolean,
+                alerta:'',
+                limite: '',
+                icone: '',
+                ativa: Boolean,
+                add: '<i class="fal fa-trash-alt"/>',                
+            }
         }
     },
     data(){
         return {
             filas: this.items.slice(1,this.items.length),
             pausas: this.items[0].pausas,
+            newRowInput: [
+                {
+                    pausa:'',
+                    fila:['1000','2000','3000'],
+                    filas:[],
+                    produtiva: Boolean,
+                    obrigatoria: Boolean,
+                    alerta:'',
+                    limite: '',
+                    icone: '',
+                    ativa: Boolean,
+                    add: '<i class="fal fa-trash-alt"/>',
+                }
+            ],
+            newRowFields: [
+                {
+                    key:'pausa',
+                    label: 'Pausas',
+                },
+                {
+                    key:'fila',
+                    label: 'Filas'
+                },
+                {
+                    key:'produtiva',
+                    label: 'Produtiva'
+                },
+                {
+                    key:'obrigatoria',
+                    label: 'Obrigatória'
+                },
+                {
+                    key:'alerta',
+                    label: 'Alerta'
+                },
+                {
+                    key:'limite',
+                    label: 'Limite'
+                },
+                {
+                    key:'icone',
+                    label: 'Ícone'
+                },
+                {
+                    key:'ativa',
+                    label: 'Ativa'
+                }
+            ],
             fields: [
                 {
                     key:'pausa',
