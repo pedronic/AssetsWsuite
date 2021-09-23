@@ -28,8 +28,6 @@ export default {
                 },
                 {
                     pausa:"Banheiro",
-                    fila:['1000','2000','3000'],
-                    filas:[],
                     produtiva: true,
                     obrigatoria: true,
                     alerta:'00:00:30',
@@ -40,8 +38,6 @@ export default {
                 },
                 {
                     pausa:"OVNI",
-                    fila:['1000','2000','3000'],
-                    filas:[],
                     produtiva: false,
                     obrigatoria: true,
                     alerta:'00:01:00',
