@@ -70,7 +70,7 @@
     <!--         </div>-->
     <!--       </div>-->
     <!--     </form>-->
-    <h2 class="title"> {{ msg }}</h2>
+<!--    <h2 class="title"> {{ msg }}</h2>-->
 
     <!-- <div class="socorro ajuda"> -->
 

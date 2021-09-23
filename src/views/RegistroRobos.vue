@@ -67,27 +67,29 @@
               </div>
             </div>
           </div>
-          <div class="bottom">
-            <div class="d-inline">
-              <button type="submit" class="btn btn-dark botao-salvar d-inline">Salvar</button>
-            </div>
-            <div class="custom-control custom-switch d-inline centralize">
-              <input
-                  type="checkbox"
-                  class="custom-control-input bg-dark"
-                  id="customSwitch1"
-                  checked
-              />
-              <input
-                  type="checkbox"
-                  class="custom-control-input bg-dark"
-                  id="customSwitch1"
-              />
-              <label class="custom-control-label " for="customSwitch1"
-                     id="kkk">Status</label
-              >
-            </div>
-          </div>
+          <b-row>
+            <b-col class="mr-auto p-3" cols="auto">
+              <button class="btn btn-dark botao-salvar" type="submit">Salvar</button>
+            </b-col>
+            <b-col class="p-3" cols="auto">
+              <div class="custom-control custom-switch">
+                <input
+                    id="customSwitch1"
+                    checked
+                    class="custom-control-input bg-dark"
+                    type="checkbox"
+                />
+                <input
+                    id="customSwitch1"
+                    class="custom-control-input bg-dark"
+                    type="checkbox"
+                />
+                <label id="kkk" class="custom-control-label "
+                       for="customSwitch1">Status</label
+                >
+              </div>
+            </b-col>
+          </b-row>
         </div>
       </form>
     </div>
@@ -140,11 +142,12 @@ label#kkk {
 .centralize {
   margin-left: 450px;
 }
-.botao-salvar{
-  background-color: #0d6d9d;
-}
-.botao-salvar:hover{
+.botao-salvar {
   background-color: #0d6d9dad;
+}
+
+.botao-salvar:hover {
+  background-color: #0d6d9d;
 }
 
 /*.title {*/

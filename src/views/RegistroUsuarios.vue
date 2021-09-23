@@ -97,72 +97,60 @@
             </div>
             <div class="col-4">
               <div class="d-inline">
-                <div class="input-group ">
-                  <label id="basic-addon1" for="selecao-arquivo" class="input-group-text form-icon"
-                  ><i class="fal fa-image"></i
-                  ></label>
-                  <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control pt-1 d-none"
-                      placeholder="Foto"
-                      type="text"
-                      disabled
-                  />
-                  <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control pt-1"
-                      placeholder="Foto"
-                      type="file"
-                  />
+                <div class="input-group image-preview">
+                  <span class="input-group">
+                    <!-- image-preview-clear button -->
+                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                        <span class="glyphicon glyphicon-remove"></span> Limpar
+                    </button>
+                    <!-- image-preview-input -->
+                    <div class="btn btn-default image-preview-input">
+                        <span class="form-icon"><i class="fal fa-image"></i></span>
+                        <span class="image-preview-input-title"> </span>
+                        <input type="file" accept="image/png, image/jpeg, image/gif" name="input-file-preview"/> <!-- rename it -->
+                    </div>
+                  <input type="text" placeholder="Foto" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-          <!--        <div class="col-10">-->
-          <!--          <div class="input-group">-->
         <div class="row justify-content-center">
           <div class="coluna">
-<!--            <div class="d-inline">-->
             <span id="basic-addon1" class="input-group-text form-icon d-inline"
             ><i class="fal fa-road"></i
             ></span>
-<!--            </div>-->
-<!--            <div class="d-inline">-->
             <select class="js-example-basic-multiple" multiple="multiple" name="states">
               <option disabled selected value=" ">Fila</option>
               <option value="AL">Fila 1000</option>
               <option value="WY">Fila 2000</option>
             </select>
-<!--              </div>-->
           </div>
         </div>
-        <div class="bottom">
-          <div class="d-inline">
-            <button class="btn btn-dark d-inline botao-salvar" type="submit">Salvar</button>
-          </div>
-          <div class="custom-control custom-switch d-inline centralize">
-            <input
-                v-if="usuario.status"
-                id="customSwitch1"
-                checked
-                class="custom-control-input bg-dark"
-                type="checkbox"
-            />
-            <input
-                v-else
-                id="customSwitch1"
-                class="custom-control-input bg-dark"
-                type="checkbox"
-            />
-            <label id="kkk" class="custom-control-label" for="customSwitch1"
-            >Status</label
-            >
-          </div>
-        </div>
+        <b-row>
+          <b-col class="mr-auto p-3" cols="auto">
+            <button class="btn btn-dark botao-salvar" type="submit">Salvar</button>
+          </b-col>
+          <b-col class="p-3" cols="auto">
+            <div class="custom-control custom-switch">
+              <input
+                  id="customSwitch1"
+                  checked
+                  class="custom-control-input bg-dark"
+                  type="checkbox"
+              />
+              <input
+                  id="customSwitch1"
+                  class="custom-control-input bg-dark"
+                  type="checkbox"
+              />
+              <label id="kkk" class="custom-control-label "
+                     for="customSwitch1">Status</label
+              >
+            </div>
+          </b-col>
+        </b-row>
       </div>
     </form>
   </div>
@@ -171,7 +159,7 @@
 </template>
 <script>
 import Usuario from "../domain/User/Usuario";
-import UsuarioMetodos from "../domain/User/UsuarioMetodos";
+// import UsuarioMetodos from "../domain/User/UsuarioMetodos";
 import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
 import "jquery";
 // import Vue from 'vue'
@@ -192,9 +180,7 @@ export default {
           (err) => console.log(err)
       );
     },
-    FotoSelect() {
 
-    }
   },
   data() {
     return {
@@ -205,20 +191,77 @@ export default {
     };
   },
   created() {
-    this.usuario = new UsuarioMetodos(this.$resource);
-    if (this.id) {
-      this.service.search(this.id).then((user) => (this.user = user));
-    }
+
+
   },
   mounted() {
-    // function ex() {
+
+    $(document).on('click', '#close-preview', function(){
+      $('.image-preview').popover('hide');
+
+    });
+
+    $(function() {
+
+      // Clear event
+      $('.image-preview-clear').click(function(){
+        $('.image-preview').attr("data-content","").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text(" ");
+      });
+      // Create the preview image
+      $(".image-preview-input input:file").change(function (){
+        var img = $('<img/>', {
+          id: 'dynamic',
+          width:50,
+          height:100
+        });
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+          $(".image-preview-input-title").text("Trocar");
+          $(".image-preview-clear").show();
+          $(".image-preview-filename").val(file.name);
+          img.attr('src', e.target.result);
+        }
+        reader.readAsDataURL(file);
+      });
+    });
     $('.js-example-basic-multiple').select2();
-    // }
   },
 };
 </script>
-<style scoped>
+<style scoped @max-width>
 
+.image-preview-input {
+  position: relative;
+  overflow: hidden;
+  margin: 0px;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.image-preview-input input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+  margin-left:2px;
+}
+.form-control:disabled, .form-control[readonly] {
+  background-color: #ffffff;
+  opacity: 1;
+}
 .coluna {
   flex: 0 0 91.666667%;
   max-width: 91.566667%;
@@ -229,11 +272,11 @@ label#kkk {
 }
 
 .botao-salvar {
-  background-color: #0d6d9d;
+  background-color: #0d6d9dad;
 }
 
 .botao-salvar:hover {
-  background-color: #0d6d9dad;
+  background-color: #0d6d9d;
 }
 
 .form-icon, .form-icon:hover {
@@ -244,29 +287,10 @@ label#kkk {
   margin-left: 89%;
 }
 
-.invalid {
-  color: brown;
-}
-
-.title {
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  margin-left: 30px;
-  margin-top: 15px;
-}
-
-
 .bottom {
   margin-top: 20px;
 }
 
-.panel-content {
-  overflow: auto;
-}
-
-.form-label {
-  font-weight: 500;
-}
 
 .card-body {
   padding: 5px;
