@@ -6,7 +6,7 @@
             </div>
         </pages-sub-header>
         <tabela-pausas :items="items"/>
-        <b-button class="botao-salvar">SALVAR</b-button>
+        <b-button class="botao-salvar">CRIAR GRUPO</b-button>
     </div>
 </template>
 
