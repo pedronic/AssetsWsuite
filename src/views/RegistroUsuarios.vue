@@ -1,12 +1,12 @@
 <!--  este é um componente que faz um formulário para castrar usuários no banco de dados-->
 <template>
-  <div class="relatorios">
+  <div class="formularios">
     <PagesSubHeader icon="fal fa-user" titulo="Usuários do sistema">
       <div class="card">
         <div class="card-body"/>
       </div>
     </PagesSubHeader>
-    <form @submit.prevent="carregar()">
+    <form @submit.prevent="carregar()" class="conteiner">
       <div class="form-group">
         <div class="d-inline">
           <div class="row ">
@@ -154,8 +154,6 @@
       </div>
     </form>
   </div>
-
-
 </template>
 <script>
 import Usuario from "../domain/User/Usuario";
@@ -170,6 +168,7 @@ export default {
     PagesSubHeader,
     // select2,
   },
+    name: 'RegistroUsuarios',
   methods: {
     carregar() {
       this.service.register(this.usuario).then(
@@ -234,7 +233,7 @@ export default {
   },
 };
 </script>
-<style scoped @max-width>
+<style scoped>
 
 .image-preview-input {
   position: relative;
@@ -304,4 +303,19 @@ label#kkk {
   box-shadow: none;
   border: none;
 }
+
+.conteiner{
+    padding: 0;
+}
+
+.col-botoes{
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+}
+.col-inputs{
+    padding-left: 3px !important;
+    padding-right: 10px !important;
+}
+
+
 </style>

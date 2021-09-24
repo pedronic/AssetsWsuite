@@ -7,7 +7,6 @@
       :fields="fields"
       class="
         table-sm
-        able-bordered
         table-hover table-striped
         w-100
         dt-responsive

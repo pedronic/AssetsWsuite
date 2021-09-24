@@ -214,4 +214,7 @@ export default {
   box-shadow: none;
   border: none;
 }
+.dow-color{
+    background-color: #1a7f37 !important;
+}
 </style> 
