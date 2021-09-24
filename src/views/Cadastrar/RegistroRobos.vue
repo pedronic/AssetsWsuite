@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PagesSubHeader titulo="Robôs" icon="fal fa-user-headset">
+    <PagesSubHeader titulo="Robôs" icon="fal fa-user-robot">
       <div class="card">
         <div class="card-body"/>
       </div>
@@ -97,8 +97,8 @@
 </template>
 
 <script>
-import TabelaFilas from "../components/DataTables/TabelaFilas.vue";
-import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
+import TabelaFilas from "../../components/DataTables/TabelaFilas.vue";
+import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 
 export default {
   components: {

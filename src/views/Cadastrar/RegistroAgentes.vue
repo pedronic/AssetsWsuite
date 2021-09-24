@@ -127,19 +127,6 @@
               <div class="col-4">
                 <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="fal fa-traffic-light-stop"></i
-                ></span>
-                  <select id="inputGroupSelect01" class="custom-select">
-                    <option disabled selected>Grupo de pausas</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
                 ><i class="fal fa-calendar-alt"></i
                 ></span>
                   <select id="inputGroupSelect01" class="custom-select">
@@ -189,8 +176,8 @@
 </template>
 
 <script>
-import TabelaFilas from "../components/DataTables/TabelaFilas.vue";
-import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
+import TabelaFilas from "../../components/DataTables/TabelaFilas.vue";
+import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 
 export default {
   components: {

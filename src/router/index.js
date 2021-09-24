@@ -46,32 +46,42 @@ const routes = [
   {
     path: '/registro-agentes',
     name: 'RegistroAgentes',
-    component: () => import( '../views/RegistroAgentes.vue')
+    component: () => import( '../views/Cadastrar/RegistroAgentes.vue')
+  },
+  {
+    path: '/registro-operadoras',
+    name: 'RegistroOperadoras',
+    component: () => import( '../views/Cadastrar/RegistroOperadoras.vue')
+  },
+  {
+    path: '/lista-de-operadoras',
+    name: 'ListaOperadoras',
+    component: () => import( '../views/Listas/ListaOperadoras.vue')
   },
   {
     path: '/lista-de-agentes',
     name: 'ListaAgentes',
-    component: () => import( '../views/ListaAgentes.vue')
+    component: () => import( '../views/Listas/ListaAgentes.vue')
   },
   {
     path:'/registro-usuarios',
     name: 'RegistroUsuarios',
-    component: () => import('../views/RegistroUsuarios.vue')
+    component: () => import('../views/Cadastrar/RegistroUsuarios.vue')
   },
   {
     path: '/lista-de-robos',
     name: 'ListaRobos',
-    component: () => import( '../views/ListaRobos.vue')
+    component: () => import( '../views/Listas/ListaRobos.vue')
   },
   {
     path:'/registro-robos',
     name: 'RegistroRobos',
-    component: () => import('../views/RegistroRobos.vue')
+    component: () => import('../views/Cadastrar/RegistroRobos.vue')
   },
   {
     path:'/lista-de-usuarios',
     name: 'ListaUsuarios',
-    component: () => import('../views/ListaUsuarios.vue')
+    component: () => import('../views/Listas/ListaUsuarios.vue')
   },
   {
     path: '/dash-analitico',

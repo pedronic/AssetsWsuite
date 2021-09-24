@@ -1,6 +1,6 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de robôs">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de agentes">
       <div class="card">
         <div class="card-body"/>
       </div>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed" name="pesquisa-faturamento" type="submit"><i
+              <button class="btn btn-info waves-effect waves-themed" type="submit"><i
                   class="fal fa-search"></i></button>
 
             </div>
@@ -78,7 +78,7 @@
     <div class="panel ">
       <div class="panel-container show">
         <div class="panel-content">
-          <TabelaRobos/>
+          <TabelaAgentes/>
         </div>
       </div>
     </div>
@@ -87,13 +87,13 @@
 
 <script>
 // import UsuarioMetodos from "../domain/User/UsuarioMetodos";
-import TabelaRobos from '../components/DataTables/TabelaRobos.vue'
-import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
+import TabelaAgentes from '../../components/DataTables/TabelaAgentes.vue'
+import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 
 export default {
   components: {
     PagesSubHeader,
-    TabelaRobos,
+    TabelaAgentes,
   },
   data() {
     return {
@@ -127,18 +127,18 @@ export default {
 </script>
 
 <style>
-.socorro {
-  display: flex;
-  justify-content: end;
-}
+/*.socorro {*/
+/*  display: flex;*/
+/*  justify-content: end;*/
+/*}*/
 
-.ajuda {
-  align-items: flex-end;
-}
+/*.ajuda {*/
+/*  align-items: flex-end;*/
+/*}*/
 
-.bar {
-  width: 33.333333% !important;
-}
+/*.bar {*/
+/*  width: 33.333333% !important;*/
+/*}*/
 
 .title {
   font-family: Arial, Helvetica, sans-serif;
@@ -147,9 +147,9 @@ export default {
   margin-top: 15px;
 }
 
-.register-form {
-  margin: 50px 65px 40px;
-}
+/*.register-form {*/
+/*  margin: 50px 65px 40px;*/
+/*}*/
 
 .panel-content {
   overflow: auto;
@@ -174,4 +174,4 @@ export default {
 .dow-color{
     background-color: #1a7f37 !important;
 }
-</style>
+</style> 

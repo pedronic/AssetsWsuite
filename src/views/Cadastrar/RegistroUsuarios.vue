@@ -116,18 +116,69 @@
             </div>
           </div>
         </div>
-        <div class="row justify-content-center">
-          <div class="coluna">
-            <span id="basic-addon1" class="input-group-text form-icon d-inline"
-            ><i class="fal fa-road"></i
-            ></span>
-            <select class="js-example-basic-multiple" multiple="multiple" name="states">
-              <option disabled selected value=" ">Fila</option>
-              <option value="AL">Fila 1000</option>
-              <option value="WY">Fila 2000</option>
-            </select>
+        <div class="d-inline">
+          <div class="row ">
+            <div class="col-12">
+              <div class="input-group mb-3">
+                <span id="basic-addon1" class="input-group-text form-icon"
+                ><i class="far fa-road"></i
+                ></span>
+                <select class="js-example-basic-multiple" multiple="multiple" name="states">
+                  <option disabled selected value=" ">Fila</option>
+                  <option value="AL">Fila 1000</option>
+                  <option value="WY">Fila 2000</option>
+                </select>
+              </div>
+            </div>
+<!--            <div class="row justify-content-center">-->
+<!--              <div class="coluna">-->
+<!--            <span id="basic-addon1" class="input-group-text form-icon d-inline"-->
+<!--            ><i class="fal fa-road"></i-->
+<!--            ></span>-->
+<!--                <select class="js-example-basic-multiple" multiple="multiple" name="states">-->
+<!--                  <option disabled selected value=" ">Fila</option>-->
+<!--                  <option value="AL">Fila 1000</option>-->
+<!--                  <option value="WY">Fila 2000</option>-->
+<!--                </select>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-4">-->
+<!--              <div class="d-inline">-->
+<!--                <div class="input-group mb-3">-->
+<!--                  <span id="basic-addon1" class="input-group-text form-icon"-->
+<!--                  ><i class="fal fa-at"></i-->
+<!--                  ></span>-->
+<!--                  <input-->
+<!--                      v-model.lazy="usuario.email"-->
+<!--                      aria-describedby="basic-addon1"-->
+<!--                      aria-label="Username"-->
+<!--                      class="form-control"-->
+<!--                      placeholder="Email"-->
+<!--                      type="email"-->
+<!--                  />-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-4">-->
+<!--              <div class="input-group mb-3">-->
+<!--                <span id="basic-addon1" class="input-group-text form-icon"-->
+<!--                ><i class="fal fa-user"></i-->
+<!--                ></span>-->
+<!--                <input-->
+<!--                    v-model.lazy="usuario.user"-->
+<!--                    aria-describedby="basic-addon1"-->
+<!--                    aria-label="Username"-->
+<!--                    class="form-control"-->
+<!--                    maxlength="120"-->
+<!--                    minlength="3"-->
+<!--                    placeholder="Usuário"-->
+<!--                    type="text"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
         </div>
+
         <b-row>
           <b-col class="mr-auto p-3" cols="auto">
             <button class="btn btn-dark botao-salvar" type="submit">Salvar</button>
@@ -156,9 +207,9 @@
   </div>
 </template>
 <script>
-import Usuario from "../domain/User/Usuario";
+import Usuario from "../../domain/User/Usuario";
 // import UsuarioMetodos from "../domain/User/UsuarioMetodos";
-import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import "jquery";
 // import Vue from 'vue'
 import "select2";

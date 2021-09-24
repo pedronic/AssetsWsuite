@@ -138,9 +138,9 @@
 </template>
 
 <script>
-import UsuarioMetodos from "../domain/User/UsuarioMetodos";
-import TabelaUsuariosCadastrados from '../components/DataTables/TabelaUsuariosCadastrados.vue'
-import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
+import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
+import TabelaUsuariosCadastrados from '../../components/DataTables/TabelaUsuariosCadastrados.vue'
+import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 export default {
   components: {
     PagesSubHeader,

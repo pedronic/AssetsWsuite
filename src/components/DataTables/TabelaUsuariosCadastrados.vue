@@ -76,7 +76,6 @@ export default {
               Nome: '',
               Email: '',
               Perfil: '',
-             
         },
         ]
         }
