@@ -23,10 +23,7 @@
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(add)="data">
-                <b-button class="head-edit-button btn-success" variant="outline-dark" v-b-modal="'edit_line'" >
-                    <span v-html="editIcon" class="head-edit-button"/>
-                </b-button>
-                <b-button class="head-add-button btn-success" v-b-modal="'new_line'" variant="outline-dark">
+                <b-button class="head-add-button btn-success" @click="clearNewRow" v-b-modal="'new_line'" variant="outline-dark">
                     <span v-html="data.label" class="head-add-button"/>
                 </b-button>
             </template>
@@ -53,46 +50,30 @@
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" value="true" unchecked-value="false" switch disabled/>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-btn :id="(slot.item.pausa)+'_add'" v-html="slot.value" class="add-btn fa-2x" variant="outline" v-b-modal="slot.item.pausa"/>
+                <b-button :id="(slot.item.pausa)+'_edit'" v-html="editIcon" class="edit-btn" variant="outline" v-b-modal="slot.item.pausa + '_edit'"/>                
+                <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'"/>
             </template>                
         </b-table>
-        <div v-for="i in filas" :key="i.pausa">
+<!-- ---------------------------------------------------- -->
+        <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
+        <div v-for="i in filas" :key="i.pausa+'_edit'">
             <b-modal 
-                :id="i.pausa" 
-                title="ATENÇÃO!!!"
-                :hide-header-close="false"
-                :no-close-on-backdrop="false"
-                :no-close-on-esc="false"
-                :lazy="true"
-                ok-title="EXCLUIR"
-                ok-variant="danger" 
-                cancel-title="MANTER" 
-                cancel-variant="success"
-                @ok="deleteRow($event)">
-                       Tem certeza que deseja excluir a pausa <b>{{i.pausa}}</b>?
-            </b-modal>
-        </div>
-        <b-modal 
-            id="new_line"
-            refs="new_line"
-            title="Adicionar Nova Pausa"
+            :id="i.pausa+'_edit'"
+            title="Editar pausas..."
             size="xl"
             :hide-header-close="false"
             :no-close-on-backdrop="false"
             :no-close-on-esc="false"
             
-            ok-title="ADICIONAR"
-            ok-variant="success" 
+            ok-title="SALVAR"
+            ok-variant="info" 
             cancel-title="CANCELAR" 
-            cancel-variant="danger"
-            @ok="okayFunc"
-            @hide="addNewRow"
-            @show="this.pivotRow.splice(0,0,this.newRowInput[0])">
+            cancel-variant="danger">
                 <b-container fluid>
                     <b-col cols="14">
                         <b-row>
                             <b-col cols="4" class="pausa-head-container">
-                                <span class="pausa-head">Nova Pausa</span>
+                                <span class="pausa-head">Pausa</span>
                             </b-col>
                             <b-col cols="2" class="produtiva-head-container">
                                 <span class="produtiva-head">Produtiva</span>
@@ -142,71 +123,178 @@
                         </b-row>
                     </b-col>
                 </b-container>
-        </b-modal>
+            </b-modal>
+        <!-- </div> -->
+        <!-- MODAL PARA Edição DE LINHA (FIM) -->
+<!-- ---------------------------------------------------- -->
+        <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
+        <!-- <div v-for="i in filas" :key="i.pausa"> -->
             <b-modal 
-                id="edit_line"
-                refs="edit_line"
-                title="Editar pausas..."
-                size="xl"
+                :id="i.pausa+'_delete'" 
+                title="ATENÇÃO!!!"
                 :hide-header-close="false"
                 :no-close-on-backdrop="false"
                 :no-close-on-esc="false"
-                
-                ok-title="SALVAR"
-                ok-variant="success" 
-                cancel-title="CANCELAR" 
-                cancel-variant="danger">
-                <b-table id="editar-pausas" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="this.filas" :responsive="true" :fields="newRowFields" sticky-header>
-                    <template v-slot:head(pausa)="data">
-                        <span>{{data.label}}</span>
-                    </template>
-                    <template v-slot:head(produtiva)="data">
-                        <span>{{data.label}}</span>
-                    </template>
-                    <template v-slot:head(obrigatoria)="data">
-                        <span>{{data.label}}</span>
-                    </template>
-                    <template v-slot:head(alerta)="data">
-                        <span>{{data.label}}</span>
-                    </template>
-                    <template v-slot:head(limite)="data">
-                        <span>{{data.label}}</span>
-                    </template>
-                    <template v-slot:head(icone)="data">
-                        <span>{{data.label}}</span>
-                    </template>
-                    <template v-slot:head(ativa)="data">
-                        <span>{{data.label}}</span>
-                    </template>
-                    
-                    <template v-slot:cell(pausa)="slot">
-                        <b-form-input :id="'edit_'+(slot.item.pausa)+'_pausa'" v-model="slot.value" type="text" :disabled="false"/>
-                    </template>
-                    <template v-slot:cell(produtiva)="slot" >
-                        <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" value="true" unchecked-value="false" :disabled="false"/>
-                    </template>
-                    <template v-slot:cell(obrigatoria)="slot">
-                        <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" value="true" unchecked-value="false"/>
-                    </template>
-                    <template v-slot:cell(alerta)="slot">
-                        <b-form-input :id="'edit_'+(slot.item.pausa)+'_alerta'" v-model="slot.value" type="text"/>
-                    </template>
-                    <template v-slot:cell(limite)="slot">
-                        <b-form-input :id="'edit_'+(slot.item.pausa)+'_limite'" v-model="slot.value" type="text"/>
-                    </template>
-                    <template v-slot:cell(icone)="slot">
-                        <span :id="(slot.item.pausa)+'_icone'" v-html="slot.value" />
-                    </template>
-                    <template v-slot:cell(ativa)="slot">
-                        <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" value="true" unchecked-value="false" switch/>
-                    </template>
-            </b-table>
-                
+                :lazy="true"
+                ok-title="EXCLUIR"
+                ok-variant="danger" 
+                cancel-title="MANTER" 
+                cancel-variant="success"
+                @ok="deleteRow($event)">
+                       Tem certeza que deseja excluir a pausa <b>{{i.pausa}}</b>?
+            </b-modal>
+        </div>
+        <!-- MODAL PARA EXCLUSÃO DE LINHA (FIM) -->
+<!-- ---------------------------------------------------- -->
+        <!-- MODAL PARA CRIAR NOVA LINHA (INÍCIO) -->
+        <b-modal 
+            id="new_line"
+            refs="new_line"
+            title="Adicionar Nova Pausa"
+            size="xl"
+            :hide-header-close="false"
+            :no-close-on-backdrop="false"
+            :no-close-on-esc="false"
+            
+            ok-title="ADICIONAR"
+            ok-variant="success" 
+            cancel-title="CANCELAR" 
+            cancel-variant="danger"
+            @ok="okayFunc"
+            @hide="addNewRow">
+                <b-container fluid>
+                    <b-col cols="12">
+                        <b-row>
+                            <b-col cols="4" class="pausa-head-container">
+                                <span class="pausa-head">Nova Pausa</span>
+                            </b-col>
+                            <b-col cols="2" class="produtiva-head-container">
+                                <span class="produtiva-head">Produtiva</span>
+                            </b-col>
+                            <b-col cols="2" class="obrigatoria-head-container">
+                                <span class="obrigatoria-head">Obrigatória</span>
+                            </b-col>
+                            <b-col cols="1" class="alerta-head-container">
+                                <span class="alerta-head">Alerta</span>
+                            </b-col>
+                            <b-col cols="1" class="limite-head-container">
+                                <span class="limite-head">Limite</span>
+                            </b-col>
+                            <b-col cols="1" class="icone-head-container">
+                                <span class="icone-head">Ícone</span>
+                            </b-col>
+                            <b-col cols="1" class="ativa-head-container">
+                                <span class="ativa-head">Ativa</span>
+                            </b-col>
+                        </b-row>
+                        <b-row>
+                            <b-col cols="4" class="pausa-body-container">
+                                <b-form-input v-model="pivotRow[0].pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
+                            </b-col>
+                            <b-col cols="2" class="produtiva-body-container" >
+                                <b-form-checkbox v-model="pivotRow[0].produtiva" :id="'new_row_produtiva'" value="true" unchecked-value="false"/>
+                            </b-col>
+                            <b-col cols="2" class="obrigatoria-body-container" >
+                                <b-form-checkbox v-model="pivotRow[0].obrigatoria" :id="'new_row_obrigatoria'" value="true" unchecked-value="false"/>
+                            </b-col>
+                            <b-col cols="1" class="alerta-body-container">
+                                <b-form-input v-model="pivotRow[0].alerta" :id="'new_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                            </b-col>
+                            <b-col cols="1" class="limite-body-container">
+                                <b-form-input v-model="pivotRow[0].limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                            </b-col>
+                            <b-col cols="1" class="icone-body-container">
+                                <b-form-select v-model="pivotRow[0].icone" :id="'new_row_icone'" :select-size="4" :options="icons">
+                                    <!-- <b-form-select-option v-for="i in icons" :key="i.value">
+                                        <span :id="i.value" v-html="i.html"/> -->
+                                    <!-- </b-form-select-option> -->
+                                </b-form-select>
+                            </b-col>
+                            <b-col cols="1" class="ativa-body-container">
+                                <b-form-checkbox v-model="pivotRow[0].ativa" :id="'new_row_ativa'" value="true" unchecked-value="false" switch />
+                            </b-col>
+                        </b-row>
+                    </b-col>
+                </b-container>
         </b-modal>
+        <!-- MODAL PARA CRIAR NOVA LINHA (FIM) -->
+<!-- ---------------------------------------------------- -->
+        <!-- <b-modal 
+            id="edit_line"
+            refs="edit_line"
+            title="Editar pausas..."
+            size="xl"
+            :hide-header-close="false"
+            :no-close-on-backdrop="false"
+            :no-close-on-esc="false"
+            
+            ok-title="SALVAR"
+            ok-variant="success" 
+            cancel-title="CANCELAR" 
+            cancel-variant="danger">
+            <b-table id="editar-pausas" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="this.filas" :responsive="true" :fields="newRowFields" sticky-header>
+                <template v-slot:head(pausa)="data">
+                    <span>{{data.label}}</span>
+                </template>
+                <template v-slot:head(produtiva)="data">
+                    <span>{{data.label}}</span>
+                </template>
+                <template v-slot:head(obrigatoria)="data">
+                    <span>{{data.label}}</span>
+                </template>
+                <template v-slot:head(alerta)="data">
+                    <span>{{data.label}}</span>
+                </template>
+                <template v-slot:head(limite)="data">
+                    <span>{{data.label}}</span>
+                </template>
+                <template v-slot:head(icone)="data">
+                    <span>{{data.label}}</span>
+                </template>
+                <template v-slot:head(ativa)="data">
+                    <span>{{data.label}}</span>
+                </template>
+                
+                <template v-slot:cell(pausa)="slot">
+                    <b-form-input :id="'edit_'+(slot.item.pausa)+'_pausa'" v-model="slot.value" type="text" :disabled="false"/>
+                </template>
+                <template v-slot:cell(produtiva)="slot" >
+                    <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" value="true" unchecked-value="false" :disabled="false"/>
+                </template>
+                <template v-slot:cell(obrigatoria)="slot">
+                    <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" value="true" unchecked-value="false"/>
+                </template>
+                <template v-slot:cell(alerta)="slot">
+                    <b-form-input :id="'edit_'+(slot.item.pausa)+'_alerta'" v-model="slot.value" type="text"/>
+                </template>
+                <template v-slot:cell(limite)="slot">
+                    <b-form-input :id="'edit_'+(slot.item.pausa)+'_limite'" v-model="slot.value" type="text"/>
+                </template>
+                <template v-slot:cell(icone)="slot">
+                    <span :id="(slot.item.pausa)+'_icone'" v-html="slot.value" />
+                </template>
+                <template v-slot:cell(ativa)="slot">
+                    <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" value="true" unchecked-value="false" switch/>
+                </template>
+            </b-table>
+        </b-modal> -->
     </div>
 </template>
 
 <script>
+const defaultRow = [
+                {
+                    pausa:'',
+                    produtiva: false,
+                    obrigatoria: false,
+                    alerta:'',
+                    limite: '',
+                    icone: '',
+                    ativa: true,
+                    add: '<span class="fal fa-trash-alt"/>',
+                }
+            ];
+
 export default {
     name:'TabelaPausas',
     props:{
@@ -221,38 +309,66 @@ export default {
             console.log(this.pivotRow[0].pausa)
         },
         okayFunc(){
-            this.okays = 1;
-            console.log("Pivot Row:")
-            console.log(this.pivotRow)
-            console.log("New Row Input:")
-            console.log(this.newRowInput)
+            console.log('OK')
+            console.log(JSON.stringify(this.pivotRow[0]))
+            console.log(JSON.stringify(this.newRowInput[0]))
+            console.log((JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0])))
+            // if(JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0])){
+            if (this.okays == 0){
+                console.log("Pivot Row:")
+                console.log(this.pivotRow)
+                console.log("New Row Input:")
+                console.log(this.newRowInput)
+                this.okays = 1;
+            }
         },
         addNewRow(){
+            // const sub = [];
+            // sub.push(this.newRowInput);
             if (this.okays>0){
                 console.log("ADD NEW ROW")
-                this.filas.push(this.pivotRow[0]);
+                this.filas.push(this.pivotRow.slice(0,1)[0]);
+                this.pausas.push(this.pivotRow.slice(0,1)[0].pausa);
+                console.log(this.pausas)
+                console.log(this.filas)
                 this.okays = -1;
-                // this.clearNewRow();
             }
-            this.pivotRow.splice(0,0,this.newRowInput[0]);
+            console.log(this.newRowInput[0])
+            // console.log(sub.)
+            console.log(this.pivotRow)
         },
         clearNewRow(){
-            this.pivotRow.splice(0,0,this.newRowInput[0]);
+            console.log("Clear???")
+            console.log(JSON.stringify(this.pivotRow[0]))
+            console.log(JSON.stringify(this.newRowInput[0]))
+            console.log((JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0])))
+            console.log((this.okays<0))
+
+            if ((this.okays<0) || (JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0]))){
+                console.log("Clear on Button")
+                const sub2 = this.newRowInput.slice();
+                console.log("Sub 2: \n", sub2)
+                this.pivotRow.splice(0,0,sub2.pop());
+                this.okays = 0;
+            }
+            console.log("pivotRow: \n",this.pivotRow)
         }
     },
-    computed: {
+    created(){
+        this.newRowInput = [...defaultRow];
     },
     data(){
         return {
             filas: this.items.slice(1,this.items.length),
             okays: 0,
-            editIcon: '<i class="fal fa-pencil"/>',
+            editIcon: '<span class="fal fa-pencil"/>',
+            deleteIcon: '<span class="fal fa-trash-alt"/>',
             pausas: this.items[0].pausas,
             dummy: [],
-            icons: [{value:'i1', html:'<i class="fal fa-trash-alt"/>'},
-                    {value:'i2', html:'<i class="fal fa-plus"/>'},
-                    {value:'i3', html:'<i class="fal fa-air-conditioner"/>'},
-                    {value:'i4', html:'<i class="fal fa-abacus"/>'}],
+            icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
+                    {value:'i2', html:'<span class="fal fa-plus"/>'},
+                    {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
+                    {value:'i4', html:'<span class="fal fa-abacus"/>'}],
             pivotRow: [
                 {
                     pausa:'',
@@ -262,20 +378,7 @@ export default {
                     limite: '',
                     icone: '',
                     ativa: true,
-                    add: '<i class="fal fa-trash-alt"/>',
-                    
-                }
-            ],
-            newRowInput: [
-                {
-                    pausa:'',
-                    produtiva: false,
-                    obrigatoria: false,
-                    alerta:'',
-                    limite: '',
-                    icone: '',
-                    ativa: true,
-                    add: '<i class="fal fa-trash-alt"/>',
+                    add: '<span class="fal fa-trash-alt"/>',                  
                 }
             ],
             newRowFields: [
@@ -339,7 +442,7 @@ export default {
                 },
                 {
                     key:'add',
-                    label: '<i class="fal fa-plus fa-1x head-add-button"/>'
+                    label: '<span class="fal fa-plus fa-1x head-add-button"/>'
                 }
             ]
         }
@@ -348,11 +451,21 @@ export default {
 </script>
 
 <style>
-.add-btn{
+.add-btn>i, .edit-btn>i{
     padding: 0px !important;
-    border-width: 0px !important;
+    border-width: 0px 1px !important;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.add-btn, .edit-btn{
+    display: table-cell;
     align-items: center !important;
-    display: contents;
+    border-width: 1px 1px !important;
+    border-color: #adadad;
+    width: 42px;
+    height: 42px;
 }
 
 input::-webkit-outer-spin-button,
@@ -430,12 +543,14 @@ vertical-align: middle !important;
 }
 
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="8"], .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="8"]{
-    width: 4.5%;
+    width: 3.5%;
     text-align: center;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="7"],[aria-colindex="6"], .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="7"],[aria-colindex="6"]{
     width: 3%;
     text-align: center;
+    justify-content: center;
+    display: table-cell;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="5"],[aria-colindex="4"], .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="5"],[aria-colindex="4"]{
     width: 6%;

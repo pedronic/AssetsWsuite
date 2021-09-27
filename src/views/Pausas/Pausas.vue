@@ -34,7 +34,7 @@ export default {
                     limite: '00:01:00',
                     icone: '<i class="fal fa-restroom fa-2x"/>',
                     ativa: true,
-                    add: '<i class="fal fa-trash-alt"/>',
+                    add: '<span class="fal fa-trash-alt"/>',
                 },
                 {
                     pausa:"OVNI",
@@ -44,7 +44,7 @@ export default {
                     limite: '00:02:00',
                     icone: '<i class="fal fa-alien fa-2x"/>',
                     ativa: false,
-                    add: '<i class="fal fa-trash-alt"/>',
+                    add: '<span class="fal fa-trash-alt"/>',
                 }
             ]
         }
