@@ -20,10 +20,13 @@
     </div> -->
     <div class="dropdown-divider m-0"></div>
     <div class="dropdown-item d-flex itens">
-      <router-link to="#" class="mr-auto">
-      <i class="fal fa-list-ol"></i>
-      <span data-i18n="drpdwn.settings"> Mailing</span>
-    </router-link>
+      <router-link :to="{ name: 'ListaMailing' }">
+        <a class="mr-auto" href="#">
+          <i class="fal fa-list-ol"></i>
+          <span data-i18n="drpdwn.settings"> Mailing</span>
+        </a>
+      </router-link>
+      <a class="ml-auto"><router-link :to="{ name: 'RegistroMailing' }"><i class="fal fa-plus-circle"></i></router-link></a>
     </div>
     <div class="dropdown-item d-flex itens">
       <router-link  to="#" class="mr-auto" >

@@ -119,63 +119,22 @@
         <div class="d-inline">
           <div class="row ">
             <div class="col-12">
-              <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="far fa-road"></i
-                ></span>
-                <select class="js-example-basic-multiple" multiple="multiple" name="states">
-                  <option disabled selected value=" ">Fila</option>
-                  <option value="AL">Fila 1000</option>
-                  <option value="WY">Fila 2000</option>
+              <div class="input-group">
+
+                <select data-placeholder="Select a state..." class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
+                    <option value="wordpress" data-icon="fal fa-road" selected="" disabled>Filas</option>
+                    <option value="codepen" data-icon="">Fila 1000</option>
+                    <option value="drupal" data-icon="">Fila 2000</option>
                 </select>
               </div>
-            </div>
-<!--            <div class="row justify-content-center">-->
-<!--              <div class="coluna">-->
-<!--            <span id="basic-addon1" class="input-group-text form-icon d-inline"-->
-<!--            ><i class="fal fa-road"></i-->
-<!--            ></span>-->
+
 <!--                <select class="js-example-basic-multiple" multiple="multiple" name="states">-->
 <!--                  <option disabled selected value=" ">Fila</option>-->
 <!--                  <option value="AL">Fila 1000</option>-->
 <!--                  <option value="WY">Fila 2000</option>-->
 <!--                </select>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="col-4">-->
-<!--              <div class="d-inline">-->
-<!--                <div class="input-group mb-3">-->
-<!--                  <span id="basic-addon1" class="input-group-text form-icon"-->
-<!--                  ><i class="fal fa-at"></i-->
-<!--                  ></span>-->
-<!--                  <input-->
-<!--                      v-model.lazy="usuario.email"-->
-<!--                      aria-describedby="basic-addon1"-->
-<!--                      aria-label="Username"-->
-<!--                      class="form-control"-->
-<!--                      placeholder="Email"-->
-<!--                      type="email"-->
-<!--                  />-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="col-4">-->
-<!--              <div class="input-group mb-3">-->
-<!--                <span id="basic-addon1" class="input-group-text form-icon"-->
-<!--                ><i class="fal fa-user"></i-->
-<!--                ></span>-->
-<!--                <input-->
-<!--                    v-model.lazy="usuario.user"-->
-<!--                    aria-describedby="basic-addon1"-->
-<!--                    aria-label="Username"-->
-<!--                    class="form-control"-->
-<!--                    maxlength="120"-->
-<!--                    minlength="3"-->
-<!--                    placeholder="Usuário"-->
-<!--                    type="text"-->
-<!--                />-->
-<!--              </div>-->
-<!--            </div>-->
+
+            </div>
           </div>
         </div>
 
@@ -280,7 +239,23 @@ export default {
         reader.readAsDataURL(file);
       });
     });
-    $('.js-example-basic-multiple').select2();
+    $(".js-select2-icons").select2(
+        {
+          minimumResultsForSearch: 1 / 0,
+          templateResult: icon,
+          templateSelection: icon,
+          escapeMarkup: function(elm)
+          {
+            return elm
+          }
+        });
+
+    function icon(elm)
+    {
+      elm.element;
+      return elm.id ? "<i class='" + $(elm.element).data("icon") + " mr-2'></i>" + elm.text : elm.text
+    }
+    // $('.js-example-basic-multiple').select2();
   },
 };
 </script>

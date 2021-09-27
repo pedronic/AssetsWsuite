@@ -54,6 +54,26 @@ const routes = [
     component: () => import( '../views/Cadastrar/RegistroOperadoras.vue')
   },
   {
+    path: '/registro-mailing',
+    name: 'RegistroMailing',
+    component: () => import( '../views/Cadastrar/RegistroMailing.vue')
+  },
+  {
+    path: '/registro-servidores',
+    name: 'RegistroServidores',
+    component: () => import( '../views/Cadastrar/RegistroServidores.vue')
+  },
+  {
+    path: '/lista-de-mailing',
+    name: 'ListaMailing',
+    component: () => import( '../views/Listas/ListaMailing.vue')
+  },
+  {
+    path: '/lista-de-servidores',
+    name: 'ListaServidores',
+    component: () => import( '../views/Listas/ListaServidores.vue')
+  },
+  {
     path: '/lista-de-operadoras',
     name: 'ListaOperadoras',
     component: () => import( '../views/Listas/ListaOperadoras.vue')

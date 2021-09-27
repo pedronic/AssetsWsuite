@@ -89,11 +89,13 @@
       <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
+      <router-link :to="{ name: 'ListaServidores' }">
       <a class="mr-auto" href="#">
         <i class="fal fa-server"></i>
         <span data-i18n="drpdwn.settings"> Servidores</span>
       </a>
-      <a class="ml-auto"><i class="fal fa-plus-circle"></i></a>
+      </router-link>
+      <a class="ml-auto"><router-link :to="{ name: 'RegistroServidores' }"><i class="fal fa-plus-circle"></i></router-link></a>
     </div>
   </div>
 </template>

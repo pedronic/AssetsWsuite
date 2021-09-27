@@ -39,7 +39,7 @@
           <label class="form-check-label" for="inlineCheckbox2">LDI</label>
         </div>
       </template>
-      <template #cell(ação)>
+      <template #cell(acao)>
         <router-link :to="{ name: 'RegistroOperadoras' }">
           <i class="fal fa-pencil d-inline"></i>
         </router-link>
@@ -81,9 +81,10 @@ export default {
           sortable: false,
         },
         {
-          key: 'Ação',
+          key: 'acao',
           label: 'Ação',
-          sortable: false
+          sortable: false,
+          thStyle: 'width: 4%;'
         },
       ],
       items: [

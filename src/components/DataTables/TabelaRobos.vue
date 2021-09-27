@@ -15,10 +15,10 @@
       "
     >
       <template #cell(status)>
-        <b-form-checkbox v-model="checked" name="check-button" switch disabled>
+        <b-form-checkbox v-model="checked" class="ml-1" name="check-button" switch disabled>
         </b-form-checkbox>
       </template>
-      <template #cell(ação)>
+      <template #cell(acao)>
         <router-link :to="{ name: 'RegistroAgentes' }">
           <i class="fal fa-pencil d-inline"></i>
         </router-link>
@@ -53,8 +53,18 @@ export default {
           label: "Login em",
           sortable: true,
         },
-        "status",
-        "ação",
+        {
+          key: "status",
+          label: "Status",
+          sortable: false,
+          thStyle: 'width: 5%;'
+        },
+        {
+          key: "acao",
+          label: "Ação",
+          sortable: false,
+          thStyle: 'width: 4%;'
+        },
       ],
       items: [
         { Login: "Dickerson", nome: "Macdonald" },

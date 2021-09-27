@@ -14,7 +14,7 @@
       "
     >
       <template #cell(status)>
-        <b-form-checkbox v-model="checked" name="check-button" switch disabled>
+        <b-form-checkbox v-model="checked" name="check-button" class="ml-1" switch disabled>
         </b-form-checkbox>
       </template>
       <template #cell(ação)>
@@ -57,11 +57,13 @@ export default {
             key: 'Status',
             label: 'Status',
             sortable: false,
+            thStyle: 'width: 5%;'
           },
           {
             key: 'Ação',
             label: 'Ação',
-            sortable: false
+            sortable: false,
+            thStyle: 'width: 4%;'
           },
             ],
         items: [
@@ -84,6 +86,7 @@ export default {
 </script>
 
 <style>
+
     .table thead{
         background-color: #0d6d9d;
         color:#fff;

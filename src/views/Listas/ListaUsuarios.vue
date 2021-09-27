@@ -22,9 +22,8 @@
                 </div>
 
                 <div class="col-2 col-botoes">
-                  <button class="btn btn-info waves-effect waves-themed"  type="submit"><i
+                  <button class="btn btn-info waves-effect waves-themed " type="submit"><i
                       class="fal fa-search"></i></button>
-
                 </div>
                 <div class="col-1 col-inputs mr-4">
                   <div
@@ -178,25 +177,7 @@ export default {
 </script>
 
 <style >
-/*.socorro {*/
-/*  display: flex;*/
-/*  justify-content: end;*/
-/*}*/
-/*.ajuda {*/
-/*  align-items: flex-end;*/
-/*}*/
-/*.bar {*/
-/*  width: 955.5px !important;*/
-/*}*/
-/*.title {*/
-/*  font-family: Arial, Helvetica, sans-serif;*/
-/*  text-transform: uppercase;*/
-/*  margin-left: 30px;*/
-/*  margin-top: 15px;*/
-/*}*/
-/*.register-form {*/
-/*  margin: 50px 65px 40px;*/
-/*}*/
+
 .panel-content{
     overflow: auto;
 }

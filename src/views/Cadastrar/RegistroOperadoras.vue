@@ -458,21 +458,6 @@
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
                 <label class="form-check-label" for="inlineCheckbox2">LDI</label>
               </div>
-<!--            <b-form-group v-slot="{ ariaDescribedby }">-->
-<!--              <b-form-checkbox-group-->
-<!--                  id="checkbox-group-2"-->
-<!--                  v-model="selected"-->
-<!--                  name="flavour-2"-->
-<!--                  :aria-describedby="ariaDescribedby"-->
-<!--              >-->
-<!--                <b-form-checkbox value="Local">Local</b-form-checkbox>-->
-<!--                <b-form-checkbox value="LDN">LDN</b-form-checkbox>-->
-<!--                <b-form-checkbox value="VC1">VC1</b-form-checkbox>-->
-<!--                <b-form-checkbox value="VC2">VC2</b-form-checkbox>-->
-<!--                <b-form-checkbox value="VC3">VC3</b-form-checkbox>-->
-<!--                <b-form-checkbox value="LDI">LDI</b-form-checkbox>-->
-<!--              </b-form-checkbox-group>-->
-<!--            </b-form-group>-->
             </div>
           </div>
           <b-row>

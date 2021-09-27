@@ -1,6 +1,6 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader titulo="Lista de Operadoras" icon="fal fa-list" >
+    <PagesSubHeader titulo="Lista de operadoras" icon="fal fa-list" >
       <div class="card">
         <div class="card-body"/>
       </div>
