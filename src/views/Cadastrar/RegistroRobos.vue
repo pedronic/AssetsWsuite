@@ -13,7 +13,7 @@
               <div class="col-4">
                 <div class="input-group mb-3">
                 <span class="input-group-text form-icon" id="basic-addon1"
-                ><i class="far fa-ad"></i
+                ><i class="fal fa-ad"></i
                 ></span>
                   <input
                       type="text"

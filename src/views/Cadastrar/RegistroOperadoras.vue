@@ -13,7 +13,7 @@
               <div class="col-8">
                 <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="far fa-ad"></i
+                ><i class="fal fa-ad"></i
                 ></span>
                   <input
                       aria-describedby="basic-addon1"
@@ -147,7 +147,7 @@
               <div class="col-6">
                 <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="far fa-ad"></i
+                ><i class="fal fa-ad"></i
                 ></span>
                   <input
                       aria-describedby="basic-addon1"
@@ -183,7 +183,7 @@
               <div class="col-12">
                 <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="far fa-ad"></i
+                ><i class="fal fa-ad"></i
                 ></span>
                   <textarea class="form-control" placeholder="Formato de discagem" aria-label="With textarea"></textarea>
                 </div>
@@ -365,7 +365,7 @@
               <div class="col-6">
                 <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="far fa-code"></i
+                ><i class="fal fa-code"></i
                 ></span>
                   <input
                       aria-describedby="basic-addon1"
@@ -401,7 +401,7 @@
               <div class="col-6">
                 <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="far fa-code"></i
+                ><i class="fal fa-code"></i
                 ></span>
                   <input
                       aria-describedby="basic-addon1"

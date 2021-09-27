@@ -13,7 +13,7 @@
             <div class="col-4">
               <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="far fa-ad"></i
+                ><i class="fal fa-ad"></i
                 ></span>
                 <input
                     v-model.lazy="usuario.nome"
