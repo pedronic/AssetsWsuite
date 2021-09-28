@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header>
+        <b-table id="tabela-de-pausas" ref="tabela-de-pausas" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header>
             <template v-slot:head(pausa)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -50,25 +50,29 @@
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" value="true" unchecked-value="false" switch disabled/>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-button :id="(slot.item.pausa)+'_edit'" v-html="editIcon" class="edit-btn" variant="outline" v-b-modal="slot.item.pausa + '_edit'"/>                
+                <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'" @mousedown="showEdit($event,slot.item)" v-html="editIcon"/>
                 <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'"/>
             </template>                
         </b-table>
 <!-- ---------------------------------------------------- -->
         <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
         <div v-for="i in filas" :key="i.pausa+'_edit'">
-            <!-- <b-modal 
-            :id="i.pausa+'_edit'"
-            title="Editar pausas..."
+            <b-modal 
+            :id="i.pausa+'_edit_modal'"
+            :ref="i.pausa+'_edit_modal'"
+            title="Editar Pausa"
             size="xl"
             :hide-header-close="false"
             :no-close-on-backdrop="false"
             :no-close-on-esc="false"
-            
+            :lazy="true"
             ok-title="SALVAR"
             ok-variant="info" 
             cancel-title="CANCELAR" 
-            cancel-variant="danger">
+            cancel-variant="danger"
+            @ok="updateRow($event,i)"
+            v-if="modalData"
+            >
                 <b-container fluid>
                     <b-col cols="14">
                         <b-row>
@@ -96,39 +100,37 @@
                         </b-row>
                         <b-row>
                             <b-col cols="4" class="pausa-body-container">
-                                <b-form-input v-model="newRowInput.pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
+                                <b-form-input v-model="editRowInput.pausa" :id="i.pausa+'_edit_row_pausa'" type="text" @input="inputTest" />
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
-                                <b-form-checkbox v-model="pivotRow[0].produtiva" :id="'new_row_produtiva'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="editRowInput.produtiva" :id="i.pausa+'_edit_row_produtiva'" value="true" unchecked-value="false" />
                             </b-col>
                             <b-col cols="2" class="obrigatoria-body-container" >
-                                <b-form-checkbox v-model="pivotRow[0].obrigatoria" :id="'new_row_obrigatoria'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="editRowInput.obrigatoria" :id="i.pausa+'_edit_row_obrigatoria'" value="true" unchecked-value="false"/>
                             </b-col>
                             <b-col cols="1" class="alerta-body-container">
-                                <b-form-input v-model="pivotRow[0].alerta" :id="'new_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                                <b-form-input v-model="editRowInput.alerta" :id="i.pausa+'_edit_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
-                            <b-col cols="1" class="limite-body-container">
-                                <b-form-input v-model="pivotRow[0].limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                            <b-col cols="1" class="limite-body-container">  
+                                <b-form-input v-model="editRowInput.limite" :id="i.pausa+'_edit_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
-                                <b-form-select v-model="pivotRow[0].icone" :id="'new_row_icone'" :select-size="4">
-                                    <b-form-select-option v-for="i in icons" :key="i.value">
-                                        <span :id="i.value" v-html="i.html"/>
+                                <b-form-select v-model="editRowInput.icone" :id="i.pausa+'_edit_row_icone'" :select-size="4">
+                                    <b-form-select-option v-for="j in icons" :key="j.value">
+                                        <span :id="j.value" v-html="j.html"/>
                                     </b-form-select-option>
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
-                                <b-form-checkbox v-model="pivotRow[0].ativa" :id="'new_row_ativa'" value="true" unchecked-value="false" switch />
-                            </b-col>
+                                <b-form-checkbox v-model="editRowInput.ativa" :id="i.pausa+'_edit_row_ativa'" value="true" unchecked-value="false" switch />
+                            </b-col> 
                         </b-row>
                     </b-col>
                 </b-container>
-            </b-modal> -->
-        <!-- </div> -->
+            </b-modal>
         <!-- MODAL PARA Edição DE LINHA (FIM) -->
 <!-- ---------------------------------------------------- -->
         <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
-        <!-- <div v-for="i in filas" :key="i.pausa"> -->
             <b-modal 
                 :id="i.pausa+'_delete'" 
                 title="ATENÇÃO!!!"
@@ -205,9 +207,6 @@
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
                                 <b-form-select v-model="newRowInput.icone" :id="'new_row_icone'" :select-size="4" :options="icons">
-                                    <!-- <b-form-select-option v-for="i in icons" :key="i.value">
-                                        <span :id="i.value" v-html="i.html"/> -->
-                                    <!-- </b-form-select-option> -->
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
@@ -298,7 +297,7 @@ export default {
     props:{
         items: Array,
     },
-    methods: {        
+    methods: {
         deleteRow(ev){
             this.filas.splice(this.pausas.indexOf(ev.target.id),1);
         },
@@ -311,7 +310,6 @@ export default {
             console.log(JSON.stringify(this.filas[this.filas.length - 1]))
             console.log(JSON.stringify(this.newRowInput))
             console.log((JSON.stringify(this.filas[this.filas.length - 1]) !== JSON.stringify(this.newRowInput)))
-            // if(JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0])){
             if (this.okays == 0){
                 console.log("Filas ok:")
                 console.log(this.filas)
@@ -346,17 +344,66 @@ export default {
                 this.newRowInput = {...this.newRowDefault}
                 this.okays = 0;
             }
-            console.log("filas: \n",this.filas)
+            console.log("filas: \n",this.filas);
+        },
+        showEdit(ev,i){
+            console.log("Show Test")
+            console.log(i)
+            // this.editRowInput = {...i};
+            console.log('Edit Row on ShowEdit():\n',this.editRowInput);
+            setTimeout(this.populateEditLine(i),3000);
+        },
+        populateEditLine(row){
+            // console.log(e.target.id)
+            // let s = e.target.id.slice(0,e.target.id.indexOf(e.target.id.match("[_]")));
+            console.log("Row item:\n",row);
+            console.log("Row Pausa:\t",row.pausa)
+            // this.editRowInput = Object.assign({},this.filas[this.pausas.indexOf(s)]);
+            // this.editRowInput = this.filas[this.pausas.indexOf(s)];
+            // this.newRowInput = this.filas[this.pausas.indexOf(s)];
+            this.editRowInput = {...row};
+            // this.newRowInput = this.editRowInput;
+            console.log("editRowInput @populateEditLine:\n",this.editRowInput)
+            // let s = row.pausa+'_edit_modal'
+            // let b = row.pausa+'_edit'
+            // this.$root.$emit('bv::show::modal',s,b)
+            // this.fillLine(e)
+            if (JSON.stringify(this.editRowInput) === JSON.stringify(row)) this.modalData = true;
+        },
+        updateRow(ev,row){
+            console.log("Close Edit Event:\n",ev)
+            this.editRowInput.pausa = this.editRowInput.pausa.trim();
+            this.filas[this.pausas.indexOf(row.pausa)] = Object.assign(this.editRowInput);
+            console.log("Filas atualizadas (???):\n",this.filas);
+            this.pausas.splice(this.pausas.indexOf(row.pausa),1, this.editRowInput.pausa);
+            console.log("Pausas atualizada:\n",this.pausas)
+            if (JSON.stringify(this.editRowInput) === JSON.stringify(this.filas[this.pausas.indexOf(row.pausa)])) this.closeEdit();
+            // else this.updateRow(ev,row);
+        },
+        closeEdit(){
+            console.log("tudo certo nada resolvido ainda...")
+            this.editRowInput = Object.assign(this.newRowDefault);
+            console.log(this.editRowInput)
+            console.log(this.filas)
+            this.modalData = false;
         }
     },
+    // watch:{
+    //     files (){
+
+    //     } 
+    // },
     created(){
         this.newRowDefault = {...defaultRow};
         this.newRowInput = Object.assign({},this.newRowDefault);
+        this.editRowInput = Object.assign({},this.newRowDefault);
+        // this.editRowInput = this.filas;
     },
     data(){
         return {
             filas: this.items.slice(1,this.items.length),
             okays: 0,
+            modalData: false,
             editIcon: '<span class="fal fa-pencil"/>',
             deleteIcon: '<span class="fal fa-trash-alt"/>',
             pausas: this.items[0].pausas,
@@ -436,6 +483,10 @@ export default {
 </script>
 
 <style>
+span.fal{
+    pointer-events: none;
+}
+
 .add-btn>i, .edit-btn>i{
     padding: 0px !important;
     border-width: 0px 1px !important;
