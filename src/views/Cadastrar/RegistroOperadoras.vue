@@ -58,7 +58,7 @@
                         aria-label="Username"
                         class="form-control"
                         placeholder="IP"
-                        type="password"
+                        type="text"
                     />
                   </div>
                 </div>
@@ -267,7 +267,7 @@
                         aria-label="Username"
                         class="form-control"
                         placeholder="Lastms"
-                        type="password"
+                        type="text"
                     />
                   </div>
                 </div>

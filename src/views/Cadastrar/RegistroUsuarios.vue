@@ -121,7 +121,7 @@
             <div class="col-12">
               <div class="input-group">
 
-                <select data-placeholder="Select a state..." class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
+                <select data-placeholder="Fila" class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
                     <option value="wordpress" data-icon="fal fa-road" selected="" disabled>Filas</option>
                     <option value="codepen" data-icon="">Fila 1000</option>
                     <option value="drupal" data-icon="">Fila 2000</option>

@@ -59,21 +59,6 @@
         </div>
       </form>
     </PagesSubHeader>
-    <!--     <form class="container">-->
-    <!--       <div class="form-group">-->
-    <!--         <div class="row">-->
-    <!--           <div class="col-4 col-inputs">-->
-
-    <!--           </div>-->
-
-
-    <!--         </div>-->
-    <!--       </div>-->
-    <!--     </form>-->
-<!--    <h2 class="title"> {{ msg }}</h2>-->
-
-    <!-- <div class="socorro ajuda"> -->
-
 
     <div class="panel ">
       <div class="panel-container show">
@@ -127,18 +112,14 @@ export default {
 </script>
 
 <style>
-/*.socorro {*/
-/*  display: flex;*/
-/*  justify-content: end;*/
-/*}*/
-
-/*.ajuda {*/
-/*  align-items: flex-end;*/
-/*}*/
-
-/*.bar {*/
-/*  width: 33.333333% !important;*/
-/*}*/
+.col-botoes{
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+}
+.col-inputs{
+  padding-left: 3px !important;
+  padding-right: 10px !important;
+}
 
 .title {
   font-family: Arial, Helvetica, sans-serif;

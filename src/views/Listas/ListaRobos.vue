@@ -49,7 +49,7 @@
 
             </div>
             <div class="col-1 col-botoes">
-              <router-link :to="{ name: 'RegistroAgentes' }">
+              <router-link :to="{ name: 'RegistroRobos' }">
                 <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
                         type="submit"><i class="fal fa-plus"></i></button>
               </router-link>
@@ -59,21 +59,6 @@
         </div>
       </form>
     </PagesSubHeader>
-    <!--     <form class="container">-->
-    <!--       <div class="form-group">-->
-    <!--         <div class="row">-->
-    <!--           <div class="col-4 col-inputs">-->
-
-    <!--           </div>-->
-
-
-    <!--         </div>-->
-    <!--       </div>-->
-    <!--     </form>-->
-<!--    <h2 class="title"> {{ msg }}</h2>-->
-
-    <!-- <div class="socorro ajuda"> -->
-
 
     <div class="panel ">
       <div class="panel-container show">
@@ -127,7 +112,14 @@ export default {
 </script>
 
 <style>
-
+.col-botoes{
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+}
+.col-inputs{
+  padding-left: 3px !important;
+  padding-right: 10px !important;
+}
 .panel-content {
   overflow: auto;
 }

@@ -16,30 +16,24 @@
     <div class="dropdown-divider m-0"></div>
     <div class="dropdown-item d-flex itens">
       <router-link :to="{ name: 'ListaUsuarios' }">
-        <a class="mr-auto" href="#">
           <i class="fal fa-user-friends"></i>
           <span data-i18n="drpdwn.settings"> Usuários</span>
-        </a>
       </router-link>
-      <a class="ml-auto" href="#">
+          <a class="ml-auto" href="#">
         <router-link :to="{ name: 'RegistroUsuarios' }">
           <i class="fal fa-plus-circle"></i>
         </router-link>
-      </a>
+          </a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <a class="mr-auto" href="#">
         <i class="fal fa-briefcase"></i>
         <span data-i18n="drpdwn.settings"> Perfil de Usuários</span>
-      </a>
       <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
       <router-link :to="{ name: 'ListaAgentes' }">
-        <a class="mr-auto" href="#">
           <i class="fal fa-user-headset"></i>
           <span data-i18n="drpdwn.settings"> Agentes</span>
-        </a>
       </router-link>
       <a class="ml-auto" href="#">
         <router-link :to="{ name: 'RegistroAgentes' }">
@@ -48,18 +42,14 @@
       </a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <a class="mr-auto" href="#">
         <i class="fal fa-alarm-exclamation"></i>
         <span data-i18n="drpdwn.settings"> Pausas</span>
-      </a>
       <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
       <router-link :to="{ name: 'ListaRobos' }">
-      <a class="mr-auto" href="#">
         <i class="fal fa-user-robot"></i>
         <span data-i18n="drpdwn.settings"> Robos</span>
-      </a>
       </router-link>
 
       <a class="ml-auto" href="#"><router-link :to="{ name: 'RegistroRobos' }"><i class="fal fa-plus-circle"></i></router-link></a>
@@ -67,33 +57,25 @@
     </div>
     <div class="dropdown-item d-flex itens">
       <router-link :to="{ name: 'ListaOperadoras' }">
-      <a class="mr-auto" href="#">
         <i class="fal fa-sim-card"></i>
         <span data-i18n="drpdwn.settings"> Operadoras</span>
-      </a>
       </router-link>
       <a class="ml-auto" href="#"><router-link :to="{ name: 'RegistroOperadoras' }"><i class="fal fa-plus-circle"></i></router-link></a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <a class="mr-auto" href="#">
         <i class="fal fa-route"></i>
         <span data-i18n="drpdwn.settings"> Rotas</span>
-      </a>
       <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <a class="mr-auto" href="#">
         <i class="fal fa-road"></i>
         <span data-i18n="drpdwn.settings"> Filas</span>
-      </a>
       <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
       <router-link :to="{ name: 'ListaServidores' }">
-      <a class="mr-auto" href="#">
         <i class="fal fa-server"></i>
         <span data-i18n="drpdwn.settings"> Servidores</span>
-      </a>
       </router-link>
       <a class="ml-auto"><router-link :to="{ name: 'RegistroServidores' }"><i class="fal fa-plus-circle"></i></router-link></a>
     </div>

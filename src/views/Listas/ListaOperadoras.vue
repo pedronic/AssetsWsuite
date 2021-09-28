@@ -112,25 +112,14 @@ export default {
 </script>
 
 <style >
-/*.socorro {*/
-/*  display: flex;*/
-/*  justify-content: end;*/
-/*}*/
-/*.ajuda {*/
-/*  align-items: flex-end;*/
-/*}*/
-/*.bar {*/
-/*  width: 955.5px !important;*/
-/*}*/
-/*.title {*/
-/*  font-family: Arial, Helvetica, sans-serif;*/
-/*  text-transform: uppercase;*/
-/*  margin-left: 30px;*/
-/*  margin-top: 15px;*/
-/*}*/
-/*.register-form {*/
-/*  margin: 50px 65px 40px;*/
-/*}*/
+.col-botoes{
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+}
+.col-inputs{
+  padding-left: 3px !important;
+  padding-right: 10px !important;
+}
 .panel-content{
   overflow: auto;
 }

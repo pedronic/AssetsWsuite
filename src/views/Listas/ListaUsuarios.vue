@@ -58,7 +58,6 @@
             </div>
           </form>
         </PagesSubHeader>
-<!--    <h2 class="title"> {{ msg }}</h2>      -->
 
         <div class="panel ">
             <div class="panel-container show">
@@ -67,72 +66,7 @@
                 </div>
             </div>
         </div>
-        <!-- <table class="table table-hover">
-          <thead>
-            <tr class="thead-dark">
-              <th scope="col">Usuário</th>
-              <th scope="col">Nome</th>
-              <th scope="col">E-mail</th>
-              <th scope="col">Perfil</th>
-              <th scope="col">Status</th>
-              <th scope="col">Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Exemplo</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <div class="custom-control custom-switch">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="customSwitch3"
-                    disabled
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="customSwitch3"
-                  ></label>
-                </div>
-              </td>
-              <td>
-                <router-link :to="{ name: 'Registro' }">
-                <i class="fal fa-pencil d-inline"></i>
-                </router-link>
-                <i class="fal fa-trash-alt d-inline ml-2"></i>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Outro Exemplo</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <div class="custom-control custom-switch">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="customSwitch2"
-                    disabled
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="customSwitch2"
-                  ></label>
-                </div>
-              </td>
-              <td>
-                <router-link :to="{ name: 'Registro' }">
-                <i class="fal fa-pencil d-inline"></i>
-                </router-link>
-                <i class="fal fa-trash-alt d-inline ml-2"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table> -->
+
     </div>
 </template>
 
@@ -177,7 +111,14 @@ export default {
 </script>
 
 <style >
-
+.col-botoes{
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+}
+.col-inputs{
+  padding-left: 3px !important;
+  padding-right: 10px !important;
+}
 .panel-content{
     overflow: auto;
 }
