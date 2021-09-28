@@ -57,7 +57,7 @@
 <!-- ---------------------------------------------------- -->
         <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
         <div v-for="i in filas" :key="i.pausa+'_edit'">
-            <b-modal 
+            <!-- <b-modal 
             :id="i.pausa+'_edit'"
             title="Editar pausas..."
             size="xl"
@@ -96,7 +96,7 @@
                         </b-row>
                         <b-row>
                             <b-col cols="4" class="pausa-body-container">
-                                <b-form-input v-model="pivotRow[0].pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
+                                <b-form-input v-model="newRowInput.pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
                                 <b-form-checkbox v-model="pivotRow[0].produtiva" :id="'new_row_produtiva'" value="true" unchecked-value="false"/>
@@ -123,7 +123,7 @@
                         </b-row>
                     </b-col>
                 </b-container>
-            </b-modal>
+            </b-modal> -->
         <!-- </div> -->
         <!-- MODAL PARA Edição DE LINHA (FIM) -->
 <!-- ---------------------------------------------------- -->
@@ -189,29 +189,29 @@
                         </b-row>
                         <b-row>
                             <b-col cols="4" class="pausa-body-container">
-                                <b-form-input v-model="pivotRow[0].pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
+                                <b-form-input v-model="newRowInput.pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
-                                <b-form-checkbox v-model="pivotRow[0].produtiva" :id="'new_row_produtiva'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="newRowInput.produtiva" :id="'new_row_produtiva'" value="true" unchecked-value="false"/>
                             </b-col>
                             <b-col cols="2" class="obrigatoria-body-container" >
-                                <b-form-checkbox v-model="pivotRow[0].obrigatoria" :id="'new_row_obrigatoria'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="newRowInput.obrigatoria" :id="'new_row_obrigatoria'" value="true" unchecked-value="false"/>
                             </b-col>
                             <b-col cols="1" class="alerta-body-container">
-                                <b-form-input v-model="pivotRow[0].alerta" :id="'new_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                                <b-form-input v-model="newRowInput.alerta" :id="'new_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="limite-body-container">
-                                <b-form-input v-model="pivotRow[0].limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                                <b-form-input v-model="newRowInput.limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
-                                <b-form-select v-model="pivotRow[0].icone" :id="'new_row_icone'" :select-size="4" :options="icons">
+                                <b-form-select v-model="newRowInput.icone" :id="'new_row_icone'" :select-size="4" :options="icons">
                                     <!-- <b-form-select-option v-for="i in icons" :key="i.value">
                                         <span :id="i.value" v-html="i.html"/> -->
                                     <!-- </b-form-select-option> -->
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
-                                <b-form-checkbox v-model="pivotRow[0].ativa" :id="'new_row_ativa'" value="true" unchecked-value="false" switch />
+                                <b-form-checkbox v-model="newRowInput.ativa" :id="'new_row_ativa'" value="true" unchecked-value="false" switch />
                             </b-col>
                         </b-row>
                     </b-col>
@@ -282,8 +282,7 @@
 </template>
 
 <script>
-const defaultRow = [
-                {
+const defaultRow = {
                     pausa:'',
                     produtiva: false,
                     obrigatoria: false,
@@ -292,8 +291,7 @@ const defaultRow = [
                     icone: '',
                     ativa: true,
                     add: '<span class="fal fa-trash-alt"/>',
-                }
-            ];
+                };
 
 export default {
     name:'TabelaPausas',
@@ -306,56 +304,54 @@ export default {
         },
         inputTest(){
             console.log("Editing New Row Input....")
-            console.log(this.pivotRow[0].pausa)
+            console.log(this.newRowInput.pausa)
         },
         okayFunc(){
             console.log('OK')
-            console.log(JSON.stringify(this.pivotRow[0]))
-            console.log(JSON.stringify(this.newRowInput[0]))
-            console.log((JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0])))
+            console.log(JSON.stringify(this.filas[this.filas.length - 1]))
+            console.log(JSON.stringify(this.newRowInput))
+            console.log((JSON.stringify(this.filas[this.filas.length - 1]) !== JSON.stringify(this.newRowInput)))
             // if(JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0])){
             if (this.okays == 0){
-                console.log("Pivot Row:")
-                console.log(this.pivotRow)
+                console.log("Filas ok:")
+                console.log(this.filas)
                 console.log("New Row Input:")
                 console.log(this.newRowInput)
                 this.okays = 1;
             }
         },
         addNewRow(){
-            // const sub = [];
-            // sub.push(this.newRowInput);
             if (this.okays>0){
                 console.log("ADD NEW ROW")
-                this.filas.push(this.pivotRow.slice(0,1)[0]);
-                this.pausas.push(this.pivotRow.slice(0,1)[0].pausa);
-                console.log(this.pausas)
-                console.log(this.filas)
+                this.filas.push(Object.assign({},this.newRowInput));
+                let sub = JSON.stringify(Object.assign(this.newRowInput.pausa.toString()));
+                this.pausas.push(sub.slice(1,sub.length - 1));
+                console.log("Pausas: \n",this.pausas)
+                console.log("Filas: \n",this.filas)
                 this.okays = -1;
             }
-            console.log(this.newRowInput[0])
-            // console.log(sub.)
-            console.log(this.pivotRow)
+            console.log(this.newRowInput)
+            console.log(this.filas)
+            this.clearNewRow();
         },
         clearNewRow(){
             console.log("Clear???")
-            console.log(JSON.stringify(this.pivotRow[0]))
-            console.log(JSON.stringify(this.newRowInput[0]))
-            console.log((JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0])))
+            console.log(JSON.stringify(this.filas[this.filas.length - 1]))
+            console.log(JSON.stringify(this.newRowInput))
+            console.log((JSON.stringify(this.filas[this.filas.length - 1]) !== JSON.stringify(this.newRowInput)))
             console.log((this.okays<0))
 
-            if ((this.okays<0) || (JSON.stringify(this.pivotRow[0]) !== JSON.stringify(this.newRowInput[0]))){
+            if ((this.okays<0) || (JSON.stringify(this.newRowDefault) !== JSON.stringify(this.newRowInput))){
                 console.log("Clear on Button")
-                const sub2 = this.newRowInput.slice();
-                console.log("Sub 2: \n", sub2)
-                this.pivotRow.splice(0,0,sub2.pop());
+                this.newRowInput = {...this.newRowDefault}
                 this.okays = 0;
             }
-            console.log("pivotRow: \n",this.pivotRow)
+            console.log("filas: \n",this.filas)
         }
     },
     created(){
-        this.newRowInput = [...defaultRow];
+        this.newRowDefault = {...defaultRow};
+        this.newRowInput = Object.assign({},this.newRowDefault);
     },
     data(){
         return {
@@ -369,18 +365,7 @@ export default {
                     {value:'i2', html:'<span class="fal fa-plus"/>'},
                     {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
                     {value:'i4', html:'<span class="fal fa-abacus"/>'}],
-            pivotRow: [
-                {
-                    pausa:'',
-                    produtiva: false,
-                    obrigatoria: false,
-                    alerta:'',
-                    limite: '',
-                    icone: '',
-                    ativa: true,
-                    add: '<span class="fal fa-trash-alt"/>',                  
-                }
-            ],
+            pivotRow: this.filas,
             newRowFields: [
                 {
                     key:'pausa',
