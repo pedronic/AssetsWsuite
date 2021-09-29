@@ -1,6 +1,6 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-align-slash" titulo="Blacklist Mailing">
+    <PagesSubHeader icon="fal fa-list" titulo="Registros de Blacklist">
       <div class="cart">
         <div class="cart-body"/>
       </div>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed"  type="submit"><i
+              <button class="btn btn-info waves-effect waves-themed dow-color2"><i
                   class="fal fa-search"></i></button>
             </div>
             <div class="col-1 col-inputs mr-4">
@@ -76,7 +76,7 @@
           <TabelaBlacklistMailing/>
         </div>
         <div id="cadastrar" aria-labelledby="two-tab" class="tab-pane fade p-3" role="tabpanel">
-          <TabelaBlacklistMailing/>
+          <TabelaBlacklistMailing2/>
         </div>
       </div>
     </div>
@@ -84,13 +84,15 @@
 </template>
 
 <script>
-import PagesSubHeader from "../components/subheader/PagesSubHeader";
-import TabelaBlacklistMailing from "../components/DataTables/TabelaBlacklistMailing";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader";
+import TabelaBlacklistMailing from "../../components/DataTables/TabelaBlacklistMailing";
+import TabelaBlacklistMailing2 from "../../components/DataTables/TabelaBlacklistMailing2";
 
 export default {
   components: {
     PagesSubHeader,
     TabelaBlacklistMailing,
+    TabelaBlacklistMailing2
   },
   mounted() {
 
@@ -102,6 +104,9 @@ export default {
 </script>
 
 <style scoped>
+.dow-color2 {
+  background-color: rgb(13, 109, 157) !important;
+}
 
 .image-preview-input input[type=file] {
   position: absolute;

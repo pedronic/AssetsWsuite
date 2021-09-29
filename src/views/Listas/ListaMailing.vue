@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed"  type="submit"><i
+              <button class="btn btn-info waves-effect waves-themed dow-color2"  type="submit"><i
                   class="fal fa-search"></i></button>
 
             </div>
@@ -112,7 +112,11 @@ export default {
 };
 </script>
 
-<style >
+<style scoped>
+.dow-color2 {
+  background-color: rgb(13, 109, 157) !important;
+}
+
 .col-botoes{
   padding-left: 3px !important;
   padding-right: 3px !important;

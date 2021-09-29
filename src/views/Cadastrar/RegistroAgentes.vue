@@ -241,6 +241,9 @@ export default {
 };
 </script>
 <style scoped>
+.btn-default {
+  background-image: linear-gradient(to top, #e9ecef, #e9ecef);
+}
 .image-preview-input {
   position: relative;
   overflow: hidden;

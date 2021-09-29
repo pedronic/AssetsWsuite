@@ -22,13 +22,12 @@
             </div>
 
             <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed"  type="submit"><i
+              <button class="btn btn-info waves-effect waves-themed dow-color2"><i
                   class="fal fa-search"></i></button>
             </div>
             <div class="col-1 col-inputs mr-4">
               <div
                   class="
-
                                       custom-control custom-switch
                                       border border-0
                                       mt-1
@@ -112,6 +111,11 @@ export default {
 </script>
 
 <style >
+
+.dow-color2 {
+  background-color: rgb(13, 109, 157) !important;
+}
+
 .col-botoes{
   padding-left: 3px !important;
   padding-right: 3px !important;

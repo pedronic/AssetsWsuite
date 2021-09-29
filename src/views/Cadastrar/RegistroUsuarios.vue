@@ -120,20 +120,14 @@
           <div class="row ">
             <div class="col-12">
               <div class="input-group">
-
+<!--                <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
                 <select data-placeholder="Fila" class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
-                    <option value="wordpress" data-icon="fal fa-road" selected="" disabled>Filas</option>
+                    <option value="wordpress" data-icon="fal fa-road" selected disabled>Filas</option>
                     <option value="codepen" data-icon="">Fila 1000</option>
                     <option value="drupal" data-icon="">Fila 2000</option>
                 </select>
+<!--                </div>-->
               </div>
-
-<!--                <select class="js-example-basic-multiple" multiple="multiple" name="states">-->
-<!--                  <option disabled selected value=" ">Fila</option>-->
-<!--                  <option value="AL">Fila 1000</option>-->
-<!--                  <option value="WY">Fila 2000</option>-->
-<!--                </select>-->
-
             </div>
           </div>
         </div>
@@ -244,6 +238,7 @@ export default {
           minimumResultsForSearch: 1 / 0,
           templateResult: icon,
           templateSelection: icon,
+          // dropdownParent: $('#myModal'),
           escapeMarkup: function(elm)
           {
             return elm
@@ -255,11 +250,14 @@ export default {
       elm.element;
       return elm.id ? "<i class='" + $(elm.element).data("icon") + " mr-2'></i>" + elm.text : elm.text
     }
-    // $('.js-example-basic-multiple').select2();
   },
 };
+//get
 </script>
 <style scoped>
+.btn-default {
+  background-image: linear-gradient(to top, #e9ecef, #e9ecef);
+}
 
 .image-preview-input {
   position: relative;

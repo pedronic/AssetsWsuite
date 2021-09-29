@@ -1,6 +1,6 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-phone-slash" titulo="Blacklist phone">
+    <PagesSubHeader icon="fal fa-align-slash" titulo="Blacklist">
       <div class="cart">
         <div class="cart-body"/>
       </div>
@@ -297,7 +297,7 @@
 </template>
 
 <script>
-import PagesSubHeader from "../components/subheader/PagesSubHeader";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 
 export default {
   components: {

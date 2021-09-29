@@ -121,17 +121,6 @@ export default {
   padding-right: 10px !important;
 }
 
-.title {
-  font-family: Arial, Helvetica, sans-serif;
-  text-transform: uppercase;
-  margin-left: 30px;
-  margin-top: 15px;
-}
-
-/*.register-form {*/
-/*  margin: 50px 65px 40px;*/
-/*}*/
-
 .panel-content {
   overflow: auto;
 }

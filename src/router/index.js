@@ -112,20 +112,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/DashAnalitico.vue')
   },
   {
-    path: '/blacklist-phone',
-    name: 'BlacklistPhone',
+    path: '/blacklist',
+    name: 'Blacklist',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/BlacklistPhone.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Listas/Blacklist.vue')
   },
   {
-    path: '/blacklist-mailing',
-    name: 'BlacklistMailing',
+    path: '/registro-blacklist',
+    name: 'RegistroBlacklist',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/BlacklistMailing.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Cadastrar/RegistroBlacklist.vue')
   },
 ]
 
