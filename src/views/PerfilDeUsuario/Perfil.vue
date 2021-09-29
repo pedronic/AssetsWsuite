@@ -25,6 +25,9 @@ export default {
         PagesSubHeader,
         TabelaAcessoUsuario,
     },
+    props: {
+        nome:String
+    },
  
   data() {
         return {

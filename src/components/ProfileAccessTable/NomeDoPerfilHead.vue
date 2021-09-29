@@ -6,7 +6,7 @@
             <b-button variant="outline-dark" @click="showDetails()">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
-                <router-link to="/perfil-usuario">
+                <router-link :to="{path:'/perfil-usuario',params:{nome:text}}">
                     <b-button variant="outline-dark" @click="enableEditName">
                         <span class="fal fa-pencil"/>
                     </b-button>
@@ -64,8 +64,8 @@ export default {
             this.confirmDeleteModal = !this.confirmDeleteModal;
         }
     },
-    watch: {
-    },
+    // watch: {
+    // },
     data() {
         return {
             show_details:"d-none",

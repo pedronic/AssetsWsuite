@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table id="tabela-de-pausas" ref="tabela-de-pausas" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header>
+        <b-table id="tabela-de-pausas" :ref="'tabela-de-pausas'" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header>
             <template v-slot:head(pausa)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -62,17 +62,24 @@
             :ref="i.pausa+'_edit_modal'"
             title="Editar Pausa"
             size="xl"
-            :hide-header-close="false"
-            :no-close-on-backdrop="false"
-            :no-close-on-esc="false"
+            :hide-header-close="true"
+            :no-close-on-backdrop="true"
+            :no-close-on-esc="true"
             :lazy="true"
+            :ok-only="true"
             ok-title="SALVAR"
             ok-variant="info" 
-            cancel-title="CANCELAR" 
-            cancel-variant="danger"
             @ok="updateRow($event,i)"
+            @show="cancelEdit(editRowInput)"
             v-if="modalData"
             >
+            <!-- cancel-title="CANCELAR" 
+            cancel-variant="danger"
+            @ok="updateRow($event,i)"
+            @cancel="cancelEdit(editRowInput)"
+            @show="cancelEdit(editRowInput)"
+            v-if="modalData"
+            > -->
                 <b-container fluid>
                     <b-col cols="14">
                         <b-row>
@@ -100,19 +107,19 @@
                         </b-row>
                         <b-row>
                             <b-col cols="4" class="pausa-body-container">
-                                <b-form-input v-model="editRowInput.pausa" :id="i.pausa+'_edit_row_pausa'" type="text" @input="inputTest" />
+                                <b-form-input v-model="editRowInput.pausa" :presentState="i" :id="i.pausa+'_edit_row_pausa'" :ref="i.pausa+'_edit_row_pausa'" type="text" @input="inputTest" @load="inputTest2($event)"/>
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
-                                <b-form-checkbox v-model="editRowInput.produtiva" :id="i.pausa+'_edit_row_produtiva'" value="true" unchecked-value="false" />
+                                <b-form-checkbox v-model="editRowInput.produtiva" :presentState="i" :id="i.pausa+'_edit_row_produtiva'" value="true" unchecked-value="false" />
                             </b-col>
                             <b-col cols="2" class="obrigatoria-body-container" >
-                                <b-form-checkbox v-model="editRowInput.obrigatoria" :id="i.pausa+'_edit_row_obrigatoria'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="editRowInput.obrigatoria" :presentState="i" :id="i.pausa+'_edit_row_obrigatoria'" value="true" unchecked-value="false"/>
                             </b-col>
                             <b-col cols="1" class="alerta-body-container">
-                                <b-form-input v-model="editRowInput.alerta" :id="i.pausa+'_edit_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                                <b-form-input v-model="editRowInput.alerta" :presentState="i" :id="i.pausa+'_edit_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="limite-body-container">  
-                                <b-form-input v-model="editRowInput.limite" :id="i.pausa+'_edit_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                                <b-form-input v-model="editRowInput.limite" :presentState="i" :id="i.pausa+'_edit_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
                                 <b-form-select v-model="editRowInput.icone" :id="i.pausa+'_edit_row_icone'" :select-size="4">
@@ -122,7 +129,7 @@
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
-                                <b-form-checkbox v-model="editRowInput.ativa" :id="i.pausa+'_edit_row_ativa'" value="true" unchecked-value="false" switch />
+                                <b-form-checkbox v-model="editRowInput.ativa" :presentState="i" :id="i.pausa+'_edit_row_ativa'" value="true" unchecked-value="false" switch />
                             </b-col> 
                         </b-row>
                     </b-col>
@@ -200,7 +207,7 @@
                                 <b-form-checkbox v-model="newRowInput.obrigatoria" :id="'new_row_obrigatoria'" value="true" unchecked-value="false"/>
                             </b-col>
                             <b-col cols="1" class="alerta-body-container">
-                                <b-form-input v-model="newRowInput.alerta" :id="'new_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
+                                <b-form-input v-model="newRowInput.alerta" :id="'new_row_alerta'" v-mask="'##:##:##'" type="text"  ></b-form-input>
                             </b-col>
                             <b-col cols="1" class="limite-body-container">
                                 <b-form-input v-model="newRowInput.limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
@@ -299,11 +306,25 @@ export default {
     },
     methods: {
         deleteRow(ev){
-            this.filas.splice(this.pausas.indexOf(ev.target.id),1);
+            const i = ev.target.id.slice(0,ev.target.id.indexOf(ev.target.id.match("[_]")));
+            const p = this.pausas.indexOf(i);
+            console.log("target id:\t",ev.target.id);
+            console.log("p:\t",p);
+            console.log("pausas:\t",this.pausas)
+            this.filas.splice(p,1);
+            this.pausas.splice(p,1);
+            console.log("pausas:\t",this.pausas)
+        },
+        deleteRow2(pos){
+            this.filas.splice(pos,1);
+            this.pausas.splice(pos,1);
         },
         inputTest(){
             console.log("Editing New Row Input....")
-            console.log(this.newRowInput.pausa)
+            console.log(this.editRowInput.pausa)
+        },
+        inputTest2(ev){
+            console.log("Input load:\n",ev.target)
         },
         okayFunc(){
             console.log('OK')
@@ -347,11 +368,12 @@ export default {
             console.log("filas: \n",this.filas);
         },
         showEdit(ev,i){
-            console.log("Show Test")
+            console.log("Show Edit")
             console.log(i)
             // this.editRowInput = {...i};
             console.log('Edit Row on ShowEdit():\n',this.editRowInput);
-            setTimeout(this.populateEditLine(i),3000);
+            this.cancelEdit(this.editRowInput);
+            setTimeout(this.populateEditLine(i),1000);
         },
         populateEditLine(row){
             // console.log(e.target.id)
@@ -361,7 +383,11 @@ export default {
             // this.editRowInput = Object.assign({},this.filas[this.pausas.indexOf(s)]);
             // this.editRowInput = this.filas[this.pausas.indexOf(s)];
             // this.newRowInput = this.filas[this.pausas.indexOf(s)];
-            this.editRowInput = {...row};
+            for (let k in this.editRowInput) delete this.editRowInput[k];
+            console.log("Empty editRowInput:\n",this.editRowInput);
+            this.editRowInput = Object.assign({},row);
+                // this.cancelEdit()
+            // this.editRowInput.$forceUpdate();
             // this.newRowInput = this.editRowInput;
             console.log("editRowInput @populateEditLine:\n",this.editRowInput)
             // let s = row.pausa+'_edit_modal'
@@ -371,39 +397,65 @@ export default {
             if (JSON.stringify(this.editRowInput) === JSON.stringify(row)) this.modalData = true;
         },
         updateRow(ev,row){
-            console.log("Close Edit Event:\n",ev)
-            this.editRowInput.pausa = this.editRowInput.pausa.trim();
-            this.filas[this.pausas.indexOf(row.pausa)] = Object.assign(this.editRowInput);
+            console.log("Close Edit Event @updateRow():\n",ev)
+            
+            var p = this.pausas.indexOf(row.pausa);
+            this.editRowInput.pausa = this.editRowInput.pausa.trim();          
+            
+            console.log("Pausas antes de deletar:\n",this.pausas)
+            /* Deletando Apagando dados da Fila na posição editada */
+            this.deleteRow2(p);
+            console.log("Pausas depois de deletar:\n",this.pausas)
+            
+            /* Atualizando Fila e Pausas com dados editados */
+            this.filas.splice(p,0,{...this.editRowInput});
+            this.pausas.splice(p,0, this.editRowInput.pausa);
+            
             console.log("Filas atualizadas (???):\n",this.filas);
-            this.pausas.splice(this.pausas.indexOf(row.pausa),1, this.editRowInput.pausa);
             console.log("Pausas atualizada:\n",this.pausas)
-            if (JSON.stringify(this.editRowInput) === JSON.stringify(this.filas[this.pausas.indexOf(row.pausa)])) this.closeEdit();
-            // else this.updateRow(ev,row);
+            
+            this.closeEdit();
         },
         closeEdit(){
             console.log("tudo certo nada resolvido ainda...")
             this.editRowInput = Object.assign(this.newRowDefault);
-            console.log(this.editRowInput)
+            console.log("editRowInput @closeEdit:\n",this.editRowInput)
             console.log(this.filas)
             this.modalData = false;
+            console.log("Fim de closeEdit...")
+        },
+        cancelEdit(eri){
+            var e = eri;
+            for (let k in this.editRowInput) delete this.editRowInput[k];
+            this.editRowInput = Object.assign({},this.newRowDefault);
+            e = Object.assign({},this.newRowDefault);
+            console.log("editRowInput @cancelEdit:\n",this.editRowInput);
+            console.log("e:\n",e)
         }
     },
-    // watch:{
-    //     files (){
-
-    //     } 
-    // },
     created(){
         this.newRowDefault = {...defaultRow};
         this.newRowInput = Object.assign({},this.newRowDefault);
         this.editRowInput = Object.assign({},this.newRowDefault);
+        localStorage.setItem('__pedro-dev', JSON.stringify(this.items.slice(1,this.items.length)));
         // this.editRowInput = this.filas;
+        this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
+    },
+    watch:{
+        filas(newValue){
+            localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
+        }
+    },
+    mounted(){
+        
+        this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
     },
     data(){
         return {
-            filas: this.items.slice(1,this.items.length),
+            // filas: this.items.slice(1,this.items.length),
             okays: 0,
             modalData: false,
+            thisLine: {},
             editIcon: '<span class="fal fa-pencil"/>',
             deleteIcon: '<span class="fal fa-trash-alt"/>',
             pausas: this.items[0].pausas,

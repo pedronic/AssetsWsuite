@@ -24,7 +24,7 @@
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
             </template>
             <template v-slot:cell(view)="slot">
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
@@ -33,10 +33,10 @@
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
             </template>
             <template v-slot:cell(browse)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)" :browsable="slot.value" @click="toggleRowEnableDisable($event)"/>
+                <b-form-checkbox v-model="slot.item.browse" :ref="(slot.item.acesso)+'_browse'" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="false" :browsable="slot.value" @change="toggleRowEnableDisable(slot)"/>
             </template>
         </b-table>
     </div>    
@@ -60,9 +60,14 @@ export default {
     },
     methods: {
         toggleRowEnableDisable(ev){
+            console.log("Toggle Row Enable Disable")
             let e = ev;
             console.log(e)
-            console.log(e.target)
+            // let add = e+'_add';
+            // console.log(add)
+            // let el = this.$refs[add]
+            // console.log(el)
+            // console.log(e.target)
         }
     },
     data() {
