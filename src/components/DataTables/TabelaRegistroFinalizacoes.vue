@@ -8,82 +8,58 @@
       class="table-sm table-hover table-striped w-100 dt-responsive dtr-inline"
     >
       <template #cell(CPC)>
-        <div class="form-check form-check-inline ml-3">
+        <div class="form-check ml-3">
           <input
             class="form-check-input"
             type="checkbox"
-            disabled
+            
             id="inlineCheckbox2"
             value="option2"
           />
         </div>
       </template>
       <template #cell(CPCA)>
-        <div class="form-check form-check-inline ml-3">
+        <div class="form-check ml-3">
           <input
             class="form-check-input"
             type="checkbox"
-            disabled
-            checked
             id="inlineCheckbox2"
             value="option2"
           />
         </div>
       </template>
        <template #cell(alega_pgto)>
-        <div class="form-check form-check-inline ml-3">
+        <div class="form-check ml-3">
           <input
             class="form-check-input"
             type="checkbox"
-            disabled
+            
             id="inlineCheckbox2"
             value="option2"
           />
         </div>
       </template>
       <template #cell(promessav)>
-        <div class="form-check form-check-inline ml-3">
+        <div class="form-check ml-3">
           <input
             class="form-check-input"
             type="checkbox"
-            disabled
-            checked
             id="inlineCheckbox2"
             value="option2"
           />
         </div>
       </template>
-      <template #cell(status)>
-        <b-form-checkbox
-          v-model="checked"
-          name="check-button"
-          class="ml-1"
-          switch
-          disabled
-        >
-        </b-form-checkbox>
-      </template>
-      <template #cell(ação)>
-        <router-link :to="{ name: 'RegistroUsuarios' }">
-          <i class="fal fa-pencil d-inline"></i>
-        </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
-      </template>
+      
     </b-table>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TabelaFinalizacoes",
+  name: "TabelaRegistroFinalizacoes",
   data() {
     return {
       fields: [
-        {
-          key: "nome",
-          label: "Nome",
-          sortable: true,
-        },
         {
           key: "id",
           label: "ID",
@@ -114,27 +90,14 @@ export default {
           label: "Promessa/venda",
           sortable: false,
         },
-        {
-          key: "Status",
-          label: "Status",
-          sortable: false,
-          thStyle: "width: 5%;",
-        },
-        {
-          key: "Ação",
-          label: "Ação",
-          sortable: false,
-          thStyle: "width: 4%;",
-        },
+       
       ],
       items: [
         {
-          nome: "Exemplo",
           id: "1",
           descricao: "Teste",
         },
         {
-          nome: "Outro Exemplo",
           id: "2",
           descricao: "",
         },

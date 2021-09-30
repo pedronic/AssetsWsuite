@@ -1,6 +1,6 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-list" titulo="Registros de Blacklist">
+    <PagesSubHeader icon="fal fa-list" titulo="Blacklist">
       <div class="cart">
         <div class="cart-body"/>
       </div>

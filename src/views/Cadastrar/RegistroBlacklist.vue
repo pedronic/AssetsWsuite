@@ -1,6 +1,6 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-align-slash" titulo="Blacklist">
+    <PagesSubHeader icon="fal fa-align-slash" titulo="Cadastro blacklist">
       <div class="cart">
         <div class="cart-body"/>
       </div>
