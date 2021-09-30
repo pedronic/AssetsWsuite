@@ -99,6 +99,11 @@ const routes = [
     component: () => import('../views/Cadastrar/RegistroRobos.vue')
   },
   {
+    path:'/registro-finalizacoes',
+    name: 'RegistroFinalizacoes',
+    component: () => import('../views/Cadastrar/RegistroFinalizacoes.vue')
+  },
+  {
     path:'/lista-de-usuarios',
     name: 'ListaUsuarios',
     component: () => import('../views/Listas/ListaUsuarios.vue')

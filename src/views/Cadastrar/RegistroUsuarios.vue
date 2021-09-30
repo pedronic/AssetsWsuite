@@ -120,13 +120,11 @@
           <div class="row ">
             <div class="col-12">
               <div class="input-group">
-<!--                <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">-->
                 <select data-placeholder="Fila" class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
                     <option value="wordpress" data-icon="fal fa-road" selected disabled>Filas</option>
                     <option value="codepen" data-icon="">Fila 1000</option>
                     <option value="drupal" data-icon="">Fila 2000</option>
                 </select>
-<!--                </div>-->
               </div>
             </div>
           </div>
@@ -164,13 +162,11 @@ import Usuario from "../../domain/User/Usuario";
 // import UsuarioMetodos from "../domain/User/UsuarioMetodos";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import "jquery";
-// import Vue from 'vue'
 import "select2";
 
 export default {
   components: {
     PagesSubHeader,
-    // select2,
   },
     name: 'RegistroUsuarios',
   methods: {
