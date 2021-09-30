@@ -32,10 +32,10 @@
                 <span :id="(slot.item.pausa)+'_pausa'">{{slot.value}}</span>
             </template>
             <template v-slot:cell(produtiva)="slot" >
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" value="true" unchecked-value="false" disabled/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" :value="true" :unchecked-value="false" disabled/>
             </template>
             <template v-slot:cell(obrigatoria)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" value="true" unchecked-value="false" disabled/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" :value="true" :unchecked-value="false" disabled/>
             </template>
             <template v-slot:cell(alerta)="slot">
                 <span :id="(slot.item.pausa)+'_alerta'">{{slot.value}}</span>
@@ -47,7 +47,7 @@
                 <span :id="(slot.item.pausa)+'_icone'" v-html="slot.value" />
             </template>
             <template v-slot:cell(ativa)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" value="true" unchecked-value="false" switch disabled/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
             </template>
             <template v-slot:cell(add)="slot">
                 <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'" @mousedown="showEdit($event,slot.item)" v-html="editIcon"/>
@@ -110,10 +110,10 @@
                                 <b-form-input v-model="editRowInput.pausa" :presentState="i" :id="i.pausa+'_edit_row_pausa'" :ref="i.pausa+'_edit_row_pausa'" type="text" @input="inputTest" @load="inputTest2($event)"/>
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
-                                <b-form-checkbox v-model="editRowInput.produtiva" :presentState="i" :id="i.pausa+'_edit_row_produtiva'" value="true" unchecked-value="false" />
+                                <b-form-checkbox v-model="editRowInput.produtiva" :presentState="i" :id="i.pausa+'_edit_row_produtiva'" :value="true" :unchecked-value="false" />
                             </b-col>
                             <b-col cols="2" class="obrigatoria-body-container" >
-                                <b-form-checkbox v-model="editRowInput.obrigatoria" :presentState="i" :id="i.pausa+'_edit_row_obrigatoria'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="editRowInput.obrigatoria" :presentState="i" :id="i.pausa+'_edit_row_obrigatoria'" :value="true" :unchecked-value="false"/>
                             </b-col>
                             <b-col cols="1" class="alerta-body-container">
                                 <b-form-input v-model="editRowInput.alerta" :presentState="i" :id="i.pausa+'_edit_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
@@ -129,7 +129,7 @@
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
-                                <b-form-checkbox v-model="editRowInput.ativa" :presentState="i" :id="i.pausa+'_edit_row_ativa'" value="true" unchecked-value="false" switch />
+                                <b-form-checkbox v-model="editRowInput.ativa" :presentState="i" :id="i.pausa+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
                             </b-col> 
                         </b-row>
                     </b-col>
@@ -201,10 +201,10 @@
                                 <b-form-input v-model="newRowInput.pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
-                                <b-form-checkbox v-model="newRowInput.produtiva" :id="'new_row_produtiva'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="newRowInput.produtiva" :id="'new_row_produtiva'" :value="true" :unchecked-value="false"/>
                             </b-col>
                             <b-col cols="2" class="obrigatoria-body-container" >
-                                <b-form-checkbox v-model="newRowInput.obrigatoria" :id="'new_row_obrigatoria'" value="true" unchecked-value="false"/>
+                                <b-form-checkbox v-model="newRowInput.obrigatoria" :id="'new_row_obrigatoria'" :value="true" :unchecked-value="false"/>
                             </b-col>
                             <b-col cols="1" class="alerta-body-container">
                                 <b-form-input v-model="newRowInput.alerta" :id="'new_row_alerta'" v-mask="'##:##:##'" type="text"  ></b-form-input>
@@ -217,7 +217,7 @@
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
-                                <b-form-checkbox v-model="newRowInput.ativa" :id="'new_row_ativa'" value="true" unchecked-value="false" switch />
+                                <b-form-checkbox v-model="newRowInput.ativa" :id="'new_row_ativa'" :value="true" :unchecked-value="false" switch />
                             </b-col>
                         </b-row>
                     </b-col>
@@ -225,65 +225,6 @@
         </b-modal>
         <!-- MODAL PARA CRIAR NOVA LINHA (FIM) -->
 <!-- ---------------------------------------------------- -->
-        <!-- <b-modal 
-            id="edit_line"
-            refs="edit_line"
-            title="Editar pausas..."
-            size="xl"
-            :hide-header-close="false"
-            :no-close-on-backdrop="false"
-            :no-close-on-esc="false"
-            
-            ok-title="SALVAR"
-            ok-variant="success" 
-            cancel-title="CANCELAR" 
-            cancel-variant="danger">
-            <b-table id="editar-pausas" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="this.filas" :responsive="true" :fields="newRowFields" sticky-header>
-                <template v-slot:head(pausa)="data">
-                    <span>{{data.label}}</span>
-                </template>
-                <template v-slot:head(produtiva)="data">
-                    <span>{{data.label}}</span>
-                </template>
-                <template v-slot:head(obrigatoria)="data">
-                    <span>{{data.label}}</span>
-                </template>
-                <template v-slot:head(alerta)="data">
-                    <span>{{data.label}}</span>
-                </template>
-                <template v-slot:head(limite)="data">
-                    <span>{{data.label}}</span>
-                </template>
-                <template v-slot:head(icone)="data">
-                    <span>{{data.label}}</span>
-                </template>
-                <template v-slot:head(ativa)="data">
-                    <span>{{data.label}}</span>
-                </template>
-                
-                <template v-slot:cell(pausa)="slot">
-                    <b-form-input :id="'edit_'+(slot.item.pausa)+'_pausa'" v-model="slot.value" type="text" :disabled="false"/>
-                </template>
-                <template v-slot:cell(produtiva)="slot" >
-                    <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" value="true" unchecked-value="false" :disabled="false"/>
-                </template>
-                <template v-slot:cell(obrigatoria)="slot">
-                    <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" value="true" unchecked-value="false"/>
-                </template>
-                <template v-slot:cell(alerta)="slot">
-                    <b-form-input :id="'edit_'+(slot.item.pausa)+'_alerta'" v-model="slot.value" type="text"/>
-                </template>
-                <template v-slot:cell(limite)="slot">
-                    <b-form-input :id="'edit_'+(slot.item.pausa)+'_limite'" v-model="slot.value" type="text"/>
-                </template>
-                <template v-slot:cell(icone)="slot">
-                    <span :id="(slot.item.pausa)+'_icone'" v-html="slot.value" />
-                </template>
-                <template v-slot:cell(ativa)="slot">
-                    <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" value="true" unchecked-value="false" switch/>
-                </template>
-            </b-table>
-        </b-modal> -->
     </div>
 </template>
 
@@ -439,20 +380,20 @@ export default {
         this.editRowInput = Object.assign({},this.newRowDefault);
         localStorage.setItem('__pedro-dev', JSON.stringify(this.items.slice(1,this.items.length)));
         // this.editRowInput = this.filas;
-        this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
+        // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
     },
     watch:{
-        filas(newValue){
-            localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
-        }
+        // filas(newValue){
+        //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
+        // }
     },
     mounted(){
         
-        this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
+        // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
     },
     data(){
         return {
-            // filas: this.items.slice(1,this.items.length),
+            filas: this.items.slice(1,this.items.length),
             okays: 0,
             modalData: false,
             thisLine: {},

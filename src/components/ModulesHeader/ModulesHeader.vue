@@ -8,8 +8,12 @@
 </template>
 
 <script>
+import DropdowEditHeader from '../../components/editHeader/DropdowEditHeader.vue';
 export default {
-    name:"ModulesHeader"
+    name:"ModulesHeader",
+    components:{
+        DropdowEditHeader
+    }
 }
 </script>
 

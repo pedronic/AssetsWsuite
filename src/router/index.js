@@ -67,6 +67,11 @@ const routes = [
     name: 'Pausas',
     // replace: true,
     component: () => import('../views/Pausas/Pausas.vue')
+  },
+  {
+    path: '/grupo-de-pausas',
+    name: 'PausasGrupo',
+    component: () => import('../views/Pausas/PausasGrupo.vue')
   }
 ]
 

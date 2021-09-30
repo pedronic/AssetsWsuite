@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
-import TabelaAcessoUsuario from '@/components/ProfileAccessTable/TabelaAcessoUsuario.vue';
+import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
+import TabelaAcessoUsuario from '../../components/ProfileAccessTable/TabelaAcessoUsuario.vue';
 
 export default {
     name: "Perfil",

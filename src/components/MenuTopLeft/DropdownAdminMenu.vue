@@ -40,7 +40,7 @@
         <i class="fal fa-alarm-exclamation"></i>
         <span data-i18n="drpdwn.settings"> Pausas</span>
       </router-link>
-      <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
+      <router-link to='/grupo-de-pausas' class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
     <div class="dropdown-item d-flex itens">
       <a href="#" class="mr-auto">

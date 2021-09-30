@@ -223,7 +223,7 @@ import UserHeader from '@/components/user/UserHeader.vue';
 import NotifyHeader from '../../components/notify/NotifyHeader.vue';
 import EditButtonHeader from '../../components/editHeader/EditButtonHeader.vue';
 import MenuTopLeft from '../../components/MenuTopLeft/MenuTopLeft.vue';
-import ModulesHeader from '@/components/ModulesHeader/ModulesHeader.vue';
+import ModulesHeader from '../../components/ModulesHeader/ModulesHeader.vue';
 import PesquisaHeader from '../../components/pesquisa/PesquisaHeader.vue';
 //import PesquisaHeader from '../../components/pesquisa/PesquisaHeader.vue';
 export default {

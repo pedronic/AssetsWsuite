@@ -6,7 +6,9 @@
             </div>
         </pages-sub-header>
         <tabela-pausas :items="items"/>
-        <b-button class="botao-salvar">CRIAR GRUPO</b-button>
+        <router-link to='/grupo-de-pausas'>
+            <b-button class="botao-salvar">CRIAR GRUPO</b-button>
+        </router-link>
     </div>
 </template>
 
