@@ -24,19 +24,19 @@
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
             </template>
             <template v-slot:cell(view)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" value="true" unchecked-value="false" :disabled="isDisabled ? isDisabled : !(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" value="true" unchecked-value="false" :disabled="!(slot.item.browse)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
             </template>
             <template v-slot:cell(browse)="slot">
-                <b-form-checkbox v-model="slot.item.browse" :ref="(slot.item.acesso)+'_browse'" :id="(slot.item.acesso)+'_browse'" value="true" unchecked-value="false" :disabled="false" :browsable="slot.value" @change="toggleRowEnableDisable(slot)"/>
+                <b-form-checkbox v-model="slot.item.browse" :ref="(slot.item.acesso)+'_browse'" :id="(slot.item.acesso)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
             </template>
         </b-table>
     </div>    
@@ -48,7 +48,32 @@ export default {
     props:{
         items: Array,
         viewOnly: Boolean,
-        // browsable: Boolean,
+    },
+    created(){
+        this.isBrowseDisabled = function(){
+            if(this.viewOnly) {
+                return this.viewOnly;
+            }
+            else{
+                return false;
+            }
+        }
+        this.isDependantDisabled = function(a){
+            var idd = {};
+            if(this.viewOnly){
+                return this.viewOnly;
+            }
+            else{
+                for (let ii in this.items) {
+                    let k = this.items[ii].acesso;
+                    idd[k] = !this.items[ii].browse;
+                }
+                console.log("a:\n",a)
+                console.log("idd:\n",idd)
+                console.log("idd[a]:\n",idd[a])
+                return idd[a];
+            }
+        }
     },
     mounted: {
         state() {
@@ -59,16 +84,6 @@ export default {
         }
     },
     methods: {
-        toggleRowEnableDisable(ev){
-            console.log("Toggle Row Enable Disable")
-            let e = ev;
-            console.log(e)
-            // let add = e+'_add';
-            // console.log(add)
-            // let el = this.$refs[add]
-            // console.log(el)
-            // console.log(e.target)
-        }
     },
     data() {
         return {
@@ -118,11 +133,6 @@ export default {
 .tabela-acesso-usuario > .table.b-table > tbody > tr > [aria-colindex="1"]{
     width: 90%;
 }
-/* .table thead{
-    background-color: #0d6d9d !important;
-    color:#fff;
-    position: sticky;
-} */
 .tabela-acesso-usuario > .table.b-table.table-sm > thead > tr > [aria-sort]:not(.b-table-sort-icon-left), .tabela-acesso-usuario > .table.b-table.table-sm > tfoot > tr > [aria-sort]:not(.b-table-sort-icon-left) {
 background-position: right calc(0.3rem / 2) bottom 10px;
 padding-right: calc(0.3rem + 0.65em);
