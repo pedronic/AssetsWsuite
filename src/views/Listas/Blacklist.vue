@@ -47,7 +47,7 @@
 
             </div>
             <div class="col-1 col-botoes">
-              <router-link :to="{ name: 'RegistroServidores' }">
+              <router-link :to="{ name: 'RegistroBlacklist' }">
                 <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
                         type="submit"><i class="fal fa-plus"></i></button>
               </router-link>

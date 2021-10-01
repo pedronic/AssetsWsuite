@@ -105,7 +105,7 @@
           class="tab-pane fade p-3"
           role="tabpanel"
         >
-          <div class="card mb-g border shadow-0">
+          <div class="card mb-g border shadow-0" id="interativo">
             <div class="card-header">
               <div class="row no-gutters align-items-center">
                 <div class="col">
@@ -113,34 +113,34 @@
                 </div>
                 <div class="col d-flex">
                   <a
-                    href="javascript:void(0);"
+                    href="#"
                     class="
                       btn btn-outline-success btn-sm
                       ml-auto
                       mr-2
                       flex-shrink-0
                     "
+                    @click="putins++"
                     ><i class="fal fa-plus"></i
                   ></a>
                   <a
-                    href="javascript:void(0);"
+                    href="#"
                     class="btn btn-outline-danger btn-sm flex-shrink-0"
+                    @click="putins--"
                     ><i class="fal fa-minus"></i
-                  ></a
-                  >
+                  ></a>
                 </div>
               </div>
             </div>
-
             <div class="card-body p-0">
               <div class="row no-gutters row-grid">
                 <div class="col-12">
                   <div class="row no-gutters row-grid align-items-stretch">
                     <div class="col-md">
-                      <div class="p-3">
+                      <div class="p-2">
                         <div class="d-flex">
                           <div class="d-inline-flex flex-column">
-                            <div class="input-group mb-3">
+                            <div class="input-group">
                               <span
                                 id="basic-addon1"
                                 class="input-group-text form-icon"
@@ -155,7 +155,6 @@
                                 placeholder="Nome da finalização"
                                 type="text"
                               />
-                              
                             </div>
                           </div>
                         </div>
@@ -165,6 +164,11 @@
                 </div>
               </div>
             </div>
+            <ul class="lista-putins">
+              <li class="lista-putins-item" v-for='i of putins' :key='i'>
+                <Putin />
+              </li>
+            </ul>
           </div>
           <TabelaRegistroFinalizacoes />
           <b-row>
@@ -201,11 +205,27 @@
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 import TabelaRegistroFinalizacoes from "../../components/DataTables/TabelaRegistroFinalizacoes.vue";
+import Putin from "../../components/Putin/Putin.vue";
 
 export default {
   components: {
     PagesSubHeader,
     TabelaRegistroFinalizacoes,
+    Putin,
+  },
+  data() {
+    return {
+      putins: 0,
+    };
+  },
+
+  methods: {
+    add() {
+      var input = document.createElement("P");
+      var textnode = document.createTextNode("Water");
+      input.appendChild(textnode);
+      document.getElementById("#interativo").appendChild(input);
+    },
   },
   mounted() {
     $(document).on("click", "#close-preview", function () {
@@ -246,6 +266,14 @@ export default {
 </script>
 
 <style scoped>
+.lista-putins {
+  list-style: none;
+}
+
+.lista-putins .lista-putins-item {
+  display: inline-block;
+}
+
 .botao-salvar {
   background-color: #0d6d9dad;
 }

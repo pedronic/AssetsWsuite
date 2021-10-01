@@ -59,7 +59,7 @@
           <div class="panel ">
             <div class="panel-container show">
               <div class="panel-content">
-                <TabelaFilas/>
+                <TabelaMCDU/>
               </div>
             </div>
           </div>
@@ -93,12 +93,12 @@
 </template>
 
 <script>
-import TabelaFilas from "../../components/DataTables/TabelaFilas.vue";
+import TabelaMCDU from "../../components/DataTables/TabelaMCDU.vue";
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 
 export default {
   components: {
-    TabelaFilas,
+    TabelaMCDU,
     PagesSubHeader,
   },
   name: "RegistroScripts",
