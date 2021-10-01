@@ -6,15 +6,17 @@
             </div>
         </pages-sub-header>
         <tabela-pausas :items="items"/>
-        <router-link to='/grupo-de-pausas'>
-            <b-button class="botao-salvar">CRIAR GRUPO</b-button>
-        </router-link>
+        <b-container fluid class="salvar-container">
+            <router-link to='/grupo-de-pausas'>
+                <b-button class="botao-salvar">CRIAR GRUPO</b-button>
+            </router-link>
+        </b-container>
     </div>
 </template>
 
 <script>
 import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
-import TabelaPausas from '@/components/PauseTable/TabelaPausas.vue';
+import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
 
 export default {
     name: 'Pausas',
@@ -56,6 +58,9 @@ export default {
 </script>
 
 <style scoped>
+.salvar-container{
+    bottom: 0;
+}
 .botao-salvar{
     background-color: #0d6d9dad;
 }

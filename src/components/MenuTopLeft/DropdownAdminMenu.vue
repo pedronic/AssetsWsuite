@@ -68,7 +68,7 @@
         <i class="fal fa-road"></i>
         <span data-i18n="drpdwn.settings"> Filas</span>
       </a>
-      <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
+      <router-link to='/cadastrar-filas' class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
     <div class="dropdown-item d-flex itens">
       <a href="#" class="mr-auto">

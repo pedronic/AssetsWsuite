@@ -54,6 +54,7 @@ const routes = [
   {
     path: '/perfil-usuario',
     name: 'Perfil',
+    props: true,
     component: () => import('../views/PerfilDeUsuario/Perfil.vue')
   },
   {
@@ -72,6 +73,11 @@ const routes = [
     path: '/grupo-de-pausas',
     name: 'PausasGrupo',
     component: () => import('../views/Pausas/PausasGrupo.vue')
+  },
+  {
+    path: '/cadastrar-filas',
+    name: 'FilasCadastro',
+    component: () => import('../views/Filas/FilasCadastro.vue')
   }
 ]
 

@@ -3,7 +3,7 @@
         <pages-sub-header icon="fal fa-briefcase" titulo="Lista de Perfil">
             <div class="card">
                 <div class="card-body">
-                    <router-link to="/perfil-usuario">
+                    <router-link :to="{path:'/perfil-usuario',params:{nome:''}}" >
                         <b-btn variant="success" class="fal fa-plus" />
                     </router-link>
                 </div>
@@ -15,7 +15,7 @@
 
 <script>
 import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
-import NomeDoPerfilHead from '@/components/ProfileAccessTable/NomeDoPerfilHead.vue';
+import NomeDoPerfilHead from '../../components/ProfileAccessTable/NomeDoPerfilHead.vue';
 
 export default{
     name:"PerfilLista",

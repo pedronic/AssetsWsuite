@@ -11,7 +11,9 @@
             <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
         <tabela-acesso-usuario :items="headItems"/>
-        <b-button class="botao-salvar">SALVAR</b-button>
+        <b-container fluid class="salvar-container">
+            <b-button class="botao-salvar">SALVAR</b-button>
+        </b-container>
     </div>
 </template>
 
@@ -167,7 +169,55 @@ export default {
                     edit:false,
                     delete:false,
                     browse:true
-                }
+                },
+                {
+                    acesso:"Teste3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false,
+                    browse:true
+                },
+                {
+                    acesso:"Teste3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false,
+                    browse:true
+                },
+                {
+                    acesso:"Teste3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false,
+                    browse:true
+                },
+                {
+                    acesso:"Teste3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false,
+                    browse:true
+                },
+                {
+                    acesso:"Teste3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false,
+                    browse:true
+                },
+                {
+                    acesso:"Teste3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false,
+                    browse:true
+                },
             ],
             labels: [
                 {
@@ -191,13 +241,16 @@ export default {
                     label:"",
                 }
             ],
-            text: ''
+            text: this.nome,
         }
     }
 };
 </script>
 
 <style scoped>
+.salvar-container{
+    bottom: 0;
+}
 .head-items{
     align-content: center;
     align-items: center;

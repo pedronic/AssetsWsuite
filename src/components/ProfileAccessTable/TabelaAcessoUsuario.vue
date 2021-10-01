@@ -124,6 +124,11 @@ export default {
 </script>
 
 <style >
+.b-table-sticky-header {
+    max-height: 700px;
+    margin-bottom: 5px;
+}
+
 .profile-content {
     margin-top: 5px;
     margin-bottom: 5px;

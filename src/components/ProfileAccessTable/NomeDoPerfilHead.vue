@@ -6,7 +6,7 @@
             <b-button variant="outline-dark" @click="showDetails()">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
-                <router-link :to="{path:'/perfil-usuario',params:{nome:text}}">
+                <router-link :to="{name:'Perfil',params:{nome:this.text}}">
                     <b-button variant="outline-dark" @click="enableEditName">
                         <span class="fal fa-pencil"/>
                     </b-button>
