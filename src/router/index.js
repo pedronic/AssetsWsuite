@@ -104,6 +104,16 @@ const routes = [
     component: () => import('../views/Cadastrar/RegistroRobos.vue')
   },
   {
+    path: '/lista-de-scripts',
+    name: 'ListaScripts',
+    component: () => import( '../views/Listas/ListaScripts.vue')
+  },
+  {
+    path:'/registro-scripts',
+    name: 'RegistroScripts',
+    component: () => import('../views/Cadastrar/RegistroScripts.vue')
+  },
+  {
     path:'/registro-finalizacoes',
     name: 'RegistroFinalizacoes',
     component: () => import('../views/Cadastrar/RegistroFinalizacoes.vue')

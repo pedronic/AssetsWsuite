@@ -1,1 +1,4 @@
-precisa criar o menu de finalizações no nav?
+icone finalização e scripts
+onde cria esses ícones
+adicionar telefones (lista?)
+tabela registro finalizações > cadastrar apenas visualização?
