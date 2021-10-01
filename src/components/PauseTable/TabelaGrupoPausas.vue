@@ -119,7 +119,7 @@
                                 </b-col>
                             </b-row>
 
-                            <b-container fluid v-for="(p, index) in newRowInput.pausas" :key="newRowInput.  grupo+'_'+p" >
+                            <b-container fluid v-for="(p, index) in newRowInput.pausas" :key="newRowInput.grupo+'_'+p" >
                                <b-row :class="(index%2) == 0 ? 'grey-bg' : ''">
                                    <b-col cols="10" class="pausa-head-container">
                                        <span class="pausa-body">{{p}}</span>
