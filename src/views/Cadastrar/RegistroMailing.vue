@@ -62,31 +62,39 @@
           </div>
           <div class="d-inline">
             <div class="row justify-content-left">
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="input-group image-preview">
-                  <span class="input-group">
-                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                        <span class="glyphicon glyphicon-remove"></span> Limpar
-                    </button>
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-at"></i
-                    ></span>
-                  <input type="text" placeholder="Anexar arquivo" class="form-control image-preview-filename" disabled="disabled">
-                    <div class="btn btn-default image-preview-input">
-                        <span class="form-icon"><i class="fal fa-upload mr-1"></i>Importar</span>
-                        <span class="image-preview-input-title"></span>
-                        <input type="file" accept=".txt,.csv" name="input-file-preview"/>
-                    </div>
-                </span>
+            <div class="col-4">
+              <div class="input-group image-preview">
+                <span class="input-group">
+                  <button
+                    type="button"
+                    class="btn btn-default image-preview-clear"
+                    style="display: none"
+                  >
+                    <span class="glyphicon glyphicon-remove"></span> Limpar
+                  </button>
+                  <div class="btn btn-default image-preview-input">
+                    <span class="form-icon"><i class="fal fa-at"></i></span>
+                    <span class="image-preview-input-title"> </span>
+                    <input
+                      type="file"
+                      accept=".txt,.csv"
+                      name="input-file-preview"
+                    />
                   </div>
-                </div>
+                  <input
+                    type="text"
+                    placeholder="Anexar Arquivo"
+                    class="form-control image-preview-filename"
+                    disabled="disabled"
+                  />
+                </span>
               </div>
             </div>
           </div>
+          </div>
         <b-row>
           <b-col class="mr-auto p-3" cols="auto">
-            <button class="btn btn-dark botao-salvar" type="submit">Salvar</button>
+            <button class="btn btn-dark botao-salvar" type="submit"><i class="fal fa-upload mr-2"></i>Importar</button>
           </b-col>
           <b-col class="p-3" cols="auto">
             <div class="custom-control custom-switch">
@@ -178,6 +186,10 @@ export default {
 };
 </script>
 <style scoped>
+.btn-default {
+  background-image: linear-gradient(to top, #e9ecef, #e9ecef);
+}
+
 .image-preview-input {
   position: relative;
   overflow: hidden;

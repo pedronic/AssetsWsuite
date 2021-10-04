@@ -39,6 +39,10 @@
           <label class="form-check-label" for="inlineCheckbox2">LDI</label>
         </div>
       </template>
+      <template #cell(status)>
+        <b-form-checkbox v-model="checked" name="check-button" class="ml-1" switch disabled>
+        </b-form-checkbox>
+      </template>
       <template #cell(acao)>
         <router-link :to="{ name: 'RegistroOperadoras' }">
           <i class="fal fa-pencil d-inline"></i>
@@ -79,6 +83,12 @@ export default {
           key: 'Classes',
           label: 'Classes',
           sortable: false,
+        },
+        {
+          key: "status",
+          label: "Status",
+          sortable: false,
+          thStyle: 'width: 5%;',
         },
         {
           key: 'acao',

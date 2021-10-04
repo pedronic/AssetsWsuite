@@ -61,36 +61,39 @@
               <div class="input-group image-preview">
                 <span class="input-group">
                   <button
+                    type="button"
                     class="btn btn-default image-preview-clear"
                     style="display: none"
-                    type="button"
                   >
                     <span class="glyphicon glyphicon-remove"></span> Limpar
                   </button>
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-at"></i
-                  ></span>
-                  <input
-                    class="form-control image-preview-filename"
-                    disabled="disabled"
-                    placeholder="Anexar arquivo"
-                    type="text"
-                  />
                   <div class="btn btn-default image-preview-input">
-                    <span class="form-icon"
-                      ><i class="fal fa-upload mr-1"></i>Importar</span
-                    >
-                    <span class="image-preview-input-title"></span>
+                    <span class="form-icon"><i class="fal fa-at"></i></span>
+                    <span class="image-preview-input-title"> </span>
                     <input
+                      type="file"
                       accept=".txt,.csv"
                       name="input-file-preview"
-                      type="file"
                     />
                   </div>
+                  <input
+                    type="text"
+                    placeholder="Anexar Arquivo"
+                    class="form-control image-preview-filename"
+                    disabled="disabled"
+                  />
                 </span>
               </div>
             </div>
           </div>
+          <b-row>
+            <b-col class="mr-auto p-3" cols="auto">
+              <button class="btn btn-dark botao-salvar" type="submit">
+                <i class="fal fa-upload mr-2"></i>Importar
+              </button>
+            </b-col>
+            <b-col class="p-3" cols="auto"> </b-col>
+          </b-row>
         </div>
         <div
           id="cadastrar"
@@ -228,6 +231,14 @@
             </div>
             </div>
           </div>
+          <b-row>
+            <b-col class="mr-auto p-3" cols="auto">
+              <button class="btn btn-dark botao-salvar" type="submit">
+                <i class="fal fa-upload mr-2"></i>Importar
+              </button>
+            </b-col>
+            <b-col class="p-3" cols="auto"> </b-col>
+          </b-row>
         </div>
       </div>
     </div>
@@ -286,6 +297,14 @@ export default {
 </script>
 
 <style scoped>
+.botao-salvar {
+  background-color: #0d6d9dad;
+}
+
+.botao-salvar:hover {
+  background-color: #0d6d9d;
+}
+
 .coluna_2 {
   flex: 0 0 31.666667%;
   max-width: 31.666667%;
@@ -294,6 +313,10 @@ export default {
 .coluna {
   flex: 0 0 16.666667%;
   max-width: 7.766667%;
+}
+
+.btn-default {
+  background-image: linear-gradient(to top, #e9ecef, #e9ecef);
 }
 
 .image-preview-input {

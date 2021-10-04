@@ -1,6 +1,6 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader titulo="Lista de mailing's" icon="fal fa-list" >
+    <PagesSubHeader titulo="Lista de mailing" icon="fal fa-list" >
       <div class="card">
         <div class="card-body"/>
       </div>

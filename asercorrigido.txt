@@ -1,13 +1,11 @@
 selec2 lista usuario]
 storage
-coluna status em lista de operadoras
-corrigir botão importar
 botão de remoção com box de confirmação
-titulo é mailing
-'status' na lista de mailing
 registrar blacklist > Cadastrar > botão import, fila multiselect
 blacklist > cadastro manual > inserir coluna status
 blacklist inserir uma barra de pesquisa em cada card
 roter deve pegar todo o botão da categoria no menuTop
 validar todos os inputs 
 achar um checkbox melhor para TabelaRegistroFinalizacoes
+recuo de tela 
+definir ícones
