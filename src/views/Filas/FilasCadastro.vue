@@ -101,7 +101,7 @@
     <!-- Seção Superior da Página: FIM -->
 
     <!-- Seção Inferior da Página (TABS) -->
-        <b-container fluid>
+        <b-container fluid id="foundIt">
             <b-tabs justified>
 
                 <!-- Tab 1 {Ativa por Discador} -->
@@ -294,11 +294,11 @@
 
                 <!-- Tab 5 {Pausas} -->
                     <b-tab title="Pausas">
-                        <tabela-pausas :items="lista_de_pausas"/>
+                        <tabela-pausas :items="lista_de_pausas" class="tab-top-section-row"/>
                     </b-tab>
                 <!-- Tab 5 {Pausas}: FIM-->
 
-                <!-- Tab 6 {Agentes} --> <!-- INSERIR COMPONENTE CRIADO PELO MARCONI NA LINHA 2 -->
+                <!-- Tab 6 {Agentes} --> 
                     <b-tab title="Agentes">
                         <b-container fluid>
                             <b-col cols="12">
@@ -313,10 +313,10 @@
                                 </b-row>
                             <!-- Linha 1 {{ Agentes[12] }}: FIM -->
 
-                            <!-- Linha 2 {{ Tabela de Seleção de Agentes ```usar componente criado pelo Marconi´´´[12] }} -->
+                            <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }} -->
                                 <b-row class="tab-top-section-row">
                                     <b-col cols='12'>
-                                          <!--  <tabela-de-agentes-do-Marconi/> -->
+                                          <tabela-agentes :items="lista_de_agentes"/>
                                     </b-col>
                                 </b-row>
                             <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }}: FIM -->
@@ -347,12 +347,14 @@
 <script>
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
+import TabelaAgentes from '../../components/FilasTable/TabelaAgentes.vue';
 
 export default {
     name: "FilasCadastro",
     components: {
         PagesSubHeader,
-        TabelaPausas
+        TabelaPausas,
+        TabelaAgentes
     },
     props: {
         nome:String
@@ -434,6 +436,22 @@ export default {
                     add: '<span class="fal fa-trash-alt"/>',
                 }
             ],
+            lista_de_agentes:[
+                {
+                    selected:false,
+                    agente:"Agente 1",
+                    p0:false,
+                    p1:true,
+                    p2:false
+                },
+                {
+                    selected:false,
+                    agente:"Agente 2",
+                    p0:false,
+                    p1:false,
+                    p2:false
+                }
+            ],
             filas_tipos:[
                 // {value:null, text:"Tipo da Fila"},
                 {value:"Ativa", text:"Ativa"},
@@ -447,6 +465,21 @@ export default {
 </script>
 
 <style scoped>
+.tab-pane.active{
+    border-width: 2px !important;
+    border-color: black !important;
+}
+div.tabs>div>ul.nav.nav-tabs.nav-justified>li.nav-item>a.nav-link {
+    background-color: whitesmoke !important;
+    text-decoration: none !important;
+}
+/* .nav-link{
+    background-color: white !important;
+    text-decoration: none !important;
+} */
+/* a[target]:not(.btn){
+    text-decoration: none !important;
+} */
 .grey-bg{
     background-color: rgba(0,0,0,0.05);
 }
