@@ -2,12 +2,19 @@
   <div class="row">
     <div class="col-sm-12 faturamento">
       <b-table striped hover :items="items" :fields="fields" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline">
-    <template #cell(acao)>
-        <router-link :to="{ name: 'BlacklistPhone' }">
-          <i class="fal fa-download d-inline"></i>
-        </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
-    </template>
+        <template #cell(status)>
+        <b-form-checkbox
+          v-model="checked"
+          name="check-button"
+          class="ml-1"
+          switch
+          disabled
+        >
+        </b-form-checkbox>
+      </template>
+        <template #cell(acao)>
+          <i class="fal fa-trash-alt d-inline ml-2"></i>
+        </template>
       </b-table>
     </div>
   </div>
@@ -15,24 +22,35 @@
 
 <script>
 export default {
-  name: "TableBlacklistMailing",
+  name: "TableBlacklist2",
   data(){
     return{
       fields: [
         {
-          key: 'arquivo',
-          label: 'Arquivo',
+          key: 'DDD',
+          label: 'DDD',
           sortable: true
         },
         {
-          key: 'data_importacao',
-          label: 'Data Importação',
+          key: 'telefone',
+          label: 'Telefone',
+          sortable: false
+        },
+        {
+          key: 'data_inclusao',
+          label: 'Data Inclusão',
           sortable: false
         },
         {
           key: 'usuario',
           label: 'Usuário',
-          sortable: false
+          sortable: false,
+        },
+        {
+          key: "status",
+          label: "Status",
+          sortable: false,
+          thStyle: "width: 5%;",
         },
         {
           key: 'acao',
@@ -44,13 +62,13 @@ export default {
       ],
       items: [
         {
-          arquivo: 'exemplo.csv',
+          DDD: '11',
           data_importacao: '',
           usuario: '',
           acao: '',
         },
         {
-          arquivo: 'outro_exemplo.txt',
+          DDD: '21',
           data_importacao: '',
           usuario: '',
           acao: '',

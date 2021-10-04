@@ -2,9 +2,12 @@
   <div class="row">
     <div class="col-sm-12 faturamento">
       <b-table striped hover :items="items" :fields="fields" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline">
-        <template #cell(acao)>
-          <i class="fal fa-trash-alt d-inline ml-2"></i>
-        </template>
+    <template #cell(acao)>
+        <router-link :to="{ name: 'BlacklistPhone' }">
+          <i class="fal fa-download d-inline"></i>
+        </router-link>
+        <i class="fal fa-trash-alt d-inline ml-2"></i>
+    </template>
       </b-table>
     </div>
   </div>
@@ -12,29 +15,24 @@
 
 <script>
 export default {
-  name: "TableBlacklistMailing2",
+  name: "TableBlacklist",
   data(){
     return{
       fields: [
         {
-          key: 'DDD',
-          label: 'DDD',
+          key: 'arquivo',
+          label: 'Arquivo',
           sortable: true
         },
         {
-          key: 'telefone',
-          label: 'Telefone',
-          sortable: false
-        },
-        {
-          key: 'data_inclusao',
-          label: 'Data Inclusão',
+          key: 'data_importacao',
+          label: 'Data Importação',
           sortable: false
         },
         {
           key: 'usuario',
           label: 'Usuário',
-          sortable: false,
+          sortable: false
         },
         {
           key: 'acao',
@@ -46,13 +44,13 @@ export default {
       ],
       items: [
         {
-          DDD: '11',
+          arquivo: 'exemplo.csv',
           data_importacao: '',
           usuario: '',
           acao: '',
         },
         {
-          DDD: '21',
+          arquivo: 'outro_exemplo.txt',
           data_importacao: '',
           usuario: '',
           acao: '',

@@ -1,3 +1,4 @@
 adicionar telefones (lista?)
 tabela registro finalizações > cadastrar apenas visualização?
 botão salva/importar teleporta para a mesma tela, ou para a tela de registro
+putins limite?

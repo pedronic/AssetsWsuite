@@ -1,11 +1,9 @@
 selec2 lista usuario]
 storage
 botão de remoção com box de confirmação
-registrar blacklist > Cadastrar > botão import, fila multiselect
-blacklist > cadastro manual > inserir coluna status
 blacklist inserir uma barra de pesquisa em cada card
-roter deve pegar todo o botão da categoria no menuTop
 validar todos os inputs 
 achar um checkbox melhor para TabelaRegistroFinalizacoes
 recuo de tela 
 definir ícones
+putin <= 0?

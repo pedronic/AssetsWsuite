@@ -47,14 +47,11 @@
               <div class="col-4">
                 <div class="d-inline">
                   <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="fal fa-ad"></i
-                ></span>
-                    <select id="inputGroupSelect01" class="custom-select">
-                      <option disabled selected>Fila</option>
-                      <option value="1000">Fila 1000</option>
-                      <option value="2000">Fila 2000</option>
-                    </select>
+                    <select data-placeholder="Fila" class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
+                    <option value="wordpress" data-icon="fal fa-road" selected disabled>Filas</option>
+                    <option value="codepen" data-icon="">Fila 1000</option>
+                    <option value="drupal" data-icon="">Fila 2000</option>
+                </select>
                   </div>
                 </div>
               </div>
@@ -182,6 +179,23 @@ export default {
         reader.readAsDataURL(file);
       });
     });
+    $(".js-select2-icons").select2(
+        {
+          minimumResultsForSearch: 1 / 0,
+          templateResult: icon,
+          templateSelection: icon,
+          // dropdownParent: $('#myModal'),
+          escapeMarkup: function(elm)
+          {
+            return elm
+          }
+        });
+
+    function icon(elm)
+    {
+      elm.element;
+      return elm.id ? "<i class='" + $(elm.element).data("icon") + " mr-2'></i>" + elm.text : elm.text
+    }
   },
 };
 </script>
