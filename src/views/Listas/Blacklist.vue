@@ -14,7 +14,7 @@
                     aria-describedby="basic-addon1"
                     aria-label="Username"
                     class="form-control"
-                    placeholder=""
+                    placeholder="Cadastrada manualmente"
                     type="text"
                     v-on:input="filter = $event.target.value"
                 />
@@ -73,10 +73,10 @@
 
       <div id="myTabContent" class="tab-content">
         <div id="subir" aria-labelledby="one-tab" class="tab-pane fade show active p-3" role="tabpanel">
-          <TabelaBlacklistMailing/>
+          <TabelaBlacklist/>
         </div>
         <div id="cadastrar" aria-labelledby="two-tab" class="tab-pane fade p-3" role="tabpanel">
-          <TabelaBlacklistMailing2/>
+          <TabelaBlacklist2/>
         </div>
       </div>
     </div>
@@ -85,14 +85,14 @@
 
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
-import TabelaBlacklistMailing from "../../components/DataTables/TabelaBlacklistMailing";
-import TabelaBlacklistMailing2 from "../../components/DataTables/TabelaBlacklistMailing2";
+import TabelaBlacklist from "../../components/DataTables/TabelaBlacklist";
+import TabelaBlacklist2 from "../../components/DataTables/TabelaBlacklist2";
 
 export default {
   components: {
     PagesSubHeader,
-    TabelaBlacklistMailing,
-    TabelaBlacklistMailing2
+    TabelaBlacklist,
+    TabelaBlacklist2
   },
   mounted() {
 

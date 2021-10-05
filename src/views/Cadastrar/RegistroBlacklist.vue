@@ -36,26 +36,38 @@
       </div>
 
       <div id="myTabContent" class="tab-content">
+          <div class="justify-content-left">
+            <div class="col-4">
+              <div class="input-group pt-3">
+                <!-- <span id="basic-addon1" class="input-group-text form-icon"
+                  ><i class="fal fa-ad"></i
+                ></span> -->
+                <select
+                  data-placeholder="Fila"
+                  class="js-select2-icons form-control"
+                  id="multiple-icons"
+                  multiple="multiple"
+                >
+                  <option
+                    value="wordpress"
+                    data-icon="fal fa-road"
+                    selected
+                    disabled
+                  >
+                    Filas
+                  </option>
+                  <option value="codepen" data-icon="">Fila 1000</option>
+                  <option value="drupal" data-icon="">Fila 2000</option>
+                </select>
+              </div>
+            </div>
+          </div>
         <div
           id="subir"
           aria-labelledby="one-tab"
           class="tab-pane fade show active p-3"
           role="tabpanel"
         >
-          <div class="row justify-content-left">
-            <div class="col-4">
-              <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-ad"></i
-                ></span>
-                <select id="inputGroupSelect01" class="custom-select">
-                  <option disabled selected>Fila</option>
-                  <option value="1">Fila 1000</option>
-                  <option value="2">Fila 2000</option>
-                </select>
-              </div>
-            </div>
-          </div>
           <div class="row justify-content-left">
             <div class="col-4">
               <div class="input-group image-preview">
@@ -101,22 +113,7 @@
           class="tab-pane fade p-3"
           role="tabpanel"
         >
-          <div class="d-inline">
-            <div class="row justify-content-left ml-1">
-              <div class="coluna_2">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-ad"></i
-                  ></span>
-                  <select id="inputGroupSelect01" class="custom-select">
-                    <option disabled selected>Fila</option>
-                    <option value="1">Fila 1000</option>
-                    <option value="2">Fila 2000</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <div class="card mb-g border shadow-0" id="interativo">
             <div class="card-header">
               <div class="row no-gutters align-items-center">
@@ -189,27 +186,10 @@
                   </div>
                 </div>
               </div>
-            <div v-for="i of putins" :key="i">
-              <div class="d-inline">
-                <div class="row justify-content-left ml-3">
-                  <div class="coluna">
-                    <div class="input-group mb-3">
-                      <span id="basic-addon1" class="input-group-text form-icon"
-                        ><i class="fal fa-ad"></i
-                      ></span>
-                      <input
-                        aria-describedby="basic-addon1"
-                        aria-label="Username"
-                        class="form-control"
-                        maxlength="120"
-                        minlength="3"
-                        placeholder="DDD"
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-3">
-                    <div class="d-inline">
+              <div v-for="i of putins" :key="i">
+                <div class="d-inline">
+                  <div class="row justify-content-left ml-3">
+                    <div class="coluna">
                       <div class="input-group mb-3">
                         <span
                           id="basic-addon1"
@@ -220,15 +200,34 @@
                           aria-describedby="basic-addon1"
                           aria-label="Username"
                           class="form-control"
-                          placeholder="Número"
+                          maxlength="120"
+                          minlength="3"
+                          placeholder="DDD"
                           type="text"
                         />
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="d-inline">
+                        <div class="input-group mb-3">
+                          <span
+                            id="basic-addon1"
+                            class="input-group-text form-icon"
+                            ><i class="fal fa-ad"></i
+                          ></span>
+                          <input
+                            aria-describedby="basic-addon1"
+                            aria-label="Username"
+                            class="form-control"
+                            placeholder="Número"
+                            type="text"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
           </div>
           <b-row>
@@ -291,6 +290,23 @@ export default {
         reader.readAsDataURL(file);
       });
     });
+    $(".js-select2-icons").select2({
+      minimumResultsForSearch: 1 / 0,
+      templateResult: icon,
+      templateSelection: icon,
+      // dropdownParent: $('#myModal'),
+      escapeMarkup: function (elm) {
+        return elm;
+      },
+    });
+
+    function icon(elm) {
+      elm.element;
+      return elm.id
+        ? "<i class='" + $(elm.element).data("icon") + " mr-2'></i>" + elm.text
+        : elm.text;
+    }
+
   },
   name: "BlacklistPhone",
 };
