@@ -294,7 +294,7 @@ function ToggleEventListener(event) {
   }
 }
 
-; // Simulate click on toggle button when placeholder is clicked
+ // Simulate click on toggle button when placeholder is clicked
 
 function SimulateClickHandler(elm, event) {
   siblings(elm, 'a.json-toggle', function (el) {

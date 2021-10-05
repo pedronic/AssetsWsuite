@@ -32,14 +32,17 @@
                     </b-row>
                 <!-- Linha 1: FIM -->
 
-                <!-- Linha 2 {{ Tipo da Fila:multiselect[6] } , { Nome para FTP[6] }} -->
+                <!-- Linha 2 {{ Tipo da Fila[6] } , { Nome para FTP[6] }} -->
                     <b-row class="filas-top-section-row">
                         <b-col cols='6'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
-                                <div id="multiselect-input">
-                                    <multiselect v-model="tipo_fila" :placeholder="'Tipo da Fila'" :label="'name'" :track-by="'code'" :options="filas_tipos" :multiple="true"/>
-                                </div>
+                                <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Tipo da Fila"/> -->
+                                <b-form-select :options="filas_tipos" id="profile-name-input" v-model="filas_selected">
+                                    <!-- <template #first>
+                                        <b-form-select-option value="" disabled>-- Tipo da Fila --</b-form-select-option>
+                                    </template> -->
+                                </b-form-select>
                             </div>
                         </b-col>
 
@@ -52,37 +55,31 @@
                     </b-row>
                 <!-- Linha 2: FIM -->
 
-                <!-- Linha 3 {{ Finalização:dropdown[6] } , { Formato Gravação:dropdown[3] } , { Tipo:dropdown[3] }} -->
+                <!-- Linha 3 {{ Finalização[6] } , { Formato Gravação[3] } , { Tipo[3] }} -->
                     <b-row class="filas-top-section-row">
                         <b-col cols='6'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                <div id="multiselect-input">
-                                    <multiselect v-model="tipo_finish" :placeholder="'Finalização'" :label="'name'" :track-by="'code'" :options="finish_tipos" :multiple="false"/>
-                                </div>
+                                <b-form-input id="profile-name-input"  type="text" placeholder="Finalização"/>
                             </div>
                         </b-col>
 
                         <b-col cols='3'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                <div id="multiselect-input">
-                                    <multiselect v-model="tipo_recording" :placeholder="'Formato Gravação'" :label="'name'" :track-by="'code'" :options="recording_tipos" :multiple="false"/>
-                                </div>
+                                <b-form-input id="profile-name-input"  type="text" placeholder="Formato Gravação"/>
                             </div>
                         </b-col>
                         <b-col cols='3'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                <div id="multiselect-input">
-                                    <multiselect v-model="tipo_tipo" :placeholder="'Tipo'" :label="'name'" :track-by="'code'" :options="tipo_tipos" :multiple="false"/>
-                                </div>
+                                <b-form-input id="profile-name-input"  type="text" placeholder="Tipo"/>
                             </div>
                         </b-col>
                     </b-row>
                 <!-- Linha 3: FIM -->
 
-                <!-- Linha 4 {{ Tempo de Pós Atendimento[6] } , { Grupo de Pausas:dropdown[6] }} -->
+                <!-- Linha 4 {{ Tempo de Pós Atendimento[6] } , { Grupo de Pausas[6] }} -->
                     <b-row class="filas-top-section-row2">
                         <b-col cols='6'>
                             <div class="profile-content user-name-line d-flex">
@@ -94,9 +91,7 @@
                         <b-col cols='6'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
-                                <div id="multiselect-input">
-                                    <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'"  :options="lista_de_pausas[0].pausas" :multiple="false"/>
-                                </div>
+                                <b-form-input id="profile-name-input"  type="text" placeholder="Grupo de Pausas"/>
                             </div>
                         </b-col>
                     </b-row>
@@ -113,46 +108,37 @@
                     <b-tab title="Ativa por Discador">
                         <b-container fluid>
                             <b-col cols='12'>
-                                <!-- Linha 1 {{ Rota:dropdown[6] } , { Estratégia de Discagem:dropdown[6] }} -->
+                                <!-- Linha 1 {{ Rota[6] } , { Estratégia de Discagem[6] }} -->
                                     <b-row class="tab-top-section-row">
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false"/>
-                                                </div>
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Rota"/>
                                             </div>
                                         </b-col>
 
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-at fa-2x" style="margin-left: 5px;" />
-                                                <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Estratégia de Discagem"/> -->
-                                                <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_strat" :placeholder="'Estratégia de Discagem'" :label="'name'" :track-by="'code'" :options="strat_tipos" :multiple="false"/>
-                                                </div>                                                
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Estratégia de Discagem"/>
                                             </div>
                                         </b-col>
                                     </b-row>
                                 <!-- Linha 1: FIM -->
 
-                                <!-- Linha 2 {{ Velocidade:dropdown[6] } , { Modo de Discagem:dropdown[6] }} -->
+                                <!-- Linha 2 {{ Velocidade[6] } , { Modo de Discagem[6] }} -->
                                     <b-row class="filas-top-section-row">
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
-                                                <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_vel" :placeholder="'Velocidade'" :label="'name'" :track-by="'code'" :options="vel_tipos" :multiple="false"/>
-                                                </div>   
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Velocidade"/>
                                             </div>
                                         </b-col>
 
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_modo" :placeholder="'Modo de Discagem'" :label="'name'" :track-by="'code'" :options="modo_tipos" :multiple="false"/>
-                                                </div>   
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Modo de Discagem"/>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -169,7 +155,7 @@
                                     </b-row>
                                 <!-- Linha 3: FIM -->
 
-                                <!-- Linha 4 {{ Black Lists:multiselect[12] }} -->
+                                <!-- Linha 4 {{ Black Lists[12] }} -->
                                     <b-row class="filas-top-section-row">
                                         <b-col cols='12'>
                                             <div class="profile-content user-name-line d-flex">
@@ -188,22 +174,19 @@
                     <b-tab title="Ativa Manual">
                         <b-container fluid>
                             <b-col cols='12'>
-                                <!-- Linha 1 {{ Rota:dropdown[6] } , { Número do Bina:input+switch[6] }} -->
+                                <!-- Linha 1 {{ Rota[6] } , { Número do Bina[6] }} -->
                                     <b-row class="tab-top-section-row">
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false"/>
-                                                </div>
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Rota"/>
                                             </div>
                                         </b-col>
 
                                         <b-col cols='6'>
-                                            <div class="profile-content user-name-line2 d-flex">
+                                            <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input2"  type="text" placeholder="Número do Bina"/>
-                                                <b-form-checkbox v-model="bina_number" id="bina_switch" switch />
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Número do Bina"/>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -239,28 +222,23 @@
                                     </b-row>
                                 <!-- Linha 1: FIM -->
 
-                                <!-- Linha 2 {{ Peso da Fila - (1-2-3-4):dropdown[6] }} -->
+                                <!-- Linha 2 {{ Peso da Fila - (1-2-3-4)[6] }} -->
                                     <b-row class="filas-top-section-row">
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_peso" :placeholder="'Peso da Fila - (1-2-3-4)'" :label="'name'" :track-by="'code'" :options="peso_tipos"                :multiple="false"/>
-                                                </div>
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Peso da Fila - (1-2-3-4)"/>
                                             </div>
                                         </b-col>
                                     </b-row>
                                 <!-- Linha 2: FIM -->
 
-                                <!-- Linha 3 {{ Música de espera:dropdown[6] }} -->
+                                <!-- Linha 3 {{ Música de espera[6] }} -->
                                     <b-row class="filas-top-section-row">
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Música de espera"/> -->
-                                                <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_music" :placeholder="'Música de Espera'" :label="'name'" :track-by="'code'" :options="music_tipos"                :multiple="false"/>
-                                                </div>
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Música de espera"/>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -370,25 +348,18 @@
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
 import TabelaAgentes from '../../components/FilasTable/TabelaAgentes.vue';
-import Multiselect from 'vue-multiselect';
 
 export default {
     name: "FilasCadastro",
     components: {
         PagesSubHeader,
         TabelaPausas,
-        TabelaAgentes,
-        Multiselect
+        TabelaAgentes
     },
     props: {
         nome:String
     },
     methods: {
-    },
-    computed(){
-        return{
-            // pausegroup_tipos = [...this.lista_de_pausas.slice(1,this.lista_de_pausas.length)]
-        }
     },
     data() {
         return {
@@ -396,7 +367,6 @@ export default {
             start:'',
             end:'',
             timeMask:'##:##',
-            bina_number:false,
             week_days:[
                 {
                     day:"Segunda-feira",
@@ -454,7 +424,6 @@ export default {
                     icone: '<i class="fal fa-restroom fa-2x"/>',
                     ativa: true,
                     add: '<span class="fal fa-trash-alt"/>',
-                    id:"00001"
                 },
                 {
                     pausa:"OVNI",
@@ -465,7 +434,6 @@ export default {
                     icone: '<i class="fal fa-alien fa-2x"/>',
                     ativa: false,
                     add: '<span class="fal fa-trash-alt"/>',
-                    id:"00002"
                 }
             ],
             lista_de_agentes:[
@@ -484,76 +452,17 @@ export default {
                     p2:false
                 }
             ],
-            tipo_fila:[],
-            tipo_finish:[],
-            tipo_recording:[],
-            tipo_tipo:[],
-            tipo_pausegroup:[],
-            tipo_rota:[],
-            tipo_strat:[],
-            tipo_vel:[],
-            tipo_modo:[],
-            tipo_peso:[],
-            music_tipo:[],
             filas_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
+                // {value:null, text:"Tipo da Fila"},
+                {value:"Ativa", text:"Ativa"},
+                {value:"Manual", text:"Manual"},
+                {value:"Recebe", text:"Recebe"}
             ],
-            finish_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
-            recording_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
-            tipo_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
-            rota_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
-            strat_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
-            vel_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
-            modo_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
-            peso_tipos:[
-                {name:"1", code:1},
-                {name:"2", code:2},
-                {name:"3", code:3},
-                {name:"4", code:4}
-            ],
-            music_tipos:[
-                {name:"Beethoven", code:1},
-                {name:"Mozart", code:2},
-                {name:"Queen", code:3}
-            ]
-            
-
-            
+            filas_selected:[{value:null, text:"Tipo da Fila"}]
         }
     }
 };
 </script>
-
 
 <style scoped>
 .tab-pane.active{
@@ -652,44 +561,12 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     padding-left: 0%;
     padding-right: 0%;
 }
-.user-name-line2 {
-    align-items: center !important;
-    border-style: solid;
-    border-width: 1px;
-    /* border-top-width: 2px;
-    border-bottom-width: 2px; */
-    height: 42px;
-    border-color: #d0cece;
-    padding-left: 0%;
-    padding-right: 0%;
-}
 #profile-name-input{
     margin-left: 5px;
     margin-right: 0px;
     border-left-color: black;
     border-radius: 0px;
 }
-#profile-name-input2{
-    margin-left: 5px;
-    margin-right: 0px;
-    border-left-color: black;
-    border-radius: 0px;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    border-bottom-width: 0px;
-}
-#multiselect-input{
-    display: flex;
-    width: 100%;
-    margin-left: 6px;
-}
-
-/* #profile-name-input>.multiselect>.multiselect__tags{
-    border-radius: 0px !important;
-    border-left-width: 1px !important;
-    border-left-color: black;
-    width: 100%;
-} */
 
 i.fal.fa-2x {
     width: 26px;
