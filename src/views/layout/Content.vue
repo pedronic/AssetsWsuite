@@ -27,10 +27,12 @@ export default {
 }
 @media (min-width: 1200px){
   .page-content {
-    padding: 10px 6.9px !important;
-  }
+    padding: 10px 14.6px 10px 10px !important;
+    }
 }
-
+.page-content {
+  overflow: auto !important;
+}
 
 
 </style>

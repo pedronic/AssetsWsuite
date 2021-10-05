@@ -13,6 +13,5 @@ textarea max 15 linhas
 2o formato discagem = dtmf
 plugin senha
 mudar os labels para o do Pedro
-recuo de tela 
+recuo de tela (feito)
 definir ícones
-putin <= 0?
