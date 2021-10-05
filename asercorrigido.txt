@@ -7,5 +7,12 @@ blacklist inserir uma barra de pesquisa em cada card
 roter deve pegar todo o botão da categoria no menuTop
 validar todos os inputs 
 achar um checkbox melhor para TabelaRegistroFinalizacoes
-recuo de tela 
+recuo de tela overflow
 definir ícones
+arrumar primeiro telefone
+importar -> toast "sucesso" -> lista
+mexer nas dimenoes dos inputes registro operadroras
+textarea max 15 linhas
+2o formato discagem = dtmf
+plugin senha
+mudar os labels para o do Pedro
