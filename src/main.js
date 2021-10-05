@@ -11,22 +11,22 @@ import "@/plugins/loadscript.js"
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import VeeValidate from 'vee-validate';
-import msg from './pt_BR';
+// import VeeValidate from 'vee-validate';
+// import msg from './pt_BR';
 
 import "select2"
 
 Vue.config.productionTip = false
 
-Vue.use(VeeValidate, {
+// Vue.use(VeeValidate, {
   
-  locale: 'pt_BR',
-  dictionary: {
-    pt_BR: {
-      messages: msg
-    }
-  }
-}); 
+//   locale: 'pt_BR',
+//   dictionary: {
+//     pt_BR: {
+//       messages: msg
+//     }
+//   }
+// }); 
 
 new Vue({
   // components: {

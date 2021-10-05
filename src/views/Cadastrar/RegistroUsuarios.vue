@@ -9,7 +9,7 @@
     <form @submit.prevent="carregar()" class="conteiner">
       <div class="form-group">
         <div class="d-inline">
-          <div class="row ">
+          <div class="row">
             <div class="col-4">
               <div class="input-group mb-3">
                 <span id="basic-addon1" class="input-group-text form-icon"
@@ -119,7 +119,7 @@
         <div class="d-inline">
           <div class="row ">
             <div class="col-12">
-              <div class="input-group">
+              <div class="input-group" id="modal">
                 <select data-placeholder="Fila" class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
                     <option value="wordpress" data-icon="fal fa-road" selected disabled>Filas</option>
                     <option value="codepen" data-icon="">Fila 1000</option>
@@ -234,7 +234,7 @@ export default {
           minimumResultsForSearch: 1 / 0,
           templateResult: icon,
           templateSelection: icon,
-          // dropdownParent: $('#myModal'),
+          dropdownParent: $('#modal'),
           escapeMarkup: function(elm)
           {
             return elm

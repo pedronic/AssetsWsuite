@@ -37,7 +37,7 @@
 
       <div id="myTabContent" class="tab-content">
           <div class="justify-content-left">
-            <div class="col-4">
+            <div class="col-12">
               <div class="input-group pt-3">
                 <!-- <span id="basic-addon1" class="input-group-text form-icon"
                   ><i class="fal fa-ad"></i
@@ -135,7 +135,7 @@
                   <a
                     href="#"
                     class="btn btn-outline-danger btn-sm flex-shrink-0"
-                    @click="putins--"
+                    @click="(putins >= 1 ? putins-- : putins)"
                     ><i class="fal fa-minus"></i
                   ></a>
                 </div>

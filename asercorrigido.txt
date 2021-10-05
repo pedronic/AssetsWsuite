@@ -1,9 +1,8 @@
-selec2 lista usuario]
+selec2
 storage
 botão de remoção com box de confirmação
 blacklist inserir uma barra de pesquisa em cada card
 validar todos os inputs 
-achar um checkbox melhor para TabelaRegistroFinalizacoes
 recuo de tela 
 definir ícones
 putin <= 0?

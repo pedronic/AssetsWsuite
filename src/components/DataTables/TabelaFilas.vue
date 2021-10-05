@@ -13,9 +13,9 @@
       <tbody>
       <tr>
         <th>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" @change="visible = !visible" value="opcao1">
-          <label class="form-check-label ml-1" for="inlineCheckbox1">{{ filas[0] }}</label>
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="defaultUnchecked" @change="visible = !visible" value="fila1000">
+          <label class="custom-control-label" for="defaultUnchecked">{{ filas[0] }}</label>
         </div>
         </th>
         <td><input v-show="visible" class="form-check-input mt-1" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="opcao1"></td>
@@ -24,9 +24,9 @@
       </tr>
       <tr>
         <th>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" @change="visible2 = !visible2" id="inlineCheckbox2" value="opcao1">
-          <label class="form-check-label ml-1" for="inlineCheckbox2">{{ filas[1] }}</label>
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" @change="visible2 = !visible2" id="defaultUnchecked2" value="fila2000">
+          <label class="custom-control-label" for="defaultUnchecked2">{{ filas[1] }}</label>
         </div>
         </th>
         <td><input class="form-check-input mt-1" v-show="visible2" type="radio" name="inlineRadioOptions2" id="inlineRadio2" value="opcao1"> </td>

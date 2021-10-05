@@ -10,17 +10,17 @@
       <tbody>
       <tr>
         <th>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="opcao1">
-          <label class="form-check-label ml-1" for="inlineCheckbox1">{{ MCDUs[0] }}</label>
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="defaultUnchecked" value="opcao1">
+          <label class="custom-control-label" for="defaultUnchecked">{{ MCDUs[0] }}</label>
         </div>
         </th>
       </tr>
       <tr>
         <th>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="opcao1">
-          <label class="form-check-label ml-1" for="inlineCheckbox2">{{ MCDUs[1] }}</label>
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="defaultUnchecked2" value="opcao1">
+          <label class="custom-control-label" for="defaultUnchecked2">{{ MCDUs[1] }}</label>
         </div>
         </th>
       </tr>

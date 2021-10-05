@@ -126,7 +126,7 @@
                   <a
                     href="#"
                     class="btn btn-outline-danger btn-sm flex-shrink-0"
-                    @click="putins--"
+                    @click="putins >= 1 ? putins-- : putins"
                     ><i class="fal fa-minus"></i
                   ></a>
                 </div>
