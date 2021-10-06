@@ -22,11 +22,11 @@
       <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <a href="#" class="mr-auto">
+      <router-link to="/lista-de-perfil" class="mr-auto">
         <i class="fal fa-briefcase"></i>
         <span data-i18n="drpdwn.settings"> Perfil de Usuários</span>
-      </a>
-      <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
+      </router-link>
+      <router-link to="/perfil-usuario" class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
     <div class="dropdown-item d-flex itens">
       <a href="#" class="mr-auto">
@@ -36,11 +36,11 @@
       <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
     </div>
     <div class="dropdown-item d-flex itens">
-      <a href="#" class="mr-auto">
+      <router-link to="/pausas" class="mr-auto">
         <i class="fal fa-alarm-exclamation"></i>
         <span data-i18n="drpdwn.settings"> Pausas</span>
-      </a>
-      <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
+      </router-link>
+      <router-link to='/grupo-de-pausas' class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
     <div class="dropdown-item d-flex itens">
       <a href="#" class="mr-auto">
@@ -68,7 +68,7 @@
         <i class="fal fa-road"></i>
         <span data-i18n="drpdwn.settings"> Filas</span>
       </a>
-      <a href="#" class="ml-auto"><i class="fal fa-plus-circle"></i></a>
+      <router-link to='/cadastrar-filas' class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
     <div class="dropdown-item d-flex itens">
       <a href="#" class="mr-auto">

@@ -50,6 +50,34 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/DashAnalitico.vue')
+  },
+  {
+    path: '/perfil-usuario',
+    name: 'Perfil',
+    props: true,
+    component: () => import('../views/PerfilDeUsuario/Perfil.vue')
+  },
+  {
+    path: '/lista-de-perfil',
+    name: 'PerfilLista',
+    // replace: true,
+    component: () => import('../views/PerfilDeUsuario/PerfilLista.vue')
+  },
+  {
+    path: '/pausas',
+    name: 'Pausas',
+    // replace: true,
+    component: () => import('../views/Pausas/Pausas.vue')
+  },
+  {
+    path: '/grupo-de-pausas',
+    name: 'PausasGrupo',
+    component: () => import('../views/Pausas/PausasGrupo.vue')
+  },
+  {
+    path: '/cadastrar-filas',
+    name: 'FilasCadastro',
+    component: () => import('../views/Filas/FilasCadastro.vue')
   }
 ]
 

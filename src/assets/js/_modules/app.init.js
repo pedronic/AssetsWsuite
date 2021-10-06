@@ -1240,7 +1240,7 @@ var initApp = (function(app) {
 				)
 			);
 			document.head.appendChild(msViewportStyle)
-		};
+		}
 
 		/**
 		 * Display APP version

@@ -6,6 +6,8 @@ import "jquery"
 import "@/plugins/bootstrap"
 import "@/config/smartadmin"
 import "@/plugins/loadscript.js"
+import "@/plugins/vmask.js"
+import "@/plugins/vueMultiselect.js"
 
 
 import App from './App.vue'
