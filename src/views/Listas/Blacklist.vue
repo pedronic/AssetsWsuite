@@ -12,9 +12,10 @@
 
                 <input
                     aria-describedby="basic-addon1"
+                    id="filtro"
                     aria-label="Username"
                     class="form-control"
-                    placeholder="Cadastrada manualmente"
+                    :placeholder=searchf
                     type="text"
                     v-on:input="filter = $event.target.value"
                 />
@@ -60,11 +61,11 @@
     <div class="card tab-card">
       <div class="card-header tab-card-header">
         <ul id="myTab" class="nav nav-tabs card-header-tabs" role="tablist">
-          <li class="nav-item">
+          <li class="nav-item" @click="searchf='Arquivos subidos'">
             <a id="one-tab" aria-controls="One" aria-selected="true" class="nav-link active" data-toggle="tab" href="#subir"
                role="tab">Subir Arquivo</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" @click="searchf='Cadastrados manualmente'">
             <a id="two-tab" aria-controls="Two" aria-selected="false" class="nav-link" data-toggle="tab" href="#cadastrar"
                role="tab">Cadastro Manual</a>
           </li>
@@ -94,6 +95,11 @@ export default {
     TabelaBlacklist,
     TabelaBlacklist2
   },
+  data() {
+    return {
+      searchf: "Arquivos subidos",
+    };
+  },
   mounted() {
 
   },
@@ -104,6 +110,10 @@ export default {
 </script>
 
 <style scoped>
+#filtro{
+ width: 216.8px;;
+}
+
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }

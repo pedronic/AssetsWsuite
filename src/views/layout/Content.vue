@@ -22,7 +22,7 @@ export default {
 <style>
 @media (min-width: 992px){
   .page-content {
-    padding: 10px 10px !important;
+    padding: 10px 14.6px 10px 10px !important;
   }
 }
 @media (min-width: 1200px){

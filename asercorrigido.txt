@@ -1,17 +1,15 @@
 selec2
 storage
 botão de remoção com box de confirmação
-blacklist inserir uma barra de pesquisa em cada card
+blacklist inserir uma barra de pesquisa em cada card (feito)
 validar todos os inputs 
-achar um checkbox melhor para TabelaRegistroFinalizacoes
-recuo de tela overflow
 definir ícones
-arrumar primeiro telefone
+arrumar primeiro telefone (feito)
 importar -> toast "sucesso" -> lista
-mexer nas dimenoes dos inputes registro operadroras
-textarea max 15 linhas
-2o formato discagem = dtmf
+mexer nas dimenoes dos inputes registro operadroras (feito)
+textarea max 15 linhas (feito)
+2o formato discagem = dtmf (DONE)
 plugin senha
 mudar os labels para o do Pedro
-recuo de tela (feito)
-definir ícones
+recuo de tela (FEITO)
+mudar tabela filas
