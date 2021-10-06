@@ -23,7 +23,7 @@
  * A jQuery plugin boilerplate.
  * Author: Jonathan Nicol @f6design
  */
-;(function($) {  
+(function($) {  
   // Change this to your plugin name. 
   var pluginName = 'treeView';
   

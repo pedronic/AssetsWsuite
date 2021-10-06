@@ -594,7 +594,7 @@ $header-inner-padding-y:				0 !default;
 /* logo */
 $header-logo-border-bottom:				rgba(darken($primary-700, 10%), (30/100)) !default;
 $header-logo-width:						auto !default; 										  /* try not to go beywond the width of $main_nav_width value */
-$header-logo-height:					auto !default 										    /* you may need to change this depending on your logo design */
+$header-logo-height:					auto !default;										    /* you may need to change this depending on your logo design */
 $header-logo-text-align:				center; 												      /* adjust this as you see fit : left, right, center */
 
 /* icon font size (not button) */

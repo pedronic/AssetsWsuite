@@ -26,9 +26,11 @@
     </div>
       </router-link>
     <div class="dropdown-item d-flex itens">
+      <router-link to="/lista-de-perfil" class="mr-auto">
         <i class="fal fa-briefcase"></i>
         <span data-i18n="drpdwn.settings"> Perfil de Usuários</span>
-      <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
+      </router-link>
+      <router-link to="/perfil-usuario" class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
       <router-link :to="{ name: 'ListaAgentes' }">
     <div class="dropdown-item d-flex itens">
@@ -42,9 +44,11 @@
     </div>
       </router-link>
     <div class="dropdown-item d-flex itens">
+      <router-link to="/pausas" class="mr-auto">
         <i class="fal fa-alarm-exclamation"></i>
         <span data-i18n="drpdwn.settings"> Pausas</span>
-      <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
+      </router-link>
+      <router-link to='/grupo-de-pausas' class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
       <router-link :to="{ name: 'ListaRobos' }">
     <div class="dropdown-item d-flex itens">
@@ -70,7 +74,8 @@
     <div class="dropdown-item d-flex itens">
         <i class="fal fa-road"></i>
         <span data-i18n="drpdwn.settings"> Filas</span>
-      <a class="ml-auto" href="#"><i class="fal fa-plus-circle"></i></a>
+      </a>
+      <router-link to='/cadastrar-filas' class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
       <router-link :to="{ name: 'ListaServidores' }">
     <div class="dropdown-item d-flex itens">

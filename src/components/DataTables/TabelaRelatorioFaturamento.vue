@@ -1,4 +1,4 @@
-<template>
+  <template>
     <div class="row">
         <div class="col-sm-12 ">
         <b-table striped hover :items="items" :fields="fields" class="table-sm" id="tabela" :no-sort-reset="true" :sort-compare-options="{ numeric: true, sensitivity: 'base' }"></b-table>

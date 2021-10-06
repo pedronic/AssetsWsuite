@@ -3,15 +3,15 @@
     <div class="page-inner" :class="{'bg-brand-gradient' : !user}" >
       <Sidebar />
       <div class="page-content-wrapper" :class="{'bg-transparent m-0': !user}">
-        <Header  />
+        <Header/>
         <!-- <Loading v-if="validatingToken" /> -->
         <!-- <div id="nav">
           <router-link to="/">Home</router-link> |
           <router-link to="/about">About</router-link>
         </div> 
-        <router-view /> --> 
-         <Content  /> 
-        <Footer  />
+        <router-view /> -->
+        <Content />
+        <Footer />
       </div>
     </div>
     <!-- <div class="page-inner bg-brand-gradient" v-else>
@@ -19,8 +19,9 @@
     </div> -->
   </div>
 </template>
+
 <script>
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 // import axios from "axios";
 // import { baseApiUrl, userKey } from "@/config/global"
 import Header from "@/views/layout/Header.vue";
@@ -73,6 +74,7 @@ export default {
   // computed: mapState(["user"]),
 };
 </script>
+
 <style lang="scss">
 // #app {
 //   font-family: Avenir, Helvetica, Arial, sans-serif;
