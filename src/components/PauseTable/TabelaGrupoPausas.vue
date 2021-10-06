@@ -4,7 +4,7 @@
             <template v-slot:head(grupo)="data">
                 <span>{{data.label}}</span>
             </template>
-            <template v-slot:head(action)="data">
+            <template v-slot:head(action)="data"> 
                 <span>{{data.label}}</span>
             </template>
             

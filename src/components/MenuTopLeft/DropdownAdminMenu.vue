@@ -13,7 +13,7 @@
             </div>
             
         </div> -->
-        
+
     <div class="dropdown-divider m-0"></div>
       <router-link :to="{ name: 'ListaUsuarios' }">
     <div class="dropdown-item d-flex itens">
@@ -75,7 +75,6 @@
     <div class="dropdown-item d-flex itens">
         <i class="fal fa-road"></i>
         <span data-i18n="drpdwn.settings"> Filas</span>
-      
       <router-link to='/cadastrar-filas' class="ml-auto"><i class="fal fa-plus-circle"></i></router-link>
     </div>
       <router-link :to="{ name: 'ListaServidores' }">
