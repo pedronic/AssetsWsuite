@@ -274,6 +274,7 @@
                     <b-tab title="Horários">
                         <b-container fluid>
                             <b-col cols="6" >
+                            <!-- THEAD -->
                                 <b-row class="tab-top-section-row2">
                                     <b-col cols="6" class="dia-head-container">
                                         <span class="dia-head">Dias</span>
@@ -285,13 +286,19 @@
                                         <span class="time-head">Fim</span>
                                     </b-col>
                                 </b-row>
+                            <!-- THEAD: FIM -->
 
+                            <!-- TBODY -->
                                 <b-container fluid v-for="(d, index) in week_days" :key="d.day">
                                     <b-row :class="(index%2) == 0 ? 'grey-bg' : ''">
+                                        <!-- Dias -->
                                         <b-col cols="6" class="dia-head-container">
                                             <span class="dia-body">{{d.day}}</span>
                                         </b-col>
-                                        <b-col cols="3" class="dia-head-container">
+                                        <!-- Dias: FIM -->
+
+                                        <!-- Início -->
+                                        <b-col cols="3" class="time-head-container">
                                             <b-input-group>
                                                 <b-form-input disabled :id="d.index+'_start'"  v-model="d.start" v-mask="timeMask" placeholder="--:--"/>
                                                 <b-input-group-append>
@@ -299,7 +306,10 @@
                                                 </b-input-group-append>
                                             </b-input-group>
                                         </b-col>
-                                        <b-col cols="3" class="dia-head-container">
+                                        <!-- Início: FIM -->
+
+                                        <!-- Fim -->
+                                        <b-col cols="3" class="time-head-container2">
                                             <b-input-group>
                                                 <b-form-input disabled :id="d.index+'_end'" v-model="d.end" v-mask="timeMask" placeholder="--:--"/>
                                                 <b-input-group-append>
@@ -307,8 +317,10 @@
                                                 </b-input-group-append>
                                             </b-input-group>
                                         </b-col>
+                                        <!-- Fim: FIM -->
                                     </b-row>
                                 </b-container>
+                            <!-- TBODY: FIM -->
                             </b-col>
                         </b-container>
                     </b-tab>
@@ -577,6 +589,23 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 .dia-head-container, .produtiva-head-container, .obrigatoria-head-container, .alerta-head-container, .limite-head-container, .icone-head-container, .ativa-head-container{
     display: flex;
     align-items: center;
+    /* ajuste de margens da tabela */
+    padding: 0px;
+}
+
+.time-head-container{
+    display: flex;
+    align-items: center;
+    /* ajuste de margens da tabela */
+    padding-left: 0px;
+    padding-right: 3px;
+}
+.time-head-container2{
+    display: flex;
+    align-items: center;
+    /* ajuste de margens da tabela */
+    padding-left: 3px;
+    padding-right: 0px;
 }
 
 .dia-head {
@@ -587,6 +616,10 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     padding-left: 2ch;
     text-align: left;
     vertical-align: middle !important;
+}
+
+.dia-body {
+    margin-left: 2ch;
 }
 
 .time-head {
