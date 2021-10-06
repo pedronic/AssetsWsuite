@@ -229,9 +229,9 @@ export default {
 </script>
 
 <style >
-/* .faturamento{
+.faturamento{
     overflow:auto;
-} */
+}
  .table thead{
         background-color: #0d6d9d;
         color:#fff;

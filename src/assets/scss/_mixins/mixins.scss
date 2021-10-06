@@ -4,12 +4,21 @@
     LESS ELEMENTS made by Dmitry Fadeyev (http://fadeyev.net)
     SASS port by Samuel Beek (http://samuelbeek.com) 
   ---------------------------------------------------*/
- 
+//@include media-breakpoint-up(sm);
+//@include media-breakpoint-up(md);
+//@include media-breakpoint-up(lg);
+@include media-breakpoint-up(xl) {
+    .custom-class {
+      display: block;
+  }
+}
+
 @mixin gradient-img($start: #EEE,$stop: #FFF) {
   background-color: $start;
   background-image: -webkit-linear-gradient(top,$start,$stop);
   background-image: linear-gradient(to top,$start,$stop);
 }
+
 
 @mixin gradient($color: #F5F5F5,$start: #EEE,$stop: #FFF) {
     background:$color;
