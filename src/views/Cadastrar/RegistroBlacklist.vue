@@ -36,32 +36,32 @@
       </div>
 
       <div id="myTabContent" class="tab-content">
-          <div class="justify-content-left">
-            <div class="col-12">
-              <div class="input-group pt-3">
-                <!-- <span id="basic-addon1" class="input-group-text form-icon"
+        <div class="justify-content-left">
+          <div class="col-12">
+            <div class="input-group pt-3">
+              <!-- <span id="basic-addon1" class="input-group-text form-icon"
                   ><i class="fal fa-ad"></i
                 ></span> -->
-                <select
-                  data-placeholder="Fila"
-                  class="js-select2-icons form-control"
-                  id="multiple-icons"
-                  multiple="multiple"
+              <select
+                data-placeholder="Fila"
+                class="js-select2-icons form-control"
+                id="multiple-icons"
+                multiple="multiple"
+              >
+                <option
+                  value="wordpress"
+                  data-icon="fal fa-road"
+                  selected
+                  disabled
                 >
-                  <option
-                    value="wordpress"
-                    data-icon="fal fa-road"
-                    selected
-                    disabled
-                  >
-                    Filas
-                  </option>
-                  <option value="codepen" data-icon="">Fila 1000</option>
-                  <option value="drupal" data-icon="">Fila 2000</option>
-                </select>
-              </div>
+                  Filas
+                </option>
+                <option value="codepen" data-icon="">Fila 1000</option>
+                <option value="drupal" data-icon="">Fila 2000</option>
+              </select>
             </div>
           </div>
+        </div>
         <div
           id="subir"
           aria-labelledby="one-tab"
@@ -113,7 +113,6 @@
           class="tab-pane fade p-3"
           role="tabpanel"
         >
-          
           <div class="card mb-g border shadow-0" id="interativo">
             <div class="card-header">
               <div class="row no-gutters align-items-center">
@@ -135,7 +134,7 @@
                   <a
                     href="#"
                     class="btn btn-outline-danger btn-sm flex-shrink-0"
-                    @click="(putins >= 1 ? putins-- : putins)"
+                    @click="putins > 1 ? putins-- : putins"
                     ><i class="fal fa-minus"></i
                   ></a>
                 </div>
@@ -144,41 +143,47 @@
             <div class="card-body p-0">
               <div class="row no-gutters row-grid">
                 <div class="col-12">
-                  <div class="p-3">
-                    <div class="row no-gutters row-grid align-items-stretch">
-                      <div class="coluna mr-2">
-                        <div class="input-group mb-3">
-                          <span
-                            id="basic-addon1"
-                            class="input-group-text form-icon"
-                            ><i class="fal fa-ad"></i
-                          ></span>
-                          <input
-                            aria-describedby="basic-addon1"
-                            aria-label="Username"
-                            class="form-control"
-                            maxlength="120"
-                            minlength="3"
-                            placeholder="DDD"
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-3">
-                        <div class="d-inline">
-                          <div class="input-group mb-3">
-                            <span
-                              id="basic-addon1"
-                              class="input-group-text form-icon"
-                              ><i class="fal fa-ad"></i
-                            ></span>
-                            <input
-                              aria-describedby="basic-addon1"
-                              aria-label="Username"
-                              class="form-control"
-                              placeholder="Número"
-                              type="text"
-                            />
+                  <div class="mt-3">
+                    <div v-for="i of putins" :key="i">
+                      <div class="pl-3">
+                        <div
+                          class="row no-gutters row-grid align-items-stretch"
+                        >
+                          <div class="coluna mr-2">
+                            <div class="input-group mb-3">
+                              <span
+                                id="basic-addon1"
+                                class="input-group-text form-icon"
+                                ><i class="fal fa-ad"></i
+                              ></span>
+                              <input
+                                aria-describedby="basic-addon1"
+                                aria-label="Username"
+                                class="form-control"
+                                maxlength="120"
+                                minlength="3"
+                                placeholder="DDD"
+                                type="text"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-3">
+                            <div class="d-inline">
+                              <div class="input-group mb-3">
+                                <span
+                                  id="basic-addon1"
+                                  class="input-group-text form-icon"
+                                  ><i class="fal fa-ad"></i
+                                ></span>
+                                <input
+                                  aria-describedby="basic-addon1"
+                                  aria-label="Username"
+                                  class="form-control"
+                                  placeholder="Número"
+                                  type="text"
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -186,7 +191,7 @@
                   </div>
                 </div>
               </div>
-              <div v-for="i of putins" :key="i">
+              <!-- <div v-for="i of putins" :key="i">
                 <div class="d-inline">
                   <div class="row justify-content-left ml-3">
                     <div class="coluna">
@@ -227,7 +232,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <b-row>
@@ -253,7 +258,7 @@ export default {
   },
   data() {
     return {
-      putins: 0,
+      putins: 1,
     };
   },
 
@@ -306,7 +311,6 @@ export default {
         ? "<i class='" + $(elm.element).data("icon") + " mr-2'></i>" + elm.text
         : elm.text;
     }
-
   },
   name: "BlacklistPhone",
 };
@@ -328,7 +332,7 @@ export default {
 
 .coluna {
   flex: 0 0 16.666667%;
-  max-width: 7.766667%;
+  max-width: 8.666667%;
 }
 
 .btn-default {

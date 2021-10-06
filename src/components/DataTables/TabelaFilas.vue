@@ -18,9 +18,18 @@
           <label class="custom-control-label" for="defaultUnchecked">{{ filas[0] }}</label>
         </div>
         </th>
-        <td><input v-show="visible" class="form-check-input mt-1" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="opcao1"></td>
-        <td><input v-show="visible" class="form-check-input mt-1" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="opcao1"></td>
-        <td><input v-show="visible" class="form-check-input mt-1" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="opcao1"></td>
+        <td><div v-show="visible" class="custom-control custom-radio-rounded">
+                                                        <input type="radio" class="custom-control-input" id="defaultUncheckedRadio" name="defaultExampleRadios">
+                                                        <label class="custom-control-label" for="defaultUncheckedRadio"></label>
+                                                    </div></td>
+        <td><div v-show="visible" class="custom-control custom-radio-rounded">
+                                                        <input type="radio" class="custom-control-input" id="defaultUncheckedRadio2" name="defaultExampleRadios">
+                                                        <label class="custom-control-label" for="defaultUncheckedRadio2"></label>
+                                                    </div></td>
+        <td><div v-show="visible" class="custom-control custom-radio-rounded">
+                                                        <input type="radio" class="custom-control-input" id="defaultUncheckedRadio3" name="defaultExampleRadios">
+                                                        <label class="custom-control-label" for="defaultUncheckedRadio3"></label>
+                                                    </div></td>
       </tr>
       <tr>
         <th>
@@ -29,9 +38,18 @@
           <label class="custom-control-label" for="defaultUnchecked2">{{ filas[1] }}</label>
         </div>
         </th>
-        <td><input class="form-check-input mt-1" v-show="visible2" type="radio" name="inlineRadioOptions2" id="inlineRadio2" value="opcao1"> </td>
-        <td><input class="form-check-input mt-1" v-show="visible2" type="radio" name="inlineRadioOptions2" id="inlineRadio2" value="opcao1"> </td>
-        <td><input class="form-check-input mt-1" v-show="visible2" type="radio" name="inlineRadioOptions2" id="inlineRadio2" value="opcao1"> </td>
+        <td><div v-show="visible2" class="custom-control custom-radio-rounded">
+                                                        <input type="radio" class="custom-control-input" id="4" name="defaultExampleRadios2">
+                                                        <label class="custom-control-label" for="4"></label>
+                                                    </div></td>
+        <td><div v-show="visible2" class="custom-control custom-radio-rounded">
+                                                        <input type="radio" class="custom-control-input" id="ppe" name="defaultExampleRadios2">
+                                                        <label class="custom-control-label" for="ppe"></label>
+                                                    </div></td>
+        <td><div v-show="visible2" class="custom-control custom-radio-rounded">
+                                                        <input type="radio" class="custom-control-input" id="ios" name="defaultExampleRadios2">
+                                                        <label class="custom-control-label" for="ios"></label>
+                                                    </div></td>
       </tr>
       </tbody>
     </table>

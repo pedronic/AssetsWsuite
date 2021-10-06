@@ -10,7 +10,7 @@
         <div class="form-group">
           <div class="d-inline">
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-6">
                 <div class="input-group mb-3">
                   <span id="basic-addon1" class="input-group-text form-icon"
                     ><i class="fal fa-ad"></i
@@ -26,7 +26,7 @@
                   />
                 </div>
               </div>
-              <div class="col-4">
+              <div class="col-6">
                 <div class="d-inline">
                   <div class="input-group mb-3">
                     <span id="basic-addon1" class="input-group-text form-icon"
@@ -142,7 +142,7 @@
           </div>
           <div class="d-inline">
             <div class="row justify-content-center">
-              <div class="col-6">
+              <div class="col-8">
                 <div class="input-group mb-3">
                   <span id="basic-addon1" class="input-group-text form-icon"
                     ><i class="fal fa-ad"></i
@@ -158,7 +158,7 @@
                   />
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-4">
                 <div class="d-inline">
                   <div class="input-group mb-3">
                     <span id="basic-addon1" class="input-group-text form-icon"
@@ -183,11 +183,12 @@
                   <span id="basic-addon1" class="input-group-text form-icon"
                     ><i class="fal fa-ad"></i
                   ></span>
-                  <textarea
-                    class="form-control"
-                    placeholder="Formato de discagem"
-                    aria-label="With textarea"
-                  ></textarea>
+                  <b-form-textarea
+                    id="textarea"
+                    placeholder="Formato discagem"
+                    rows="3"
+                    max-rows="15"
+                  ></b-form-textarea>
                 </div>
               </div>
             </div>
@@ -246,7 +247,7 @@
                     aria-describedby="basic-addon1"
                     aria-label="Username"
                     class="form-control"
-                    placeholder="Formato de discagem"
+                    placeholder="DTMF"
                     type="text"
                   />
                 </div>
@@ -361,7 +362,7 @@
           </div>
           <div class="d-inline">
             <div class="row justify-content-center">
-              <div class="col-6">
+              <div class="col-8">
                 <div class="input-group mb-3">
                   <span id="basic-addon1" class="input-group-text form-icon"
                     ><i class="fal fa-code"></i
@@ -377,7 +378,7 @@
                   />
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-4">
                 <div class="d-inline">
                   <div class="input-group mb-3">
                     <span id="basic-addon1" class="input-group-text form-icon"
@@ -397,7 +398,7 @@
           </div>
           <div class="d-inline">
             <div class="row justify-content-center">
-              <div class="col-6">
+              <div class="col-8">
                 <div class="input-group mb-3">
                   <span id="basic-addon1" class="input-group-text form-icon"
                     ><i class="fal fa-code"></i
@@ -413,7 +414,7 @@
                   />
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-4">
                 <div class="d-inline">
                   <div class="input-group mb-3">
                     <span id="basic-addon1" class="input-group-text form-icon"
@@ -439,59 +440,27 @@
                   class="custom-control-input"
                   id="local"
                 />
-                <label class="custom-control-label" for="local"
-                  >Local</label
-                >
+                <label class="custom-control-label pt-1 pr-1" for="local">Local</label>
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="ldn"
-                />
-                <label class="custom-control-label" for="ldn"
-                  >LDN</label
-                >
-              </div>
-             <div class="custom-control custom-checkbox custom-control-inline">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="vc1"
-                />
-                <label class="custom-control-label" for="vc1"
-                  >VC1</label
-                >
+                <input type="checkbox" class="custom-control-input" id="ldn" />
+                <label class="custom-control-label pt-1 pr-1" for="ldn">LDN</label>
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="vc2"
-                />
-                <label class="custom-control-label" for="vc2"
-                  >VC2</label
-                >
+                <input type="checkbox" class="custom-control-input" id="vc1" />
+                <label class="custom-control-label pt-1 pr-1" for="vc1">VC1</label>
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="VC3"
-                />
-                <label class="custom-control-label" for="VC3"
-                  >VC3</label
-                >
+                <input type="checkbox" class="custom-control-input" id="vc2" />
+                <label class="custom-control-label pt-1 pr-1" for="vc2">VC2</label>
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="LDI"
-                />
-                <label class="custom-control-label" for="LDI"
-                  >LDI</label
-                >
+                <input type="checkbox" class="custom-control-input" id="VC3" />
+                <label class="custom-control-label pt-1 pr-1" for="VC3">VC3</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="LDI" />
+                <label class="custom-control-label pt-1 pr-1" for="LDI">LDI</label>
               </div>
             </div>
           </div>
@@ -506,11 +475,6 @@
                 <input
                   id="customSwitch1"
                   checked
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
-                />
-                <input
-                  id="customSwitch1"
                   class="custom-control-input bg-dark"
                   type="checkbox"
                 />
