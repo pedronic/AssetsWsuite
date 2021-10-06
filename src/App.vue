@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="page-wrapper" :class="{ 'auth': !user }" >
     <div class="page-inner" :class="{'bg-brand-gradient' : !user}" >
-      <Sidebar v-if="user" />
+      <Sidebar />
       <div class="page-content-wrapper" :class="{'bg-transparent m-0': !user}">
         <Header/>
         <!-- <Loading v-if="validatingToken" /> -->
@@ -71,7 +71,7 @@ export default {
 	created() {
 		this.validateToken()
 	},
-  computed: mapState(["user"]),
+  // computed: mapState(["user"]),
 };
 </script>
 

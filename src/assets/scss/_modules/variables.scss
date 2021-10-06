@@ -2,6 +2,11 @@
 ========================================================================== */
 /* Looks good on chrome default color profile */
 //$color-primary:						#886ab5;
+@include media-breakpoint-up(sm);
+@include media-breakpoint-up(md);
+@include media-breakpoint-up(lg);
+@include media-breakpoint-up(xl);
+
 $color-primary:						#3082ab;
 $color-icons:						#1e4457;
 $color-success:						#1dc9b7;
