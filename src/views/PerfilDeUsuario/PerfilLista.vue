@@ -16,9 +16,11 @@
 <script>
 import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
 import NomeDoPerfilHead from '../../components/ProfileAccessTable/NomeDoPerfilHead.vue';
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 export default{
     name:"PerfilLista",
+    mixins: [ValidateToaster], //instanciando e declarando o mixin para usar em children components
     components:{
         PagesSubHeader,
         NomeDoPerfilHead,
