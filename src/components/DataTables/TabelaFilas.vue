@@ -81,7 +81,7 @@
           <th>
             <div class="custom-control custom-checkbox">
               <input
-                class="custom-control-input"
+                class="custom-control-input "
                 type="checkbox"
                 @change="visible2 = !visible2"
                 id="defaultUnchecked2"

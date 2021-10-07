@@ -37,28 +37,19 @@
 
       <div id="myTabContent" class="tab-content">
         <div class="justify-content-left">
-          <div class="col-12">
-            <div class="input-group pt-3">
-              <!-- <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-ad"></i
-                ></span> -->
-              <select
-                data-placeholder="Fila"
-                class="js-select2-icons form-control"
-                id="multiple-icons"
-                multiple="multiple"
-              >
-                <option
-                  value="wordpress"
-                  data-icon="fal fa-road"
-                  selected
-                  disabled
-                >
-                  Filas
-                </option>
-                <option value="codepen" data-icon="">Fila 1000</option>
-                <option value="drupal" data-icon="">Fila 2000</option>
-              </select>
+          <div class="col-12 mt-2">
+            <div class="profile-content user-name-line d-flex">
+              <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+              <div id="multiselect-input">
+                <multiselect
+                  v-model="filas_finish"
+                  :placeholder="'Filas'"
+                  :label="'name'"
+                  :track-by="'code'"
+                  :options="finish_filas"
+                  :multiple="true"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -70,31 +61,34 @@
         >
           <div class="row justify-content-left">
             <div class="col-4">
-              <div class="input-group image-preview">
-                <span class="input-group">
-                  <button
-                    type="button"
-                    class="btn btn-default image-preview-clear"
-                    style="display: none"
-                  >
-                    <span class="glyphicon glyphicon-remove"></span> Limpar
-                  </button>
-                  <div class="btn btn-default image-preview-input">
-                    <span class="form-icon"><i class="fal fa-at"></i></span>
-                    <span class="image-preview-input-title"> </span>
+              <div class="profile-content user-name-line d-flex">
+                <div class="input-group image-preview">
+                  <span class="input-group">
+                    <button
+                      type="button"
+                      class="btn btn-default image-preview-clear"
+                      style="display: none"
+                    >
+                      <span class="glyphicon glyphicon-remove"></span> Limpar
+                    </button>
+                    <div class="btn btn-default image-preview-input">
+                      <span class="form-icon"><i class="fal fa-at"></i></span>
+                      <span class="image-preview-input-title"> </span>
+                      <input
+                        type="file"
+                        accept="image/png, image/jpeg, image/gif"
+                        name="input-file-preview"
+                      />
+                    </div>
                     <input
-                      type="file"
-                      accept=".txt,.csv"
-                      name="input-file-preview"
+                      type="text"
+                      placeholder="Anexar Arquivo"
+                      class="form-control image-preview-filename"
+                      id="input-pic"
+                      disabled="disabled"
                     />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Anexar Arquivo"
-                    class="form-control image-preview-filename"
-                    disabled="disabled"
-                  />
-                </span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -140,47 +134,44 @@
                 </div>
               </div>
             </div>
-            <div class="card-body p-0">
-              <div class="row no-gutters row-grid">
-                <div class="col-12">
-                  <div class="mt-3">
+            <div class="mt-2">
                     <div v-for="i of putins" :key="i">
                       <div class="pl-3">
                         <div
-                          class="row no-gutters row-grid align-items-stretch"
+                          class="
+                            row
+                            mb-2
+                            no-gutters
+                            row-grid
+                            align-items-stretch
+                          "
                         >
-                          <div class="coluna mr-2">
-                            <div class="input-group mb-3">
-                              <span
-                                id="basic-addon1"
-                                class="input-group-text form-icon"
-                                ><i class="fal fa-ad"></i
-                              ></span>
-                              <input
-                                aria-describedby="basic-addon1"
-                                aria-label="Username"
-                                class="form-control"
-                                maxlength="120"
-                                minlength="3"
-                                placeholder="DDD"
+                          <div class="col-1 mr-2">
+                            <div class="profile-content user-name-line d-flex">
+                              <i
+                                class="fal fa-ad fa-2x"
+                                style="margin-left: 5px"
+                              />
+                              <b-form-input
+                                id="profile-name-input"
                                 type="text"
+                                placeholder="DDD"
                               />
                             </div>
                           </div>
                           <div class="col-3">
                             <div class="d-inline">
-                              <div class="input-group mb-3">
-                                <span
-                                  id="basic-addon1"
-                                  class="input-group-text form-icon"
-                                  ><i class="fal fa-ad"></i
-                                ></span>
-                                <input
-                                  aria-describedby="basic-addon1"
-                                  aria-label="Username"
-                                  class="form-control"
-                                  placeholder="Número"
+                              <div
+                                class="profile-content user-name-line d-flex"
+                              >
+                                <i
+                                  class="fal fa-at fa-2x"
+                                  style="margin-left: 5px"
+                                />
+                                <b-form-input
+                                  id="profile-name-input"
                                   type="text"
+                                  placeholder="Número"
                                 />
                               </div>
                             </div>
@@ -188,52 +179,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <!-- <div v-for="i of putins" :key="i">
-                <div class="d-inline">
-                  <div class="row justify-content-left ml-3">
-                    <div class="coluna">
-                      <div class="input-group mb-3">
-                        <span
-                          id="basic-addon1"
-                          class="input-group-text form-icon"
-                          ><i class="fal fa-ad"></i
-                        ></span>
-                        <input
-                          aria-describedby="basic-addon1"
-                          aria-label="Username"
-                          class="form-control"
-                          maxlength="120"
-                          minlength="3"
-                          placeholder="DDD"
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="d-inline">
-                        <div class="input-group mb-3">
-                          <span
-                            id="basic-addon1"
-                            class="input-group-text form-icon"
-                            ><i class="fal fa-ad"></i
-                          ></span>
-                          <input
-                            aria-describedby="basic-addon1"
-                            aria-label="Username"
-                            class="form-control"
-                            placeholder="Número"
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
+            
           </div>
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
@@ -251,14 +198,21 @@
 
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
+import Multiselect from "vue-multiselect";
 
 export default {
   components: {
     PagesSubHeader,
+    Multiselect,
   },
   data() {
     return {
       putins: 1,
+      filas_finish: [],
+      finish_filas: [
+        { name: "Fila 1000", code: "1000" },
+        { name: "Fila 2000", code: "2000" },
+      ],
     };
   },
 
@@ -317,6 +271,54 @@ export default {
 </script>
 
 <style scoped>
+#input-pic {
+  border-left: 1px solid rgb(0, 0, 0) !important;
+}
+
+.btn-default {
+  background-image: linear-gradient(to top, #ffffff, #ffffff);
+}
+.image-preview-input {
+  position: relative;
+  overflow: hidden;
+  margin: 0px;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.image-preview-input input[type="file"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+  margin-left: 2px;
+}
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+label#kkk {
+  padding-top: 2.7px;
+}
+
+.form-icon,
+.form-icon:hover {
+  width: 42px;
+}
+
+.centralize {
+  margin-left: 450px;
+}
+
 .botao-salvar {
   background-color: #0d6d9dad;
 }
@@ -325,77 +327,62 @@ export default {
   background-color: #0d6d9d;
 }
 
-.coluna_2 {
-  flex: 0 0 31.666667%;
-  max-width: 31.666667%;
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2 {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+#multiselect-input {
+  display: flex;
+  width: 100%;
+  margin-left: 6px;
 }
 
-.coluna {
-  flex: 0 0 16.666667%;
-  max-width: 8.666667%;
+i.fal.fa-2x {
+  width: 26px;
+  height: 26px;
 }
 
-.btn-default {
-  background-image: linear-gradient(to top, #e9ecef, #e9ecef);
+.bottom {
+  margin-top: 20px;
 }
 
-.image-preview-input {
-  position: relative;
-  overflow: hidden;
-  margin: 0px;
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
+.panel-content {
+  overflow: auto;
 }
 
-.image-preview-input input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
+.panel .panel-container .panel-content {
   padding: 0;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0);
 }
 
-.image-preview-input-title {
-  margin-left: 2px;
-}
-
-.image-preview-input {
-  position: relative;
-  overflow: hidden;
-  margin: 0px;
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
-}
-
-.image-preview-input input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-
-.image-preview-input-title {
-  margin-left: 2px;
-}
-
-.form-control:disabled,
-.form-control[readonly] {
-  background-color: #ffffff;
-  opacity: 1;
-}
-
-.cart-body {
+.card-body {
   padding: 5px;
   height: 50px;
   width: 0;
@@ -403,7 +390,7 @@ export default {
   color: #ffffff;
 }
 
-.cart {
+.card {
   box-shadow: none;
   border: none;
 }

@@ -56,3 +56,4 @@ new Vue({
 // mudar os labels para o do Pedro
 // recuo de tela (FEITO)
 // mudar tabela filas (feito)
+// input photo
