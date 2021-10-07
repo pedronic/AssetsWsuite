@@ -99,3 +99,6 @@ export default {
   }
 }
 </style>
+
+// tabela registro finalizações > cadastrar apenas visualização?
+// inputs do pedro qdo a tela diminui

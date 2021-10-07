@@ -38,5 +38,21 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
-// Vue.use()
 
+
+
+// selec2
+// storage
+// botão de remoção com box de confirmação
+// blacklist inserir uma barra de pesquisa em cada card (feito)
+// validar todos os inputs 
+// definir ícones
+// arrumar primeiro telefone (feito)
+// importar -> toast "sucesso" -> lista
+// mexer nas dimenoes dos inputes registro operadroras (feito)
+// textarea max 15 linhas (feito)
+// 2o formato discagem = dtmf (DONE)
+// plugin senha
+// mudar os labels para o do Pedro
+// recuo de tela (FEITO)
+// mudar tabela filas (feito)
