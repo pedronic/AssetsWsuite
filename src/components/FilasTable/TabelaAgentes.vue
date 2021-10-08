@@ -1,5 +1,5 @@
 <template>
-    <b-table id="tabela-de-filas" :ref="'tabela-de-filas'" class="tabela-filas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header selectable @row-clicked="rowSelect">
+    <b-table id="tabela-de-filas" :ref="'tabela-de-filas'" class="tabela-filas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header selectable @row-clicked="rowSelect" :filter="filter" filter-debounce="150" :filter-included-fields="['agente']">
         <template v-slot:head(selected)='data'>
             <span v-html="data.label"/>
         </template>
@@ -39,6 +39,7 @@ export default {
     name:'TabelaAgentes',
     props:{
         items: Array,
+        filter: String,
     },
     created(){
         this.filas = [...this.items];

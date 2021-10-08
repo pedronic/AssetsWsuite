@@ -1,8 +1,8 @@
 <template>
     <div class="relatorios">        
         <pages-sub-header icon="fal fa-road" titulo="Cadastro de Filas">
-            <div class="card">
-                <div class="card-body"/>
+            <div class="card spacer">
+                <div class="card-body spacer"/>
             </div>
         </pages-sub-header>
     <!-- Seção Superior da Página -->
@@ -105,7 +105,7 @@
         </b-container>
     <!-- Seção Superior da Página: FIM -->
 
-    <!-- Seção Inferior da Página (TABS) -->
+    <!-- Seção Média da Página (TABS) -->
         <b-container fluid id="foundIt">
             <b-tabs justified>
 
@@ -285,7 +285,7 @@
                                     <b-col cols="3" class="time-head-container">
                                         <span class="time-head">Início</span>
                                     </b-col>
-                                    <b-col  class="empty-head-container">
+                                    <b-col  class="empty-head-container2">
                                         <span class="blank-space"/>
                                     </b-col>
                                     <b-col cols="3" class="time-head-container2">
@@ -355,7 +355,7 @@
                                     <b-col cols='12'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input"  type="text" placeholder="Agentes"/>
+                                                <b-form-input id="profile-name-input" v-model="filtro_agentes" type="text" placeholder="Agentes"/>
                                             </div>
                                     </b-col>
                                 </b-row>
@@ -364,7 +364,7 @@
                             <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }} -->
                                 <b-row class="tab-top-section-row">
                                     <b-col cols='12'>
-                                          <tabela-agentes :items="lista_de_agentes"/>
+                                          <tabela-agentes :items="lista_de_agentes" :filter="filtro_agentes"/>
                                     </b-col>
                                 </b-row>
                             <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }}: FIM -->
@@ -374,8 +374,7 @@
                 <!-- Tab 6 {Agentes}: FIM-->
             </b-tabs>
         </b-container>
-    <!-- Seção Inferior da Página (TABS): FIM -->
-
+    <!-- Seção Média da Página (TABS): FIM -->
         <b-container fluid class="salvar-container">
             <b-col cols='12'>
                 <b-row>
@@ -426,6 +425,7 @@ export default {
             end:'',
             timeMask:'##:##',
             bina_number:false,
+            filtro_agentes:'',
             week_days:[
                 {
                     day:"Segunda-feira",
@@ -600,8 +600,7 @@ div#timepicker-append>div>button{
 
 .grey-bg{
     border-bottom-width: 2px;
-    border-color: rgba(0,0,0,1);
-}
+    background-color: rgba(13,109,165,0.08);}
 
 div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6>div.row, div.tab-pane.active>div.container-fluid>div.col-6{
     padding-left: 0;
@@ -618,6 +617,7 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 
 .dia-head-container {
     padding-right: 5px;
+    margin-left: -15px;
 }
 
 .time-body-container{
@@ -626,15 +626,15 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     /* ajuste de margens da tabela */
     padding-left: 5px;
     padding-right: 0px;
-    margin-left: -4px;
+    margin-left: -8px;
     margin-right: -4px;
 }
 .time-body-container2{
     display: flex;
     align-items: center;
     /* ajuste de margens da tabela */
-    padding-left: 0px;
-    padding-right: 5px;
+    padding-left: 0px;    padding-right: 5px;
+    margin-right: -5px;
 }
 
 .time-head-container{
@@ -644,6 +644,7 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     padding-left: 0px;
     padding-right: 0px;
     justify-content: center;
+    margin-left:20px;
 }
 .time-head-container2{
     display: flex;
@@ -651,6 +652,8 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     /* ajuste de margens da tabela */
     padding-left: 0px;
     padding-right: 0px;
+    justify-content: center;
+    margin-right: -7px;
 }
 
 .dia-head {
@@ -682,11 +685,16 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 } */
 
 .empty-head-container.col{
-    max-width:2px;
+    min-width:20px;
+}
+.empty-head-container2.col{
+    max-width:7px;
 }
 .empty-body-container.col{
-    max-width:3px;
+    min-width:5px;
     background-color: white ;
+    margin-left: -14px;
+    margin-right: -10px;
 }
 
 .time-head {
@@ -697,7 +705,7 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     padding-left: 0ch;
     text-align: center;
     vertical-align: middle !important;
-    margin-left: -16px;
+    margin-left: -35px;
     margin-right: -6px;
 }
 
@@ -749,14 +757,14 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 .botao-salvar:hover{
     background-color: #0d6d9d;
 }
-.card-body{
+.card-body.spacer{
     padding: 5px;
     height: 50px;
     width: 0;
     border: 0px;
     color: #ffffff transparent;
 }
-.card{
+.card.spacer{
     box-shadow: none;
     border: none;
 }
@@ -812,5 +820,15 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 i.fal.fa-2x {
     width: 26px;
     height: 26px;
+}
+
+.tab-content {
+    border-left: 1px solid green;
+    border-right: 1px solid green;
+    padding: 10px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
 }
 </style>
