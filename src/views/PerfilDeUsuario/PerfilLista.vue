@@ -2,10 +2,12 @@
     <div class="perfil">
         <pages-sub-header icon="fal fa-briefcase" titulo="Lista de Perfil">
             <div class="card">
-                <div class="card-body">
-                    <router-link :to="{path:'/perfil-usuario',params:{nome:''}}" >
-                        <b-btn variant="success" class="fal fa-plus" />
-                    </router-link>
+                <div class="card-body d-flex">
+                    <div class="d-flex" id="add-perfil">
+                        <router-link :to="{path:'/perfil-usuario',params:{nome:''}}" >
+                            <b-btn variant="success" class="fal fa-plus" />
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </pages-sub-header>
@@ -515,6 +517,10 @@ export default{
 .card-body{
     padding: 5px;
 }
+.card > .card-body > .d-flex > a > button,input{
+    height: 38px !important;
+}
+
 .perfil{
     width: 100%;
     padding: 0;
