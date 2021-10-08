@@ -7,7 +7,7 @@
       <form class="container">
         <div class="form-group">
           <div class="row">
-            <div class="col-7 col-inputs">
+            <div class="col-8 col-inputs">
               <div class="input-group d-flex">
 
                 <input
@@ -26,7 +26,7 @@
                   class="fal fa-search"></i></button>
 
             </div>
-            <div class="col-1 col-inputs mr-4">
+            <div class="col-2 col-inputs">
               <div
                   class="
 
@@ -48,12 +48,7 @@
               </div>
 
             </div>
-            <div class="col-1 col-botoes">
-              <router-link :to="{ name: 'RegistroScripts' }">
-                <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
-                        type="submit"><i class="fal fa-plus"></i></button>
-              </router-link>
-            </div>
+            
 
           </div>
         </div>

@@ -41,7 +41,7 @@ new Vue({
 
 
 
-// selec2
+// selec2 (feito)
 // storage
 // botão de remoção com box de confirmação
 // blacklist inserir uma barra de pesquisa em cada card (feito)
@@ -53,7 +53,7 @@ new Vue({
 // textarea max 15 linhas (feito)
 // 2o formato discagem = dtmf (DONE)
 // plugin senha
-// mudar os labels para o do Pedro
+// mudar os labels para o do Pedro (feito)
 // recuo de tela (FEITO)
 // mudar tabela filas (feito)
 // input photo
