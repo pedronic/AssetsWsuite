@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left>
+        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left :filter="filter" filter-debounce="50" :filter-included-fields="['grupo']">
             <template v-slot:head(grupo)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -156,7 +156,7 @@ export default {
     mixins: [ValidateToaster],
     props:{
         items: Array,
-        filters: String,
+        filter: String,
     },
     methods: {
         deleteRow(g){ //recebe nome do grupo e apaga da lista de grupos de pausas local

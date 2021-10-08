@@ -5,8 +5,8 @@
             <div class="card">
                 <div class="card-body d-flex">
                     <div class="d-flex" id="filtro-grupo-pausa">
-                        <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search"/>
-                        <b-form-input v-model="filter" ></b-form-input>
+                        <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="filter = busca"/>
+                        <b-form-input v-model="busca" @keydown.enter.native="filter = busca"></b-form-input>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
             </div>
 
         </pages-sub-header>
-        <tabela-grupo-pausas :filters='filter' :items="gruposDePausas"/>
+        <tabela-grupo-pausas :filter='filter' :items="gruposDePausas"/>
     </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
     data(){
         return{
             filter:'',
+            busca:'',
             gruposDePausas:[
                 {
                     grupo:"Grupo da Vivo",
