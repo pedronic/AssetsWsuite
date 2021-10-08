@@ -1,5 +1,17 @@
 <template>
   <div>
+    <div class="row mb-2 justify-content-center">
+              <div class="col-12">
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-user fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Usuário"
+                    />
+                  </div>
+              </div>
+            </div>
     <b-table
       striped
       hover
@@ -86,7 +98,20 @@ export default {
 </script>
 
 <style>
-
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
     .table thead{
         background-color: #0d6d9d;
         color:#fff;

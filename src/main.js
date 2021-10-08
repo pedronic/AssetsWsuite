@@ -57,5 +57,6 @@ new Vue({
 // recuo de tela (FEITO)
 // mudar tabela filas (feito)
 // input photo
-//barra de pesquisa lisrta
-// tabela registro finalizações > cadastrar alterável
+//barra de pesquisa lista
+// tabela registro finalizações > cadastrar alterável (feito)
+//responsividade
