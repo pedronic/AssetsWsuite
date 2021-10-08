@@ -60,7 +60,7 @@
                                        <span class="pausa-body">{{p}}</span>
                                    </b-col>
                                    <b-col cols="2" class="ativa-head-container">
-                                       <b-form-checkbox v-model="editRowInput.ativas[index]" :id="p  +'_edit_row_ativa'" :value="true" :unchecked-value="false"/>
+                                       <b-form-checkbox v-model="editRowInput.ativas[index]" :key="index" :id="p  +'_edit_row_ativa'" :value="true" :unchecked-value="false"/>
                                    </b-col>
                                </b-row>
                             </b-container>
@@ -83,7 +83,7 @@
                 cancel-title="MANTER" 
                 cancel-variant="success"
                 @ok="deleteRow(i.grupo)"
-                @cancel="cancelFunc(i.grupo)">
+                @cancel="cancelDelete(i.grupo)">
                        Tem certeza que deseja excluir o grupo de pausas <b>{{i.grupo}}</b>?
             </b-modal>
         </div>
@@ -170,7 +170,7 @@ export default {
             }
             this.validateAndToast(toast);
         },
-        cancelFunc(g){
+        cancelDelete(g){
             let toast = {
                 isValidated:false,
                 title:'GRUPO DE PAUSAS MANTIDO',
@@ -214,102 +214,47 @@ export default {
         populateNewLine(){
             this.newRowInput = {...this.newRowDefault};
         },
-        // addNewRow(){
-        //     if (this.okays>0){
-        //         console.log("ADD NEW ROW")
-        //         this.grupos.push(Object.assign({},this.newRowInput));
-        //         // this.gruposDePausas.push(Object.assign({},this.newRowInput));
-        //         let sub = JSON.stringify(Object.assign(this.newRowInput.grupo.toString()));
-        //         console.log("sub:\t",sub)
-        //         this.gruposNames.push(sub.slice(1,sub.length - 1));
-        //         console.log("Grupos: \n",this.gruposDePausas)
-        //         console.log("Nomes dos Grupos: \n",this.gruposNames)
-        //         this.okays = -1;
-        //     }
-        //     console.log(this.newRowInput)
-        //     this.clearNewRow();
-        // },
-        // clearNewRow(){
-        //     console.log("Clear???")
-        //     console.log((this.okays<0))
-
-        //     if ((this.okays<0) || (JSON.stringify(this.newRowDefault) !== JSON.stringify(this.newRowInput))){
-        //         console.log("Clear on Button")
-        //         let g = this.newRowInput.grupo;
-        //         this.newRowInput = {...this.newRowDefault}
-        //         this.okays = 0;
-        //         let toast = {
-        //             isValidated:true,
-        //             title:'NOVO GRUPO DE PAUSAS ADICIONADO',
-        //             message:'Grupo de Pausas '+g.toUpperCase()+' adicionado com sucesso!',
-        //         }
-        //         this.validateAndToast(toast);
-        //     }
-        //     console.log("Grupos de Pausas: \n",this.gruposDePausas);
-        //     console.log("Grupos: \n",this.grupos);
-        // },
-        // showEdit(ev,i){
-        //     console.log("Show Edit")
-        //     console.log(i)
-        //     console.log('Edit Row on ShowEdit():\n',this.editRowInput);
-        //     this.cancelEdit(this.editRowInput);
-        //     setTimeout(this.populateEditLine(i),1000);
-        // },
         populateEditLine(row){
             this.editRowInput = {...this.grupos[row]};
+            this.thisAtivas = [...this.grupos[row].ativas]; // backup do array de estado das pausas
         },
-        /* Rever Método */
         updateRow(ev,row){
-            console.log("Close Edit Event @updateRow():\n",ev)
-            
-            var p = this.pausas.indexOf(row.pausa);
-            this.editRowInput.pausa = this.editRowInput.pausa.trim();          
-            
-            console.log("Pausas antes de deletar:\n",this.pausas)
-            /* Apagando dados da Fila na posição editada */
-            this.deleteRow2(p);
-            console.log("Pausas depois de deletar:\n",this.pausas)
-            let newPausa = this.editRowInput.pausa.trim();
-            /* Atualizando Fila e Pausas com dados editados */
-            this.grupos.push(Object.assign({},this.editRowInput));
-            this.gruposNames.push(newPausa);
-            this.editRowInput = Object.assign(this.newRowDefault);
+            let newPausa = this.editRowInput.grupo.trim();
+            if(newPausa.length>0){ // checando se o nome não está em branco
+                /* Atualizando Fila e Pausas com dados editados */
+                this.grupos.splice(row,1,{...this.editRowInput});
+                this.gruposNames.splice(row,1,newPausa);
+                this.editRowInput = {...this.newRowDefault};
 
-            console.log("Filas atualizadas (???):\n",this.filas);
-            console.log("Pausas atualizada:\n",this.pausas)
+                let toast = {
+                        isValidated:true,
+                        title:'GRUPO DE PAUSAS EDITADO',
+                        message:'Grupo de Pausas '+newPausa.toUpperCase()+' editado com sucesso!',
+                    }
+                this.validateAndToast(toast);
+            }
+            else{
+                this.editRowInput = {...this.newRowDefault};
 
-            let toast = {
-                    isValidated:true,
-                    title:'GRUPO DE PAUSAS EDITADO',
-                    message:'Grupo de Pausas '+newPausa.toUpperCase()+' editado com sucesso!',
-                }
-            this.validateAndToast(toast);
+                let toast = {
+                        isValidated:false,
+                        title:'GRUPO DE PAUSAS NÃO EDITADO',
+                        message:'Grupo de Pausas '+newPausa.toUpperCase()+' não foi modificado. Não é possível atualizar um Grupo de Pausas apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+                    }
+                this.validateAndToast(toast);
+            }
             
-            // this.closeEdit();
         },
-        /* Rever Método */
-        // closeEdit(){
-        //     console.log("tudo certo nada resolvido ainda...")
-        //     this.editRowInput = Object.assign(this.newRowDefault);
-        //     console.log("editRowInput @closeEdit:\n",this.editRowInput)
-        //     console.log(this.filas)
-        //     this.modalData = false;
-        //     console.log("Fim de closeEdit...")
-        // },
-        /* Rever Método */
         cancelEdit(row){
-            // var e = eri;
-            // for (let k in this.editRowInput) delete this.editRowInput[k];
-            // this.editRowInput = Object.assign({},this.newRowDefault);
-            // e = Object.assign({},this.newRowDefault);
-            // console.log("editRowInput @cancelEdit:\n",this.editRowInput);
-            // console.log("e:\n",e)
             this.editRowInput = {...this.newRowDefault};
-            let p = this.filas[row].pausa;
+            for(let a in this.editRowInput.ativas) this.editRowInput.ativas[a] = false;
+            for(let at in this.thisAtivas) this.grupos[row].ativas.splice(at,1,this.thisAtivas[at]);
+            
+            let p = this.grupos[row].grupo;
             let toast = {
                 isValidated:false,
                 title:'GRUPO DE PAUSAS NÃO EDITADO',
-                message:'Grupo de Pausas '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+                message:'Grupo de Pausas '+p.toUpperCase()+' não foi modificado. A edição foi cancelada pelo usuário.',
             };
             this.validateAndToast(toast);
         }
@@ -339,19 +284,15 @@ export default {
     data(){
         return {
             grupos: this.items,
-            okays: 0,
-            modalData: false,
-            thisLine: {},
+            thisAtivas: [],
             editRowInput: Object.assign({},this.newRowDefault),
             editIcon: '<span class="fal fa-pencil"/>',
             deleteIcon: '<span class="fal fa-trash-alt"/>',
             // pausas: this.items[0].pausas,
-            dummy: [],
             icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
                     {value:'i2', html:'<span class="fal fa-plus"/>'},
                     {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
                     {value:'i4', html:'<span class="fal fa-abacus"/>'}],
-            // pivotRow: this.filas,
             fields: [
                 {
                     key:'grupo',
@@ -409,10 +350,6 @@ input::-webkit-inner-spin-button {
     padding: 0.2ch;
     text-align: center;
 }
-
-/* div.container-fluid>div.row{
-    margin: 0;
-} */
 
 .pausa-head-container, .produtiva-head-container, .obrigatoria-head-container, .alerta-head-container, .limite-head-container, .icone-head-container, .ativa-head-container{
     display: flex;
@@ -476,20 +413,6 @@ text-align: center;
 vertical-align: middle !important;
 }
 
-/* .tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="8"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="8"]{
-    width: 3.5%;
-    text-align: center;
-}
-.tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="7"],[aria-colindex="6"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="7"],[aria-colindex="6"]{
-    width: 3%;
-    text-align: center;
-    justify-content: center;
-    display: table-cell;
-}
-.tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="5"],[aria-colindex="4"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="5"],[aria-colindex="4"]{
-    width: 6%;
-    text-align: center;
-} */
 .tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="2"], .tabela-grupo-pausas > .table.b-table > thead > tr >[aria-colindex="2"]{
     width: 8%;
     text-align: center;
@@ -498,9 +421,6 @@ vertical-align: middle !important;
     /* width: 94%; */
     text-align: left !important;
 }
-/* .tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="1"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="1"]{
- 
-} */
 
 #editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"], #editar-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {
     display: none !important;

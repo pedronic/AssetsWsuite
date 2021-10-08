@@ -101,7 +101,7 @@
                         </b-row>
                         <b-row>
                             <b-col cols="4" class="pausa-body-container">
-                                <b-form-input v-model="editRowInput.pausa" :presentState="i" :id="i.pausa+'_edit_row_pausa'" :ref="i.pausa+'_edit_row_pausa'" type="text" @input="inputTest" @load="inputTest2($event)"/>
+                                <b-form-input v-model="editRowInput.pausa" :presentState="i" :id="i.pausa+'_edit_row_pausa'" :ref="i.pausa+'_edit_row_pausa'" type="text" />
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
                                 <b-form-checkbox v-model="editRowInput.produtiva" :presentState="i" :id="i.pausa+'_edit_row_produtiva'" :value="true" :unchecked-value="false" />
@@ -194,7 +194,7 @@
                         </b-row>
                         <b-row>
                             <b-col cols="4" class="pausa-body-container">
-                                <b-form-input v-model="newRowInput.pausa" :id="'new_row_pausa'" type="text" @input="inputTest" ></b-form-input>
+                                <b-form-input v-model="newRowInput.pausa" :id="'new_row_pausa'" type="text"></b-form-input>
                             </b-col>
                             <b-col cols="2" class="produtiva-body-container" >
                                 <b-form-checkbox v-model="newRowInput.produtiva" :id="'new_row_produtiva'" :value="true" :unchecked-value="false"/>
@@ -246,14 +246,9 @@ export default {
     },
     methods: {
         deleteRow(ev){
-            // const i = ev.target.id.slice(0,ev.target.id.indexOf(ev.target.id.match("[_]")));
             const p = this.pausas.indexOf(ev);
-            // console.log("target id:\t",ev.target.id);
-            console.log("p:\t",p);
-            console.log("pausas:\t",this.pausas)
             this.filas.splice(p,1);
             this.pausas.splice(p,1);
-            console.log("pausas:\t",this.pausas)
             let toast = {
                 isValidated:true,
                 title:'PAUSA EXCLUÍDA',
@@ -268,17 +263,6 @@ export default {
                 message:'Pausa '+p.toUpperCase()+' foi mantida. A exclusão foi cancelada pelo usuário.',
             };
             this.validateAndToast(toast);
-        },
-        deleteRow2(pos){
-            this.filas.splice(pos,1);
-            this.pausas.splice(pos,1);
-        },
-        inputTest(){
-            console.log("Editing New Row Input....")
-            console.log(this.editRowInput.pausa)
-        },
-        inputTest2(ev){
-            console.log("Input load:\n",ev.target)
         },
         okayAdd(){
             let newPausa = this.newRowInput.pausa.trim();
@@ -315,36 +299,6 @@ export default {
             };
             this.validateAndToast(toast);
         },
-        // addNewRow(){
-        //     if (this.okays>0){
-        //         console.log("ADD NEW ROW")
-        //         this.filas.push(Object.assign({},this.newRowInput));
-        //         let sub = JSON.stringify(Object.assign(this.newRowInput.pausa.toString()));
-        //         this.pausas.push(sub.slice(1,sub.length - 1));
-        //         console.log("Pausas: \n",this.pausas)
-        //         console.log("Filas: \n",this.filas)
-        //         this.okays = -1;
-        //     }
-        //     console.log(this.newRowInput)
-        //     console.log(this.filas)
-        //     this.clearNewRow();
-        // },
-        // clearNewRow(){
-        //     if ((this.okays<0) || (JSON.stringify(this.newRowDefault) !== JSON.stringify(this.newRowInput))){
-        //         console.log("Clear on Button")
-        //         this.newRowInput = {...this.newRowDefault}
-        //         this.okays = 0;
-        //     }
-        //     console.log("filas: \n",this.filas);
-        // },
-        // showEdit(ev,i){
-        //     console.log("Show Edit")
-        //     console.log(i)
-        //     // this.editRowInput = {...i};
-        //     console.log('Edit Row on ShowEdit():\n',this.editRowInput);
-        //     // this.cancelEdit(this.editRowInput);
-        //     setTimeout(this.populateEditLine(i),1000);
-        // },
         populateEditLine(i){
             this.editRowInput = {...this.filas[i]};
         },
@@ -352,28 +306,31 @@ export default {
             this.newRowInput = {...this.newRowDefault}
         },
         updateRow(row){
-            this.editRowInput.pausa = this.editRowInput.pausa.trim();
+            let p = this.editRowInput.pausa.trim();
 
-            /* Atualizando Fila e Pausas com dados editados */
-            this.filas.splice(row,1,{...this.editRowInput});
-            this.pausas.splice(row,1, this.editRowInput.pausa);
-            this.editRowInput = {...this.newRowDefault};
-                        
-            let p = this.filas[row].pausa;
-            let toast = {
-                isValidated:true,
-                title:'PAUSA EDITADA',
-                message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
+            if(p.length > 0){ // checando se o nome não está em branco
+                /* Atualizando Fila e Pausas com dados editados */
+                this.filas.splice(row,1,{...this.editRowInput});
+                this.pausas.splice(row,1, p);
+                this.editRowInput = {...this.newRowDefault};
+
+                let toast = {
+                    isValidated:true,
+                    title:'PAUSA EDITADA',
+                    message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
+                }
+                this.validateAndToast(toast);
             }
-            this.validateAndToast(toast);
-        },
-        closeEdit(){
-            console.log("tudo certo nada resolvido ainda...")
-            this.editRowInput = Object.assign(this.newRowDefault);
-            console.log("editRowInput @closeEdit:\n",this.editRowInput)
-            console.log(this.filas)
-            this.modalData = false;
-            console.log("Fim de closeEdit...")
+            else {
+                this.editRowInput = {...this.newRowDefault};
+
+                let toast = {
+                    isValidated:false,
+                    title:'PAUSA NÃO EDITADA',
+                    message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+                }
+                this.validateAndToast(toast);
+            }
         },
         cancelEdit(row){
             this.editRowInput = {...this.newRowDefault};
@@ -399,57 +356,21 @@ export default {
         //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
         // }
     },
-    mounted(){
-        
+    mounted(){     
         // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
     },
     data(){
         return {
             filas: this.items.slice(1,this.items.length),
-            okays: 0,
-            modalData: false,
-            thisLine: {},
             newRowInput: Object.assign({},this.newRowDefault),
             editRowInput: Object.assign({},this.newRowDefault),
             editIcon: '<span class="fal fa-pencil"/>',
             deleteIcon: '<span class="fal fa-trash-alt"/>',
             pausas: this.items[0].pausas,
-            dummy: [],
             icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
                     {value:'i2', html:'<span class="fal fa-plus"/>'},
                     {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
                     {value:'i4', html:'<span class="fal fa-abacus"/>'}],
-            pivotRow: this.filas,
-            newRowFields: [
-                {
-                    key:'pausa',
-                    label: 'Pausas',
-                },
-                {
-                    key:'produtiva',
-                    label: 'Produtiva'
-                },
-                {
-                    key:'obrigatoria',
-                    label: 'Obrigatória'
-                },
-                {
-                    key:'alerta',
-                    label: 'Alerta'
-                },
-                {
-                    key:'limite',
-                    label: 'Limite'
-                },
-                {
-                    key:'icone',
-                    label: 'Ícone'
-                },
-                {
-                    key:'ativa',
-                    label: 'Ativa'
-                }
-            ],
             fields: [
                 {
                     key:'pausa',
