@@ -3,8 +3,11 @@
     <b-table
       striped
       hover
-      :items="items"
+      :items="agentes"
       :fields="fields"
+      :filter="filter"
+      filter-debounce="50" 
+      :filter-included-fields="filter_fields"
       class="
         table-sm
         table-hover table-striped
@@ -13,8 +16,11 @@
         dtr-inline
       "
     >
-      <template #cell(status)>
-        <b-form-checkbox v-model="checked" name="check-button" class="ml-1" switch disabled>
+      <template #cell(Login)="slot">
+        <span :id="slot.item.Login + '_Login'">{{slot.value}}</span>
+      </template>
+      <template #cell(status)="slot">
+        <b-form-checkbox v-model="slot.item.status" name="check-button" class="ml-1" switch disabled>
         </b-form-checkbox>
       </template>
 
@@ -32,8 +38,14 @@
 
 <script>
 export default {
+  props: {
+    items:Array,
+    filter:String,
+    filter_fields:Array,
+  },
   data() {
     return {
+      agentes: this.items,
       fields: [
         {
           key: "Login",
@@ -72,10 +84,6 @@ export default {
           sortable: false,
           thStyle: 'width: 4%;'
         },
-      ],
-      items: [
-        { Login: "Dickerson", nome: "Macdonald" },
-        { Login: "Larsen", nome: "Shaw" },
       ],
       checked: true,
       editIcon: '<span class="fal fa-pencil"/>',
