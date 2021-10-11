@@ -19,16 +19,19 @@
             <tabela-acesso-usuario :viewOnly="viewOnly" :items="items"/>
         </div>
         <b-modal 
-        :id="text" 
-        title="ATENÇÃO!!!"
-        :hide-header-close="true"
-        :no-close-on-backdrop="true"
-        :no-close-on-esc="true"
-        :lazy="true"
-        ok-title="EXCLUIR"
-        ok-variant="danger" 
-        cancel-title="MANTER" 
-        cancel-variant="success">
+            :id="text" 
+            title="ATENÇÃO!!!"
+            :hide-header-close="true"
+            :no-close-on-backdrop="true"
+            :no-close-on-esc="true"
+            :lazy="true"
+            ok-title="EXCLUIR"
+            ok-variant="danger" 
+            cancel-title="MANTER" 
+            cancel-variant="success"
+            @ok="okayFunc(text)" 
+            @cancel="cancelFunc(text)"
+        >
             Tem certeza que deseja excluir o perfil de <b>{{this.text}}</b>?
         </b-modal>
     </div>
@@ -36,14 +39,17 @@
 
 <script>
 import TabelaAcessoUsuario from './TabelaAcessoUsuario.vue'
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+
 export default {
     name: "NomeDoPerfilHead",
+    mixins: [ValidateToaster],
     components: {
         TabelaAcessoUsuario
     },
     props: {
         items: Array,
-        user: Array,
+        user: Object,
         viewOnly: Boolean,
         colID: String,
         rowID: String,
@@ -62,6 +68,22 @@ export default {
         },
         confirmDelete(){
             this.confirmDeleteModal = !this.confirmDeleteModal;
+        },
+        okayFunc(name){
+            let toast = {
+                isValidated:true,
+                title:'PERFIL EXCLUÍDO',
+                message:'Perfil de '+name.toUpperCase()+' excluído com sucesso!',
+            }
+            this.validateAndToast(toast);
+        },
+        cancelFunc(name){
+            let toast = {
+                isValidated:false,
+                title:'PERFIL NÃO EXCLUÍDO',
+                message:'O perfil de '+name.toUpperCase()+' foi mantido. A exclusão foi cancelada pelo usuário.',
+            }
+            this.validateAndToast(toast);
         }
     },
     // watch: {

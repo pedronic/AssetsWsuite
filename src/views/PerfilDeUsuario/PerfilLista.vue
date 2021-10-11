@@ -2,10 +2,12 @@
     <div class="perfil">
         <pages-sub-header icon="fal fa-briefcase" titulo="Lista de Perfil">
             <div class="card">
-                <div class="card-body">
-                    <router-link :to="{path:'/perfil-usuario',params:{nome:''}}" >
-                        <b-btn variant="success" class="fal fa-plus" />
-                    </router-link>
+                <div class="card-body d-flex">
+                    <div class="d-flex" id="add-perfil">
+                        <router-link :to="{path:'/perfil-usuario',params:{nome:''}}" >
+                            <b-btn variant="success" class="fal fa-plus" />
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </pages-sub-header>
@@ -16,9 +18,11 @@
 <script>
 import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
 import NomeDoPerfilHead from '../../components/ProfileAccessTable/NomeDoPerfilHead.vue';
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 export default{
     name:"PerfilLista",
+    mixins: [ValidateToaster], //instanciando e declarando o mixin para usar em children components
     components:{
         PagesSubHeader,
         NomeDoPerfilHead,
@@ -513,6 +517,10 @@ export default{
 .card-body{
     padding: 5px;
 }
+.card > .card-body > .d-flex > a > button,input{
+    height: 38px !important;
+}
+
 .perfil{
     width: 100%;
     padding: 0;
