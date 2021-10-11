@@ -1,5 +1,6 @@
 <template>
   <div class="relatorios">
+  <!-- Cabeçalho -->
     <PagesSubHeader icon="fal fa-list" titulo="Lista de agentes">
       <div class="card">
         <div class="card-body"/>
@@ -21,10 +22,21 @@
               </div>
             </div>
           </div>
-          <TabelaAgentes/>
+
+
         </div>
+      </form>
+    </PagesSubHeader>
+  <!-- Cabeçalho: FIM -->
+
+    <!-- <div class="panel ">
+      <div class="panel-container show">
+        <div class="panel-content"> -->
+        
+          <TabelaAgentes/>
+        <!-- </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

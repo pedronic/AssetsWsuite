@@ -7,7 +7,6 @@
       :fields="fields"
       class="
         table-sm
-        able-bordered
         table-hover table-striped
         w-100
         dt-responsive
@@ -18,20 +17,24 @@
         <b-form-checkbox v-model="checked" name="check-button" class="ml-1" switch disabled>
         </b-form-checkbox>
       </template>
+
       <template #head(acao)>
         <b-button class="head-add-button btn-success ml-4" v-b-modal="'new_line'" variant="outline-dark">
           <span class="fal fa-plus fa-1x head-add-button"/>
         </b-button>
       </template>
       <template #cell(acao)>
-        <button type="button" class="btn edit-btn btn-outline d-inline">
-          <span class="fal fa-pencil">
+        <router-link :to="{ name: 'RegistroAgentes' }">
+            <b-button class="btn edit-btn btn-outline d-inline" variant="outline" :id="(slot.item.Login)+'_edit'" v-html="editIcon" />
+        </router-link>
+         <!-- <span class="fal fa-pencil">
+          </span> 
+        </button> -->
+        <b-button :id="(slot.item.Login)+'_delete'" class="btn edit-btn btn-outline d-inline" variant="outline" v-html="deleteIcon"/>
+         <!-- <span class="fal fa-trash-alt">
           </span>
-        </button>
-        <button type="button" class="btn edit-btn btn-outline d-inline">
-          <span class="fal fa-trash-alt">
-          </span>
-        </button>
+        </button> -->
+
       </template>
 
     </b-table>
@@ -86,6 +89,8 @@ export default {
         { Login: "Larsen", nome: "Shaw" },
       ],
       checked: true,
+      editIcon: '<span class="fal fa-pencil"/>',
+      deleteIcon: '<span class="fal fa-trash-alt"/>',
     };
   },
 };
@@ -95,6 +100,23 @@ export default {
 /* .faturamento{
     overflow:auto;
 } */
+.add-btn>i, .edit-btn>i{
+    padding: 0px !important;
+    border-width: 0px 1px !important;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.add-btn, .edit-btn{
+    display: table-cell;
+    align-items: center !important;
+    border-width: 1px 1px !important;
+    border-color: #adadad;
+    width: 42px;
+    height: 42px;
+}
+
 .table thead {
   background-color: #0d6d9d;
   color: #fff;

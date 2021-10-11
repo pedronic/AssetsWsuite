@@ -1,8 +1,8 @@
 <template>
     <div class="relatorios">        
         <pages-sub-header icon="fal fa-road" titulo="Cadastro de Filas">
-            <div class="card">
-                <div class="card-body"/>
+            <div class="card spacer">
+                <div class="card-body spacer"/>
             </div>
         </pages-sub-header>
     <!-- Seção Superior da Página -->
@@ -105,7 +105,7 @@
         </b-container>
     <!-- Seção Superior da Página: FIM -->
 
-    <!-- Seção Inferior da Página (TABS) -->
+    <!-- Seção Média da Página (TABS) -->
         <b-container fluid id="foundIt">
             <b-tabs justified>
 
@@ -276,14 +276,20 @@
                             <b-col cols="6" >
                             <!-- THEAD -->
                                 <b-row class="tab-top-section-row2">
-                                    <b-col cols="6" class="dia-head-container">
+                                    <b-col cols="5" class="dia-head-container">
                                         <span class="dia-head">Dias</span>
                                     </b-col>
-                                    <b-col cols="3" class="dia-head-container">
+                                    <b-col  class="empty-head-container">
+                                        <span class="blank-space"/>
+                                    </b-col>
+                                    <b-col cols="3" class="time-head-container">
                                         <span class="time-head">Início</span>
                                     </b-col>
-                                    <b-col cols="3" class="dia-head-container">
-                                        <span class="time-head">Fim</span>
+                                    <b-col  class="empty-head-container2">
+                                        <span class="blank-space"/>
+                                    </b-col>
+                                    <b-col cols="3" class="time-head-container2">
+                                        <span class="time-head2">Fim</span>
                                     </b-col>
                                 </b-row>
                             <!-- THEAD: FIM -->
@@ -292,28 +298,36 @@
                                 <b-container fluid v-for="(d, index) in week_days" :key="d.day">
                                     <b-row :class="(index%2) == 0 ? 'grey-bg' : ''">
                                         <!-- Dias -->
-                                        <b-col cols="6" class="dia-head-container">
+                                        <b-col cols="5" class="dia-body-container">
                                             <span class="dia-body">{{d.day}}</span>
                                         </b-col>
                                         <!-- Dias: FIM -->
 
+                                        <b-col  class="empty-body-container">
+                                            <span class="blank-space"/>
+                                        </b-col>
+
                                         <!-- Início -->
-                                        <b-col cols="3" class="time-head-container">
-                                            <b-input-group>
-                                                <b-form-input disabled :id="d.index+'_start'"  v-model="d.start" v-mask="timeMask" placeholder="--:--"/>
-                                                <b-input-group-append>
-                                                    <b-form-timepicker button-only right :id="d.index+'_start_picker'"  v-model="start" v-mask="timeMask" :hour12='false' @shown="start = d.start" @hidden="d.start = start.slice(0,5)"/>
+                                        <b-col cols="3" class="time-body-container">
+                                            <b-input-group class="input-group-sm">
+                                                <b-form-input disabled :id="d.index+'_start'"  v-model="d.start" v-mask="timeMask" max='5'  placeholder="--:--"/>
+                                                <b-input-group-append id="timepicker-append">
+                                                    <b-form-timepicker button-only right style="border-width: 0px !important;" size="sm" :id="d.index+'_start_picker'"  v-model="start" v-mask="timeMask" :hour12='false' @shown="start = d.start" @hidden="d.start = start"/>
                                                 </b-input-group-append>
                                             </b-input-group>
                                         </b-col>
                                         <!-- Início: FIM -->
 
+                                        <b-col  class="empty-body-container">
+                                            <span class="blank-space"/>
+                                        </b-col>
+
                                         <!-- Fim -->
-                                        <b-col cols="3" class="time-head-container2">
-                                            <b-input-group>
-                                                <b-form-input disabled :id="d.index+'_end'" v-model="d.end" v-mask="timeMask" placeholder="--:--"/>
-                                                <b-input-group-append>
-                                                    <b-form-timepicker button-only right :id="d.index+'_end_picker'"  v-model="end" v-mask="timeMask" :hour12='false' @shown="end = d.end" @hidden="d.end = end.slice(0,5)"/>
+                                        <b-col cols="3" class="time-body-container2">
+                                            <b-input-group class="input-group-sm">
+                                                <b-form-input disabled :id="d.index+'_end'" v-model="d.end" v-mask="timeMask" max='5'    placeholder="--:--"/>
+                                                <b-input-group-append id="timepicker-append">
+                                                    <b-form-timepicker button-only right size="sm" :id="d.index+'_end_picker'"  v-model="end" v-mask="timeMask" :hour12='false' @shown="end = d.end" @hidden="d.end = end"/>
                                                 </b-input-group-append>
                                             </b-input-group>
                                         </b-col>
@@ -341,7 +355,7 @@
                                     <b-col cols='12'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input"  type="text" placeholder="Agentes"/>
+                                                <b-form-input id="profile-name-input" v-model="filtro_agentes" type="text" placeholder="Agentes"/>
                                             </div>
                                     </b-col>
                                 </b-row>
@@ -350,7 +364,7 @@
                             <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }} -->
                                 <b-row class="tab-top-section-row">
                                     <b-col cols='12'>
-                                          <tabela-agentes :items="lista_de_agentes"/>
+                                          <tabela-agentes :items="lista_de_agentes" :filter="filtro_agentes"/>
                                     </b-col>
                                 </b-row>
                             <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }}: FIM -->
@@ -360,8 +374,7 @@
                 <!-- Tab 6 {Agentes}: FIM-->
             </b-tabs>
         </b-container>
-    <!-- Seção Inferior da Página (TABS): FIM -->
-
+    <!-- Seção Média da Página (TABS): FIM -->
         <b-container fluid class="salvar-container">
             <b-col cols='12'>
                 <b-row>
@@ -396,6 +409,9 @@ export default {
         nome:String
     },
     methods: {
+        formatTime(d){
+            return String(d).substring(0,5);
+        }
     },
     computed(){
         return{
@@ -409,6 +425,7 @@ export default {
             end:'',
             timeMask:'##:##',
             bina_number:false,
+            filtro_agentes:'',
             week_days:[
                 {
                     day:"Segunda-feira",
@@ -577,9 +594,13 @@ div.tabs>div>ul.nav.nav-tabs.nav-justified>li.nav-item>a.nav-link {
     text-decoration: none !important;
 }
 
-.grey-bg{
-    background-color: rgba(0,0,0,0.05);
+div#timepicker-append>div>button{
+    border: none;
 }
+
+.grey-bg{
+    border-bottom-width: 2px;
+    background-color: rgba(13,109,165,0.08);}
 
 div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6>div.row, div.tab-pane.active>div.container-fluid>div.col-6{
     padding-left: 0;
@@ -590,7 +611,30 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     display: flex;
     align-items: center;
     /* ajuste de margens da tabela */
-    padding: 0px;
+    padding: 5px;
+    padding-left: 0px;
+}
+
+.dia-head-container {
+    padding-right: 5px;
+    margin-left: -15px;
+}
+
+.time-body-container{
+    display: flex;
+    align-items: center;
+    /* ajuste de margens da tabela */
+    padding-left: 5px;
+    padding-right: 0px;
+    margin-left: -8px;
+    margin-right: -4px;
+}
+.time-body-container2{
+    display: flex;
+    align-items: center;
+    /* ajuste de margens da tabela */
+    padding-left: 0px;    padding-right: 5px;
+    margin-right: -5px;
 }
 
 .time-head-container{
@@ -598,14 +642,18 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     align-items: center;
     /* ajuste de margens da tabela */
     padding-left: 0px;
-    padding-right: 3px;
+    padding-right: 0px;
+    justify-content: center;
+    margin-left:20px;
 }
 .time-head-container2{
     display: flex;
     align-items: center;
     /* ajuste de margens da tabela */
-    padding-left: 3px;
+    padding-left: 0px;
     padding-right: 0px;
+    justify-content: center;
+    margin-right: -7px;
 }
 
 .dia-head {
@@ -618,8 +666,35 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     vertical-align: middle !important;
 }
 
-.dia-body {
+.dia-body-container{
+    display: flex;
+    align-items: left;
+    /* ajuste de margens da tabela */
+    padding: 5px;
+    padding-left: 2ch;
+    /* padding-right: 0px; */
+}
+
+.blank-space{
+    background-color: white !important;
+    width: 100%;
+}
+
+/* .dia-body {
     margin-left: 2ch;
+} */
+
+.empty-head-container.col{
+    min-width:20px;
+}
+.empty-head-container2.col{
+    max-width:7px;
+}
+.empty-body-container.col{
+    min-width:5px;
+    background-color: white ;
+    margin-left: -14px;
+    margin-right: -10px;
 }
 
 .time-head {
@@ -630,6 +705,20 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     padding-left: 0ch;
     text-align: center;
     vertical-align: middle !important;
+    margin-left: -35px;
+    margin-right: -6px;
+}
+
+.time-head2 {
+    background-color: #0d6d9d !important;
+    color:#fff !important;
+    border-color: #0d6d9d !important;
+    width: 100%;
+    padding-left: 0ch;
+    text-align: center;
+    vertical-align: middle !important;
+    margin-left: -9px;
+    margin-right: -6px;
 }
 
 .salvar-container{
@@ -650,6 +739,8 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 .tab-top-section-row2 {
     margin-top: 2.5ch;
     /* margin-bottom: 1ch; */
+    margin-left: 0px;
+    margin-right: -9px;
 }
 
 .head-items{
@@ -666,14 +757,14 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 .botao-salvar:hover{
     background-color: #0d6d9d;
 }
-.card-body{
+.card-body.spacer{
     padding: 5px;
     height: 50px;
     width: 0;
     border: 0px;
     color: #ffffff transparent;
 }
-.card{
+.card.spacer{
     box-shadow: none;
     border: none;
 }
@@ -716,7 +807,9 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
     width: 100%;
     margin-left: 6px;
 }
-
+.input-group-sm > .form-control{
+    font-size: 13px !important;
+}
 /* #profile-name-input>.multiselect>.multiselect__tags{
     border-radius: 0px !important;
     border-left-width: 1px !important;
@@ -727,5 +820,15 @@ div.container-fluid>div.col-6>div.container-fluid, div.container-fluid>div.col-6
 i.fal.fa-2x {
     width: 26px;
     height: 26px;
+}
+
+.tab-content {
+    border-left: 1px solid green;
+    border-right: 1px solid green;
+    padding: 10px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
 }
 </style>
