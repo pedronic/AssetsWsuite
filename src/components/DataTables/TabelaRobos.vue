@@ -3,8 +3,11 @@
     <b-table
         striped
         hover
-        :items="items"
+        :items="robos"
         :fields="fields"
+        :filter="filter"
+        filter-debounce="50" 
+        :filter-included-fields="filter_fields"
         class="
         table-sm
         able-bordered
@@ -14,8 +17,8 @@
         dtr-inline
       "
     >
-      <template #cell(status)>
-        <b-form-checkbox v-model="checked" class="ml-1" name="check-button" switch disabled>
+      <template #cell(status)="slot">
+        <b-form-checkbox v-model="slot.item.status" class="ml-1" name="check-button" switch disabled>
         </b-form-checkbox>
       </template>
       <template #cell(acao)>
@@ -30,6 +33,11 @@
 
 <script>
 export default {
+  props: {
+    items:Array,
+    filter:String,
+    filter_fields:Array,
+  },
   data() {
     return {
       fields: [
@@ -66,11 +74,7 @@ export default {
           thStyle: 'width: 4%;'
         },
       ],
-      items: [
-        { Login: "Dickerson", nome: "Macdonald" },
-        { Login: "Larsen", nome: "Shaw" },
-      ],
-      checked: true,
+      robos: this.items,
     };
   },
 };

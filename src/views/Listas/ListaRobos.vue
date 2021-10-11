@@ -1,72 +1,39 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de robôs">
+    <!-- Cabeçalho -->
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de Robôs">
+
       <div class="card">
-        <div class="card-body"/>
-      </div>
-      <form class="container">
-        <div class="form-group">
-          <div class="row">
-            <div class="col-7 col-inputs">
-              <div class="input-group d-flex">
-
-                <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder=""
-                    type="text"
-                    v-on:input="filter = $event.target.value"
-                />
-              </div>
+        <div class="card-body d-flex">
+            <div class="d-flex" id="filtro-grupo-pausa">
+                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Login')"></b-form-input>
+                <div class="card">
+                  <div class="card-body"/>
+                </div>
+                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Login')"/>
             </div>
-
-            <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed" name="pesquisa-faturamento" type="submit"><i
-                  class="fal fa-search"></i></button>
-
-            </div>
-            <div class="col-1 col-inputs mr-4">
-              <div
-                  class="
-
-                                      custom-control custom-switch
-                                      border border-0
-                                      mt-1
-                                    "
-              >
-                <input
-                    id="customSwitch1"
-                    class="custom-control-input bg-dark"
-                    type="checkbox"
-
-                />
-                <label
-                    class="custom-control-label"
-                    for="customSwitch1"
-                ></label>
-              </div>
-
-            </div>
-            <div class="col-1 col-botoes">
-              <router-link :to="{ name: 'RegistroRobos' }">
-                <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
-                        type="submit"><i class="fal fa-plus"></i></button>
-              </router-link>
-            </div>
-
-          </div>
         </div>
-      </form>
+      </div>
+
+      <div class="card">
+        <div class="card-body d-flex">
+            <div class="d-flex" id="status-filter">
+                <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+            </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body d-flex">
+          <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-robos',params:{nome:''}}" >
+            <b-btn variant="success" class="fal fa-plus"/>
+          </router-link>
+        </div>
+      </div>
+
     </PagesSubHeader>
-
-    <div class="panel ">
-      <div class="panel-container show">
-        <div class="panel-content">
-          <TabelaRobos/>
-        </div>
-      </div>
-    </div>
+  <!-- Cabeçalho: FIM -->
+    <TabelaRobos :items="items" :filter="filter" :filter_fields="filter_fields"/>        
   </div>
 </template>
 
@@ -82,12 +49,24 @@ export default {
   },
   data() {
     return {
-      filter: "",
+      items: [
+        { Login: "Dickerson", nome: "Macdonald", status:true },
+        { Login: "Larsen", nome: "Shaw", status:true },
+      ],
       usuarios: [],
       msg: "",
+      filter:'',
+      filter_fields:[''],
+      busca:'',
+      status_filter: true,
     };
   },
-  methods: {},
+  methods: {
+    setFilter(filter,field){
+      this.filter = filter.toString();
+      this.filter_fields.splice(0,1,field);
+    }
+  },
   created() {
     // this.service = new UsuarioMetodos(this.$resource);
     // this.service.list().then(
@@ -111,7 +90,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .col-botoes{
   padding-left: 3px !important;
   padding-right: 3px !important;
@@ -128,12 +107,21 @@ export default {
   padding: 0;
 }
 
-.card-body {
-  padding: 5px;
-  height: 50px;
-  width: 0;
-  border: 0;
-  color: #ffffff;
+.card-body{
+    padding: 5px;
+    /* height: 50px; */
+    /* width: 0;
+    border: 0px;
+    color: #ffffff transparent; */
+}
+.card > .card-body > .d-flex > button#pesquisa_faturamento{
+    margin-right: 0.3rem !important;
+}
+.card > .card-body > .d-flex > button,input{
+    height: 38px !important;
+}
+.d-flex#filtro-grupo-pausa{
+    height: 38px !important;
 }
 
 .card {

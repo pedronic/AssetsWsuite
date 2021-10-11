@@ -63,10 +63,8 @@ export default {
   },
   methods: {
     setFilter(filter,field){
-      console.log(filter);
       this.filter = filter.toString();
       this.filter_fields.splice(0,1,field);
-      console.log(this.filter)
     }
   },
   created() {
