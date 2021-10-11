@@ -1,7 +1,7 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de Usuários do Sistema">
+    <PagesSubHeader icon="fal fa-user-friends" titulo="Lista de Usuários do Sistema">
 
       <div class="card">
         <div class="card-body d-flex">
@@ -52,14 +52,14 @@ export default {
     return {
       items: [
         { 
-            Usuário: 'Exemplo', 
+            Usuario: 'Exemplo', 
             Nome: 'Ex',
             Email: 'ex@dom.com.br',
             Perfil: 'lado',
             status:true
         },
         { 
-            Usuário: 'Outro Exemplo', 
+            Usuario: 'Outro Exemplo', 
             Nome: '',
             Email: '',
             Perfil: '',

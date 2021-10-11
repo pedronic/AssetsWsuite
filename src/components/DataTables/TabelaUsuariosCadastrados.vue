@@ -16,6 +16,10 @@
         dtr-inline
       "
     >
+
+      <template #cell(Usuario)="slot">
+        <span :id="slot.item.Usuario + '_Usuário'">{{slot.value}}</span>
+      </template>
       <template #cell(status)="slot">
         <b-form-checkbox v-model="slot.item.status" name="check-button" class="ml-1" switch disabled>
         </b-form-checkbox>

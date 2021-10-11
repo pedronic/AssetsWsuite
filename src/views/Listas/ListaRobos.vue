@@ -1,7 +1,7 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de Robôs">
+    <PagesSubHeader icon="fal fa-user-robot" titulo="Lista de Robôs">
 
       <div class="card">
         <div class="card-body d-flex">

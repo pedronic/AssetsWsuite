@@ -1,7 +1,7 @@
 <template>
   <div class="relatorios">
   <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de agentes">
+    <PagesSubHeader icon="fal fa-user-headset" titulo="Lista de agentes">
 
       <div class="card">
         <div class="card-body d-flex">
