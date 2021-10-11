@@ -3,8 +3,11 @@
     <b-table
       striped
       hover
-      :items="items"
+      :items="usuarios"
       :fields="fields"
+      :filter="filter"
+      filter-debounce="50" 
+      :filter-included-fields="filter_fields"
       class="
         table-sm
         table-hover table-striped
@@ -13,11 +16,11 @@
         dtr-inline
       "
     >
-      <template #cell(status)>
-        <b-form-checkbox v-model="checked" name="check-button" class="ml-1" switch disabled>
+      <template #cell(status)="slot">
+        <b-form-checkbox v-model="slot.item.status" name="check-button" class="ml-1" switch disabled>
         </b-form-checkbox>
       </template>
-      <template #cell(ação)>
+      <template #cell(acao)>
         <router-link :to="{ name: 'RegistroUsuarios' }">
           <i class="fal fa-pencil d-inline"></i>
         </router-link>
@@ -29,10 +32,15 @@
 
 <script>
 export default {
-    name: "TableDashboard",
-    data(){
-        return{
-            fields: [
+  props: {
+    items:Array,
+    filter:String,
+    filter_fields:Array,
+  },
+  name: "TableDashboard",
+  data(){
+      return{
+          fields: [
           {
             key: 'Usuário',
             label: 'Usuário',
@@ -65,22 +73,10 @@ export default {
             sortable: false,
             thStyle: 'width: 4%;'
           },
-            ],
-        items: [
-          { 
-              Usuário: 'Exemplo', 
-              Nome: '',
-              Email: '',
-              Perfil: '',
-        },
-        { 
-              Usuário: 'Outro Exemplo', 
-              Nome: '',
-              Email: '',
-              Perfil: '',
-        },
-        ]
-        }
+          ],
+          usuarios: this.items,
+
+      }
     }
 }
 </script>
