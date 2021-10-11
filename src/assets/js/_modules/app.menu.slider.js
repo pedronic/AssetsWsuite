@@ -8,7 +8,7 @@
  */
 
 
-;
+
 (function($) {
     var pluginName = 'menuSlider';
 

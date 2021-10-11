@@ -131,7 +131,7 @@
 				&.active {
 					
 					> a {
-						@include text-contrast(rgba(lighten(darken($nav-base-color, 11%), 5%), (45/100)))
+						@include text-contrast(rgba(lighten(darken($nav-base-color, 11%), 5%), (45/100)));
 						background-color:transparent;
 
 						> .nav-link-text {

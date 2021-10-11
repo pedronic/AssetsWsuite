@@ -255,11 +255,11 @@ function stopDemo() {
 	document.getElementById('message').innerHTML = '<div id="demoMessage" class="shadow-lg fs-xl p-3 rounded fadeinup bg-success-500 text-center">Thanks for watching! <br> <button class="btn btn-xs btn-dark mt-2" onclick="startDemo();">Play again</button> </div>';
 	$('#playDemo').hide();
 	$('#pauseDemo').hide();
-};
+}
 
 function pauseDemo() {
 	clearInterval(timer);
 	document.getElementById('message').innerHTML = '<div id="demoMessage" class="shadow-lg fs-xl p-3 rounded highlight"> Demo Paused </div>';
 	$('#playDemo').show();
 	$('#pauseDemo').hide();
-};
+}
