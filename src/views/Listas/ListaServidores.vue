@@ -4,54 +4,20 @@
       <div class="card">
         <div class="card-body"/>
       </div>
-      <form class="container">
-        <div class="form-group">
-          <div class="row">
-            <div class="col-8 col-inputs">
-              <div class="input-group d-flex">
 
-                <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder=""
-                    type="text"
-                    v-on:input="filter = $event.target.value"
-                />
-              </div>
-            </div>
-
-            <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed dow-color2"><i
-                  class="fal fa-search"></i></button>
-            </div>
-            <div class="col-2 col-inputs">
-              <div
-                  class="
-                                      custom-control custom-switch
-                                      border border-0
-                                      mt-1
-                                    "
-              >
-                <input
-                    id="customSwitch1"
-                    class="custom-control-input bg-dark"
-                    type="checkbox"
-
-                />
-                <label
-                    class="custom-control-label"
-                    for="customSwitch1"
-                ></label>
-              </div>
-
-            </div>
-            
-
-          </div>
-        </div>
-      </form>
     </PagesSubHeader>
+    <div class="row mb-2 justify-content-center">
+      <div class="col-12">
+        <div class="profile-content user-name-line d-flex">
+          <i class="fal fa-server fa-2x" style="margin-left: 5px" />
+          <b-form-input
+              id="profile-name-input"
+              type="text"
+              placeholder="Servidores"
+          />
+        </div>
+      </div>
+    </div>
     <div class="panel ">
       <div class="panel-container show">
         <div class="panel-content">

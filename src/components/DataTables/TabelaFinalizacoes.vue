@@ -63,11 +63,14 @@
         >
         </b-form-checkbox>
       </template>
-      <template #cell(ação)>
-        <router-link :to="{ name: 'RegistroUsuarios' }">
-          <i class="fal fa-pencil d-inline"></i>
-        </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
+      <template #head(acao)>
+        <b-button class="head-add-button btn-success" v-b-modal="'new_line'" variant="outline-dark">
+          <span class="fal fa-plus fa-1x head-add-button"/>
+        </b-button>
+      </template>
+      <template #cell(acao)="slot">
+        <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'" @mousedown="showEdit($event,slot.item)" v-html="editIcon"/>
+        <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'"/>
       </template>
     </b-table>
   </div>
@@ -121,7 +124,7 @@ export default {
           thStyle: "width: 5%;",
         },
         {
-          key: "Ação",
+          key: "acao",
           label: "Ação",
           sortable: false,
           thStyle: "width: 4%;",
@@ -145,6 +148,22 @@ export default {
 </script>
 
 <style>
+.add-btn>i, .edit-btn>i{
+  padding: 0px !important;
+  border-width: 0px 1px !important;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.add-btn, .edit-btn{
+  display: table-cell;
+  align-items: center !important;
+  border-width: 1px 1px !important;
+  border-color: #adadad;
+  width: 42px;
+  height: 42px;
+}
 .table thead {
   background-color: #0d6d9d;
   color: #fff;

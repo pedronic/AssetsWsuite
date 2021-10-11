@@ -2,7 +2,12 @@
   <div class="row">
     <div class="col-sm-12 faturamento">
       <b-table striped hover :items="items" :fields="fields" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline">
-    <template #cell(acao)>
+        <template #head(acao)>
+          <b-button class="head-add-button btn-success" v-b-modal="'new_line'" variant="outline-dark">
+            <span class="fal fa-plus fa-1x head-add-button"/>
+          </b-button>
+        </template>
+        <template #cell(acao)>
         <router-link :to="{ name: 'BlacklistPhone' }">
           <i class="fal fa-download d-inline"></i>
         </router-link>

@@ -5,9 +5,21 @@
         <div class="card-body" />
       </div>
     </PagesSubHeader>
-
+    <div class="row mb-2 justify-content-center">
+      <div class="col-12">
+        <div class="profile-content user-name-line d-flex">
+          <i class="fal fa-user fa-2x" style="margin-left: 5px" />
+          <b-form-input
+              id="profile-name-input"
+              type="text"
+              placeholder="Usuário"
+          />
+        </div>
+      </div>
+    </div>
     <div class="panel">
       <div class="panel-container show">
+
         <div class="panel-content">
           <TabelaUsuariosCadastrados />
         </div>

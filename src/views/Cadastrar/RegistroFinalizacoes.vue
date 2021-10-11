@@ -263,6 +263,7 @@ export default {
 </script>
 
 <style scoped>
+
 #input-pic {
   border-left: 1px solid rgb(0, 0, 0) !important;
 }

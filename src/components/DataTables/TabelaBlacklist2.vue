@@ -12,6 +12,11 @@
         >
         </b-form-checkbox>
       </template>
+        <template #head(acao)>
+          <b-button class="head-add-button btn-success" v-b-modal="'new_line'" variant="outline-dark">
+            <span class="fal fa-plus fa-1x head-add-button"/>
+          </b-button>
+        </template>
         <template #cell(acao)>
           <i class="fal fa-trash-alt d-inline ml-2"></i>
         </template>

@@ -262,6 +262,38 @@ export default {
 //get
 </script>
 <style scoped>
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input{
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2{
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
 #input-pic {
   border-left: 1px solid rgb(0, 0, 0) !important;
   /* border-color: rgb(0, 0, 0)!important; */
@@ -308,10 +340,6 @@ label#kkk {
   width: 42px;
 }
 
-.centralize {
-  margin-left: 450px;
-}
-
 .botao-salvar {
   background-color: #0d6d9dad;
 }
@@ -320,40 +348,7 @@ label#kkk {
   background-color: #0d6d9d;
 }
 
-.user-name-line {
-  align-items: center !important;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #d0cece;
-  padding-left: 0%;
-  padding-right: 0%;
-}
-.user-name-line2 {
-  align-items: center !important;
-  border-style: solid;
-  border-width: 1px;
-  /* border-top-width: 2px;
-    border-bottom-width: 2px; */
-  height: 42px;
-  border-color: #d0cece;
-  padding-left: 0%;
-  padding-right: 0%;
-}
-#profile-name-input {
-  margin-left: 5px;
-  margin-right: 0px;
-  border-left-color: black;
-  border-radius: 0px;
-}
-#profile-name-input2 {
-  margin-left: 5px;
-  margin-right: 0px;
-  border-left-color: black;
-  border-radius: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
-}
+
 #multiselect-input {
   display: flex;
   width: 100%;
