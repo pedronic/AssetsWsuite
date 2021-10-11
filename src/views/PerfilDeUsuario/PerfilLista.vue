@@ -3,11 +3,9 @@
         <pages-sub-header icon="fal fa-briefcase" titulo="Lista de Perfil">
             <div class="card">
                 <div class="card-body d-flex">
-                    <div class="d-flex" id="add-perfil">
-                        <router-link :to="{path:'/perfil-usuario',params:{nome:''}}" >
-                            <b-btn variant="success" class="fal fa-plus" />
-                        </router-link>
-                    </div>
+                    <router-link class="d-flex" id="add-perfil" :to="{path:'/perfil-usuario',params:{nome:''}}" >
+                        <b-btn variant="success" class="fal fa-plus" />
+                    </router-link>
                 </div>
             </div>
         </pages-sub-header>
@@ -517,8 +515,30 @@ export default{
 .card-body{
     padding: 5px;
 }
-.card > .card-body > .d-flex > a > button,input{
+/* .card > .card-body > .d-flex > a > button,input{
     height: 38px !important;
+} */
+
+.card-body{
+    padding: 5px;
+    /* height: 50px; */
+    /* width: 0;
+    border: 0px;
+    color: #ffffff transparent; */
+}
+.card > .card-body > .d-flex > button#pesquisa_faturamento{
+    margin-right: 0.3rem !important;
+}
+.card > .card-body > .d-flex > button,input{
+    height: 38px !important;
+}
+.d-flex#filtro-grupo-pausa{
+    height: 38px !important;
+}
+
+.card {
+  box-shadow: none;
+  border: none;
 }
 
 .perfil{

@@ -25,7 +25,7 @@
 
       <div class="card">
         <div class="card-body d-flex">
-            <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-usuarios',params:{nome:''}}">
+            <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-agentes',params:{nome:''}}">
                 <b-btn variant="success" class="fal fa-plus"/>
             </router-link>
         </div>
