@@ -19,15 +19,19 @@
         </b-form-checkbox>
       </template>
       <template #head(acao)>
-        <b-button class="head-add-button btn-success" v-b-modal="'new_line'" variant="outline-dark">
+        <b-button class="head-add-button btn-success ml-4" v-b-modal="'new_line'" variant="outline-dark">
           <span class="fal fa-plus fa-1x head-add-button"/>
         </b-button>
       </template>
       <template #cell(acao)>
-        <router-link :to="{ name: 'RegistroScripts' }">
-          <i class="fal fa-pencil d-inline"></i>
-        </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
+        <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-pencil">
+          </span>
+        </button>
+        <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-trash-alt">
+          </span>
+        </button>
       </template>
     </b-table>
   </div>
@@ -65,7 +69,7 @@ export default {
           key: "acao",
           label: "Ação",
           sortable: false,
-          thStyle: 'width: 4%;'
+          thStyle: 'width: 8%;'
         },
       ],
       items: [
@@ -79,6 +83,34 @@ export default {
 </script>
 
 <style >
+span.fal{
+  pointer-events: none;
+}
+
+.add-btn>i, .edit-btn>i{
+  padding: 0px !important;
+  border-width: 0px 1px !important;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.add-btn, .edit-btn{
+  display: table-cell;
+  align-items: center !important;
+  border-width: 1px 1px !important;
+  border-color: #adadad;
+  width: 42px;
+  height: 42px;
+}
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
 /* .faturamento{
     overflow:auto;
 } */

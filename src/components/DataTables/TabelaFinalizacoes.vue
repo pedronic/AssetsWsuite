@@ -64,13 +64,19 @@
         </b-form-checkbox>
       </template>
       <template #head(acao)>
-        <b-button class="head-add-button btn-success" v-b-modal="'new_line'" variant="outline-dark">
+        <b-button class="head-add-button btn-success ml-4" v-b-modal="'new_line'" variant="outline-dark">
           <span class="fal fa-plus fa-1x head-add-button"/>
         </b-button>
       </template>
-      <template #cell(acao)="slot">
-        <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'" @mousedown="showEdit($event,slot.item)" v-html="editIcon"/>
-        <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'"/>
+      <template #cell(acao)>
+        <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-pencil">
+          </span>
+        </button>
+        <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-trash-alt">
+          </span>
+        </button>
       </template>
     </b-table>
   </div>
@@ -127,7 +133,7 @@ export default {
           key: "acao",
           label: "Ação",
           sortable: false,
-          thStyle: "width: 4%;",
+          thStyle: "width: 8%;",
         },
       ],
       items: [
@@ -148,6 +154,10 @@ export default {
 </script>
 
 <style>
+span.fal{
+  pointer-events: none;
+}
+
 .add-btn>i, .edit-btn>i{
   padding: 0px !important;
   border-width: 0px 1px !important;

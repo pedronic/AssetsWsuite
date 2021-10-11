@@ -1,24 +1,28 @@
 <template>
   <div class="row">
     <div class="col-sm-12 faturamento">
-      <b-table striped hover :items="items" :fields="fields" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline">
+      <b-table :fields="fields" :items="items" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline" hover
+               striped>
         <template #cell(status)>
-        <b-form-checkbox
-          v-model="checked"
-          name="check-button"
-          class="ml-1"
-          switch
-          disabled
-        >
-        </b-form-checkbox>
-      </template>
+          <b-form-checkbox
+              v-model="checked"
+              class="ml-1"
+              disabled
+              name="check-button"
+              switch
+          >
+          </b-form-checkbox>
+        </template>
         <template #head(acao)>
-          <b-button class="head-add-button btn-success" v-b-modal="'new_line'" variant="outline-dark">
+          <b-button v-b-modal="'new_line'" class="head-add-button btn-success" variant="outline-dark">
             <span class="fal fa-plus fa-1x head-add-button"/>
           </b-button>
         </template>
         <template #cell(acao)>
-          <i class="fal fa-trash-alt d-inline ml-2"></i>
+          <button class="btn edit-btn btn-outline d-inline" type="button">
+          <span class="fal fa-trash-alt">
+          </span>
+          </button>
         </template>
       </b-table>
     </div>
@@ -28,8 +32,8 @@
 <script>
 export default {
   name: "TableBlacklist2",
-  data(){
-    return{
+  data() {
+    return {
       fields: [
         {
           key: 'DDD',
@@ -61,7 +65,7 @@ export default {
           key: 'acao',
           label: 'Ação',
           sortable: false,
-          thStyle: 'width: 4%;'
+          thStyle: 'width: 4.5%;'
         },
 
       ],
@@ -86,23 +90,47 @@ export default {
 </script>
 
 <style>
-
-.table thead{
-  background-color: #0d6d9d;
-  color:#fff;
+span.fal {
+  pointer-events: none;
 }
+
+.add-btn > i, .edit-btn > i {
+  padding: 0px !important;
+  border-width: 0px 1px !important;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.add-btn, .edit-btn {
+  display: table-cell;
+  align-items: center !important;
+  border-width: 1px 1px !important;
+  border-color: #adadad;
+  width: 42px;
+  height: 42px;
+}
+
+.table thead {
+  background-color: #0d6d9d;
+  color: #fff;
+}
+
 .table.b-table.table-sm > thead > tr > [aria-sort]:not(.b-table-sort-icon-left), .table.b-table.table-sm > tfoot > tr > [aria-sort]:not(.b-table-sort-icon-left) {
   background-position: right calc(0.3rem / 2) bottom 10px;
   padding-right: calc(0.3rem + 0.65em);
 
 }
+
 .table.b-table > thead > tr > [aria-sort=none], .table.b-table > tfoot > tr > [aria-sort=none] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important;
 
 }
+
 .table.b-table > thead > tr > [aria-sort=ascending], .table.b-table > tfoot > tr > [aria-sort=ascending] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' opacity='.3' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
+
 .table.b-table > thead > tr > [aria-sort=descending], .table.b-table > tfoot > tr > [aria-sort=descending] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
