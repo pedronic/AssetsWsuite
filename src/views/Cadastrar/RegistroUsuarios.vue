@@ -117,6 +117,27 @@
           </div>
         </div>
         <div class="d-inline">
+          <div class="row">
+            <div class="col-4">
+              <div class="d-inline">
+                <div class="input-group mb-3">
+                  <span id="basic-addon1" class="input-group-text form-icon"
+                  ><i class="fal fa-key"></i
+                  ></span>
+                  <input
+                      v-model.lazy="usuario.senha"
+                      aria-describedby="basic-addon1"
+                      aria-label="Username"
+                      class="form-control"
+                      placeholder="Confirmar Senha"
+                      type="password"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-inline">
           <div class="row ">
             <div class="col-12">
               <div class="input-group" id="modal">
