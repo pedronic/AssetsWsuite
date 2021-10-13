@@ -134,4 +134,38 @@ export default {
 .dow-color{
     background-color: #1a7f37 !important;
 }
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  /* border-top-width: 2px;
+    border-bottom-width: 2px; */
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2 {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
 </style> 

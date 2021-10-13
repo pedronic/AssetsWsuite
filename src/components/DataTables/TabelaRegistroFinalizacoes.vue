@@ -7,6 +7,19 @@
       :fields="fields"
       class="table-sm table-hover table-striped w-100 dt-responsive dtr-inline"
     >
+    <template #cell(descricao)>
+      <div class="col-7 col-inputs">
+              <div class="input-group d-flex">
+                <input
+                id="cell-form"
+                  aria-describedby="basic-addon1"
+                  aria-label="Username"
+                  class="form-control"
+                  type="text"
+                />
+              </div>
+            </div>
+    </template>
       <template #cell(CPC)>
         <div class="form-check ml-3">
           <input
@@ -95,11 +108,9 @@ export default {
       items: [
         {
           id: "1",
-          descricao: "Teste",
         },
         {
           id: "2",
-          descricao: "",
         },
       ],
     };
@@ -108,6 +119,10 @@ export default {
 </script>
 
 <style>
+.form-control {
+  background-color: #fff0;
+  border: 1px solid #fff0;
+}
 .table thead {
   background-color: #0d6d9d;
   color: #fff;

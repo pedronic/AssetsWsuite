@@ -4,61 +4,20 @@
       <div class="card">
         <div class="card-body"/>
       </div>
-      <form class="container">
-        <div class="form-group">
-          <div class="row">
-            <div class="col-7 col-inputs">
-              <div class="input-group d-flex">
 
-                <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder=""
-                    type="text"
-                    v-on:input="filter = $event.target.value"
-                />
-              </div>
-            </div>
-
-            <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed dow-color2"><i
-                  class="fal fa-search"></i></button>
-            </div>
-            <div class="col-1 col-inputs mr-4">
-              <div
-                  class="
-
-                                      custom-control custom-switch
-                                      border border-0
-                                      mt-1
-                                    "
-              >
-                <input
-                    id="customSwitch1"
-                    class="custom-control-input bg-dark"
-                    type="checkbox"
-
-                />
-                <label
-                    class="custom-control-label"
-                    for="customSwitch1"
-                ></label>
-              </div>
-
-            </div>
-            <div class="col-1 col-botoes">
-              <router-link :to="{ name: 'RegistroUsuarios' }">
-                <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
-                        type="submit"><i class="fal fa-plus"></i></button>
-              </router-link>
-            </div>
-
-          </div>
-        </div>
-      </form>
     </PagesSubHeader>
-
+    <div class="row mb-2 justify-content-center">
+      <div class="col-12">
+        <div class="profile-content user-name-line d-flex">
+          <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+          <b-form-input
+              id="profile-name-input"
+              type="text"
+              placeholder="Finalizações"
+          />
+        </div>
+      </div>
+    </div>
     <div class="panel ">
       <div class="panel-container show">
         <div class="panel-content">
@@ -113,6 +72,38 @@ export default {
 </script>
 
 <style>
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input{
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2{
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
 .dow-color2 {
 background-color: rgb(13, 109, 157) !important;
 }
