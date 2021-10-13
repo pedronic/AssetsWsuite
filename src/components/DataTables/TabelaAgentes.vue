@@ -32,6 +32,7 @@
         <!-- <i class="fal fa-trash-alt d-inline ml-2"></i> -->
         <b-button :id="(slot.item.Login)+'_delete'" class="edit-btn" variant="outline"   v-html="deleteIcon"/>
       </template>
+
     </b-table>
   </div>
 </template>
@@ -82,7 +83,7 @@ export default {
           key: "acao",
           label: "Ação",
           sortable: false,
-          thStyle: 'width: 4%;'
+          thStyle: 'width: 8%;'
         },
       ],
       checked: true,

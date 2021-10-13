@@ -10,101 +10,83 @@
         <div class="form-group">
 
           <div class="d-inline">
-            <div class="row justify-content-center ">
+            <div class="row mb-2 justify-content-center ">
 
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-ad"></i
-                  ></span>
-                    <input
-                        aria-describedby="basic-addon1"
-                        aria-label="Username"
-                        class="form-control"
-                        placeholder="Nome"
-                        type="text"
-                    />
+                  <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="Nome"
+                  />
+                </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="d-inline">
+                  <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                  <div id="multiselect-input">
+                  <multiselect
+                    v-model="tipos_finish"
+                    :placeholder="'Tipo'"
+                    :label="'name'"
+                    :track-by="'code'"
+                    :options="finish_tipos"
+                    :multiple="false"
+                  />
+                </div>
                   </div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="fal fa-ad"></i
-                ></span>
-                    <select id="inputGroupSelect01" class="custom-select">
-                      <option disabled selected>Tipo</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </div>
+                  <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="IP"
+                  />
                 </div>
-              </div>
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-at"></i
-                  ></span>
-                    <input
-                        aria-describedby="basic-addon1"
-                        aria-label="Username"
-                        class="form-control"
-                        placeholder="IP"
-                        type="text"
-                    />
-                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center ">
+            <div class="row mb-2 justify-content-center ">
 
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-code"></i
-                  ></span>
-                    <input
-                        aria-describedby="basic-addon1"
-                        aria-label="Username"
-                        class="form-control"
-                        placeholder="gateway_domain"
-                        type="text"
-                    />
-                  </div>
+                  <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="gateway_domain"
+                  />
+                </div>
                 </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="fal fa-code"></i
-                ></span>
-                  <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
-                      placeholder="gateway_ext"
-                      type="text"
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="gateway_ext"
                   />
                 </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
-                ><i class="fal fa-code"></i
-                ></span>
-                  <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
-                      placeholder="gateway_sip_user"
-                      type="text"
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="gateway_sip_user"
                   />
                 </div>
               </div>
@@ -141,10 +123,13 @@
 
 <script>
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import Multiselect from "vue-multiselect";
+
 
 export default {
   components: {
     PagesSubHeader,
+    Multiselect
   },
   name: 'RegistroServidores',
   methods: {
@@ -160,50 +145,30 @@ export default {
   },
   data() {
     return {
+      tipos_finish: [],
+      finish_tipos: [
+        { name: "Ativa", code: "A" },
+        { name: "Manual", code: "M" },
+        { name: "Recebe", code: "R" },
+      ],
       // msg: "",
       //   usuario: new Usuario(),
       //   id: this.$route.params.id,
     };
   },
   mounted() {
-    $(document).on('click', '#close-preview', function () {
-      $('.image-preview').popover('hide');
-
-    });
-
-    $(function () {
-
-      // Clear event
-      $('.image-preview-clear').click(function () {
-        $('.image-preview').attr("data-content", "").popover('hide');
-        $('.image-preview-filename').val("");
-        $('.image-preview-clear').hide();
-        $('.image-preview-input input:file').val("");
-        $(".image-preview-input-title").text(" ");
-      });
-      // Create the preview image
-      $(".image-preview-input input:file").change(function () {
-        var img = $('<img/>', {
-          id: 'dynamic',
-          width: 50,
-          height: 100
-        });
-        var file = this.files[0];
-        var reader = new FileReader();
-        // Set preview image into the popover data-content
-        reader.onload = function (e) {
-          $(".image-preview-input-title").text("Trocar");
-          $(".image-preview-clear").show();
-          $(".image-preview-filename").val(file.name);
-          img.attr('src', e.target.result);
-        }
-        reader.readAsDataURL(file);
-      });
-    });
+    
   },
 };
 </script>
 <style scoped>
+#input-pic {
+  border-left: 1px solid rgb(0, 0, 0) !important;
+}
+
+.btn-default {
+  background-image: linear-gradient(to top, #ffffff, #ffffff);
+}
 .image-preview-input {
   position: relative;
   overflow: hidden;
@@ -212,8 +177,7 @@ export default {
   background-color: #fff;
   border-color: #ccc;
 }
-
-.image-preview-input input[type=file] {
+.image-preview-input input[type="file"] {
   position: absolute;
   top: 0;
   right: 0;
@@ -224,12 +188,11 @@ export default {
   opacity: 0;
   filter: alpha(opacity=0);
 }
-
 .image-preview-input-title {
   margin-left: 2px;
 }
-
-.form-control:disabled, .form-control[readonly] {
+.form-control:disabled,
+.form-control[readonly] {
   background-color: #ffffff;
   opacity: 1;
 }
@@ -238,7 +201,8 @@ label#kkk {
   padding-top: 2.7px;
 }
 
-.form-icon, .form-icon:hover {
+.form-icon,
+.form-icon:hover {
   width: 42px;
 }
 
@@ -254,12 +218,48 @@ label#kkk {
   background-color: #0d6d9d;
 }
 
-/*.title {*/
-/*  font-family: Arial, Helvetica, sans-serif;*/
-/*  text-transform: uppercase;*/
-/*  margin-left: 30px;*/
-/*  margin-top: 15px;*/
-/*}*/
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2 {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+#multiselect-input {
+  display: flex;
+  width: 100%;
+  margin-left: 6px;
+}
+
+i.fal.fa-2x {
+  width: 26px;
+  height: 26px;
+}
 
 .bottom {
   margin-top: 20px;

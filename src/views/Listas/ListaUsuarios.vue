@@ -40,8 +40,8 @@
 
 <script>
 import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
-import TabelaUsuariosCadastrados from '../../components/DataTables/TabelaUsuariosCadastrados.vue'
-import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import TabelaUsuariosCadastrados from "../../components/DataTables/TabelaUsuariosCadastrados.vue";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 
 export default {
   components: {
@@ -83,11 +83,11 @@ export default {
   created() {
     this.service = new UsuarioMetodos(this.$resource);
     this.service.list().then(
-        (usuarios) => (this.usuarios = usuarios),
-        (err) => {
-          console.log(err);
-          this.msg = err.message;
-        }
+      (usuarios) => (this.usuarios = usuarios),
+      (err) => {
+        console.log(err);
+        this.msg = err.message;
+      }
     );
   },
   computed: {
@@ -105,7 +105,7 @@ export default {
 
 <style scoped>
 .dow-color2 {
-background-color: rgb(13, 109, 157) !important;
+  background-color: rgb(13, 109, 157) !important;
 }
 
 .col-botoes {

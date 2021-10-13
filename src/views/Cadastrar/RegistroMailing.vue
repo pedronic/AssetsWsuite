@@ -10,81 +10,87 @@
         <div class="form-group">
 
           <div class="d-inline">
-            <div class="row justify-content-center ">
+            <div class="row mb-2 justify-content-center ">
 
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-ad"></i
-                  ></span>
-                    <input
-                        aria-describedby="basic-addon1"
-                        aria-label="Username"
-                        class="form-control"
-                        placeholder="Nome"
-                        type="text"
-                    />
-                  </div>
+                  <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="Nome"
+                  />
+                </div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-at"></i
-                  ></span>
-                    <input
-                        aria-describedby="basic-addon1"
-                        aria-label="Username"
-                        class="form-control"
-                        placeholder="Data do mailing"
-                        type="text"
-                    />
-                  </div>
+                  <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="Data do mailing"
+                  />
+                </div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <select data-placeholder="Fila" class="js-select2-icons form-control" id="multiple-icons" multiple="multiple">
-                    <option value="wordpress" data-icon="fal fa-road" selected disabled>Filas</option>
-                    <option value="codepen" data-icon="">Fila 1000</option>
-                    <option value="drupal" data-icon="">Fila 2000</option>
-                </select>
-                  </div>
+                  <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                <div id="multiselect-input">
+                  <multiselect
+                    v-model="filas_finish"
+                    :placeholder="'Filas'"
+                    :label="'name'"
+                    :track-by="'code'"
+                    :options="finish_filas"
+                    :multiple="true"
+                  />
+                </div>
+              </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-left">
+            <div class="row mb-2 justify-content-left">
             <div class="col-4">
-              <div class="input-group image-preview">
-                <span class="input-group">
-                  <button
-                    type="button"
-                    class="btn btn-default image-preview-clear"
-                    style="display: none"
-                  >
-                    <span class="glyphicon glyphicon-remove"></span> Limpar
-                  </button>
-                  <div class="btn btn-default image-preview-input">
-                    <span class="form-icon"><i class="fal fa-at"></i></span>
-                    <span class="image-preview-input-title"> </span>
-                    <input
-                      type="file"
-                      accept=".txt,.csv"
-                      name="input-file-preview"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Anexar Arquivo"
-                    class="form-control image-preview-filename"
-                    disabled="disabled"
-                  />
-                </span>
+              <div class="profile-content user-name-line d-flex">
+                <div class="input-group image-preview">
+                    <span class="input-group">
+                      <!-- image-preview-clear button -->
+                      <button
+                          type="button"
+                          class="btn btn-default image-preview-clear"
+                          style="display: none"
+                      >
+                        <span class="glyphicon glyphicon-remove"></span> Limpar
+                      </button>
+                      <!-- image-preview-input -->
+                      <div class="btn btn-default image-preview-input" id="butao">
+                          <i id="pic" class="fal fa-at fa-2x"></i
+                          >
+                        <span class="image-preview-input-title "> </span>
+                        <input
+                            type="file"
+                            accept="txt, csv"
+                            name="input-file-preview"
+                        />
+                        <!-- rename it -->
+                      </div>
+                      <input
+                          type="text"
+                          placeholder="Arquivo"
+                          class="form-control image-preview-filename"
+                          id="input-pic"
+                          disabled="disabled"
+                      />
+                      <!-- don't give a name === doesn't send on POST/GET -->
+                    </span>
+                </div>
               </div>
             </div>
           </div>
@@ -120,10 +126,13 @@
 
 <script>
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import Multiselect from "vue-multiselect";
+
 
 export default {
   components: {
     PagesSubHeader,
+    Multiselect,
   },
   name: 'RegistroMailing',
   methods: {
@@ -139,71 +148,63 @@ export default {
   },
   data() {
     return {
+      filas_finish: [],
+        finish_filas: [
+          { name: "Fila 1000", code: "1000" },
+          { name: "Fila 2000", code: "2000" },
+        ],
       // msg: "",
       //   usuario: new Usuario(),
       //   id: this.$route.params.id,
     };
   },
   mounted() {
-    $(document).on('click', '#close-preview', function () {
-      $('.image-preview').popover('hide');
-
+    $(document).on("click", "#close-preview", function () {
+      $(".image-preview").popover("hide");
     });
 
     $(function () {
-
       // Clear event
-      $('.image-preview-clear').click(function () {
-        $('.image-preview').attr("data-content", "").popover('hide');
-        $('.image-preview-filename').val("");
-        $('.image-preview-clear').hide();
-        $('.image-preview-input input:file').val("");
+      $(".image-preview-clear").click(function () {
+        $(".image-preview").attr("data-content", "").popover("hide");
+        $(".image-preview-filename").val("");
+        $(".image-preview-clear").hide();
+        $(".image-preview-input input:file").val("");
         $(".image-preview-input-title").text(" ");
       });
       // Create the preview image
       $(".image-preview-input input:file").change(function () {
-        var img = $('<img/>', {
-          id: 'dynamic',
+        var img = $("<img/>", {
+          id: "dynamic",
           width: 50,
-          height: 100
+          height: 100,
         });
         var file = this.files[0];
         var reader = new FileReader();
         // Set preview image into the popover data-content
         reader.onload = function (e) {
-          $(".image-preview-input-title").text("Trocar");
+          $(".image-preview-input-title").text(".   Trocar");
           $(".image-preview-clear").show();
           $(".image-preview-filename").val(file.name);
-          img.attr('src', e.target.result);
-        }
+          img.attr("src", e.target.result);
+        };
         reader.readAsDataURL(file);
       });
     });
-    $(".js-select2-icons").select2(
-        {
-          minimumResultsForSearch: 1 / 0,
-          templateResult: icon,
-          templateSelection: icon,
-          // dropdownParent: $('#myModal'),
-          escapeMarkup: function(elm)
-          {
-            return elm
-          }
-        });
-
-    function icon(elm)
-    {
-      elm.element;
-      return elm.id ? "<i class='" + $(elm.element).data("icon") + " mr-2'></i>" + elm.text : elm.text
-    }
   },
 };
 </script>
 <style scoped>
+.btn#butao {
+  padding: 2px 4px 0px 2px !important;
+}
+#input-pic {
+  border-left: 1px solid rgb(0, 0, 0) !important;
+}
+
 .btn-default {
-  background-image: linear-gradient(to top, #e9ecef, #e9ecef);
+  background-image: linear-gradient(to top, #ffffff, #ffffff);
 }
-
 .image-preview-input {
   position: relative;
   overflow: hidden;
@@ -212,7 +213,7 @@ export default {
   background-color: #fff;
   border-color: #ccc;
 }
-.image-preview-input input[type=file] {
+.image-preview-input input[type="file"] {
   position: absolute;
   top: 0;
   right: 0;
@@ -223,36 +224,11 @@ export default {
   opacity: 0;
   filter: alpha(opacity=0);
 }
-.image-preview-input-title {
-  margin-left:2px;
-}
-
-.image-preview-input {
-  position: relative;
-  overflow: hidden;
-  margin: 0px;
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
-}
-
-.image-preview-input input[type=file] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-
 .image-preview-input-title {
   margin-left: 2px;
 }
-
-.form-control:disabled, .form-control[readonly] {
+.form-control:disabled,
+.form-control[readonly] {
   background-color: #ffffff;
   opacity: 1;
 }
@@ -261,7 +237,8 @@ label#kkk {
   padding-top: 2.7px;
 }
 
-.form-icon, .form-icon:hover {
+.form-icon,
+.form-icon:hover {
   width: 42px;
 }
 
@@ -277,12 +254,48 @@ label#kkk {
   background-color: #0d6d9d;
 }
 
-/*.title {*/
-/*  font-family: Arial, Helvetica, sans-serif;*/
-/*  text-transform: uppercase;*/
-/*  margin-left: 30px;*/
-/*  margin-top: 15px;*/
-/*}*/
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2 {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+#multiselect-input {
+  display: flex;
+  width: 100%;
+  margin-left: 6px;
+}
+
+i.fal.fa-2x {
+  width: 26px;
+  height: 26px;
+}
 
 .bottom {
   margin-top: 20px;

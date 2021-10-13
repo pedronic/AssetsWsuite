@@ -9,35 +9,25 @@
       <form>
         <div class="form-group">
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-2 justify-content-center">
               <div class="col-6">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-ad"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    maxlength="120"
-                    minlength="3"
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
                     placeholder="Nome"
-                    type="text"
                   />
                 </div>
               </div>
               <div class="col-6">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-key"></i
-                    ></span>
-                    <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-key fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="Password"
                       placeholder="Senha"
-                      type="password"
                     />
                   </div>
                 </div>
@@ -45,131 +35,106 @@
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-2 justify-content-center">
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-at"></i
-                    ></span>
-                    <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
                       placeholder="IP"
-                      type="text"
                     />
                   </div>
                 </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-door-closed"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
+                <div class="profile-content user-name-line d-flex">
+                  <i
+                    class="fal fa-door-closed fa-2x"
+                    style="margin-left: 5px"
+                  />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
                     placeholder="Porta"
-                    type="text"
                   />
                 </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-exchange"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-exchange fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
                     placeholder="Contexto"
-                    type="text"
                   />
                 </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-2 justify-content-center">
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-file-audio"></i
-                    ></span>
-                    <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
+                  <div class="profile-content user-name-line d-flex">
+                    <i
+                      class="fal fa-file-audio fa-2x"
+                      style="margin-left: 5px"
+                    />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
                       placeholder="Codec"
-                      type="text"
                     />
                   </div>
                 </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-ad"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="From User"
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
                     type="text"
+                    placeholder="From user"
                   />
                 </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-sort-numeric-up"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="Call limit"
+                <div class="profile-content user-name-line d-flex">
+                  <i
+                    class="fal fa-sort-numeric-up fa-2x"
+                    style="margin-left: 5px"
+                  />
+                  <b-form-input
+                    id="profile-name-input"
                     type="text"
+                    placeholder="Call limit"
                   />
                 </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-2 justify-content-center">
               <div class="col-8">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-ad"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    maxlength="120"
-                    minlength="3"
-                    placeholder="Username"
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
                     type="text"
+                    placeholder="Username"
                   />
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-ad"></i
-                    ></span>
-                    <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
-                      placeholder="Default User"
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
                       type="text"
+                      placeholder="Default user"
                     />
                   </div>
                 </div>
@@ -177,16 +142,14 @@
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-2 justify-content-center">
               <div class="col-12">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-ad"></i
-                  ></span>
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
                   <b-form-textarea
-                    id="textarea"
+                    id="profile-name-input"
                     placeholder="Formato discagem"
-                    rows="3"
+                    rows="2"
                     max-rows="15"
                   ></b-form-textarea>
                 </div>
@@ -194,202 +157,166 @@
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-3 justify-content-center">
               <div class="col-3">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-ad"></i
-                    ></span>
-                    <select id="inputGroupSelect01" class="custom-select">
-                      <option disabled selected>Tipo</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
+                  <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
+                  <div id="multiselect-input">
+                  <multiselect
+                    v-model="tipos_finish"
+                    :placeholder="'Perfil'"
+                    :label="'name'"
+                    :track-by="'code'"
+                    :options="finish_tipos"
+                    :multiple="false"
+                  />
+                </div>
                   </div>
                 </div>
               </div>
               <div class="col-3">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="Accountcode"
-                    type="text"
-                  />
-                </div>
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Accountcode"
+                    />
+                  </div>
               </div>
               <div class="col-3">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="Channel"
-                    type="text"
-                  />
-                </div>
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Channel"
+                    />
+                  </div>
               </div>
               <div class="col-3">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-ad"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="DTMF"
-                    type="text"
-                  />
-                </div>
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="DTMF"
+                    />
+                  </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-3 justify-content-center">
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-code"></i
-                    ></span>
-                    <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
                       placeholder="Lastms"
-                      type="text"
                     />
                   </div>
                 </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="NAT"
-                    type="text"
-                  />
-                </div>
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="NAT"
+                    />
+                  </div>
               </div>
               <div class="col-4">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-id-card"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="Perfil"
-                    type="text"
-                  />
-                </div>
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Perfil"
+                    />
+                  </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
-            <div class="row">
+            <div class="row mb-3">
               <div class="col-3">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <select id="inputGroupSelect01" class="custom-select">
-                    <option disabled selected>Prioridade</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-3">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <select id="inputGroupSelect01" class="custom-select">
-                    <option disabled selected>Qualificar</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-3">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="Reg Seconds"
-                    type="text"
+                <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                  <div id="multiselect-input">
+                  <multiselect
+                    v-model="prioridades_finish"
+                    :placeholder="'Prioridade'"
+                    :label="'name'"
+                    :track-by="'code'"
+                    :options="finish_prioridades"
+                    :multiple="false"
                   />
                 </div>
+                  </div>
               </div>
               <div class="col-3">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder="Reg Server"
-                    type="text"
+                <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                  <div id="multiselect-input">
+                  <multiselect
+                    v-model="qualificacoes_finish"
+                    :placeholder="'Qualificar'"
+                    :label="'name'"
+                    :track-by="'code'"
+                    :options="finish_qualificacoes"
+                    :multiple="false"
                   />
                 </div>
+                  </div>
+              </div>
+              <div class="col-3">
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Reg Seconds"
+                    />
+                  </div>
+              </div>
+              <div class="col-3">
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Reg Server"
+                    />
+                  </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-3 justify-content-center">
               <div class="col-8">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    maxlength="120"
-                    minlength="3"
-                    placeholder="Tec Prefix"
-                    type="text"
-                  />
-                </div>
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Tec Prefix"
+                    />
+                  </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-code"></i
-                    ></span>
-                    <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
                       placeholder="Tec Prefix Local"
-                      type="text"
                     />
                   </div>
                 </div>
@@ -397,42 +324,32 @@
             </div>
           </div>
           <div class="d-inline">
-            <div class="row justify-content-center">
+            <div class="row mb-3 justify-content-center">
               <div class="col-8">
-                <div class="input-group mb-3">
-                  <span id="basic-addon1" class="input-group-text form-icon"
-                    ><i class="fal fa-code"></i
-                  ></span>
-                  <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    maxlength="120"
-                    minlength="3"
-                    placeholder="Transport"
-                    type="text"
-                  />
-                </div>
+                <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-code fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Transport"
+                    />
+                  </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
-                  <div class="input-group mb-3">
-                    <span id="basic-addon1" class="input-group-text form-icon"
-                      ><i class="fal fa-ad"></i
-                    ></span>
-                    <input
-                      aria-describedby="basic-addon1"
-                      aria-label="Username"
-                      class="form-control"
-                      placeholder="Usuário Agente"
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
                       type="text"
+                      placeholder="Usuário Agente"
                     />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row justify-content-left">
+          <div class="row mb-3 justify-content-left">
             <div class="col-12">
               <div class="custom-control custom-checkbox custom-control-inline">
                 <input
@@ -440,27 +357,39 @@
                   class="custom-control-input"
                   id="local"
                 />
-                <label class="custom-control-label pt-1 pr-1" for="local">Local</label>
+                <label class="custom-control-label pt-1 pr-1" for="local"
+                  >Local</label
+                >
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input" id="ldn" />
-                <label class="custom-control-label pt-1 pr-1" for="ldn">LDN</label>
+                <label class="custom-control-label pt-1 pr-1" for="ldn"
+                  >LDN</label
+                >
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input" id="vc1" />
-                <label class="custom-control-label pt-1 pr-1" for="vc1">VC1</label>
+                <label class="custom-control-label pt-1 pr-1" for="vc1"
+                  >VC1</label
+                >
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input" id="vc2" />
-                <label class="custom-control-label pt-1 pr-1" for="vc2">VC2</label>
+                <label class="custom-control-label pt-1 pr-1" for="vc2"
+                  >VC2</label
+                >
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input" id="VC3" />
-                <label class="custom-control-label pt-1 pr-1" for="VC3">VC3</label>
+                <label class="custom-control-label pt-1 pr-1" for="VC3"
+                  >VC3</label
+                >
               </div>
               <div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input" id="LDI" />
-                <label class="custom-control-label pt-1 pr-1" for="LDI">LDI</label>
+                <label class="custom-control-label pt-1 pr-1" for="LDI"
+                  >LDI</label
+                >
               </div>
             </div>
           </div>
@@ -492,10 +421,13 @@
 
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
+import Multiselect from "vue-multiselect";
+
 
 export default {
   components: {
     PagesSubHeader,
+    Multiselect
   },
   methods: {
     // carregar() {
@@ -510,6 +442,24 @@ export default {
   },
   data() {
     return {
+      prioridades_finish: [],
+      qualificacoes_finish: [],
+      tipos_finish: [],
+      finish_tipos: [
+        { name: "Ativa", code: "A" },
+        { name: "Manual", code: "M" },
+        { name: "Recebe", code: "R" },
+      ],
+       finish_prioridades: [
+        { name: "Ativa", code: "A" },
+        { name: "Manual", code: "M" },
+        { name: "Recebe", code: "R" },
+      ],
+       finish_qualificacoes: [
+        { name: "Ativa", code: "A" },
+        { name: "Manual", code: "M" },
+        { name: "Recebe", code: "R" },
+      ],
       // msg: "",
       //   usuario: new Usuario(),
       //   id: this.$route.params.id,
@@ -552,6 +502,13 @@ export default {
 };
 </script>
 <style scoped>
+#input-pic {
+  border-left: 1px solid rgb(0, 0, 0) !important;
+}
+
+.btn-default {
+  background-image: linear-gradient(to top, #ffffff, #ffffff);
+}
 .image-preview-input {
   position: relative;
   overflow: hidden;
@@ -601,12 +558,48 @@ label#kkk {
   background-color: #0d6d9d;
 }
 
-/*.title {*/
-/*  font-family: Arial, Helvetica, sans-serif;*/
-/*  text-transform: uppercase;*/
-/*  margin-left: 30px;*/
-/*  margin-top: 15px;*/
-/*}*/
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2 {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+#multiselect-input {
+  display: flex;
+  width: 100%;
+  margin-left: 6px;
+}
+
+i.fal.fa-2x {
+  width: 26px;
+  height: 26px;
+}
 
 .bottom {
   margin-top: 20px;
