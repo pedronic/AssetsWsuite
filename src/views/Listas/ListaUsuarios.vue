@@ -60,9 +60,9 @@ export default {
         },
         { 
             usuario: 'Outro Exemplo',
-            Nome: '',
-            Email: '',
-            Perfil: '',
+            Nome: 'Ox',
+            Email: 'ox@dom.com.br',
+            Perfil: 'azimutal',
             status:false
         },
       ],
