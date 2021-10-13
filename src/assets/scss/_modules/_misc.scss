@@ -39,7 +39,7 @@ ul.list-verticle {
 .show {
 	& > .dropdown-menu-animated {
 		@include transform( scale(1) !important);
-		@include transform-origin( 29px -50px )
+		@include transform-origin( 29px -50px );
 		opacity: 1;
 		visibility: visible;
 	}

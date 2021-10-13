@@ -3,8 +3,11 @@
     <b-table
         striped
         hover
-        :items="items"
+        :items="operadoras"
         :fields="fields"
+        :filter="filter"
+        filter-debounce="50" 
+        :filter-included-fields="filter_fields"
         class="
         table-sm
         table-hover table-striped
@@ -39,8 +42,11 @@
           <label class="form-check-label" for="inlineCheckbox2">LDI</label>
         </div>
       </template>
-      <template #cell(status)>
-        <b-form-checkbox v-model="checked" name="check-button" class="ml-1" switch disabled>
+      <template #cell(Nome)="slot">
+        <span :id="slot.item.Nome+'_Nome'">{{slot.value}}</span>
+      </template>
+      <template #cell(status)="slot">
+        <b-form-checkbox v-model="slot.item.status" name="check-button" class="ml-1" switch disabled>
         </b-form-checkbox>
       </template>
       <template #cell(acao)>
@@ -55,6 +61,11 @@
 
 <script>
 export default {
+  props: {
+    items:Array,
+    filter:String,
+    filter_fields:Array,
+  },
   name: "TableDashboard",
   data(){
     return{
@@ -97,24 +108,7 @@ export default {
           thStyle: 'width: 4%;'
         },
       ],
-      items: [
-        {
-          Nome: 'Exemplo',
-          IP: '',
-          Porta: '',
-          Contexto: '',
-          Classes: '',
-          Ação: '',
-        },
-        {
-          Nome: 'Outro Exemplo',
-          IP: '',
-          Porta: '',
-          Contexto: '',
-          Classes: '',
-          Ação: '',
-        },
-      ]
+      operadoras: this.items,
     }
   }
 }

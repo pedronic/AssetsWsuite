@@ -5,14 +5,13 @@
                 <div class="card-body"/>
             </div>
         </pages-sub-header>
-        <!-- <pages-sub-header/> -->
         <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
         <tabela-acesso-usuario :items="headItems"/>
         <b-container fluid class="salvar-container">
-            <b-button class="botao-salvar">SALVAR</b-button>
+            <b-button class="botao-salvar" @click="validateProfile">SALVAR</b-button>
         </b-container>
     </div>
 </template>
@@ -20,9 +19,11 @@
 <script>
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaAcessoUsuario from '../../components/ProfileAccessTable/TabelaAcessoUsuario.vue';
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 export default {
     name: "Perfil",
+    mixins: [ValidateToaster], //instanciando/declarando o mixin na view
     components: {
         PagesSubHeader,
         TabelaAcessoUsuario,
@@ -30,8 +31,19 @@ export default {
     props: {
         nome:String
     },
- 
-  data() {
+    methods: {
+        validateProfile(){
+            // CRIAR FUNÇÃO DE VALIDAÇÃO (função dummy abaixo apenas para testar funcionalidade)
+            let n = Math.floor(Math.random()*Math.PI);
+            let toast = {
+                isValidated:(n%2) == 0,
+                title: (n%2) == 0 ? "PERFIL ADICIONADO" : "OCORREU UM PROBLEMA...",
+                message: (n%2) == 0 ? "Novo Perfil de Usuário criado com sucesso!" : "O novo Perfil de Usuário não pode ser adicionado.",
+            };
+            this.validateAndToast(toast); //utilizando a função/o método do mixin
+        }
+    },
+    data() {
         return {
             headItems: [
                 {

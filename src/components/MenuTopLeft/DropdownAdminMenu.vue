@@ -54,7 +54,7 @@
       <router-link :to="{ name: 'ListaRobos' }">
     <div class="dropdown-item d-flex itens">
         <i class="fal fa-user-robot"></i>
-        <span data-i18n="drpdwn.settings"> Robos</span>
+        <span data-i18n="drpdwn.settings"> Robôs</span>
 
       <a class="ml-auto" href="#"><router-link :to="{ name: 'RegistroRobos' }"><i class="fal fa-plus-circle"></i></router-link></a>
 

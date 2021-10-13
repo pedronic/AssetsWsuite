@@ -3,8 +3,11 @@
     <b-table
         striped
         hover
-        :items="items"
+        :items="servidores"
         :fields="fields"
+        :filter="filter"
+        filter-debounce="50" 
+        :filter-included-fields="filter_fields"
         class="
         table-sm
         table-hover table-striped
@@ -13,9 +16,8 @@
         dtr-inline
       "
     >
-      <template #cell(status)>
-        <b-form-checkbox class="ml-1" v-model="checked" name="check-button" switch disabled>
-        </b-form-checkbox>
+      <template #cell(status)="slot">
+        <b-form-checkbox class="ml-1" v-model="slot.item.status" name="check-button" switch disabled/>
       </template>
       <template #cell(acao)>
         <router-link :to="{ name: 'RegistroServidores' }">
@@ -29,6 +31,11 @@
 
 <script>
 export default {
+  props: {
+    items:Array,
+    filter:String,
+    filter_fields:Array,
+  },
   name: "TableDashboard",
   data(){
     return{
@@ -59,20 +66,7 @@ export default {
           sortable: false
         },
       ],
-      items: [
-        {
-          Nome: 'Exemplo',
-          tipo: '',
-          ip: '',
-          perfil: '',
-        },
-        {
-          Nome: 'Outro Exemplo',
-          tipo: '',
-          ip: '',
-          perfil: '',
-        },
-      ]
+      servidores: this.items,
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left>
+        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left :filter="filter" filter-debounce="50" :filter-included-fields="['grupo']">
             <template v-slot:head(grupo)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -13,12 +13,12 @@
                 <span :id="'_grupo'">{{slot.value}}</span>
             </template>
             <template v-slot:cell(action)="slot">
-                <b-button :id="slot.item.grupo + '_edit'" class="edit-btn" variant="outline"  v-b-modal="slot.item.grupo+'_edit_modal'" @mousedown="showEdit($event,slot.item)" v-html="editIcon"/>
+                <b-button :id="slot.item.grupo + '_edit'" class="edit-btn" variant="outline"  v-b-modal="slot.item.grupo+'_edit_modal'" v-html="editIcon"/>
                 <b-btn :id="slot.item.grupo + '_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.grupo+'_delete_modal'"/>
             </template>                
         </b-table>
 <!-- ---------------------------------------------------- -->
-        <div v-for="i in grupos" :key="i.grupo+'_modals'">
+        <div v-for="(i, index) in grupos" :key="i.grupo+'_modals'">
         <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
         <b-modal 
             :id="i.grupo+'_edit_modal'"
@@ -29,17 +29,19 @@
             :no-close-on-backdrop="true"
             :no-close-on-esc="true"
             :lazy="true"
-            :ok-only="true"
+            cancel-title="CANCELAR" 
+            cancel-variant="danger"
             ok-title="SALVAR"
             ok-variant="info" 
             @ok="updateRow($event,i)"
-            @show="cancelEdit(editRowInput)"
+            @cancel="cancelEdit(index)"
+            @show="populateEditLine(index)"
             >
             <b-container fluid>
                     <b-col cols="12">
                         <b-row id="novo_grupo_pausa">
                             <b-col cols="12">
-                                <b-form-input v-model="i.grupo" :id="'new_row_group'" type="text" @input="inputTest" placeholder="Nome do Novo Grupo de Pausas"/>
+                                <b-form-input v-model="editRowInput.grupo" :id="'new_row_group'" type="text"  placeholder="Nome do Novo Grupo de Pausas"/>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -52,13 +54,13 @@
                                 </b-col>
                             </b-row>
 
-                            <b-container fluid v-for="(p, index) in i.pausas" :key="i.grupo+'_'+p" >
+                            <b-container fluid v-for="(p, index) in editRowInput.pausas" :key="i.grupo+'_'+p" >
                                <b-row :class="(index%2) == 0 ? 'grey-bg' : ''">
                                    <b-col cols="10" class="pausa-head-container">
                                        <span class="pausa-body">{{p}}</span>
                                    </b-col>
                                    <b-col cols="2" class="ativa-head-container">
-                                       <b-form-checkbox v-model="i.ativas[index]" :id="p  +'_edit_row_ativa'" :value="true" :unchecked-value="false"/>
+                                       <b-form-checkbox v-model="editRowInput.ativas[index]" :key="index" :id="p  +'_edit_row_ativa'" :value="true" :unchecked-value="false"/>
                                    </b-col>
                                </b-row>
                             </b-container>
@@ -80,7 +82,8 @@
                 ok-variant="danger" 
                 cancel-title="MANTER" 
                 cancel-variant="success"
-                @ok="deleteRow(i.grupo)">
+                @ok="deleteRow(i.grupo)"
+                @cancel="cancelDelete(i.grupo)">
                        Tem certeza que deseja excluir o grupo de pausas <b>{{i.grupo}}</b>?
             </b-modal>
         </div>
@@ -100,13 +103,14 @@
             ok-variant="success" 
             cancel-title="CANCELAR" 
             cancel-variant="danger"
-            @ok="okayFunc"
-            @hide="addNewRow">
+            @ok="okayAdd()"
+            @cancel="cancelAdd()"
+            @show="populateNewLine()">
                 <b-container fluid>
                     <b-col cols="12">
                         <b-row id="novo_grupo_pausa">
                             <b-col cols="12">
-                                <b-form-input v-model="newRowInput.grupo" :id="'new_row_group'" type="text" @input="inputTest" placeholder="Nome do Novo Grupo de Pausas"/>
+                                <b-form-input v-model="newRowInput.grupo" :id="'new_row_group'" type="text" placeholder="Nome do Novo Grupo de Pausas"/>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -139,6 +143,8 @@
 </template>
 
 <script>
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+
 const pausasDefault={
                 grupo:'',
                 pausas:['Banheiro', 'Lanche', 'NR', 'Treinamento'],
@@ -147,114 +153,110 @@ const pausasDefault={
 
 export default {
     name:'TabelaGrupoPausas',
+    mixins: [ValidateToaster],
     props:{
         items: Array,
-        filters: String,
+        filter: String,
     },
     methods: {
         deleteRow(g){ //recebe nome do grupo e apaga da lista de grupos de pausas local
             const i = this.gruposNames.indexOf(g);
             this.gruposNames.splice(i,1);
             this.grupos.splice(i,1);
-            this.gruposDePausas.splice(0,-1);
-            this.gruposDePausas = [...this.grupos]
-        },
-        inputTest(){ //exibe texto sendo editado no campo de "Nome do Grupo de Pausas" do modal
-            console.log("Editing New Row Input....")
-            console.log(this.newRowInput.grupo)
-        },
-        okayFunc(){
-            console.clear()
-            console.log('OK')
-            if (this.okays == 0){
-                console.log("Grupos ok:")
-                console.log(this.gruposDePausas)
-                console.log("New Row Input:")
-                console.log(this.newRowInput)
-                this.okays = 1;
+            let toast = {
+                isValidated:true,
+                title:'GRUPO DE PAUSAS EXCLUÍDO',
+                message:'Grupo de Pausas '+g.toUpperCase()+' excluído com sucesso!',
             }
+            this.validateAndToast(toast);
         },
-        addNewRow(){
-            if (this.okays>0){
-                console.log("ADD NEW ROW")
+        cancelDelete(g){
+            let toast = {
+                isValidated:false,
+                title:'GRUPO DE PAUSAS MANTIDO',
+                message:'Grupo de Pausas '+g.toUpperCase()+' foi mantido. A exclusão foi cancelada pelo usuário.',
+            }
+            this.validateAndToast(toast);
+        },
+        cancelAdd(){
+            this.newRowInput = {...this.newRowDefault};
+            let toast = {
+                isValidated:false,
+                title:'NOVO GRUPO DE PAUSAS NÃO FOI CRIADO',
+                message:'Nenhum Grupo de Pausas Novo foi adicionado. A inclusão de um Novo Grupo de Pausas foi cancelada pelo usuário.',
+            }
+            this.validateAndToast(toast);
+        },
+        okayAdd(){
+            let newPausa = this.newRowInput.grupo.trim();
+            if (newPausa.length>0){
                 this.grupos.push(Object.assign({},this.newRowInput));
-                this.gruposDePausas.push(Object.assign({},this.newRowInput));
-                let sub = JSON.stringify(Object.assign(this.newRowInput.grupo.toString()));
-                console.log("sub:\t",sub)
-                this.gruposNames.push(sub.slice(1,sub.length - 1));
-                console.log("Grupos: \n",this.gruposDePausas)
-                console.log("Nomes dos Grupos: \n",this.gruposNames)
-                this.okays = -1;
+                this.gruposNames.push(newPausa);
+                this.newRowInput = {...this.newRowDefault};
+                for (let a in this.newRowInput.ativas) this.newRowInput.ativas[a] = false;
+                let toast = {
+                    isValidated:true,
+                    title:'NOVO GRUPO DE PAUSAS ADICIONADO',
+                    message:'Grupo de Pausas '+newPausa.toUpperCase()+' adicionado com sucesso!',
+                }
+                this.validateAndToast(toast);
             }
-            console.log(this.newRowInput)
-            this.clearNewRow();
-        },
-        clearNewRow(){
-            console.log("Clear???")
-            console.log((this.okays<0))
-
-            if ((this.okays<0) || (JSON.stringify(this.newRowDefault) !== JSON.stringify(this.newRowInput))){
-                console.log("Clear on Button")
-                this.newRowInput = {...this.newRowDefault}
-                this.okays = 0;
+            else {
+                this.newRowInput = {...this.newRowDefault};
+                let toast = {
+                    isValidated:false,
+                    title:'NOVO GRUPO DE PAUSAS VAZIO NÃO ADICIONADO',
+                    message:'Novo Grupo de Pausas '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar Grupos de Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+                }
+                this.validateAndToast(toast);
             }
-            console.log("Grupos de Pausas: \n",this.gruposDePausas);
-            console.log("Grupos: \n",this.grupos);
         },
-        showEdit(ev,i){
-            console.log("Show Edit")
-            console.log(i)
-            console.log('Edit Row on ShowEdit():\n',this.editRowInput);
-            this.cancelEdit(this.editRowInput);
-            setTimeout(this.populateEditLine(i),1000);
+        populateNewLine(){
+            this.newRowInput = {...this.newRowDefault};
         },
         populateEditLine(row){
-            console.log("Row item:\n",row);
-            console.log("Row Pausa:\t",row.pausa)
-            for (let k in this.editRowInput) delete this.editRowInput[k];
-            console.log("Empty editRowInput:\n",this.editRowInput);
-            this.editRowInput = Object.assign({},row);
-            console.log("editRowInput @populateEditLine:\n",this.editRowInput)
-            if (JSON.stringify(this.editRowInput) === JSON.stringify(row)) this.modalData = true;
+            this.editRowInput = {...this.grupos[row]};
+            this.thisAtivas = [...this.grupos[row].ativas]; // backup do array de estado das pausas
         },
-        /* Rever Método */
         updateRow(ev,row){
-            console.log("Close Edit Event @updateRow():\n",ev)
+            let newPausa = this.editRowInput.grupo.trim();
+            if(newPausa.length>0){ // checando se o nome não está em branco
+                /* Atualizando Fila e Pausas com dados editados */
+                this.grupos.splice(row,1,{...this.editRowInput});
+                this.gruposNames.splice(row,1,newPausa);
+                this.editRowInput = {...this.newRowDefault};
+
+                let toast = {
+                        isValidated:true,
+                        title:'GRUPO DE PAUSAS EDITADO',
+                        message:'Grupo de Pausas '+newPausa.toUpperCase()+' editado com sucesso!',
+                    }
+                this.validateAndToast(toast);
+            }
+            else{
+                this.editRowInput = {...this.newRowDefault};
+
+                let toast = {
+                        isValidated:false,
+                        title:'GRUPO DE PAUSAS NÃO EDITADO',
+                        message:'Grupo de Pausas '+newPausa.toUpperCase()+' não foi modificado. Não é possível atualizar um Grupo de Pausas apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+                    }
+                this.validateAndToast(toast);
+            }
             
-            var p = this.pausas.indexOf(row.pausa);
-            this.editRowInput.pausa = this.editRowInput.pausa.trim();          
-            
-            console.log("Pausas antes de deletar:\n",this.pausas)
-            /* Apagando dados da Fila na posição editada */
-            this.deleteRow2(p);
-            console.log("Pausas depois de deletar:\n",this.pausas)
-            
-            /* Atualizando Fila e Pausas com dados editados */
-            this.filas.splice(p,0,{...this.editRowInput});
-            this.pausas.splice(p,0, this.editRowInput.pausa);
-            
-            console.log("Filas atualizadas (???):\n",this.filas);
-            console.log("Pausas atualizada:\n",this.pausas)
-            
-            this.closeEdit();
         },
-        /* Rever Método */
-        closeEdit(){
-            console.log("tudo certo nada resolvido ainda...")
-            this.editRowInput = Object.assign(this.newRowDefault);
-            console.log("editRowInput @closeEdit:\n",this.editRowInput)
-            console.log(this.filas)
-            this.modalData = false;
-            console.log("Fim de closeEdit...")
-        },
-        /* Rever Método */
-        cancelEdit(eri){
-            var e = eri;
-            for (let k in this.editRowInput) delete this.editRowInput[k];
-            this.editRowInput = Object.assign({},this.newRowDefault);
-            e = Object.assign({},this.newRowDefault);
-            console.log("editRowInput @cancelEdit:\n",this.editRowInput);
-            console.log("e:\n",e)
+        cancelEdit(row){
+            this.editRowInput = {...this.newRowDefault};
+            for(let a in this.editRowInput.ativas) this.editRowInput.ativas[a] = false;
+            for(let at in this.thisAtivas) this.grupos[row].ativas.splice(at,1,this.thisAtivas[at]);
+            
+            let p = this.grupos[row].grupo;
+            let toast = {
+                isValidated:false,
+                title:'GRUPO DE PAUSAS NÃO EDITADO',
+                message:'Grupo de Pausas '+p.toUpperCase()+' não foi modificado. A edição foi cancelada pelo usuário.',
+            };
+            this.validateAndToast(toast);
         }
     },
     created(){
@@ -282,18 +284,15 @@ export default {
     data(){
         return {
             grupos: this.items,
-            okays: 0,
-            modalData: false,
-            thisLine: {},
+            thisAtivas: [],
+            editRowInput: Object.assign({},this.newRowDefault),
             editIcon: '<span class="fal fa-pencil"/>',
             deleteIcon: '<span class="fal fa-trash-alt"/>',
             // pausas: this.items[0].pausas,
-            dummy: [],
             icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
                     {value:'i2', html:'<span class="fal fa-plus"/>'},
                     {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
                     {value:'i4', html:'<span class="fal fa-abacus"/>'}],
-            // pivotRow: this.filas,
             fields: [
                 {
                     key:'grupo',
@@ -351,10 +350,6 @@ input::-webkit-inner-spin-button {
     padding: 0.2ch;
     text-align: center;
 }
-
-/* div.container-fluid>div.row{
-    margin: 0;
-} */
 
 .pausa-head-container, .produtiva-head-container, .obrigatoria-head-container, .alerta-head-container, .limite-head-container, .icone-head-container, .ativa-head-container{
     display: flex;
@@ -418,20 +413,6 @@ text-align: center;
 vertical-align: middle !important;
 }
 
-/* .tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="8"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="8"]{
-    width: 3.5%;
-    text-align: center;
-}
-.tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="7"],[aria-colindex="6"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="7"],[aria-colindex="6"]{
-    width: 3%;
-    text-align: center;
-    justify-content: center;
-    display: table-cell;
-}
-.tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="5"],[aria-colindex="4"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="5"],[aria-colindex="4"]{
-    width: 6%;
-    text-align: center;
-} */
 .tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="2"], .tabela-grupo-pausas > .table.b-table > thead > tr >[aria-colindex="2"]{
     width: 8%;
     text-align: center;
@@ -440,9 +421,6 @@ vertical-align: middle !important;
     /* width: 94%; */
     text-align: left !important;
 }
-/* .tabela-grupo-pausas > .table.b-table > tbody > tr > [aria-colindex="1"], .tabela-grupo-pausas > .table.b-table > thead > tr > [aria-colindex="1"]{
- 
-} */
 
 #editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"], #editar-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {
     display: none !important;

@@ -3,26 +3,34 @@
     <b-table
       striped
       hover
-      :items="items"
+      :items="agentes"
       :fields="fields"
+      :filter="filter"
+      filter-debounce="50" 
+      :filter-included-fields="filter_fields"
       class="
         table-sm
-        able-bordered
         table-hover table-striped
         w-100
         dt-responsive
         dtr-inline
       "
     >
-      <template #cell(status)>
-        <b-form-checkbox v-model="checked" name="check-button" class="ml-1" switch disabled>
+      <template #cell(Login)="slot">
+        <span :id="slot.item.Login + '_Login'">{{slot.value}}</span>
+      </template>
+      <template #cell(status)="slot">
+        <b-form-checkbox v-model="slot.item.status" name="check-button" class="ml-1" switch disabled>
         </b-form-checkbox>
       </template>
-      <template #cell(acao)>
+
+      <template #cell(acao)='slot'>
         <router-link :to="{ name: 'RegistroAgentes' }">
-          <i class="fal fa-pencil d-inline"></i>
+          <!-- <i class="fal fa-pencil d-inline"></i> -->
+          <b-button :id="(slot.item.Login)+'_edit'" class="edit-btn" variant="outline"   v-html="editIcon"/>
         </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
+        <!-- <i class="fal fa-trash-alt d-inline ml-2"></i> -->
+        <b-button :id="(slot.item.Login)+'_delete'" class="edit-btn" variant="outline"   v-html="deleteIcon"/>
       </template>
     </b-table>
   </div>
@@ -30,8 +38,14 @@
 
 <script>
 export default {
+  props: {
+    items:Array,
+    filter:String,
+    filter_fields:Array,
+  },
   data() {
     return {
+      agentes: this.items,
       fields: [
         {
           key: "Login",
@@ -71,11 +85,9 @@ export default {
           thStyle: 'width: 4%;'
         },
       ],
-      items: [
-        { Login: "Dickerson", nome: "Macdonald" },
-        { Login: "Larsen", nome: "Shaw" },
-      ],
       checked: true,
+      editIcon: '<span class="fal fa-pencil"/>',
+      deleteIcon: '<span class="fal fa-trash-alt"/>',
     };
   },
 };
@@ -85,6 +97,23 @@ export default {
 /* .faturamento{
     overflow:auto;
 } */
+.add-btn>i, .edit-btn>i{
+    padding: 0px !important;
+    border-width: 0px 1px !important;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.add-btn, .edit-btn{
+    display: table-cell;
+    align-items: center !important;
+    border-width: 1px 1px !important;
+    border-color: #adadad;
+    width: 42px;
+    height: 42px;
+}
+
 .table thead {
   background-color: #0d6d9d;
   color: #fff;
