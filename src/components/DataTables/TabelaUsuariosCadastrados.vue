@@ -1,7 +1,7 @@
 <template>
+<!--input de filtro em tempo real-->
 
   <div>
-
     <b-table
       striped
       hover

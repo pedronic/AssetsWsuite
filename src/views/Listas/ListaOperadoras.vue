@@ -1,7 +1,7 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-sim-card" titulo="Lista de Operadoras">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de Operadoras">
 
       <div class="card">
         <div class="card-body d-flex">
@@ -33,7 +33,18 @@
 
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-    
+    <div class="row mb-2 justify-content-center">
+      <div class="col-12">
+        <div class="profile-content user-name-line d-flex">
+          <i class="fal fa-sim-card fa-2x" style="margin-left: 5px" />
+          <b-form-input
+              id="profile-name-input"
+              type="text"
+              placeholder="Operadoras"
+          />
+        </div>
+      </div>
+    </div>
     <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields"/>
   </div>
 </template>

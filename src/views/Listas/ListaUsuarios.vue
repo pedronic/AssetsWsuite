@@ -1,19 +1,8 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-user-friends" titulo="Lista de Usuários do Sistema">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de Usuários do Sistema">
 
-      <div class="card">
-        <div class="card-body d-flex">
-            <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Login')"></b-form-input>
-                <div class="card">
-                  <div class="card-body"/>
-                </div>
-                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Login')"/>
-            </div>
-        </div>
-      </div>
 
       <div class="card">
         <div class="card-body d-flex">
@@ -23,17 +12,22 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-body d-flex">
-          <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-usuarios',params:{nome:''}}" >
-            <b-btn variant="success" class="fal fa-plus"/>
-          </router-link>
-        </div>
-      </div>
-
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-
+    <div class="row mb-2 justify-content-center">
+      <div class="col-12">
+        <div class="profile-content user-name-line d-flex">
+          <i class="fal fa-user fa-2x" style="margin-left: 5px" />
+          <b-form-input
+              id="profile-name-input"
+              type="text"
+              v-model="busca"
+              @keydown.enter.native="setFilter(busca,'Login')"
+              placeholder="Usuário"
+          />
+        </div>
+      </div>
+    </div>
     <TabelaUsuariosCadastrados :items="items" :filter="filter" :filter_fields="filter_fields"/>
   </div>
 </template>

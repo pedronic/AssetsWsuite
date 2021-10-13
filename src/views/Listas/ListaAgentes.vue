@@ -1,7 +1,7 @@
 <template>
   <div class="relatorios">
   <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-user-headset" titulo="Lista de agentes">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de agentes">
 
       <div class="card">
         <div class="card-body d-flex">
@@ -33,7 +33,18 @@
 
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-
+    <div class="row mb-2 justify-content-center">
+      <div class="col-12">
+        <div class="profile-content user-name-line d-flex">
+          <i class="fal fa-user-headset fa-2x" style="margin-left: 5px" />
+          <b-form-input
+              id="profile-name-input"
+              type="text"
+              placeholder="Agente"
+          />
+        </div>
+      </div>
+    </div>
     <TabelaAgentes :items="items" :filter="filter" :filter_fields="filter_fields"/>
   </div>
 </template>
