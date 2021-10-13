@@ -14,6 +14,7 @@
               <div class="profile-content user-name-line d-flex">
                 <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
                 <b-form-input
+                  v-model="name"
                   id="profile-name-input"
                   type="text"
                   placeholder="Nome"
@@ -25,6 +26,7 @@
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-at fa-2x" style="margin-left: 5px" />
                   <b-form-input
+                    v-model="email"
                     id="profile-name-input"
                     type="text"
                     placeholder="Email"
@@ -36,6 +38,7 @@
               <div class="profile-content user-name-line d-flex">
                 <i class="fal fa-user fa-2x" style="margin-left: 5px" />
                 <b-form-input
+                  v-model="username"
                   id="profile-name-input"
                   type="text"
                   placeholder="Usuário"
@@ -51,6 +54,7 @@
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-key fa-2x" style="margin-left: 5px" />
                   <b-form-input
+                    v-model="password"
                     id="profile-name-input"
                     type="password"
                     placeholder="Senha"
@@ -63,11 +67,11 @@
                 <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
                 <div id="multiselect-input">
                   <multiselect
-                    v-model="perfis_finish"
+                    v-model="perfil_id"
                     :placeholder="'Perfil'"
                     :label="'name'"
-                    :track-by="'code'"
-                    :options="finish_perfis"
+                    :track-by="'id'"
+                    :options="perfis"
                     :multiple="false"
                   />
                 </div>
@@ -120,6 +124,7 @@
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-key fa-2x" style="margin-left: 5px" />
                   <b-form-input
+                    v-model="confirmPassword"
                     id="profile-name-input"
                     type="password"
                     placeholder="Confirmar Senha"
@@ -134,10 +139,10 @@
                 <div id="multiselect-input">
                   <multiselect
                     v-model="filas_finish"
-                    :placeholder="'Filas'"
-                    :label="'name'"
-                    :track-by="'code'"
-                    :options="finish_filas"
+                    placeholder="Filas"
+                    :label="'queue_name'"
+                    :track-by="'queue_id'"
+                    :options="filas"
                     :multiple="true"
                   />
                 </div>
@@ -175,13 +180,15 @@
     </form>
   </div>
 </template>
+
 <script>
-import Usuario from "../../domain/User/Usuario";
+// import Usuario from "../../domain/User/Usuario";
 import Multiselect from "vue-multiselect";
-// import UsuarioMetodos from "../domain/User/UsuarioMetodos";
+import axios from "axios";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import "jquery";
-import "select2";
+// import "select2";
+import {baseApiUrl} from "@/config/global";
 
 export default {
   components: {
@@ -190,37 +197,88 @@ export default {
   },
   name: "RegistroUsuarios",
   methods: {
-    carregar() {
-      this.service.register(this.usuario).then(
-        () => {
-          if (this.id) this.$router.push({ name: "Home" });
-          this.usuario = new Usuario();
-        },
-        (err) => console.log(err)
-      );
+    testPerfilSelect(){
+      console.log("Filas Selecionadas:\n",this.filas_finish)
+    },
+
+    async getFilas(){
+      let f = await axios.get(baseApiUrl+"/queues");
+      console.log("f.data.data\n",f.data.data)
+      this.filas = f.data.data;
+    },
+    async getPerfil(){
+      let p = await axios.get(baseApiUrl+"/perfils");
+      console.log("p.data.data\n",p.data.data)
+      this.perfis =  p.data.data;
+    },
+    async getUsers(){
+      let users = axios.get(baseApiUrl+"/users");
+      for(let u in users){
+        this.userMails.push(users[u].email);
+        this.userNames.push(users[u].username);
+      }
+    },
+    async postNewUser(nu){
+      let s = await axios.post(`${baseApiUrl}/users`, nu);
+      console.log("Post status:\n",s)
+    },
+    carregar() { // Refatorar para incluir avisos de toast após ação
+      let passCheck = !(this.password === this.confirmPassword);
+      let blankPass = !(this.password.trim().length > 0);
+      let blankName = !(this.name.trim().length > 0);
+      let blankMail = !(this.email.trim().length > 0);
+      let blankUser = !(this.username.trim().length > 0);
+      let blankProfile = !(this.perfil_id.trim().length > 0);
+      let validEmail = !(this.userMails.indexOf(this.email.trim()) > -1);
+      let validUsername = !(this.userNames.indexOf(this.username.trim()) > -1);
+      if (passCheck || blankPass || blankName || blankMail || blankUser || blankProfile || validEmail || validUsername) return;
+      else{
+        let postBody = {};
+        postBody.username = this.username.trim();
+        postBody.email = this.email.trim();
+        postBody.name = this.name.trim();
+        postBody.password = this.password.trim();
+        postBody.confirmPassword = this.confirmPassword.trim();
+        postBody.perfil_id = this.perfil_id.id;
+        for (let f in this.filas_finish){
+          this.userQueue.push(this.filas_finish[f]);
+        }
+        postBody.userQueue = [...this.userQueue];
+
+        this.postNewUser(postBody);
+      }
     },
   },
   data() {
     return {
-      usuario: new Usuario(),
+      userMails: [],
+      userNames: [],
       id: this.$route.params.id,
       msg: "",
       states: [],
-      perfis_finish: [],
+      filas:[],
+      perfis: [],
       filas_finish: [],
-        finish_filas: [
-          { name: "Fila 1000", code: "1000" },
-          { name: "Fila 2000", code: "2000" },
-        ],
-      finish_perfis: [
-        { name: "Ativa", code: "A" },
-        { name: "Manual", code: "M" },
-        { name: "Recebe", code: "R" },
-      ],
+      name:'',
+      email:'',
+      username:'',
+      password:'',
+      confirmPassword:'',
+      perfil_id:[],
+      userQueue: [],
+      queueObject: {
+        queue_id:'',
+        queue_number:'',
+        queue_name:'',
+      }
+
     };
   },
-  created() {},
   mounted() {
+    this.getFilas();
+    this.getPerfil();
+    this.getUsers();
+
     $(document).on("click", "#close-preview", function () {
       $(".image-preview").popover("hide");
     });
@@ -256,8 +314,8 @@ export default {
 
   },
 };
-
 </script>
+
 <style scoped>
 .btn#butao {
   padding: 2px 4px 0px 2px !important;

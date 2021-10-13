@@ -81,16 +81,16 @@
           />
         </div>
       </template>
-      <template #cell(status)>
+      <!-- <template #cell(status)="slot">
         <b-form-checkbox
-            v-model="checked"
+            v-model="slot.item.status"
             name="check-button"
             class="ml-1"
             switch
             disabled
         >
         </b-form-checkbox>
-      </template>
+      </template> -->
       
     </b-table>
   </div>
