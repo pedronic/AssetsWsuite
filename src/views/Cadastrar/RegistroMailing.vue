@@ -59,40 +59,39 @@
             <div class="row mb-2 justify-content-left">
             <div class="col-4">
               <div class="profile-content user-name-line d-flex">
-                  <div class="input-group image-preview">
+                <div class="input-group image-preview">
                     <span class="input-group">
                       <!-- image-preview-clear button -->
                       <button
-                        type="button"
-                        class="btn btn-default image-preview-clear"
-                        style="display: none"
+                          type="button"
+                          class="btn btn-default image-preview-clear"
+                          style="display: none"
                       >
                         <span class="glyphicon glyphicon-remove"></span> Limpar
                       </button>
                       <!-- image-preview-input -->
-                      <div class="btn btn-default image-preview-input">
-                        <span class="form-icon"
-                          ><i class="fal fa-at"></i
-                        ></span>
-                        <span class="image-preview-input-title"> </span>
+                      <div class="btn btn-default image-preview-input" id="butao">
+                          <i id="pic" class="fal fa-at fa-2x"></i
+                          >
+                        <span class="image-preview-input-title "> </span>
                         <input
-                          type="file"
-                          accept="image/png, image/jpeg, image/gif"
-                          name="input-file-preview"
+                            type="file"
+                            accept="txt, csv"
+                            name="input-file-preview"
                         />
                         <!-- rename it -->
                       </div>
                       <input
-                        type="text"
-                        placeholder="Arquivo"
-                        class="form-control image-preview-filename"
-                        id="input-pic"
-                        disabled="disabled"
+                          type="text"
+                          placeholder="Arquivo"
+                          class="form-control image-preview-filename"
+                          id="input-pic"
+                          disabled="disabled"
                       />
                       <!-- don't give a name === doesn't send on POST/GET -->
                     </span>
-                  </div>
                 </div>
+              </div>
             </div>
           </div>
           </div>
@@ -160,61 +159,45 @@ export default {
     };
   },
   mounted() {
-    $(document).on('click', '#close-preview', function () {
-      $('.image-preview').popover('hide');
-
+    $(document).on("click", "#close-preview", function () {
+      $(".image-preview").popover("hide");
     });
 
     $(function () {
-
       // Clear event
-      $('.image-preview-clear').click(function () {
-        $('.image-preview').attr("data-content", "").popover('hide');
-        $('.image-preview-filename').val("");
-        $('.image-preview-clear').hide();
-        $('.image-preview-input input:file').val("");
+      $(".image-preview-clear").click(function () {
+        $(".image-preview").attr("data-content", "").popover("hide");
+        $(".image-preview-filename").val("");
+        $(".image-preview-clear").hide();
+        $(".image-preview-input input:file").val("");
         $(".image-preview-input-title").text(" ");
       });
       // Create the preview image
       $(".image-preview-input input:file").change(function () {
-        var img = $('<img/>', {
-          id: 'dynamic',
+        var img = $("<img/>", {
+          id: "dynamic",
           width: 50,
-          height: 100
+          height: 100,
         });
         var file = this.files[0];
         var reader = new FileReader();
         // Set preview image into the popover data-content
         reader.onload = function (e) {
-          $(".image-preview-input-title").text("Trocar");
+          $(".image-preview-input-title").text(".   Trocar");
           $(".image-preview-clear").show();
           $(".image-preview-filename").val(file.name);
-          img.attr('src', e.target.result);
-        }
+          img.attr("src", e.target.result);
+        };
         reader.readAsDataURL(file);
       });
     });
-    $(".js-select2-icons").select2(
-        {
-          minimumResultsForSearch: 1 / 0,
-          templateResult: icon,
-          templateSelection: icon,
-          // dropdownParent: $('#myModal'),
-          escapeMarkup: function(elm)
-          {
-            return elm
-          }
-        });
-
-    function icon(elm)
-    {
-      elm.element;
-      return elm.id ? "<i class='" + $(elm.element).data("icon") + " mr-2'></i>" + elm.text : elm.text
-    }
   },
 };
 </script>
 <style scoped>
+.btn#butao {
+  padding: 2px 4px 0px 2px !important;
+}
 #input-pic {
   border-left: 1px solid rgb(0, 0, 0) !important;
 }

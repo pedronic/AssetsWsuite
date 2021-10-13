@@ -78,38 +78,36 @@
                 <div class="d-inline">
                   <div class="profile-content user-name-line d-flex">
                     <div class="input-group image-preview">
-                      <span class="input-group">
-                        <!-- image-preview-clear button -->
-                        <button
+                    <span class="input-group">
+                      <!-- image-preview-clear button -->
+                      <button
                           type="button"
                           class="btn btn-default image-preview-clear"
                           style="display: none"
-                        >
-                          <span class="glyphicon glyphicon-remove"></span>
-                          Limpar
-                        </button>
-                        <!-- image-preview-input -->
-                        <div class="btn btn-default image-preview-input">
-                          <span class="form-icon"
-                            ><i class="fal fa-image"></i
-                          ></span>
-                          <span class="image-preview-input-title"> </span>
-                          <input
+                      >
+                        <span class="glyphicon glyphicon-remove"></span> Limpar
+                      </button>
+                      <!-- image-preview-input -->
+                      <div class="btn btn-default image-preview-input" id="butao">
+                          <i id="pic" class="fal fa-image fa-2x"></i
+                          >
+                        <span class="image-preview-input-title "> </span>
+                        <input
                             type="file"
                             accept="image/png, image/jpeg, image/gif"
                             name="input-file-preview"
-                          />
-                          <!-- rename it -->
-                        </div>
-                        <input
+                        />
+                        <!-- rename it -->
+                      </div>
+                      <input
                           type="text"
                           placeholder="Foto"
                           class="form-control image-preview-filename"
                           id="input-pic"
                           disabled="disabled"
-                        />
-                        <!-- don't give a name === doesn't send on POST/GET -->
-                      </span>
+                      />
+                      <!-- don't give a name === doesn't send on POST/GET -->
+                    </span>
                     </div>
                   </div>
                 </div>
@@ -242,7 +240,7 @@ export default {
         var reader = new FileReader();
         // Set preview image into the popover data-content
         reader.onload = function (e) {
-          $(".image-preview-input-title").text("Trocar");
+          $(".image-preview-input-title").text(".  Trocar");
           $(".image-preview-clear").show();
           $(".image-preview-filename").val(file.name);
           img.attr("src", e.target.result);
@@ -309,7 +307,9 @@ label#kkk {
 .botao-salvar:hover {
   background-color: #0d6d9d;
 }
-
+.btn#butao {
+  padding: 2px 4px 0px 2px !important;
+}
 .user-name-line {
   align-items: center !important;
   border-style: solid;
