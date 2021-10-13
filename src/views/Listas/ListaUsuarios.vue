@@ -52,18 +52,18 @@ export default {
     return {
       items: [
         { 
-            Usuario: 'Exemplo', 
+            usuario: 'Exemplo',
             Nome: 'Ex',
             Email: 'ex@dom.com.br',
             Perfil: 'lado',
             status:true
         },
         { 
-            Usuario: 'Outro Exemplo', 
+            usuario: 'Outro Exemplo',
             Nome: '',
             Email: '',
             Perfil: '',
-            status:true
+            status:false
         },
       ],
       usuarios: [],

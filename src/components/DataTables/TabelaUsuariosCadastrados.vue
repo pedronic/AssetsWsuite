@@ -19,7 +19,7 @@
     >
 
       <template #cell(Usuario)="slot">
-        <span :id="slot.item.Usuario + '_Usuário'">{{slot.value}}</span>
+        <span :id="slot.item.Usuario + '_usuario'">{{slot.value}}</span>
       </template>
       <template #cell(status)="slot">
         <b-form-checkbox v-model="slot.item.status" name="check-button" class="ml-1" switch disabled>
@@ -56,7 +56,7 @@ export default {
       return{
           fields: [
           {
-            key: 'Usuário',
+            key: 'usuario',
             label: 'Usuário',
             sortable: true
           },
