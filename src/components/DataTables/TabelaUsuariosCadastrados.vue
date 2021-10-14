@@ -35,10 +35,12 @@
         </b-button>
       </template>
       <template #cell(acao)>
-        <button type="button" class="btn edit-btn btn-outline d-inline">
-          <span class="fal fa-pencil">
-          </span>
-        </button>
+        <router-link :to="{ name: 'RegistroUsuarios' }">
+          <button type="button" class="btn edit-btn btn-outline d-inline">
+            <span class="fal fa-pencil">
+            </span>
+          </button>
+        </router-link>
         <button type="button" class="btn edit-btn btn-outline d-inline">
           <span class="fal fa-trash-alt">
           </span>
@@ -94,16 +96,6 @@ export default {
           ],
           usuarios: this.items,
 
-      }
-    },
-  computed: {
-
-    Sorted() {
-      if (this.filter) {
-        let exp = new RegExp(this.filter.trim(), 'i');
-        return this.items.filter(item => exp.test(item.usuario));
-      } else {
-        return this.usuarios;
       }
     }
   },

@@ -1,8 +1,19 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de Usuários do Sistema">
+    <PagesSubHeader icon="fal fa-user-friends" titulo="Lista de Usuários do Sistema">
 
+      <div class="card">
+        <div class="card-body d-flex">
+            <div class="d-flex" id="filtro-grupo-pausa">
+                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Login')"></b-form-input>
+                <div class="card">
+                  <div class="card-body"/>
+                </div>
+                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Login')"/>
+            </div>
+        </div>
+      </div>
 
       <div class="card">
         <div class="card-body d-flex">

@@ -34,6 +34,64 @@
           </span>
         </button>
       </template>
+
+      <template #cell(CPC)>
+        <div class="form-check form-check-inline ml-3">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              disabled
+              id="inlineCheckbox2"
+              value="option2"
+          />
+        </div>
+      </template>
+      <template #cell(CPCA)>
+        <div class="form-check form-check-inline ml-3">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              disabled
+              checked
+              id="inlineCheckbox2"
+              value="option2"
+          />
+        </div>
+      </template>
+      <template #cell(alega_pgto)>
+        <div class="form-check form-check-inline ml-3">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              disabled
+              id="inlineCheckbox2"
+              value="option2"
+          />
+        </div>
+      </template>
+      <template #cell(promessav)>
+        <div class="form-check form-check-inline ml-3">
+          <input
+              class="form-check-input"
+              type="checkbox"
+              disabled
+              checked
+              id="inlineCheckbox2"
+              value="option2"
+          />
+        </div>
+      </template>
+      <!-- <template #cell(status)="slot">
+        <b-form-checkbox
+            v-model="slot.item.status"
+            name="check-button"
+            class="ml-1"
+            switch
+            disabled
+        >
+        </b-form-checkbox>
+      </template> -->
+      
     </b-table>
   </div>
 </template>
