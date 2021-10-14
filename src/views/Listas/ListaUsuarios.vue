@@ -2,11 +2,10 @@
   <div class="relatorios">
     <!-- Cabeçalho -->
     <PagesSubHeader icon="fal fa-list" titulo="Lista de usuários">
-
-      <div class="card">
+ <div class="card">
         <div class="card-body d-flex">
             <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'usuario')"></b-form-input>
+                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Login')"></b-form-input>
                 <div class="card">
                   <div class="card-body"/>
                 </div>
@@ -43,6 +42,9 @@ export default {
   data() {
     return {
       items: [
+    {
+         usuarios: ["Exemplo","Outro Exemplo"],
+         },
         { 
             usuario: 'Exemplo',
             Nome: 'Ex',

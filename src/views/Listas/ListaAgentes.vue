@@ -41,7 +41,7 @@ export default {
   },
   data() {
     return {
-      usuarios: [],
+      agentes: ["Dickerson", "Larsen"],
       msg: "",
       items: [
         { Login: "Dickerson", nome: "Macdonald", status:true },
@@ -69,16 +69,7 @@ export default {
     //   }
     // );
   },
-  computed: {
-    UsuarioFiltrado() {
-      if (this.filter) {
-        let exp = new RegExp(this.filter.trim(), "i");
-        return this.usuarios.filter((usuario) => exp.test(usuario.user));
-      } else {
-        return this.usuarios;
-      }
-    },
-  },
+  
 };
 </script>
 

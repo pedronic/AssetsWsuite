@@ -72,25 +72,19 @@
           <b-col cols="14">
             <b-row>
               <b-col cols="4" class="usuario-head-container">
-                <span class="usuario-head">Pausa</span>
+                <span class="usuario-head">Usuário</span>
               </b-col>
               <b-col cols="2" class="nome-head-container">
-                <span class="nome-head">Produtiva</span>
+                <span class="nome-head">Nome</span>
               </b-col>
               <b-col cols="2" class="email-head-container">
-                <span class="email-head">Obrigatória</span>
+                <span class="email-head">Email</span>
               </b-col>
               <b-col cols="1" class="perfil-head-container">
-                <span class="perfil-head">Alerta</span>
-              </b-col>
-              <b-col cols="1" class="limite-head-container">
-                <span class="limite-head">Limite</span>
-              </b-col>
-              <b-col cols="1" class="icone-head-container">
-                <span class="icone-head">Ícone</span>
+                <span class="perfil-head">Perfil</span>
               </b-col>
               <b-col cols="1" class="status-head-container">
-                <span class="status-head">Ativa</span>
+                <span class="status-head">Status</span>
               </b-col>
             </b-row>
             <b-row>
@@ -98,23 +92,13 @@
                 <b-form-input v-model="editRowInput.usuario" :presentState="i" :id="i.usuario+'_edit_row_pausa'" :ref="i.usuario+'_edit_row_pausa'" type="text" />
               </b-col>
               <b-col cols="2" class="nome-body-container" >
-                <b-form-checkbox v-model="editRowInput.nome" :presentState="i" :id="i.usuario+'_edit_row_produtiva'" :value="true" :unchecked-value="false" />
+                <b-form-input v-model="editRowInput.nome" :presentState="i" :id="i.usuario+'_edit_row_produtiva'" type="text" />
               </b-col>
               <b-col cols="2" class="email-body-container" >
-                <b-form-checkbox v-model="editRowInput.email" :presentState="i" :id="i.usuario+'_edit_row_obrigatoria'" :value="true" :unchecked-value="false"/>
+                <b-form-input v-model="editRowInput.email" :presentState="i" :id="i.usuario+'_edit_row_obrigatoria'" type="text"/>
               </b-col>
               <b-col cols="1" class="perfil-body-container">
-                <b-form-input v-model="editRowInput.perfil" :presentState="i" :id="i.usuario+'_edit_row_alerta'" type="text"  v-mask="'##:##:##'"></b-form-input>
-              </b-col>
-              <b-col cols="1" class="limite-body-container">
-                <b-form-input v-model="editRowInput.limite" :presentState="i" :id="i.usuario+'_edit_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
-              </b-col>
-              <b-col cols="1" class="icone-body-container">
-                <b-form-select v-model="editRowInput.icone" :id="i.usuario+'_edit_row_icone'" :select-size="4">
-                  <b-form-select-option v-for="j in icons" :key="j.value">
-                    <span :id="j.value" v-html="j.html"/>
-                  </b-form-select-option>
-                </b-form-select>
+                <b-form-input v-model="editRowInput.perfil" :presentState="i" :id="i.usuario+'_edit_row_alerta'" type="text"></b-form-input>
               </b-col>
               <b-col cols="1" class="status-body-container">
                 <b-form-checkbox v-model="editRowInput.status" :presentState="i" :id="i.usuario+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
@@ -165,22 +149,16 @@
         <b-col cols="12">
           <b-row>
             <b-col cols="4" class="usuario-head-container">
-              <span class="usuario-head">Nova Pausa</span>
+              <span class="usuario-head">Usuário</span>
             </b-col>
             <b-col cols="2" class="nome-head-container">
-              <span class="nome-head">Produtiva</span>
+              <span class="nome-head">Nome</span>
             </b-col>
             <b-col cols="2" class="email-head-container">
-              <span class="email-head">Obrigatória</span>
+              <span class="email-head">Email</span>
             </b-col>
             <b-col cols="1" class="perfil-head-container">
-              <span class="perfil-head">Alerta</span>
-            </b-col>
-            <b-col cols="1" class="limite-head-container">
-              <span class="limite-head">Limite</span>
-            </b-col>
-            <b-col cols="1" class="icone-head-container">
-              <span class="icone-head">Ícone</span>
+              <span class="perfil-head">Perfil</span>
             </b-col>
             <b-col cols="1" class="status-head-container">
               <span class="status-head">Ativa</span>
@@ -191,20 +169,13 @@
               <b-form-input v-model="newRowInput.usuario" :id="'new_row_pausa'" type="text"></b-form-input>
             </b-col>
             <b-col cols="2" class="nome-body-container" >
-              <b-form-checkbox v-model="newRowInput.nome" :id="'new_row_produtiva'" :value="true" :unchecked-value="false"/>
+              <b-form-input v-model="newRowInput.nome" :id="'new_row_produtiva'" type="text"/>
             </b-col>
             <b-col cols="2" class="email-body-container" >
-              <b-form-checkbox v-model="newRowInput.email" :id="'new_row_obrigatoria'" :value="true" :unchecked-value="false"/>
+              <b-form-input v-model="newRowInput.email" :id="'new_row_obrigatoria'" type="text"/>
             </b-col>
             <b-col cols="1" class="perfil-body-container">
-              <b-form-input v-model="newRowInput.perfil" :id="'new_row_alerta'" v-mask="'##:##:##'" type="text"  ></b-form-input>
-            </b-col>
-            <b-col cols="1" class="limite-body-container">
-              <b-form-input v-model="newRowInput.limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
-            </b-col>
-            <b-col cols="1" class="icone-body-container">
-              <b-form-select v-model="newRowInput.icone" :id="'new_row_icone'" :select-size="4" :options="icons">
-              </b-form-select>
+              <b-form-input v-model="newRowInput.perfil" :id="'new_row_alerta'" type="text"></b-form-input>
             </b-col>
             <b-col cols="1" class="status-body-container">
               <b-form-checkbox v-model="newRowInput.status" :id="'new_row_ativa'" :value="true" :unchecked-value="false" switch />
@@ -240,21 +211,21 @@ export default {
   },
   methods: {
     deleteRow(ev){
-      const p = this.pausas.indexOf(ev);
+      const p = this.usuarios.indexOf(ev);
       this.filas.splice(p,1);
-      this.pausas.splice(p,1);
+      this.usuarios.splice(p,1);
       let toast = {
         isValidated:true,
-        title:'PAUSA EXCLUÍDA',
-        message:'Pausa '+ev.toUpperCase()+' excluída com sucesso!',
+        title:'USUÁRIO EXCLUÍDO',
+        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'PAUSA MANTIDA',
-        message:'Pausa '+p.toUpperCase()+' foi mantida. A exclusão foi cancelada pelo usuário.',
+        title:'USUÁRIO MANTIDO',
+        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
@@ -269,15 +240,15 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVA PAUSA ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' adicionada com sucesso!',
+          title:'NOVO USUÁRIO ADICIONADA',
+          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVA PAUSA VAZIA NÃO ADICIONADA',
+          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
           message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
@@ -360,7 +331,7 @@ export default {
       editRowInput: Object.assign({},this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
-      pausas: this.items[0].pausas,
+      usuarios: this.items[0].usuarios,
       icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
         {value:'i2', html:'<span class="fal fa-plus"/>'},
         {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
