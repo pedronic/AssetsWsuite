@@ -20,11 +20,12 @@
           <i class="fal fa-user fa-2x" style="margin-left: 5px" />
           <b-form-input
               id="profile-name-input"
-              type="text"
               v-model="busca"
-              @keydown.enter.native="setFilter(busca,'Login')"
+              type="text"
               placeholder="Usuário"
+              @keydown.enter.native="setFilter(busca,'usuario')"
           />
+<!--              @input="filter = $event.target.value"-->
         </div>
       </div>
     </div>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
+// import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
 import TabelaUsuariosCadastrados from "../../components/DataTables/TabelaUsuariosCadastrados.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 
@@ -74,26 +75,16 @@ export default {
       this.filter_fields.splice(0,1,field);
     }
   },
-  created() {
-    this.service = new UsuarioMetodos(this.$resource);
-    this.service.list().then(
-      (usuarios) => (this.usuarios = usuarios),
-      (err) => {
-        console.log(err);
-        this.msg = err.message;
-      }
-    );
-  },
-  computed: {
-    UsuarioFiltrado() {
-      if (this.filter) {
-        let exp = new RegExp(this.filter.trim(), "i");
-        return this.usuarios.filter((usuario) => exp.test(usuario.user));
-      } else {
-        return this.usuarios;
-      }
-    },
-  },
+  // created() {
+  //   this.service = new UsuarioMetodos(this.$resource);
+  //   this.service.list().then(
+  //     (usuarios) => (this.usuarios = usuarios),
+  //     (err) => {
+  //       console.log(err);
+  //       this.msg = err.message;
+  //     }
+  //   );
+  // },
 };
 </script>
 

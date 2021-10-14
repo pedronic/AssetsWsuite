@@ -1,6 +1,9 @@
 <template>
 <!--input de filtro em tempo real-->
-
+<!--deletar registro-->
+<!--modificar registro-->
+<!--Adicionar registro-->
+<!--  cadastrar registro-->
   <div>
     <b-table
       striped
@@ -92,7 +95,18 @@ export default {
           usuarios: this.items,
 
       }
+    },
+  computed: {
+
+    Sorted() {
+      if (this.filter) {
+        let exp = new RegExp(this.filter.trim(), 'i');
+        return this.items.filter(item => exp.test(item.usuario));
+      } else {
+        return this.usuarios;
+      }
     }
+  },
 }
 </script>
 
