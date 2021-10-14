@@ -26,6 +26,7 @@
           <span class="fal fa-plus fa-1x head-add-button"/>
         </b-button>
       </template>
+
       <template #cell(acao)>
         <button type="button" class="btn edit-btn btn-outline d-inline">
           <span class="fal fa-pencil">

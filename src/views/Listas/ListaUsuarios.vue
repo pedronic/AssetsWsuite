@@ -1,12 +1,12 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-user-friends" titulo="Lista de Usuários do Sistema">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de usuários">
 
       <div class="card">
         <div class="card-body d-flex">
             <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Login')"></b-form-input>
+                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'usuario')"></b-form-input>
                 <div class="card">
                   <div class="card-body"/>
                 </div>
@@ -25,21 +25,7 @@
 
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-    <div class="row mb-2 justify-content-center">
-      <div class="col-12">
-        <div class="profile-content user-name-line d-flex">
-          <i class="fal fa-user fa-2x" style="margin-left: 5px" />
-          <b-form-input
-              id="profile-name-input"
-              v-model="busca"
-              type="text"
-              placeholder="Usuário"
-              @keydown.enter.native="setFilter(busca,'usuario')"
-          />
-<!--              @input="filter = $event.target.value"-->
-        </div>
-      </div>
-    </div>
+
     <TabelaUsuariosCadastrados :items="items" :filter="filter" :filter_fields="filter_fields"/>
   </div>
 </template>

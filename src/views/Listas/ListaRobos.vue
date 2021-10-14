@@ -23,28 +23,9 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-body d-flex">
-          <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-robos',params:{nome:''}}" >
-            <b-btn variant="success" class="fal fa-plus"/>
-          </router-link>
-        </div>
-      </div>
-
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-    <div class="row mb-2 justify-content-center">
-      <div class="col-12">
-        <div class="profile-content user-name-line d-flex">
-          <i class="fal fa-user-robot fa-2x" style="margin-left: 5px" />
-          <b-form-input
-              id="profile-name-input"
-              type="text"
-              placeholder="Robô"
-          />
-        </div>
-      </div>
-    </div>
+
     <TabelaRobos :items="items" :filter="filter" :filter_fields="filter_fields"/>        
   </div>
 </template>
