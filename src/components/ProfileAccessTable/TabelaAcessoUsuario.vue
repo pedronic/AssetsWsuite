@@ -1,16 +1,16 @@
 <template>
     <div class="tabela-acesso-usuario profile-content">
         <b-table class="tabela-acesso-usuario table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="items" responsive="true" :fields="fields" sticky-header>
-            <template v-slot:head(acesso)="data">
+            <template v-slot:head(name)="data">
                 <span>{{data.label}}</span>
             </template>
-            <template v-slot:head(modulos)="data">
+            <template v-slot:head(modulo_name)="data">
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(add)="data">
                 <span v-html="data.label"></span>
             </template>
-            <template v-slot:head(view)="data">
+            <template v-slot:head(read)="data">
                 <span v-html="data.label"></span>
             </template>
             <template v-slot:head(edit)="data">
@@ -19,21 +19,21 @@
             <template v-slot:head(delete)="data">
                 <span v-html="data.label"></span>
             </template>
-            <template v-slot:head(browse)="data">
+            <template v-slot:head(browser)="data">
                 <span v-html="data.label"></span>
             </template>
             
-            <template v-slot:cell(acesso)="data">
+            <template v-slot:cell(name)="data">
                 <span>{{data.value}}</span>
             </template>
-            <template v-slot:cell(modulos)="data">
+            <template v-slot:cell(modulo_name)="data">
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'add',slot.index)"/>
             </template>
-            <template v-slot:cell(view)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'view',slot.index)"/>
+            <template v-slot:cell(read)="slot">
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'read',slot.index)"/>
             </template>
             <template v-slot:cell(edit)="slot">
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'edit',slot.index)"/>
@@ -41,7 +41,7 @@
             <template v-slot:cell(delete)="slot">
                 <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'delete',slot.index)"/>
             </template>
-            <template v-slot:cell(browse)="slot">
+            <template v-slot:cell(browser)="slot">
                 <b-form-checkbox v-model="slot.item.browse" :ref="(slot.item.acesso)+'_browse'" :id="(slot.item.acesso)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
             </template>
         </b-table>
@@ -101,11 +101,11 @@ export default {
             isDisabled: this.viewOnly,
             fields: [
                 {
-                    key:"acesso",
+                    key:"name",
                     label: "Acesso",
                 },
                 {
-                    key:"modulos",
+                    key:"modulo_name",
                     label: "Módulos",
                 },
                 {
@@ -113,7 +113,7 @@ export default {
                     label: "<i class='fal fa-plus mr-2 head-items'/>",
                 },
                 {
-                    key:'view',
+                    key:'read',
                     label:"<i class='fal fa-eye mr-2 head-items'/>",
                 },
                 {
@@ -125,7 +125,7 @@ export default {
                     label:"<i class='fal fa-trash-alt mr-2 head-items' />",
                 },
                 {
-                    key:'browse',
+                    key:'browser',
                     label:"<i class='fal fa-mouse-pointer mr-2 head-items' />",
                 }
             ]

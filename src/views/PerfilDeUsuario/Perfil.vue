@@ -20,6 +20,9 @@
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaAcessoUsuario from '../../components/ProfileAccessTable/TabelaAcessoUsuario.vue';
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from "axios";
+import {baseApiUrl} from "@/config/global";
+
 
 export default {
     name: "Perfil",
@@ -43,15 +46,20 @@ export default {
             };
             this.validateAndToast(toast); //utilizando a função/o método do mixin
         },
-        fillDataItems(){
+        getDataItems(){
             if(typeof(this.userData) !== 'object'){
-                return this.defaultAccessPages;
+                this.dataItems.push(this.defaultAccessPages);
             }
-            else return this.userData;
+            else this.dataItems.push(this.userData);
+        },
+        async getPages(){
+            let pp = await axios.get(baseApiUrl+"/pages");
+            this.defaultAccessPages.push(pp);            
         }
     },
     mounted(){
-        this.dataItems = this.fillDataItems()
+        this.getDataItems();
+        this.getPages();
     },
     data() {
         return {
@@ -266,32 +274,7 @@ export default {
             text: this.nome,
             userItems: this.userData,
             dataItems:[],
-            defaultAccessPages: [
-                {
-                    acesso:"Teste",
-                    modulos:"Módulo teste 1",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste2",
-                    modulos:"Módulo teste 2",
-                    add:false,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-                {
-                    acesso:"Teste3",
-                    modulos:"Módulo teste 3",
-                    add:true,
-                    view:false,
-                    edit:false,
-                    delete:false
-                },
-            ]
+            defaultAccessPages: [],
         }
     }
 };
