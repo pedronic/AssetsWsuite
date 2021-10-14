@@ -6,7 +6,7 @@
             <b-button variant="outline-dark" @click="showDetails()">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
-                <router-link :to="{name:'Perfil',params:{nome:this.text}}">
+                <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:this.user.data}}">
                     <b-button variant="outline-dark" @click="enableEditName">
                         <span class="fal fa-pencil"/>
                     </b-button>
@@ -92,7 +92,6 @@ export default {
         return {
             show_details:"d-none",
             text: this.user.name,
-            // edit_name: true,
             arrow_icon_list: ["fal fa-angle-down","fal fa-angle-up"],
             arrow_icon_now: "fal fa-angle-down",
             show_details_count: 0,

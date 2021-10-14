@@ -9,7 +9,7 @@
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
-        <tabela-acesso-usuario :items="headItems"/>
+        <tabela-acesso-usuario :items="dataItems" :pages="defaultAccessPages"/>
         <b-container fluid class="salvar-container">
             <b-button class="botao-salvar" @click="validateProfile">SALVAR</b-button>
         </b-container>
@@ -29,7 +29,8 @@ export default {
         TabelaAcessoUsuario,
     },
     props: {
-        nome:String
+        nome:String,
+        userData:Array,
     },
     methods: {
         validateProfile(){
@@ -41,7 +42,16 @@ export default {
                 message: (n%2) == 0 ? "Novo Perfil de Usuário criado com sucesso!" : "O novo Perfil de Usuário não pode ser adicionado.",
             };
             this.validateAndToast(toast); //utilizando a função/o método do mixin
+        },
+        fillDataItems(){
+            if(typeof(this.userData) !== 'object'){
+                return this.defaultAccessPages;
+            }
+            else return this.userData;
         }
+    },
+    mounted(){
+        this.dataItems = this.fillDataItems()
     },
     data() {
         return {
@@ -254,6 +264,34 @@ export default {
                 }
             ],
             text: this.nome,
+            userItems: this.userData,
+            dataItems:[],
+            defaultAccessPages: [
+                {
+                    acesso:"Teste",
+                    modulos:"Módulo teste 1",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false
+                },
+                {
+                    acesso:"Teste2",
+                    modulos:"Módulo teste 2",
+                    add:false,
+                    view:false,
+                    edit:false,
+                    delete:false
+                },
+                {
+                    acesso:"Teste3",
+                    modulos:"Módulo teste 3",
+                    add:true,
+                    view:false,
+                    edit:false,
+                    delete:false
+                },
+            ]
         }
     }
 };

@@ -4,6 +4,9 @@
             <template v-slot:head(acesso)="data">
                 <span>{{data.label}}</span>
             </template>
+            <template v-slot:head(modulos)="data">
+                <span>{{data.label}}</span>
+            </template>
             <template v-slot:head(add)="data">
                 <span v-html="data.label"></span>
             </template>
@@ -23,17 +26,20 @@
             <template v-slot:cell(acesso)="data">
                 <span>{{data.value}}</span>
             </template>
+            <template v-slot:cell(modulos)="data">
+                <span>{{data.value}}</span>
+            </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'add',slot.index)"/>
             </template>
             <template v-slot:cell(view)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'view',slot.index)"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'edit',slot.index)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'delete',slot.index)"/>
             </template>
             <template v-slot:cell(browse)="slot">
                 <b-form-checkbox v-model="slot.item.browse" :ref="(slot.item.acesso)+'_browse'" :id="(slot.item.acesso)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
@@ -48,6 +54,7 @@ export default {
     props:{
         items: Array,
         viewOnly: Boolean,
+        pages: Array,
     },
     created(){
         this.isBrowseDisabled = function(){
@@ -58,10 +65,13 @@ export default {
                 return false;
             }
         }
-        this.isDependantDisabled = function(a){
+        this.isDependantDisabled = function(a,bread,index){
             var idd = {};
             if(this.viewOnly){
                 return this.viewOnly;
+            }
+            else if(!this.pages[index][bread]){
+                return true;
             }
             else{
                 for (let ii in this.items) {
@@ -75,8 +85,8 @@ export default {
             }
         }
     },
-    mounted: {
-        state() {
+    mounted() {
+        this.state = function() {
             let d;
             if (this.viewOnly) d=true;
             else d= this.browsable;
@@ -87,14 +97,16 @@ export default {
     },
     data() {
         return {
-            data: this.items,
-            rowLabel: this.items.acesso,
             row: [this.items],
             isDisabled: this.viewOnly,
             fields: [
                 {
                     key:"acesso",
                     label: "Acesso",
+                },
+                {
+                    key:"modulos",
+                    label: "Módulos",
                 },
                 {
                     key: "add",
@@ -136,7 +148,10 @@ export default {
 }
 
 .tabela-acesso-usuario > .table.b-table > tbody > tr > [aria-colindex="1"]{
-    width: 90%;
+    width: 80%;
+}
+.tabela-acesso-usuario > .table.b-table > tbody > tr > [aria-colindex="2"]{
+    width: 10%;
 }
 .tabela-acesso-usuario > .table.b-table.table-sm > thead > tr > [aria-sort]:not(.b-table-sort-icon-left), .tabela-acesso-usuario > .table.b-table.table-sm > tfoot > tr > [aria-sort]:not(.b-table-sort-icon-left) {
 background-position: right calc(0.3rem / 2) bottom 10px;

@@ -34,7 +34,7 @@
         <i class="fal fa-briefcase iconDAM"></i>
         <span data-i18n="drpdwn.settings">Perfil de Usuários</span>
         <a class="ml-auto" href="#">
-          <router-link to="/perfil-usuario">
+          <router-link :to="{path:'/perfil-usuario', params:{nome:''}}">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>
