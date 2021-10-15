@@ -9,7 +9,7 @@
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
-        <tabela-acesso-usuario :items="dataItems" :pages="defaultAccessPages"/>
+        <tabela-acesso-usuario :items="dataItems" :pages="accessPages"/>
         <b-container fluid class="salvar-container">
             <b-button class="botao-salvar" @click="validateProfile">SALVAR</b-button>
         </b-container>
@@ -48,13 +48,13 @@ export default {
         },
         getDataItems(){
             if(typeof(this.userData) !== 'object'){
-                this.dataItems.push(this.defaultAccessPages);
+                this.dataItems.push(this.accessPages);
             }
             else this.dataItems.push(this.userData);
         },
         async getPages(){
             let pp = await axios.get(baseApiUrl+"/pages");
-            this.defaultAccessPages.push(pp);            
+            this.accessPages.push(pp);            
         }
     },
     mounted(){
@@ -274,7 +274,7 @@ export default {
             text: this.nome,
             userItems: this.userData,
             dataItems:[],
-            defaultAccessPages: [],
+            accessPages: [],
         }
     }
 };
