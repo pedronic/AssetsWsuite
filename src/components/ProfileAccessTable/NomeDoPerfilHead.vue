@@ -6,8 +6,8 @@
             <b-button variant="outline-dark" @click="showDetails()">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
-                <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:this.user.data}}">
-                    <b-button variant="outline-dark" @click="enableEditName">
+                <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:items, pages:accessPages}}">
+                    <b-button variant="outline-dark" >
                         <span class="fal fa-pencil"/>
                     </b-button>
                 </router-link>
@@ -40,6 +40,8 @@
 <script>
 import TabelaAcessoUsuario from './TabelaAcessoUsuario.vue'
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from "axios";
+import {baseApiUrl} from "@/config/global";
 
 export default {
     name: "NomeDoPerfilHead",
@@ -54,8 +56,6 @@ export default {
         colID: String,
         rowID: String,
     },
-    computed:{        
-    },
     methods: {
         showDetails(){
             this.show_details_count++;
@@ -63,8 +63,10 @@ export default {
             if(this.show_details.length > 0) this.show_details = "";
             else this.show_details = "d-none";
         },
-        enableEditName(){
-            // this.edit_name = !this.edit_name;
+        async getPages(){
+            let pp = await axios.get(baseApiUrl+"/pages");
+            this.accessPages = [...pp.data.data];
+            console.log("Pages:\n",this.accessPages);
         },
         confirmDelete(){
             this.confirmDeleteModal = !this.confirmDeleteModal;
@@ -86,8 +88,9 @@ export default {
             this.validateAndToast(toast);
         }
     },
-    // watch: {
-    // },
+    mounted() {
+        this.getPages();
+    },
     data() {
         return {
             show_details:"d-none",
@@ -96,6 +99,7 @@ export default {
             arrow_icon_now: "fal fa-angle-down",
             show_details_count: 0,
             confirmDeleteModal: false,
+            accessPages:[]
         }
     }
 }

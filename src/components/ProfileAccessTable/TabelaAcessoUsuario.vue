@@ -30,19 +30,19 @@
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'add',slot.index)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_add'" :ref="(slot.item.name)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'add',slot.index)"/>
             </template>
             <template v-slot:cell(read)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'read',slot.index)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'read',slot.index)"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'edit',slot.index)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'edit',slot.index)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso,'delete',slot.index)"/>
+                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'delete',slot.index)"/>
             </template>
             <template v-slot:cell(browser)="slot">
-                <b-form-checkbox v-model="slot.item.browse" :ref="(slot.item.acesso)+'_browse'" :id="(slot.item.acesso)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
+                <b-form-checkbox v-model="slot.item.browser" :ref="(slot.item.name)+'_browser'" :id="(slot.item.name)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
             </template>
         </b-table>
     </div>    
@@ -57,6 +57,7 @@ export default {
         pages: Array,
     },
     created(){
+        console.log("Pages que Tabela Acesso Usuario recebe @created:\n",this.pages)
         this.isBrowseDisabled = function(){
             if(this.viewOnly) {
                 return this.viewOnly;
@@ -75,8 +76,8 @@ export default {
             }
             else{
                 for (let ii in this.items) {
-                    let k = this.items[ii].acesso;
-                    idd[k] = !this.items[ii].browse;
+                    let k = this.items[ii].name;
+                    idd[k] = !this.items[ii].browser;
                 }
                 console.log("a:\n",a)
                 console.log("idd:\n",idd)
@@ -86,10 +87,11 @@ export default {
         }
     },
     mounted() {
+        console.log("Items que Tabela Acesso Usuario recebe @mounted:\n",this.items);
         this.state = function() {
             let d;
             if (this.viewOnly) d=true;
-            else d= this.browsable;
+            else d = this.browsable;
             return d;
         }
     },

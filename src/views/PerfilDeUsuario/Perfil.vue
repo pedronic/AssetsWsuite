@@ -9,7 +9,7 @@
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
-        <tabela-acesso-usuario :items="dataItems" :pages="accessPages"/>
+        <tabela-acesso-usuario :items="dataItems" :pages="pages"/>
         <b-container fluid class="salvar-container">
             <b-button class="botao-salvar" @click="validateProfile">SALVAR</b-button>
         </b-container>
@@ -20,8 +20,8 @@
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaAcessoUsuario from '../../components/ProfileAccessTable/TabelaAcessoUsuario.vue';
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
-import axios from "axios";
-import {baseApiUrl} from "@/config/global";
+// import axios from "axios";
+// import {baseApiUrl} from "@/config/global";
 
 
 export default {
@@ -34,6 +34,7 @@ export default {
     props: {
         nome:String,
         userData:Array,
+        pages:Array,
     },
     methods: {
         validateProfile(){
@@ -47,19 +48,23 @@ export default {
             this.validateAndToast(toast); //utilizando a função/o método do mixin
         },
         getDataItems(){
+            console.log("User Data em Perfil",this.userData)
             if(typeof(this.userData) !== 'object'){
-                this.dataItems.push(this.accessPages);
+                this.dataItems = [...this.pages];
             }
-            else this.dataItems.push(this.userData);
+            else this.dataItems = [...this.userData];
         },
-        async getPages(){
-            let pp = await axios.get(baseApiUrl+"/pages");
-            this.accessPages.push(pp);            
-        }
+        // async getPages(){
+        //     let pp = await axios.get(baseApiUrl+"/pages");
+        //     this.accessPages = [...pp.data.data];
+        //     console.log("Pages:\n",this.accessPages);
+        // }
     },
-    mounted(){
+    created(){
+        // this.getPages();
         this.getDataItems();
-        this.getPages();
+        console.log("Data Items:",this.dataItems);
+        
     },
     data() {
         return {
