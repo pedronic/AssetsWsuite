@@ -145,7 +145,7 @@
           <div class="panel">
             <div class="panel-container show">
               <div class="panel-content">
-                <TabelaFilas />
+                <TabelaFilas :items="lista_de_filas"/>
               </div>
             </div>
           </div>
@@ -210,9 +210,23 @@ export default {
         { name: "Manual", code: "M" },
         { name: "Recebe", code: "R" },
       ],
-      // msg: "",
-      //   usuario: new Usuario(),
-      //   id: this.$route.params.id,
+      lista_de_filas:[
+        {
+          selected:false,
+          agente:"Fila 1000",
+          p0:false,
+          p1:true,
+          p2:false
+        },
+        {
+          selected:false,
+          agente:"Fila 2000",
+          p0:false,
+          p1:false,
+          p2:false
+        }
+      ],
+      
     };
   },
   mounted() {

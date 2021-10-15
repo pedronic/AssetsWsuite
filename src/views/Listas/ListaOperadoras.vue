@@ -6,11 +6,11 @@
       <div class="card">
         <div class="card-body d-flex">
             <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Nome')"></b-form-input>
+                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'operadora')"></b-form-input>
                 <div class="card">
                   <div class="card-body"/>
                 </div>
-                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Nome')"/>
+                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'operadora')"/>
             </div>
         </div>
       </div>
@@ -42,25 +42,36 @@ export default {
     return {
       items: [
         {
-          Nome: 'Exemplo',
+          operadoras: ["Exemplo","Outro Exemplo"],
+        },
+        {
+          operadora: 'Exemplo',
           IP: '192.168.0.226',
-          Porta: '8080',
-          Contexto: '',
-          Classes: '',
-          Ação: '',
+          porta: '8080',
+          contexto: '',
+         local: true,
+          LDN: true,
+          VC1: false,
+          VC2: false,
+          VC3: false,
+          LD1: false,
           status:true,
         },
         {
-          Nome: 'Outro Exemplo',
-          IP: '',
-          Porta: '',
-          Contexto: '',
-          Classes: '',
-          Ação: '',
+          operadora: 'Outro Exemplo',
+          IP: '192.168.0.296',
+          porta: '3000',
+          contexto: '',
+         local: true,
+          LDN: false,
+          VC1: true,
+          VC2: false,
+          VC3: false,
+          LD1: false,
           status:true,
         },
       ],
-      usuarios: [],
+      operadoras: [],
       msg: "",
       filter:'',
       filter_fields:[''],

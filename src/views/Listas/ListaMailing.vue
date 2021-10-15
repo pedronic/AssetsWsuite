@@ -5,11 +5,11 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="filtro-grupo-pausa">
-            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Nome')"></b-form-input>
+            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'mailing')"></b-form-input>
             <div class="card">
               <div class="card-body"/>
             </div>
-            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Nome')"/>
+            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'mailing')"/>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
     <div class="panel ">
       <div class="panel-container show">
         <div class="panel-content">
-          <TabelaMailing/>
+          <TabelaMailing :items="items" :filter="filter" :filter_fields="filter_fields"/>
         </div>
       </div>
     </div>
@@ -47,12 +47,47 @@ export default {
   name: 'ListaMailing',
   data() {
     return {
-      filter: "",
-      usuarios: [],
+      items: [
+        {
+          mailings: ["Exemplo","Outro Exemplo"],
+        },
+        {
+          mailing: 'Exemplo',
+          ID: 'Ex',
+          data_importacao: 'ex@dom.com.br',
+          data_agendamento: 'lado',
+          fila: '',
+          usuario: '',
+          registros_carregados: '',
+          telefones_carregados: '',
+          status:true
+        },
+        {
+          mailing: 'Outro Exemplo',
+          ID: 'Ox',
+          data_importacao: 'ox@dom.com.br',
+          data_agendamento: 'pinda',
+          fila: '',
+          usuario: '',
+          registros_carregados: '',
+          telefones_carregados: '',
+          status:true
+        },
+      ],
+      
       msg: "",
+      filter:'',
+      filter_fields:[''],
+      busca:'',
+      status_filter: true,
     };
   },
-  methods: {},
+  methods: {
+    setFilter(filter,field){
+      this.filter = filter.toString();
+      this.filter_fields.splice(0,1,field);
+    }
+  },
   created() {
     this.service = new UsuarioMetodos(this.$resource);
     this.service.list().then(

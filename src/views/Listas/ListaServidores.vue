@@ -6,11 +6,11 @@
       <div class="card">
         <div class="card-body d-flex">
             <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Nome')"></b-form-input>
+                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'servidor')"></b-form-input>
                 <div class="card">
                   <div class="card-body"/>
                 </div>
-                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Nome')"/>
+                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'servidor')"/>
             </div>
         </div>
       </div>
@@ -44,21 +44,24 @@ export default {
     return {
       items: [
         {
-          Nome: 'Exemplo',
+          servidores: ["Exemplo","Outro Exemplo"],
+        },
+        {
+          servidor: 'Exemplo',
           tipo: '',
           ip: '',
           perfil: '',
           status:true
         },
         {
-          Nome: 'Outro Exemplo',
+          servidor: 'Outro Exemplo',
           tipo: '',
           ip: '',
           perfil: '',
-          status:true
+          status:false
         },
       ],
-      usuarios: [],
+      servidores: [],
       msg: "",
       filter:'',
       filter_fields:[''],

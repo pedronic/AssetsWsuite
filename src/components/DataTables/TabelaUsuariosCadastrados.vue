@@ -1,6 +1,10 @@
 <template>
   <div class="pausas">
-    <b-table id="tabela-de-pausas" :ref="'tabela-de-pausas'" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header>
+    <b-table id="tabela-de-pausas" :ref="'tabela-de-pausas'" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields"
+             :filter="filter"
+             filter-debounce="50"
+             :filter-included-fields="filter_fields"
+             sticky-header>
       <template v-slot:head(usuario)="data">
         <span>{{data.label}}</span>
       </template>
@@ -208,6 +212,8 @@ export default {
   mixins: [ValidateToaster],
   props:{
     items: Array,
+    filter:String,
+    filter_fields:Array,
   },
   methods: {
     deleteRow(ev){

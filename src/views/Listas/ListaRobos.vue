@@ -2,24 +2,23 @@
   <div class="relatorios">
     <!-- Cabeçalho -->
     <PagesSubHeader icon="fal fa-list" titulo="Lista de Robôs">
-
       <div class="card">
         <div class="card-body d-flex">
-            <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Login')"></b-form-input>
-                <div class="card">
-                  <div class="card-body"/>
-                </div>
-                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Login')"/>
+          <div class="d-flex" id="filtro-grupo-pausa">
+            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'robo')"></b-form-input>
+            <div class="card">
+              <div class="card-body"/>
             </div>
+            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'robo')"/>
+          </div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body d-flex">
-            <div class="d-flex" id="status-filter">
-                <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
-            </div>
+          <div class="d-flex" id="status-filter">
+            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+          </div>
         </div>
       </div>
 
@@ -43,10 +42,13 @@ export default {
   data() {
     return {
       items: [
-        { Login: "Dickerson", nome: "Macdonald", status:true },
-        { Login: "Larsen", nome: "Shaw", status:true },
+        {
+          robos: ["Dickerson", "Larsen"],
+        },
+        { robo: "Dickerson", nome: "Macdonald", status:true },
+        { robo: "Larsen", nome: "Shaw", status:true },
       ],
-      usuarios: [],
+      robos: [],
       msg: "",
       filter:'',
       filter_fields:[''],
