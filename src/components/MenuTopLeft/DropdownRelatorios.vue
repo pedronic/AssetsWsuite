@@ -17,13 +17,13 @@
         
         <div class="dropdown-item d-flex itens">
             <router-link to="" class="mr-auto" >
-                <i class="fal fa-file-audio"></i>
+                <i class="fal fa-file-audio iconDAM"></i>
                 <span data-i18n="drpdwn.settings"> Relatório de Gravações</span>
             </router-link>
         </div>
         <div class="dropdown-item d-flex itens" >
             <router-link to="/relatorios-faturamento" class="mr-auto">
-                <i class="fal fa-file-invoice-dollar"></i>
+                <i class="fal fa-file-invoice-dollar iconDAM"></i>
                 <span data-i18n="drpdwn.settings"> Relatório de Faturamento</span>
             </router-link>
         </div>
@@ -46,5 +46,8 @@ export default {
  }
  .itens i{
      margin-right: 10px;
+ }
+ .iconDAM{
+     width: 20px;
  }
 </style>

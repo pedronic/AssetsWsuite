@@ -3,8 +3,11 @@
     <b-table
         striped
         hover
-        :items="items"
+        :items="robos"
         :fields="fields"
+        :filter="filter"
+        filter-debounce="50" 
+        :filter-included-fields="filter_fields"
         class="
         table-sm
         able-bordered
@@ -14,15 +17,24 @@
         dtr-inline
       "
     >
-      <template #cell(status)>
-        <b-form-checkbox v-model="checked" class="ml-1" name="check-button" switch disabled>
+      <template #cell(status)="slot">
+        <b-form-checkbox v-model="slot.item.status" class="ml-1" name="check-button" switch disabled>
         </b-form-checkbox>
       </template>
+      <template #head(acao)>
+        <b-button class="head-add-button btn-success ml-4" v-b-modal="'new_line'" variant="outline-dark">
+          <span class="fal fa-plus fa-1x head-add-button"/>
+        </b-button>
+      </template>
       <template #cell(acao)>
-        <router-link :to="{ name: 'RegistroRobos' }">
-          <i class="fal fa-pencil d-inline"></i>
-        </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
+        <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-pencil">
+          </span>
+        </button>
+        <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-trash-alt">
+          </span>
+        </button>
       </template>
     </b-table>
   </div>
@@ -30,6 +42,11 @@
 
 <script>
 export default {
+  props: {
+    items:Array,
+    filter:String,
+    filter_fields:Array,
+  },
   data() {
     return {
       fields: [
@@ -63,14 +80,10 @@ export default {
           key: "acao",
           label: "Ação",
           sortable: false,
-          thStyle: 'width: 4%;'
+          thStyle: 'width: 8%;'
         },
       ],
-      items: [
-        { Login: "Dickerson", nome: "Macdonald" },
-        { Login: "Larsen", nome: "Shaw" },
-      ],
-      checked: true,
+      robos: this.items,
     };
   },
 };

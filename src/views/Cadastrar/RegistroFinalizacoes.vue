@@ -42,51 +42,53 @@
           class="tab-pane fade show active p-3"
           role="tabpanel"
         >
-          <div class="row justify-content-left">
+          <div class="row mb-2 justify-content-left">
             <div class="col-4">
-              <div class="input-group mb-3">
-                <span id="basic-addon1" class="input-group-text form-icon"
-                  ><i class="fal fa-at"></i
-                ></span>
-                <input
-                  aria-describedby="basic-addon1"
-                  aria-label="Username"
-                  class="form-control"
-                  maxlength="120"
-                  minlength="3"
-                  placeholder="Nome da finalização"
-                  type="text"
-                />
-              </div>
+              <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="Nome da finalização"
+                  />
+                </div>
             </div>
           </div>
           <div class="row justify-content-left">
             <div class="col-4">
-              <div class="input-group image-preview">
-                <span class="input-group">
-                  <button
-                    type="button"
-                    class="btn btn-default image-preview-clear"
-                    style="display: none"
-                  >
-                    <span class="glyphicon glyphicon-remove"></span> Limpar
-                  </button>
-                  <div class="btn btn-default image-preview-input">
-                    <span class="form-icon"><i class="fal fa-at"></i></span>
-                    <span class="image-preview-input-title"> </span>
-                    <input
-                      type="file"
-                      accept=".txt,.csv"
-                      name="input-file-preview"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Anexar Arquivo"
-                    class="form-control image-preview-filename"
-                    disabled="disabled"
-                  />
-                </span>
+              <div class="profile-content user-name-line d-flex">
+                <div class="input-group image-preview">
+                    <span class="input-group">
+                      <!-- image-preview-clear button -->
+                      <button
+                          type="button"
+                          class="btn btn-default image-preview-clear"
+                          style="display: none"
+                      >
+                        <span class="glyphicon glyphicon-remove"></span> Limpar
+                      </button>
+                      <!-- image-preview-input -->
+                      <div class="btn btn-default image-preview-input" id="butao">
+                          <i id="pic" class="fal fa-at fa-2x"></i
+                          >
+                        <span class="image-preview-input-title "> </span>
+                        <input
+                            type="file"
+                            accept="txt, csv"
+                            name="input-file-preview"
+                        />
+                        <!-- rename it -->
+                      </div>
+                      <input
+                          type="text"
+                          placeholder="Subir arquivo"
+                          class="form-control image-preview-filename"
+                          id="input-pic"
+                          disabled="disabled"
+                      />
+                      <!-- don't give a name === doesn't send on POST/GET -->
+                    </span>
+                </div>
               </div>
             </div>
           </div>
@@ -126,49 +128,47 @@
                   <a
                     href="#"
                     class="btn btn-outline-danger btn-sm flex-shrink-0"
-                    @click="putins >= 1 ? putins-- : putins"
+                    @click="putins > 1 ? putins-- : putins"
                     ><i class="fal fa-minus"></i
                   ></a>
                 </div>
               </div>
             </div>
-            <div class="card-body p-0">
-              <div class="row no-gutters row-grid">
-                <div class="col-12">
-                  <div class="row no-gutters row-grid align-items-stretch">
-                    <div class="col-md">
-                      <div class="p-2">
-                        <div class="d-flex">
-                          <div class="d-inline-flex flex-column">
-                            <div class="input-group">
-                              <span
-                                id="basic-addon1"
-                                class="input-group-text form-icon"
-                                ><i class="fal fa-at"></i
-                              ></span>
-                              <input
-                                aria-describedby="basic-addon1"
-                                aria-label="Username"
-                                class="form-control"
-                                maxlength="120"
-                                minlength="3"
-                                placeholder="Nome da finalização"
-                                type="text"
-                              />
-                            </div>
+            <div class="mt-2">
+                    <div v-for="i of putins" :key="i">
+                      <div class="pl-3">
+                        <div
+                          class="
+                            row
+                            mb-2
+                            no-gutters
+                            row-grid
+                            align-items-stretch
+                          "
+                        >
+                          
+                          <div class="col-4">
+                            
+                              <div
+                                class="profile-content user-name-line d-flex"
+                              >
+                                <i
+                                  class="fal fa-at fa-2x"
+                                  style="margin-left: 5px"
+                                />
+                                <b-form-input
+                                  id="profile-name-input"
+                                  type="text"
+                                  placeholder="Nome da finalização"
+                                />
+                              </div>
+                            
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
             </div>
-            <ul class="lista-putins">
-              <li class="lista-putins-item" v-for='i of putins' :key='i'>
-                <Putin />
-              </li>
-            </ul>
+            
           </div>
           <TabelaRegistroFinalizacoes />
           <b-row>
@@ -205,17 +205,15 @@
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 import TabelaRegistroFinalizacoes from "../../components/DataTables/TabelaRegistroFinalizacoes.vue";
-import Putin from "../../components/Putin/Putin.vue";
 
 export default {
   components: {
     PagesSubHeader,
     TabelaRegistroFinalizacoes,
-    Putin,
   },
   data() {
     return {
-      putins: 0,
+      putins: 1,
     };
   },
 
@@ -252,7 +250,7 @@ export default {
         var reader = new FileReader();
         // Set preview image into the popover data-content
         reader.onload = function (e) {
-          $(".image-preview-input-title").text("Trocar");
+          $(".image-preview-input-title").text(".   Trocar");
           $(".image-preview-clear").show();
           $(".image-preview-filename").val(file.name);
           img.attr("src", e.target.result);
@@ -266,36 +264,16 @@ export default {
 </script>
 
 <style scoped>
-.lista-putins {
-  list-style: none;
+.btn#butao {
+  padding: 2px 4px 0px 2px !important;
 }
-
-.lista-putins .lista-putins-item {
-  display: inline-block;
-}
-
-.botao-salvar {
-  background-color: #0d6d9dad;
-}
-
-.botao-salvar:hover {
-  background-color: #0d6d9d;
-}
-
-.coluna_2 {
-  flex: 0 0 31.666667%;
-  max-width: 31.666667%;
-}
-
-.coluna {
-  flex: 0 0 16.666667%;
-  max-width: 7.766667%;
+#input-pic {
+  border-left: 1px solid rgb(0, 0, 0) !important;
 }
 
 .btn-default {
-  background-image: linear-gradient(to top, #e9ecef, #e9ecef);
+  background-image: linear-gradient(to top, #ffffff, #ffffff);
 }
-
 .image-preview-input {
   position: relative;
   overflow: hidden;
@@ -324,7 +302,83 @@ export default {
   opacity: 1;
 }
 
-.cart-body {
+label#kkk {
+  padding-top: 2.7px;
+}
+
+.form-icon,
+.form-icon:hover {
+  width: 42px;
+}
+
+.centralize {
+  margin-left: 450px;
+}
+
+.botao-salvar {
+  background-color: #0d6d9dad;
+}
+
+.botao-salvar:hover {
+  background-color: #0d6d9d;
+}
+
+.user-name-line {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+.user-name-line2 {
+  align-items: center !important;
+  border-style: solid;
+  border-width: 1px;
+  height: 42px;
+  border-color: #d0cece;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+#profile-name-input {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+}
+#profile-name-input2 {
+  margin-left: 5px;
+  margin-right: 0px;
+  border-left-color: black;
+  border-radius: 0px;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+#multiselect-input {
+  display: flex;
+  width: 100%;
+  margin-left: 6px;
+}
+
+i.fal.fa-2x {
+  width: 26px;
+  height: 26px;
+}
+
+.bottom {
+  margin-top: 20px;
+}
+
+.panel-content {
+  overflow: auto;
+}
+
+.panel .panel-container .panel-content {
+  padding: 0;
+}
+
+.card-body {
   padding: 5px;
   height: 50px;
   width: 0;
@@ -332,7 +386,7 @@ export default {
   color: #ffffff;
 }
 
-.cart {
+.card {
   box-shadow: none;
   border: none;
 }

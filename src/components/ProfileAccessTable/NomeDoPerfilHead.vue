@@ -6,8 +6,8 @@
             <b-button variant="outline-dark" @click="showDetails()">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
-                <router-link :to="{name:'Perfil',params:{nome:this.text}}">
-                    <b-button variant="outline-dark" @click="enableEditName">
+                <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:items, pages:accessPages}}">
+                    <b-button variant="outline-dark" >
                         <span class="fal fa-pencil"/>
                     </b-button>
                 </router-link>
@@ -19,16 +19,19 @@
             <tabela-acesso-usuario :viewOnly="viewOnly" :items="items"/>
         </div>
         <b-modal 
-        :id="text" 
-        title="ATENÇÃO!!!"
-        :hide-header-close="true"
-        :no-close-on-backdrop="true"
-        :no-close-on-esc="true"
-        :lazy="true"
-        ok-title="EXCLUIR"
-        ok-variant="danger" 
-        cancel-title="MANTER" 
-        cancel-variant="success">
+            :id="text" 
+            title="ATENÇÃO!!!"
+            :hide-header-close="true"
+            :no-close-on-backdrop="true"
+            :no-close-on-esc="true"
+            :lazy="true"
+            ok-title="EXCLUIR"
+            ok-variant="danger" 
+            cancel-title="MANTER" 
+            cancel-variant="success"
+            @ok="okayFunc(text)" 
+            @cancel="cancelFunc(text)"
+        >
             Tem certeza que deseja excluir o perfil de <b>{{this.text}}</b>?
         </b-modal>
     </div>
@@ -36,19 +39,22 @@
 
 <script>
 import TabelaAcessoUsuario from './TabelaAcessoUsuario.vue'
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from "axios";
+import {baseApiUrl} from "@/config/global";
+
 export default {
     name: "NomeDoPerfilHead",
+    mixins: [ValidateToaster],
     components: {
         TabelaAcessoUsuario
     },
     props: {
         items: Array,
-        user: Array,
+        user: Object,
         viewOnly: Boolean,
         colID: String,
         rowID: String,
-    },
-    computed:{        
     },
     methods: {
         showDetails(){
@@ -57,24 +63,43 @@ export default {
             if(this.show_details.length > 0) this.show_details = "";
             else this.show_details = "d-none";
         },
-        enableEditName(){
-            // this.edit_name = !this.edit_name;
+        async getPages(){
+            let pp = await axios.get(baseApiUrl+"/pages");
+            this.accessPages = [...pp.data.data];
+            console.log("Pages:\n",this.accessPages);
         },
         confirmDelete(){
             this.confirmDeleteModal = !this.confirmDeleteModal;
+        },
+        okayFunc(name){
+            let toast = {
+                isValidated:true,
+                title:'PERFIL EXCLUÍDO',
+                message:'Perfil de '+name.toUpperCase()+' excluído com sucesso!',
+            }
+            this.validateAndToast(toast);
+        },
+        cancelFunc(name){
+            let toast = {
+                isValidated:false,
+                title:'PERFIL NÃO EXCLUÍDO',
+                message:'O perfil de '+name.toUpperCase()+' foi mantido. A exclusão foi cancelada pelo usuário.',
+            }
+            this.validateAndToast(toast);
         }
     },
-    // watch: {
-    // },
+    mounted() {
+        this.getPages();
+    },
     data() {
         return {
             show_details:"d-none",
             text: this.user.name,
-            // edit_name: true,
             arrow_icon_list: ["fal fa-angle-down","fal fa-angle-up"],
             arrow_icon_now: "fal fa-angle-down",
             show_details_count: 0,
             confirmDeleteModal: false,
+            accessPages:[]
         }
     }
 }

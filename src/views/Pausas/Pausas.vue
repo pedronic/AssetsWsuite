@@ -17,9 +17,11 @@
 <script>
 import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 export default {
     name: 'Pausas',
+    mixins: [ValidateToaster],
     components: {
         PagesSubHeader,
         TabelaPausas,

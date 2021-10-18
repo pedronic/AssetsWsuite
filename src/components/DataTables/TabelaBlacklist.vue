@@ -2,12 +2,21 @@
   <div class="row">
     <div class="col-sm-12 faturamento">
       <b-table striped hover :items="items" :fields="fields" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline">
-    <template #cell(acao)>
-        <router-link :to="{ name: 'BlacklistPhone' }">
-          <i class="fal fa-download d-inline"></i>
-        </router-link>
-        <i class="fal fa-trash-alt d-inline ml-2"></i>
-    </template>
+        <template #head(acao)>
+          <b-button class="head-add-button btn-success ml-4" v-b-modal="'new_line'" variant="outline-dark">
+            <span class="fal fa-plus fa-1x head-add-button"/>
+          </b-button>
+        </template>
+        <template #cell(acao)>
+          <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-pencil">
+          </span>
+          </button>
+          <button type="button" class="btn edit-btn btn-outline d-inline">
+          <span class="fal fa-trash-alt">
+          </span>
+          </button>
+        </template>
       </b-table>
     </div>
   </div>
@@ -38,7 +47,7 @@ export default {
           key: 'acao',
           label: 'Ação',
           sortable: false,
-          thStyle: 'width: 4%;'
+          thStyle: 'width: 8%;'
         },
 
       ],
@@ -63,7 +72,26 @@ export default {
 </script>
 
 <style>
+pan.fal{
+  pointer-events: none;
+}
 
+.add-btn>i, .edit-btn>i{
+  padding: 0px !important;
+  border-width: 0px 1px !important;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.add-btn, .edit-btn{
+  display: table-cell;
+  align-items: center !important;
+  border-width: 1px 1px !important;
+  border-color: #adadad;
+  width: 42px;
+  height: 42px;
+}
 .table thead{
   background-color: #0d6d9d;
   color:#fff;

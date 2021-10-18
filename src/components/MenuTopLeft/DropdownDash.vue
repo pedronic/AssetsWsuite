@@ -16,13 +16,13 @@
         <div class="dropdown-divider m-0"></div>
         <div class="dropdown-item d-flex itens" >
             <router-link to="" class="mr-auto">
-            <i class="fal fa-eye"></i>
+            <i class="fal fa-eye iconDAM"></i>
             <span data-i18n="drpdwn.settings"> Painel de Supervisão</span>
             </router-link>
         </div>
         <div class="dropdown-item d-flex itens">
             <router-link to="/dash-analitico" class="mr-auto" >
-                    <i class="fal fa-list"></i>
+                    <i class="fal fa-list iconDAM"></i>
             <span data-i18n="drpdwn.settings"> Dashboard Analítico</span>
             </router-link>
         </div>
@@ -42,5 +42,8 @@ export default {
  }
  .itens i{
      margin-right: 10px;
+ }
+ .iconDAM{
+     width: 20px;
  }
 </style>
