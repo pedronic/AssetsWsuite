@@ -225,16 +225,16 @@ export default {
       this.agentes.splice(p,1);
       let toast = {
         isValidated:true,
-        title:'USUÁRIO EXCLUÍDO',
-        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
+        title:'AGENTE EXCLUÍDO',
+        message:'Agente '+ev.toUpperCase()+' excluído com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'USUÁRIO MANTIDO',
-        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
+        title:'AGENTE MANTIDO',
+        message:'Agente '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
@@ -249,15 +249,15 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO USUÁRIO ADICIONADA',
-          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
+          title:'NOVO AGENTE ADICIONADA',
+          message:'Novo agente '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
+          title:'NOVO AGENTE VAZIO NÃO ADICIONADA',
           message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);

@@ -100,5 +100,4 @@ export default {
 }
 </style>
 
-// tabela registro finalizações > cadastrar apenas visualização?
 // validacao fields

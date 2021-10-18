@@ -95,7 +95,7 @@
         <i class="fal fa-route"></i>
         <span data-i18n="drpdwn.settings">Rotas</span>
         <a class="ml-auto" href="#">
-          <router-link :to="{ name: ''}">
+          <router-link :to="{ name: 'RegistroRotas'}">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>
