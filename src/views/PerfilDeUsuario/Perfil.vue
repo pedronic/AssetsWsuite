@@ -9,7 +9,7 @@
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
-        <tabela-acesso-usuario :items="headItems"/>
+        <tabela-acesso-usuario :items="dataItems" :pages="pages"/>
         <b-container fluid class="salvar-container">
             <b-button class="botao-salvar" @click="validateProfile">SALVAR</b-button>
         </b-container>
@@ -20,6 +20,9 @@
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaAcessoUsuario from '../../components/ProfileAccessTable/TabelaAcessoUsuario.vue';
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+// import axios from "axios";
+// import {baseApiUrl} from "@/config/global";
+
 
 export default {
     name: "Perfil",
@@ -29,7 +32,9 @@ export default {
         TabelaAcessoUsuario,
     },
     props: {
-        nome:String
+        nome:String,
+        userData:Array,
+        pages:Array,
     },
     methods: {
         validateProfile(){
@@ -41,7 +46,25 @@ export default {
                 message: (n%2) == 0 ? "Novo Perfil de Usuário criado com sucesso!" : "O novo Perfil de Usuário não pode ser adicionado.",
             };
             this.validateAndToast(toast); //utilizando a função/o método do mixin
-        }
+        },
+        getDataItems(){
+            console.log("User Data em Perfil",this.userData)
+            if(typeof(this.userData) !== 'object'){
+                this.dataItems = [...this.pages];
+            }
+            else this.dataItems = [...this.userData];
+        },
+        // async getPages(){
+        //     let pp = await axios.get(baseApiUrl+"/pages");
+        //     this.accessPages = [...pp.data.data];
+        //     console.log("Pages:\n",this.accessPages);
+        // }
+    },
+    created(){
+        // this.getPages();
+        this.getDataItems();
+        console.log("Data Items:",this.dataItems);
+        
     },
     data() {
         return {
@@ -254,6 +277,9 @@ export default {
                 }
             ],
             text: this.nome,
+            userItems: this.userData,
+            dataItems:[],
+            accessPages: [],
         }
     }
 };
