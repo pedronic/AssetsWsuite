@@ -34,7 +34,7 @@
         <i class="fal fa-briefcase iconDAM"></i>
         <span data-i18n="drpdwn.settings">Perfil de Usuários</span>
         <a class="ml-auto" href="#">
-          <router-link to="/perfil-usuario">
+          <router-link :to="{path:'/perfil-usuario', params:{nome:''}}">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>
@@ -80,7 +80,7 @@
 
     <router-link :to="{ name: 'ListaOperadoras' }">
       <div class="dropdown-item d-flex itens">
-        <i class="fal fa-sim-card"></i>
+        <i class="fal fa-sim-card iconDAM"></i>
         <span data-i18n="drpdwn.settings">Operadoras</span>
         <a class="ml-auto" href="#">
           <router-link :to="{ name: 'RegistroOperadoras' }">
@@ -92,7 +92,7 @@
 
     <router-link :to="{ name: ''}">
       <div class="dropdown-item d-flex itens">
-        <i class="fal fa-route"></i>
+        <i class="fal fa-route iconDAM"></i>
         <span data-i18n="drpdwn.settings">Rotas</span>
         <a class="ml-auto" href="#">
           <router-link :to="{ name: 'RegistroRotas'}">
@@ -104,7 +104,7 @@
 
     <router-link :to="{ name: ''}">
       <div class="dropdown-item d-flex itens">
-        <i class="fal fa-road"></i>
+        <i class="fal fa-road iconDAM"></i>
         <span data-i18n="drpdwn.settings">Filas</span>
         <a class="ml-auto" href="#">
           <router-link to='/cadastrar-filas'>
@@ -116,7 +116,7 @@
       
     <router-link :to="{ name: 'ListaServidores' }">
       <div class="dropdown-item d-flex itens">
-        <i class="fal fa-server"></i>
+        <i class="fal fa-server iconDAM"></i>
         <span data-i18n="drpdwn.settings">Servidores</span>
         <a class="ml-auto" href="#">
           <router-link :to="{ name: 'RegistroServidores' }">
@@ -138,7 +138,9 @@ export default {
 .w-app-drop-admin {
   right: unset !important;
 }
-
+.iconDAM{
+  width: 20px;
+}
 .itens i {
   margin-right: 10px;
 }
