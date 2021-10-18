@@ -58,7 +58,7 @@ export default {
       return{
           fields: [
           {
-            key: 'Usuário',
+            key: 'Usuario',
             label: 'Usuário',
             sortable: true
           },

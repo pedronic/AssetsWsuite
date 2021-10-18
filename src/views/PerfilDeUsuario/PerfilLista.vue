@@ -3,7 +3,7 @@
         <pages-sub-header icon="fal fa-briefcase" titulo="Lista de Perfil">
             <div class="card">
                 <div class="card-body d-flex">
-                    <router-link class="d-flex" id="add-perfil" :to="{path:'/perfil-usuario', params:{nome:''}}" >
+                    <router-link class="d-flex" id="add-perfil" :to="{name:'Perfil', params:{nome:'', userData: defaultUserData.data, pages: defaultAccessPages, pages_index:pagesIndexTable}}" >
                         <b-btn variant="success" class="fal fa-plus" />
                     </router-link>
                 </div>
@@ -18,7 +18,7 @@ import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
 import NomeDoPerfilHead from '../../components/ProfileAccessTable/NomeDoPerfilHead.vue';
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 import axios from "axios";
-import {baseApiUrl} from "@/config/global";
+import {baseApiUrl, defaultNewUserProfile} from "../../config/global";
 
 export default{
     name:"PerfilLista",
@@ -29,7 +29,7 @@ export default{
     },
     methods: {
         async getUsers(){
-            let res = await axios.get(baseApiUrl+"/perfilspages");
+            let res = await axios.get(baseApiUrl+"/perfils-pages");
             let u = res.data.data;
             let users = [];
             let metaUsers = [];
@@ -44,11 +44,13 @@ export default{
             let data = {};
                 // {
                 //     name:'',
+                //     page_id:null,
                 //     modulo_name:'',
                 //     add:null,
                 //     read:null,
                 //     edit:null,
                 //     delete:null,
+                //     browser:null,
                 // };           
             for (let i in u){
                 if(metaUsers.indexOf(u[i].perfil_name)<0){
@@ -68,6 +70,7 @@ export default{
 
                 for(let j in metaData[metaUsers[i]]){
                     data.name = u[metaData[metaUsers[i]][j]].page_name;
+                    data.page_id = u[metaData[metaUsers[i]][j]].page_id;
                     data.modulo_name = u[metaData[metaUsers[i]][j]].modulo_name;
                     data.add = u[metaData[metaUsers[i]][j]].add?true:false;
                     data.read = u[metaData[metaUsers[i]][j]].read?true:false;
@@ -78,8 +81,17 @@ export default{
                 }
                 users.push({...user})
             }
-            // console.log("Users:\n",users)
+            console.log("Users:\n",users)
             this.users = [...users];
+        },
+        getPages(){
+            this.defaultAccessPages = JSON.parse(localStorage.getItem('__defaultAccessPages'));
+            this.pagesIndexTable = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+            console.log("Default Access Pages:\n",this.defaultAccessPages);
+        },
+        setDefaultUser(){
+            this.defaultUserData = {...defaultNewUserProfile};
+            console.log("Default User Data:\n",this.defaultUserData);
         }
     },
     data(){
@@ -109,10 +121,15 @@ export default{
                     delete:false
                 }
             ],
+            defaultUserData:[],
+            defaultAccessPages:[],
+            pagesIndexTable:{}
         }
     },
     mounted() {
         this.getUsers();
+        this.getPages();
+        this.setDefaultUser();
     }
 }
 </script>

@@ -6,7 +6,7 @@
             <b-button variant="outline-dark" @click="showDetails()">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
-                <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:items, pages:accessPages}}">
+                <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:items, pages:accessPages, pages_index:pagesIndexTable}}">
                     <b-button variant="outline-dark" >
                         <span class="fal fa-pencil"/>
                     </b-button>
@@ -16,7 +16,7 @@
             </b-button>
         </div>
         <div :class="this.show_details">
-            <tabela-acesso-usuario :viewOnly="viewOnly" :items="items"/>
+            <tabela-acesso-usuario :viewOnly="viewOnly" :items="items" :pages_index="pagesIndexTable"/>
         </div>
         <b-modal 
             :id="text" 
@@ -40,8 +40,8 @@
 <script>
 import TabelaAcessoUsuario from './TabelaAcessoUsuario.vue'
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
-import axios from "axios";
-import {baseApiUrl} from "@/config/global";
+// import axios from "axios";
+// import {baseApiUrl} from "@/config/global";
 
 export default {
     name: "NomeDoPerfilHead",
@@ -63,10 +63,13 @@ export default {
             if(this.show_details.length > 0) this.show_details = "";
             else this.show_details = "d-none";
         },
-        async getPages(){
-            let pp = await axios.get(baseApiUrl+"/pages");
-            this.accessPages = [...pp.data.data];
-            console.log("Pages:\n",this.accessPages);
+        getPages(){
+            // let pp = await axios.get(baseApiUrl+"/pages");
+            // let pp = JSON.parse(localStorage.getItem('__defaultAccessPages'));
+            // this.accessPages = [...pp];
+            this.accessPages = JSON.parse(localStorage.getItem('__defaultAccessPages'));
+            // this.pagesIndexTable = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+            console.log("Pages na head:\n",this.accessPages,"\nPages index table na head:\n",this.pagesIndexTable);
         },
         confirmDelete(){
             this.confirmDeleteModal = !this.confirmDeleteModal;
@@ -88,7 +91,7 @@ export default {
             this.validateAndToast(toast);
         }
     },
-    mounted() {
+    created() {
         this.getPages();
     },
     data() {
@@ -99,7 +102,8 @@ export default {
             arrow_icon_now: "fal fa-angle-down",
             show_details_count: 0,
             confirmDeleteModal: false,
-            accessPages:[]
+            accessPages:[],
+            pagesIndexTable:{},
         }
     }
 }
