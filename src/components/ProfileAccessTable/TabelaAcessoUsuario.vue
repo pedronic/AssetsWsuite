@@ -30,16 +30,16 @@
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_add'" :ref="(slot.item.name)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'add',slot.item.page_id)"/>
+                <b-form-checkbox v-model="slot.item.add" :id="(slot.item.name)+'_add'" :ref="(slot.item.name)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'add',slot.item.page_id)"/>
             </template>
             <template v-slot:cell(read)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_read'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'read',slot.item.page_id)"/>
+                <b-form-checkbox v-model="slot.item.read" :id="(slot.item.name)+'_read'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'read',slot.item.page_id)"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'edit',slot.item.page_id)"/>
+                <b-form-checkbox v-model="slot.item.edit" :id="(slot.item.name)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'edit',slot.item.page_id)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'delete',slot.item.page_id)"/>
+                <b-form-checkbox v-model="slot.item.delete" :id="(slot.item.name)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'delete',slot.item.page_id)"/>
             </template>
             <template v-slot:cell(browser)="slot">
                 <b-form-checkbox v-model="slot.item.browser" :ref="(slot.item.name)+'_browser'" :id="(slot.item.name)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
@@ -59,9 +59,7 @@ export default {
         // pages_index:Object,
     },
     created(){
-        console.log("Pages que Tabela Acesso Usuario recebe @created:\n",this.pages)
-        // console.log("Pages_index que Tabela Acesso Usuario recebe @created:\n",this.pages_index)
-        // this.setPagesIndexTable();
+        // console.log("Pages que Tabela Acesso Usuario recebe @created:\n",this.pages)
         this.isBrowseDisabled = function(){
             if(this.viewOnly) {
                 return this.viewOnly;
@@ -71,22 +69,11 @@ export default {
             }
         }
         this.isDependantDisabled = function(a,bread,index){
-            // if(load === 0) {
-            //     this.pagesIndexTable = JSON.parse(localStorage.getItem('__pagesIndexTable'));
-            //     console.log("Pages Index Table @isDependantDisabled():\n",this.pagesIndexTable);
-            //     load = 1;
-            // }
             var idd = {};
-            // var indexREAL = this.pages_index[a];
-            // console.log("Pages_index:\n",this.pages_index);
-            // console.log("\n\tPages_index length:\n",Object.keys(this.pages_index).length);
-            // console.log("\nindexREAL:\t",indexREAL);
             if(this.viewOnly){
                 return this.viewOnly;
             }
             else if(!this.pages[index-1][bread]){
-                console.log('this.pages[',index,'][',bread,'] @isDependantDisabled():\n',this.pages[index][bread])
-                console.log('this.pages[',index,'] @isDependantDisabled():\n',this.pages[index])
                 return true;
             }
             else{
@@ -94,16 +81,11 @@ export default {
                     let k = this.items[ii].name;
                     idd[k] = !this.items[ii].browser;
                 }
-                // console.log("a:\n",a)
-                // console.log("idd:\n",idd)
-                // console.log("idd[a]:\n",idd[a])
                 return idd[a];
             }
         }
     },
     mounted() {
-        console.log("Items que Tabela Acesso Usuario recebe @mounted:\n",this.items);
-        console.log("Pages que Tabela Acesso Usuario recebe @mounted:\n",this.pages)
         this.state = function() {
             let d;
             if (this.viewOnly) d=true;
@@ -114,7 +96,6 @@ export default {
     methods: {
         setPagesIndexTable(){
             this.pagesIndexTable = JSON.parse(localStorage.getItem('__pagesIndexTable'));
-            // load = 1;
         }
     },
     data() {

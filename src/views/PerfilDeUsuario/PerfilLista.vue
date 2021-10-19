@@ -3,13 +3,13 @@
         <pages-sub-header icon="fal fa-briefcase" titulo="Lista de Perfil">
             <div class="card">
                 <div class="card-body d-flex">
-                    <router-link class="d-flex" id="add-perfil" :to="{name:'Perfil', params:{nome:'', userData: defaultUserData.data, pages: defaultAccessPages, pages_index:pagesIndexTable}}" >
+                    <router-link class="d-flex" id="add-perfil" :to="{name:'Perfil', params:{nome:'', userData: defaultUserData.data, pages: defaultAccessPages, uID:''}}" >
                         <b-btn variant="success" class="fal fa-plus" />
                     </router-link>
                 </div>
             </div>
         </pages-sub-header>
-        <nome-do-perfil-head :viewOnly="true" v-for="user in users" :items="user.data" :user="user" :key="user.id"/>
+        <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id"/>
     </div>
 </template>
 
@@ -81,17 +81,17 @@ export default{
                 }
                 users.push({...user})
             }
-            console.log("Users:\n",users)
+            // console.log("Users:\n",users)
             this.users = [...users];
         },
         getPages(){
             this.defaultAccessPages = JSON.parse(localStorage.getItem('__defaultAccessPages'));
             this.pagesIndexTable = JSON.parse(localStorage.getItem('__pagesIndexTable'));
-            console.log("Default Access Pages:\n",this.defaultAccessPages);
+            // console.log("Default Access Pages:\n",this.defaultAccessPages);
         },
         setDefaultUser(){
             this.defaultUserData = {...defaultNewUserProfile};
-            console.log("Default User Data:\n",this.defaultUserData);
+            // console.log("Default User Data:\n",this.defaultUserData);
         }
     },
     data(){
