@@ -41,7 +41,7 @@
                             <i class="fal fa-key fs-xl"></i>
                           </span>
                         </div>
-                        <input type="password" v-model="user.password" id="password" class="form-control form-control-lg login-pass" placeholder="Senha" required @keydown.enter.native="signin()"/>
+                        <input type="password" v-model="user.password" id="password" class="form-control form-control-lg login-pass" placeholder="Senha" required @keydown.enter="signin()"/>
                       </div>
                       
                       <div class="invalid-feedback">

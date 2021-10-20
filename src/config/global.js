@@ -103,4 +103,12 @@ export const defaultNewUserProfile = {
     ]
 }
 
-export default { baseApiUrl, showError, userKey, defaultNewUserProfile }
+export const vueMultiselectProps = {
+        selectLabel:'Pressione Enter para selecionar',
+        selectGroupLabel:'Pressione Enter para selecionar o grupo',
+        selectedLabel:'Selecionado',
+        deselectLabel:'Pressione Enter para remover',
+        deselectGroupLabel:'Pressione Enter para remover o grupo'
+    }
+
+export default { baseApiUrl, showError, userKey, defaultNewUserProfile, vueMultiselectProps }

@@ -38,7 +38,7 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_fila" :placeholder="'Tipo da Fila'" :label="'name'" :track-by="'code'" :options="filas_tipos" :multiple="true"/>
+                                    <multiselect v-model="tipo_fila" :placeholder="'Tipo da Fila'" :label="'name'" :track-by="'code'" :options="filas_tipos" :multiple="true" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" />
                                 </div>
                             </div>
                         </b-col>
@@ -58,7 +58,7 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_finish" :placeholder="'Finalização'" :label="'name'" :track-by="'code'" :options="finish_tipos" :multiple="false"/>
+                                    <multiselect v-model="tipo_finish" :placeholder="'Finalização'" :label="'name'" :track-by="'code'" :options="finish_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                 </div>
                             </div>
                         </b-col>
@@ -67,7 +67,7 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_recording" :placeholder="'Formato Gravação'" :label="'name'" :track-by="'code'" :options="recording_tipos" :multiple="false"/>
+                                    <multiselect v-model="tipo_recording" :placeholder="'Formato Gravação'" :label="'name'" :track-by="'code'" :options="recording_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                 </div>
                             </div>
                         </b-col>
@@ -75,7 +75,7 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_tipo" :placeholder="'Tipo'" :label="'name'" :track-by="'code'" :options="tipo_tipos" :multiple="false"/>
+                                    <multiselect v-model="tipo_tipo" :placeholder="'Tipo'" :label="'name'" :track-by="'code'" :options="tipo_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                 </div>
                             </div>
                         </b-col>
@@ -95,7 +95,7 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'"  :options="lista_de_pausas[0].pausas" :multiple="false"/>
+                                    <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'"  :options="lista_de_pausas[0].pausas" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                 </div>
                             </div>
                         </b-col>
@@ -119,7 +119,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false"/>
+                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -129,7 +129,7 @@
                                                 <i class="fal fa-at fa-2x" style="margin-left: 5px;" />
                                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Estratégia de Discagem"/> -->
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_strat" :placeholder="'Estratégia de Discagem'" :label="'name'" :track-by="'code'" :options="strat_tipos" :multiple="false"/>
+                                                    <multiselect v-model="tipo_strat" :placeholder="'Estratégia de Discagem'" :label="'name'" :track-by="'code'" :options="strat_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>                                                
                                             </div>
                                         </b-col>
@@ -142,7 +142,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_vel" :placeholder="'Velocidade'" :label="'name'" :track-by="'code'" :options="vel_tipos" :multiple="false"/>
+                                                    <multiselect v-model="tipo_vel" :placeholder="'Velocidade'" :label="'name'" :track-by="'code'" :options="vel_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>   
                                             </div>
                                         </b-col>
@@ -151,7 +151,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_modo" :placeholder="'Modo de Discagem'" :label="'name'" :track-by="'code'" :options="modo_tipos" :multiple="false"/>
+                                                    <multiselect v-model="tipo_modo" :placeholder="'Modo de Discagem'" :label="'name'" :track-by="'code'" :options="modo_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>   
                                             </div>
                                         </b-col>
@@ -194,7 +194,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false"/>
+                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -245,7 +245,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_peso" :placeholder="'Peso da Fila - (1-2-3-4)'" :label="'name'" :track-by="'code'" :options="peso_tipos"                :multiple="false"/>
+                                                    <multiselect v-model="tipo_peso" :placeholder="'Peso da Fila - (1-2-3-4)'" :label="'name'" :track-by="'code'" :options="peso_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -259,7 +259,7 @@
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Música de espera"/> -->
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_music" :placeholder="'Música de Espera'" :label="'name'" :track-by="'code'" :options="music_tipos"                :multiple="false"/>
+                                                    <multiselect v-model="tipo_music" :placeholder="'Música de Espera'" :label="'name'" :track-by="'code'" :options="music_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -375,6 +375,8 @@
             </b-tabs>
         </b-container>
     <!-- Seção Média da Página (TABS): FIM -->
+
+    <!-- Seção Inferior da Página (BOTÃO SALVAR) -->
         <b-container fluid class="salvar-container">
             <b-col cols='12'>
                 <b-row>
@@ -388,6 +390,7 @@
                 </b-row>
             </b-col>
         </b-container>
+    <!-- Seção Inferior da Página (BOTÃO SALVAR): FIM -->
     </div>
 </template>
 
@@ -396,6 +399,7 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
 import TabelaAgentes from '../../components/FilasTable/TabelaAgentes.vue';
 import Multiselect from 'vue-multiselect';
+import {vueMultiselectProps} from '../../config/global.js';
 
 export default {
     name: "FilasCadastro",
@@ -426,6 +430,7 @@ export default {
             timeMask:'##:##',
             bina_number:false,
             filtro_agentes:'',
+            MSprops:vueMultiselectProps,
             week_days:[
                 {
                     day:"Segunda-feira",
@@ -527,7 +532,7 @@ export default {
             filas_tipos:[
                 {name:"Ativa",  code:"A"},
                 {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
+                {name:"Receptiva", code:"R"}
             ],
             finish_tipos:[
                 {name:"Ativa",  code:"A"},
