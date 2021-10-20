@@ -32,10 +32,10 @@
                 <span :id="(slot.item.pausa)+'_pausa'">{{slot.value}}</span>
             </template>
             <template v-slot:cell(produtiva)="slot" >
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" :value="true" :unchecked-value="false" disabled/>
+                <b-form-checkbox v-model="slot.item.produtiva" :id="(slot.item.pausa)+'_produtiva'" :value="true" :unchecked-value="false" disabled/>
             </template>
             <template v-slot:cell(obrigatoria)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" :value="true" :unchecked-value="false" disabled/>
+                <b-form-checkbox v-model="slot.item.obrigatoria" :id="(slot.item.pausa)+'_obrigatoria'" :value="true" :unchecked-value="false" disabled/>
             </template>
             <template v-slot:cell(alerta)="slot">
                 <span :id="(slot.item.pausa)+'_alerta'">{{slot.value}}</span>
@@ -44,10 +44,10 @@
                 <span :id="(slot.item.pausa)+'_limite'">{{slot.value}}</span>
             </template>
             <template v-slot:cell(icone)="slot">
-                <span :id="(slot.item.pausa)+'_icone'" v-html="slot.value" />
+                <span :id="(slot.item.pausa)+'_icone'" v-html="slot.item.icone" />
             </template>
             <template v-slot:cell(ativa)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+                <b-form-checkbox v-model="slot.item.ativa" :id="(slot.item.pausa)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
             </template>
             <template v-slot:cell(add)="slot">
                 <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'"  v-html="editIcon"/>
@@ -143,7 +143,7 @@
                 ok-variant="danger" 
                 cancel-title="MANTER" 
                 cancel-variant="success"
-                @ok="deleteRow(i.pausa)"
+                @ok="deleteRow(i.pausa, i.id)"
                 @cancel="cancelDelete(i.pausa)">
                        Tem certeza que deseja excluir a pausa <b>{{i.pausa}}</b>?
             </b-modal>
@@ -226,6 +226,8 @@
 
 <script>
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
 
 const defaultRow = {
                     pausa:'',
@@ -235,7 +237,7 @@ const defaultRow = {
                     limite: '',
                     icone: '',
                     ativa: true,
-                    add: '<span class="fal fa-trash-alt"/>',
+                    id:''
                 };
 
 export default {
@@ -245,16 +247,17 @@ export default {
         items: Array,
     },
     methods: {
-        deleteRow(ev){
-            const p = this.pausas.indexOf(ev);
+        deleteRow(nomeDaPausa, id){
+            const p = this.pausas.indexOf(nomeDaPausa);
             this.filas.splice(p,1);
             this.pausas.splice(p,1);
             let toast = {
                 isValidated:true,
                 title:'PAUSA EXCLUÍDA',
-                message:'Pausa '+ev.toUpperCase()+' excluída com sucesso!',
+                message:'Pausa '+nomeDaPausa.toUpperCase()+' excluída com sucesso!',
             }
             this.validateAndToast(toast);
+            console.log(id)
         },
         cancelDelete(p){
             let toast = {
@@ -312,6 +315,14 @@ export default {
                 /* Atualizando Fila e Pausas com dados editados */
                 this.filas.splice(row,1,{...this.editRowInput});
                 this.pausas.splice(row,1, p);
+                let body = {};
+                    body.name = this.editRowInput.pausa.trim();
+                    body.productive = this.editRowInput.produtiva?1:0;
+                    body.officer = this.editRowInput.obrigatoria?1:0;
+                    body.time_alert = this.editRowInput.alerta;
+                    body.time_limit = this.editRowInput.limite;
+                    body.status = this.editRowInput.ativa?1:0;
+                this.setEditedRow(body,this.editRowInput.id);
                 this.editRowInput = {...this.newRowDefault};
 
                 let toast = {
@@ -341,13 +352,35 @@ export default {
                 message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
             };
             this.validateAndToast(toast);
+        },
+        setEditedRow(body, id){
+            axios.put(baseApiUrl+'/breaks/'+id, body)
+            .then(res => {
+                if(res.status >= 200 && res.status < 300){
+                    let toast = {
+                        isValidated:true,
+                        title:'PAUSA EDITADA',
+                        message:'Pausa '+body.name.toUpperCase()+' editada com sucesso!'
+                    }
+                    this.validateAndToast(toast);
+                }
+                else {
+                    let toast = {
+                        isValidated:false,
+                        title:'PAUSA NÃO EDITADA',
+                        message:'A Pausa '+ body.name.toUpperCase()+' não pode ser editada. Motivo: '+res.statusText,
+                    }
+                    this.validateAndToast(toast);
+                }
+            })
         }
     },
-    created(){
+    mounted(){
         this.newRowDefault = {...defaultRow};
         // this.newRowInput = Object.assign({},this.newRowDefault);
         // this.editRowInput = Object.assign({},this.newRowDefault);
         localStorage.setItem('__pedro-dev', JSON.stringify(this.items.slice(1,this.items.length)));
+        // this.init();
         // this.editRowInput = this.filas;
         // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
     },
@@ -356,9 +389,9 @@ export default {
         //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
         // }
     },
-    mounted(){     
-        // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
-    },
+    // mounted(){     
+    //     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
+    // },
     data(){
         return {
             filas: this.items.slice(1,this.items.length),

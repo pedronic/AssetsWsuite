@@ -580,9 +580,6 @@ export default {
                 {name:"Mozart", code:2},
                 {name:"Queen", code:3}
             ]
-            
-
-            
         }
     }
 };
