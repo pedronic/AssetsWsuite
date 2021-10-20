@@ -32,6 +32,9 @@
             </b-button>
           </div>
         </div>
+        <!-- TABELA -->
+        <TabelaRegistroRotas v-show="visible" />
+        <!-- TABELA  -->
         <!-- CONFIRMAR DADOS [INÍCIO] -->
         <b-row>
           <b-col class="mr-auto p-3" cols="auto">
@@ -63,7 +66,14 @@
     </form>
     <!-- Formulário de preenchimento [FIM] -->
     <!-- Modal de adição [Início] -->
-    <b-modal id="new_line" size="lg" ok-only ok-title="Salvar" title=" "
+    <b-modal
+      id="new_line"
+      size="lg"
+      ok-only
+      ok-title="Salvar"
+      ok-variant="info"
+      @ok="visible == false ? visible=true : visible=true"
+      title=" "
       ><div class="card mb-g border shadow-0 pb-1" id="interativo">
         <div class="card-header">
           <div class="row no-gutters align-items-center">
@@ -115,18 +125,18 @@
               <!-- THEAD: FIM -->
 
               <!-- TBODY -->
-              <div v-for="i of qtd_operadoras" :key="i">
-                <b-row :class="i % 2 == 0 ? 'grey-bg' : ''">
+              <div v-for="d in operadoras_criadas" :key="d.index">
+                <b-row :class="d.index % 2 == 0 ? 'grey-bg' : ''">
                   <!-- índice -->
                   <b-col cols="1" class="dia-body-container">
-                    <span class="dia-body">{{ i }}</span>
+                    <span class="dia-body">{{ d.index }}</span>
                   </b-col>
                   <!-- índice: FIM -->
                   <!-- operadoras -->
                   <b-col cols="5" class="time-body-container">
                     <div id="multiselect-input">
                       <multiselect
-                        v-model="operadoras_selecionadas"
+                        v-model="d.operadora_selecionada"
                         :options="operadoras"
                         :multiple="false"
                       />
@@ -135,22 +145,45 @@
                   <!-- operadoras FIM -->
                   <!-- col Disponível -->
                   <b-col cols="3" class="time-body-container">
-                      <!-- v-model="operadoras_criadas.operadora.disponivel" -->
-                    <b-form-input
-                      id="profile-name-input2"
-                      type="text"
-                      placeholder="Operadora"
-                    />
+                    <form class="was-validated">
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control is-valid ml-3"
+                          id="simpleinputInvalid2"
+                          required
+                          value="test"
+                          v-model="d.disponivel"
+                          placeholder="Operadora"
+                        />
+                        
+                      </div>
+                    </form>
                   </b-col>
+                 
                   <!-- col Disponível FIM -->
                   <!-- col Quantidade -->
                   <b-col cols="3" class="time-body-container">
-                      <!-- v-model="operadoras_criadas.operadora.quantidade" -->
-                    <b-form-input
+                    <form class="was-validated">
+                      <div class="form-group">
+                        <input
+                          type="text"
+                          class="form-control is-valid ml-4"
+                          id="simpleinputInvalid2"
+                          required
+                          value="test"
+                          v-model="d.quantidade"
+                          placeholder="Operadora"
+                        />
+                        
+                      </div>
+                    </form>
+                    <!-- <b-form-input
+                      v-model="d.quantidade"
                       id="profile-name-input3"
                       type="text"
                       placeholder="Operadora"
-                    />
+                    /> -->
                   </b-col>
                   <!-- col Quadidade FIM -->
                 </b-row>
@@ -161,16 +194,13 @@
         </div>
         <!-- FIM tab qtd_operadoras -->
       </div>
-      <!-- {{ operadoras_criadas.operadora.operadora_selecionada }} -->
-      {{ operadoras_selecionadas }}
     </b-modal>
     <!-- Modal de edição [Fim] -->
   </div>
 </template>
 
 <script>
-// import Usuario from "../../domain/User/Usuario";
-// import Multiselect from "vue-multiselect";
+import TabelaRegistroRotas from "../../components/DataTables/TabelaRegistroRotas.vue";
 import axios from "axios";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import "jquery";
@@ -181,6 +211,7 @@ export default {
   components: {
     PagesSubHeader,
     Multiselect,
+    TabelaRegistroRotas
   },
   name: "RegistroUsuarios",
   methods: {
@@ -248,22 +279,39 @@ export default {
     },
     addOperadora() {
       this.qtd_operadoras++;
-      for (let index = 0; index < this.qtd_operadoras; index++) {
-        this.operadoras_selecionadas.push('operadora')
-      }
-      
+      this.operadoras_criadas.push({
+        index: this.qtd_operadoras,
+        operadora_selecionada: "operadora",
+        disponivel: "",
+        quantidade: "",
+      });
     },
     removeOperadora() {
       this.qtd_operadoras--;
+      this.operadoras_criadas.pop()
     },
+    // habilitar() {
+    //   if (this.visible == false) {
+    //     this.visible.set;
+    //     console.clear();
+    //     console.log(this.visible);
+    //   }
+    // }
   },
   data() {
     return {
+      visible: false,
       qtd_operadoras: 1,
       operadoras: ["tim", "vivo", "claro", "oi"],
-      operadoras_selecionadas: [],
-     
-
+      operadoras_criadas: [
+        {
+          index: 1,
+          operadora_selecionada: "operadora",
+          disponivel: "",
+          quantidade: "",
+        },
+      ],
+      rotas: [],
       // rotas: {
 
       // },

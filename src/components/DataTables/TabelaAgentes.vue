@@ -257,8 +257,8 @@ export default {
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO AGENTE VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO AGENTE VAZIO NÃO ADICIONADo',
+          message:'Nova agente '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar agentes sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
