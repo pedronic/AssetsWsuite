@@ -34,7 +34,7 @@
         <i class="fal fa-briefcase iconDAM"></i>
         <span data-i18n="drpdwn.settings">Perfil de Usuários</span>
         <a class="ml-auto" href="#">
-          <router-link :to="{path:'/perfil-usuario', params:{nome:''}}">
+          <router-link :to="{name:'Perfil', params:{nome:'', userData: defaultUserData.data, pages: defaultAccessPages}}">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>
@@ -129,8 +129,35 @@
 </template>
 
 <script>
+import {baseApiUrl, defaultNewUserProfile} from "../../config/global";
+import axios from "axios";
+
 export default {
   name: "DropdownAdminMenu",
+  methods:{
+    setDefaultUser(){
+      // console.log("Default New User Profile:\n",defaultNewUserProfile)
+      this.defaultUserData = [{...defaultNewUserProfile}];
+      console.log("Default User Data:\n",this.defaultUserData);
+    },
+    async getPages(){
+      let pp = await axios.get(baseApiUrl+"/pages");
+      this.defaultAccessPages = [...pp.data.data];
+      console.clear()
+      console.log("Default Access Pages from <DropdownAdminMenu/>:\n",this.defaultAccessPages);
+    },
+  },
+  data(){
+    return {
+      defaultUserData:[],
+      defaultAccessPages:[]
+    }
+  },
+  created(){
+    // this.setDefaultUser();
+    // this.getPages();
+    
+  }
 };
 </script>
 

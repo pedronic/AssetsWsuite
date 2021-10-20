@@ -41,7 +41,7 @@
                             <i class="fal fa-key fs-xl"></i>
                           </span>
                         </div>
-                        <input type="password" v-model="user.password" id="password" class="form-control form-control-lg login-pass" placeholder="Senha" required />
+                        <input type="password" v-model="user.password" id="password" class="form-control form-control-lg login-pass" placeholder="Senha" required @keydown.enter.native="signin()"/>
                       </div>
                       
                       <div class="invalid-feedback">
@@ -91,15 +91,35 @@ export default {
     }
   },
   methods:{
+    setPagesIndexTable(res){
+      let o = {};
+      for(let i in res){
+        o[res[i].name] = res[i].page_id;
+      }
+      return JSON.stringify(o);
+    },
+
+    getDefaultAccessPages(){
+        axios.get(baseApiUrl+"/pages")
+        .then(res => {
+          localStorage.setItem('__defaultAccessPages', JSON.stringify(res.data.data));
+          localStorage.setItem('__pagesIndexTable', this.setPagesIndexTable(res.data.data));
+        })
+        .catch(err => console.log(err))
+    },
      signin() {
             axios.post(`${baseApiUrl}/signin`, this.user)
                 .then(res => {
                     this.$store.commit('setUser', res.data)
                     localStorage.setItem(userKey, JSON.stringify(res.data))
+                    this.getDefaultAccessPages();
                     this.$router.push({ name: 'Home' })
                 })
                 .catch(showError)
         }
+  },
+  beforeUnmount(){
+    this.getDefaultAccessPages();
   }
 };
 </script>

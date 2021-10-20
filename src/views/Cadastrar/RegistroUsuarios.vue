@@ -228,7 +228,7 @@ export default {
       let blankName = !(this.name.trim().length > 0);
       let blankMail = !(this.email.trim().length > 0);
       let blankUser = !(this.username.trim().length > 0);
-      let blankProfile = !(this.perfil_id.trim().length > 0);
+      let blankProfile = !(this.perfil_id.length > 0);
       let validEmail = !(this.userMails.indexOf(this.email.trim()) > -1);
       let validUsername = !(this.userNames.indexOf(this.username.trim()) > -1);
       if (passCheck || blankPass || blankName || blankMail || blankUser || blankProfile || validEmail || validUsername) return;

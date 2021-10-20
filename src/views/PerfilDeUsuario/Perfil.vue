@@ -9,9 +9,9 @@
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" type="text" placeholder="Nome do Perfil"/>
         </div>
-        <tabela-acesso-usuario :items="dataItems" :pages="pages"/>
+        <tabela-acesso-usuario :items="dataItems" :pages="accessPages" :uID="uID"/>
         <b-container fluid class="salvar-container">
-            <b-button class="botao-salvar" @click="validateProfile">SALVAR</b-button>
+            <b-button class="botao-salvar" @click="saveProfile(uID)">SALVAR</b-button>
         </b-container>
     </div>
 </template>
@@ -20,8 +20,9 @@
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaAcessoUsuario from '../../components/ProfileAccessTable/TabelaAcessoUsuario.vue';
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
-// import axios from "axios";
-// import {baseApiUrl} from "@/config/global";
+import axios from "axios";
+import {baseApiUrl, defaultNewUserProfile} from "../../config/global";
+// import {defaultNewUserProfile} from "../../config/global";
 
 
 export default {
@@ -35,36 +36,163 @@ export default {
         nome:String,
         userData:Array,
         pages:Array,
+        uID:String,
     },
     methods: {
-        validateProfile(){
-            // CRIAR FUNÇÃO DE VALIDAÇÃO (função dummy abaixo apenas para testar funcionalidade)
-            let n = Math.floor(Math.random()*Math.PI);
-            let toast = {
-                isValidated:(n%2) == 0,
-                title: (n%2) == 0 ? "PERFIL ADICIONADO" : "OCORREU UM PROBLEMA...",
-                message: (n%2) == 0 ? "Novo Perfil de Usuário criado com sucesso!" : "O novo Perfil de Usuário não pode ser adicionado.",
-            };
-            this.validateAndToast(toast); //utilizando a função/o método do mixin
+        checkID(id){
+            try {
+                let uid = id.toString();
+                return uid;
+            } catch (error) {
+                console.log(error);
+                return '';
+            }
+        },
+        saveProfile(id){ // CRIAR FUNÇÃO DE VALIDAÇÃO (função dummy abaixo apenas para testar funcionalidade)
+            let uid = this.checkID(id);
+
+            if(uid.length>0){
+                if(this.text.length === 0){
+                    let toast = {
+                        isValidated:false,
+                        title: "OCORREU UM PROBLEMA...",
+                        message: "O Perfil de Usuário não pode ser atualizado. Não é permitido salvar um nome de perfil vazio ou apenas com espaços em branco.",
+                    };
+                    this.validateAndToast(toast); //utilizando a função/o método do mixin
+                }
+                else this.validateProfile(uid);
+            }
+            else {
+                if(this.text.length === 0){
+                    let toast = {
+                        isValidated:false,
+                        title: "OCORREU UM PROBLEMA...",
+                        message: "O Novo Perfil de Usuário não pode ser criado. Não é permitido salvar um nome de perfil vazio ou apenas com espaços em branco.",
+                    };
+                    this.validateAndToast(toast); //utilizando a função/o método do mixin
+                }
+                else this.validateProfile('');
+            }
+        },
+        validateProfile(id){
+            let check = id.length>0?true:false;
+            let user = {};
+            // {
+            //     name: '',
+            //     id: '',
+            //     pages:[]
+            // };
+            let pages = {};
+            // {
+            //     page_name:'',
+            //     page_id:null,
+            //     modulo_name:'',
+            //     add:null,
+            //     read:null,
+            //     edit:null,
+            //     delete:null,
+            //     browser:null,
+            // };
+            user.name = this.text;
+            if(check) user.id = id;
+            user.pages = [];
+            for(let i in this.dataItems){
+                pages.page_name = this.dataItems[i].name;
+                pages.page_id = this.dataItems[i].page_id;
+                pages.modulo_name = this.dataItems[i].modulo_name;
+                if(this.dataItems[i].browser){
+                    pages.add = this.dataItems[i].add?1:0;
+                    pages.read = this.dataItems[i].read?1:0;
+                    pages.edit = this.dataItems[i].edit?1:0;
+                    pages.delete = this.dataItems[i].delete?1:0;
+                    pages.browser = this.dataItems[i].browser?1:0;
+                }
+                else{
+                    pages.add = 0;
+                    pages.read = 0;
+                    pages.edit = 0;
+                    pages.delete = 0;
+                    pages.browser = 0;
+                }
+                console.log("Data Items Atual:\n",this.dataItems[i])
+                console.log("Pages Atual:\n",pages)
+                user.pages.push({...pages})
+                console.log("User Atual:\n",user)
+            }
+            if(check) this.updateProfile(user);
+            else this.createProfile(user);
+        },
+        updateProfile(body){
+            axios.put(baseApiUrl+'/perfils/'+body.id, body)
+            .then(res => {
+                console.log("\n\tStatus:\t",res.status);
+                if(res.status >= 200 && res.status < 300){
+                    let toast = {
+                        isValidated:true,
+                        title:'PERFIL ATUALIZADO',
+                        message:'Perfil de '+ body.name.toUpperCase()+' atualizado com sucesso!',
+                    }
+                    this.validateAndToast(toast);
+                }
+                else {
+                    let toast = {
+                        isValidated:false,
+                        title:'PERFIL NÃO ATUALIZADO',
+                        message:'O Perfil de '+ body.name.toUpperCase()+' não pode ser atualizado. Motivo: '+res.statusText,
+                    }
+                    this.validateAndToast(toast);
+                }
+            })
+        },
+        createProfile(body){
+            axios.post(baseApiUrl+'/perfils', body)
+            .then(res => {
+                console.log("\n\tStatus:\t",res.status);
+                if(res.status >= 200 && res.status < 300){
+                    let toast = {
+                        isValidated:true,
+                        title:'NOVO PERFIL CRIADO',
+                        message:'Perfil de '+ body.name.toUpperCase()+' criado com sucesso!',
+                    }
+                    this.validateAndToast(toast);
+                }
+                else {
+                    let toast = {
+                        isValidated:false,
+                        title:'PERFIL NOVO NÃO PÔDE SER CRIADO',
+                        message:'Perfil de '+ body.name.toUpperCase()+' não pôde ser criado. Motivo: '+res.statusText+'',
+                    }
+                    this.validateAndToast(toast);
+                }
+            })
         },
         getDataItems(){
-            console.log("User Data em Perfil",this.userData)
             if(typeof(this.userData) !== 'object'){
-                this.dataItems = [...this.pages];
+                // console.log("\n\tIf in getDataItems()\n")
+                this.setDefaultUser();
+                this.dataItems = [...this.defaultUserData.data];
+                this.getPages();
+                this.accessPages = [...this.defaultAccessPages];
             }
-            else this.dataItems = [...this.userData];
+            else {
+                console.log("\n\tElse in getDataItems()\n") 
+                this.dataItems = [...this.userData];
+                this.accessPages = [...this.pages];
+            }
         },
-        // async getPages(){
-        //     let pp = await axios.get(baseApiUrl+"/pages");
-        //     this.accessPages = [...pp.data.data];
-        //     console.log("Pages:\n",this.accessPages);
-        // }
+        getPages(){
+            this.defaultAccessPages = JSON.parse(localStorage.getItem('__defaultAccessPages'));
+        },
+        setDefaultUser(){
+            this.defaultUserData = {...defaultNewUserProfile};
+        }
     },
-    created(){
-        // this.getPages();
+    // watch:{
+    //     defaultAccessPages(){return }
+    // },
+    mounted(){
+        this.getPages();
         this.getDataItems();
-        console.log("Data Items:",this.dataItems);
-        
     },
     data() {
         return {
@@ -280,6 +408,9 @@ export default {
             userItems: this.userData,
             dataItems:[],
             accessPages: [],
+            defaultUserData:[],
+            defaultAccessPages:[],
+            pagesReady:false,
         }
     }
 };
