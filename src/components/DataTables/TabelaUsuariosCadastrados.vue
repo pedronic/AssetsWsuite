@@ -48,7 +48,9 @@
         <b-form-checkbox v-model="slot.value" :id="(slot.item.usuario)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
       </template>
       <template v-slot:cell(add)="slot">
-        <b-button :id="(slot.item.usuario)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.usuario)+'_edit_modal'"  v-html="editIcon"/>
+        <!-- v-b-modal="(slot.item.usuario)+'_edit_modal'" 
+        , email: '', usuario:'', -->
+        <b-button :id="(slot.item.usuario)+'_edit'" class="edit-btn" variant="outline" :to="{name:'RegistroUsuarios', params:{nome: slot.item.usuario}}" v-html="editIcon"/>
         <b-btn :id="(slot.item.usuario)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.usuario + '_delete'"/>
       </template>
     </b-table>
