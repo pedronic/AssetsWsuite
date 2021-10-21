@@ -47,9 +47,11 @@ export default {
                 pausa.pausa = p[i].name;
                 pausa.produtiva = p[i].productive?true:false;
                 pausa.obrigatoria = p[i].officer?true:false;
-                pausa.alerta = p[i].time_alert;
-                pausa.limite = p[i].time_limit;
-                pausa.icone = p[i].icone;
+                pausa.alerta = p[i].time_alert===null?'':p[i].time_alert;
+                pausa.limite = p[i].time_limit===null?'00:01:00':p[i].time_limit;
+                let icon = typeof(p[i].icone)==='string'?"<i class='"+p[i].icone+"'/>":p[i].icone;
+                pausa.icone = icon;
+                pausa.icon_class = p[i].icone===null?'fal fa-ad fa-2x':p[i].icone;
                 pausa.ativa = p[i].status?true:false;
                 pausa.id = p[i].id;
                 items.push({...pausa});

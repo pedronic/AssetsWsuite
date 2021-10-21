@@ -71,7 +71,7 @@
             cancel-title="CANCELAR" 
             cancel-variant="danger"
             @ok="updateRow(index)"
-            @cancel="cancelEdit(index)"
+            @cancel="cancelEdit(i.pausa)"
             @show="populateEditLine(index)"
             >
                 <b-container fluid>
@@ -116,10 +116,11 @@
                                 <b-form-input v-model="editRowInput.limite" :presentState="i" :id="i.pausa+'_edit_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
-                                <b-form-select v-model="editRowInput.icone" :id="i.pausa+'_edit_row_icone'" :select-size="4">
-                                    <b-form-select-option v-for="j in icons" :key="j.value">
+                                <!-- SUBSTITUIR TAG: Utilizar <VueMultiselect> no lugar de lista para exibir as imagens -->
+                                <b-form-select v-model="editRowInput.icone" :id="i.pausa+'_edit_row_icone'" :select-size="4" :options="icons">
+                                    <!-- <b-form-select-option v-for="j in icons" :key="j.value">
                                         <span :id="j.value" v-html="j.html"/>
-                                    </b-form-select-option>
+                                    </b-form-select-option> -->
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
@@ -209,6 +210,7 @@
                                 <b-form-input v-model="newRowInput.limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
+                                <!-- SUBSTITUIR TAG: Utilizar <VueMultiselect> no lugar de lista para exibir as imagens -->
                                 <b-form-select v-model="newRowInput.icone" :id="'new_row_icone'" :select-size="4" :options="icons">
                                 </b-form-select>
                             </b-col>
@@ -236,6 +238,7 @@ const defaultRow = {
                     alerta:'',
                     limite: '',
                     icone: '',
+                    icon_class:'fal fa-ad fa-2x',
                     ativa: true,
                     id:''
                 };
@@ -249,15 +252,27 @@ export default {
     methods: {
         deleteRow(nomeDaPausa, id){
             const p = this.pausas.indexOf(nomeDaPausa);
-            this.filas.splice(p,1);
-            this.pausas.splice(p,1);
-            let toast = {
-                isValidated:true,
-                title:'PAUSA EXCLUÍDA',
-                message:'Pausa '+nomeDaPausa.toUpperCase()+' excluída com sucesso!',
-            }
-            this.validateAndToast(toast);
-            console.log(id)
+            axios.delete(baseApiUrl +'/breaks/'+id)
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let toast = {
+                    isValidated:true,
+                    title:'PAUSA EXCLUÍDA',
+                    message:'Pausa '+nomeDaPausa.toUpperCase()+' excluída com sucesso!',
+                }
+                this.validateAndToast(toast);
+                this.filas.splice(p,1);
+                this.pausas.splice(p,1);
+            })
+            .catch(error => {
+                console.log("\n\tERROR RESPONSE:\n",error.response)
+                let toast = {
+                    isValidated:false,
+                    title:'PAUSA NÃO EXCLUÍDA',
+                    message:'A Pausa '+ nomeDaPausa.toUpperCase()+' não pôde ser excluída. Motivo: '+error.message,
+                }
+                this.validateAndToast(toast);
+            })
         },
         cancelDelete(p){
             let toast = {
@@ -270,18 +285,17 @@ export default {
         okayAdd(){
             let newPausa = this.newRowInput.pausa.trim();
             if (newPausa.length>0){
-                console.log("Filas ok:")
-                console.log(this.filas)
-                console.log("New Row Input:")
-                console.log(this.newRowInput)
-                this.filas.push(Object.assign({},this.newRowInput));
-                this.pausas.push(newPausa);
-                let toast = {
-                    isValidated:true,
-                    title:'NOVA PAUSA ADICIONADA',
-                    message:'Nova Pausa '+newPausa.toUpperCase()+' adicionada com sucesso!',
-                }
-                this.validateAndToast(toast);
+                let body = {};
+                    body.name = this.newRowInput.pausa.trim();
+                    body.productive = this.newRowInput.produtiva?1:0;
+                    body.officer = this.newRowInput.obrigatoria?1:0;
+                    body.time_alert = (this.newRowInput.alerta===null || this.newRowInput.alerta.length===0)?"":this.newRowInput.alerta;
+                    body.time_limit = (this.newRowInput.limite===null || this.newRowInput.limite.length===0)?"00:01:00":this.newRowInput.limite;
+                    body.status = this.newRowInput.ativa?1:0;
+                    console.log("Icon Class @okayAdd():\n",this.newRowInput.icon_class);
+                    body.icone = this.newRowInput.icon_class.length>0?this.newRowInput.icon_class:this.newRowInput.icone;
+                console.log("\nBody @okayAdd():\n",body)
+                this.postNewRow(body,newPausa)
             }
             else {
                 let toast = {
@@ -313,28 +327,20 @@ export default {
 
             if(p.length > 0){ // checando se o nome não está em branco
                 /* Atualizando Fila e Pausas com dados editados */
-                this.filas.splice(row,1,{...this.editRowInput});
-                this.pausas.splice(row,1, p);
                 let body = {};
                     body.name = this.editRowInput.pausa.trim();
                     body.productive = this.editRowInput.produtiva?1:0;
                     body.officer = this.editRowInput.obrigatoria?1:0;
-                    body.time_alert = this.editRowInput.alerta;
-                    body.time_limit = this.editRowInput.limite;
+                    body.time_alert = this.editRowInput.alerta===null?"":this.editRowInput.alerta;
+                    body.time_limit = this.editRowInput.limite===null?"00:01:00":this.editRowInput.limite;
                     body.status = this.editRowInput.ativa?1:0;
-                this.setEditedRow(body,this.editRowInput.id);
-                this.editRowInput = {...this.newRowDefault};
-
-                let toast = {
-                    isValidated:true,
-                    title:'PAUSA EDITADA',
-                    message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
-                }
-                this.validateAndToast(toast);
+                    console.log("Icon Class @updateRow():\n",this.editRowInput.icon_class);
+                    body.icone = this.editRowInput.icon_class.length>0?this.editRowInput.icon_class:this.editRowInput.icone;
+                console.log("\nBody @updateRow():\n",body)
+                this.putEditedRow(body,this.editRowInput.id,row);
             }
             else {
                 this.editRowInput = {...this.newRowDefault};
-
                 let toast = {
                     isValidated:false,
                     title:'PAUSA NÃO EDITADA',
@@ -343,9 +349,9 @@ export default {
                 this.validateAndToast(toast);
             }
         },
-        cancelEdit(row){
+        cancelEdit(row_name){
             this.editRowInput = {...this.newRowDefault};
-            let p = this.filas[row].pausa;
+            let p = row_name;
             let toast = {
                 isValidated:false,
                 title:'PAUSA NÃO EDITADA',
@@ -353,25 +359,55 @@ export default {
             };
             this.validateAndToast(toast);
         },
-        setEditedRow(body, id){
+        putEditedRow(body, id, row_name){
+            // const body = {...body_in};
+            console.log("Body @putEditedRow():\n",body)
             axios.put(baseApiUrl+'/breaks/'+id, body)
             .then(res => {
-                if(res.status >= 200 && res.status < 300){
-                    let toast = {
-                        isValidated:true,
-                        title:'PAUSA EDITADA',
-                        message:'Pausa '+body.name.toUpperCase()+' editada com sucesso!'
-                    }
-                    this.validateAndToast(toast);
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let toast = {
+                    isValidated:true,
+                    title:'PAUSA EDITADA',
+                    message:'Pausa '+body.name.toUpperCase()+' editada com sucesso!'
                 }
-                else {
-                    let toast = {
-                        isValidated:false,
-                        title:'PAUSA NÃO EDITADA',
-                        message:'A Pausa '+ body.name.toUpperCase()+' não pode ser editada. Motivo: '+res.statusText,
-                    }
-                    this.validateAndToast(toast);
+                this.validateAndToast(toast);
+                this.filas.splice(row_name,1,{...this.editRowInput});
+                this.pausas.splice(row_name,1, this.editRowInput.pausa.trim());
+                this.editRowInput = {...this.newRowDefault};
+            })
+            .catch(error => {
+                console.log("\n\tERROR RESPONSE:\n",error.response)
+                let toast = {
+                    isValidated:false,
+                    title:'PAUSA NÃO EDITADA',
+                    message:'A Pausa '+ body.name.toUpperCase()+' não pode ser editada. Motivo: '+error.message,
                 }
+                this.validateAndToast(toast);
+                this.editRowInput = {...this.newRowDefault};
+            })
+        },
+        postNewRow(body, new_row_name){
+            console.log("Body @postNewRow():\n",body)
+            axios.post(baseApiUrl+'/breaks', body)
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let toast = {
+                    isValidated:true,
+                    title:'NOVA PAUSA ADICIONADA',
+                    message:'Nova Pausa '+body.name.toUpperCase()+' adicionada com sucesso!',
+                }
+                this.validateAndToast(toast);
+                this.filas.push(Object.assign({},this.newRowInput));
+                this.pausas.push(new_row_name);
+            })
+            .catch(error => {
+                console.log("\n\tERROR RESPONSE:\n",error.response)
+                let toast = {
+                    isValidated:false,
+                    title:'NOVA PAUSA NÃO ADICIONADA',
+                    message:'Nova Pausa '+ body.name.toUpperCase()+' não pôde ser adicionada. Motivo: '+error.message,
+                }
+                this.validateAndToast(toast);
             })
         }
     },
