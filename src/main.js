@@ -57,3 +57,4 @@ Vue.use(VeeValidate, {
 //responsividade
 // VC3
 // Subtrair linhas
+// criar script(após servidor) e finalização(após filas) no menu administrativo

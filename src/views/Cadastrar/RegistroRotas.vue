@@ -33,7 +33,7 @@
           </div>
         </div>
         <!-- TABELA -->
-        <TabelaRegistroRotas v-show="visible" />
+        <TabelaRegistroRotas v-show="visible" :operadoras="operadoras" />
         <!-- TABELA  -->
         <!-- CONFIRMAR DADOS [INÍCIO] -->
         <b-row>
@@ -140,6 +140,7 @@
                         :options="operadoras"
                         :multiple="false"
                       />
+                        <!-- @input="change(d.operadora_selecionada)" -->
                     </div>
                   </b-col>
                   <!-- operadoras FIM -->
@@ -178,12 +179,6 @@
                         
                       </div>
                     </form>
-                    <!-- <b-form-input
-                      v-model="d.quantidade"
-                      id="profile-name-input3"
-                      type="text"
-                      placeholder="Operadora"
-                    /> -->
                   </b-col>
                   <!-- col Quadidade FIM -->
                 </b-row>
@@ -194,6 +189,7 @@
         </div>
         <!-- FIM tab qtd_operadoras -->
       </div>
+      {{ operadoras_criadas }}
     </b-modal>
     <!-- Modal de edição [Fim] -->
   </div>
@@ -215,6 +211,12 @@ export default {
   },
   name: "RegistroUsuarios",
   methods: {
+    choice(filter) {
+      this.filter = filter.toString();
+      console.clear();
+      console.log(this.operadoras.indexOf(this.filter));
+      // this.filter_fields.splice(0, 1, field);
+    },
     testPerfilSelect() {
       console.log("Filas Selecionadas:\n", this.filas_finish);
     },
@@ -290,13 +292,7 @@ export default {
       this.qtd_operadoras--;
       this.operadoras_criadas.pop()
     },
-    // habilitar() {
-    //   if (this.visible == false) {
-    //     this.visible.set;
-    //     console.clear();
-    //     console.log(this.visible);
-    //   }
-    // }
+
   },
   data() {
     return {

@@ -57,8 +57,8 @@
 // import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
 import TabelaUsuariosCadastrados from "../../components/DataTables/TabelaUsuariosCadastrados.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-// import axios from "axios";
-// import { baseApiUrl } from "@/config/global";
+import axios from "axios";
+import { baseApiUrl } from "@/config/global";
 
 export default {
   components: {
@@ -96,13 +96,15 @@ export default {
   },
 
   methods: {
-    // setFilter(filter, field) {
-    //   this.filter = filter.toString();
-    //   this.filter_fields.splice(0, 1, field);
-    // },
-    // async getUsers() {
-    //   let res = await axios.get(baseApiUrl + "/users");
-    //   let u = res.data.data;
+    setFilter(filter, field) {
+      this.filter = filter.toString();
+      this.filter_fields.splice(0, 1, field);
+    },
+    async getUsers() {
+      let res = await axios.get(baseApiUrl + "/users");
+      let u = res.data.data;
+      console.clear();
+      console.log(u);
     //   let users = [];
     //   let metaUsers = [];
     //   let metaData = {};
@@ -154,7 +156,7 @@ export default {
     //   }
     //   // console.log("Users:\n",users)
     //   this.users = [...users];
-    // },
+    },
     // getPages() {
     //   this.defaultAccessPages = JSON.parse(
     //     localStorage.getItem("__defaultAccessPages")
@@ -175,10 +177,10 @@ export default {
   // delete
   created() {
     this.getUsers();
-    this.getPages();
-    this.setDefaultUser();
+    // this.getPages();
+    // this.setDefaultUser();
   },
-};
+}
 </script>
 
 <style scoped>
