@@ -5,11 +5,11 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="filtro-grupo-pausa">
-            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'agente')"></b-form-input>
+            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'name')"></b-form-input>
             <div class="card">
               <div class="card-body"/>
             </div>
-            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'agente')"/>
+            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'name')"/>
           </div>
         </div>
       </div>
@@ -17,7 +17,7 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="status-filter">
-            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'flag')"/>
           </div>
         </div>
       </div>
@@ -31,6 +31,9 @@
 <script>
 import TabelaAgentes from '../../components/DataTables/TabelaAgentes.vue'
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import axios from "axios";
+import { baseApiUrl } from "@/config/global";
+
 
 export default {
   components: {
@@ -42,33 +45,47 @@ export default {
       msg: "",
       items: [
         {
-          agentes: ["Dickerson", "Larsen"],
+          names: ["Dickerson", "Larsen"],
         },
-        {agente: "Dickerson", nome: "Macdonald", status: true},
-        {agente: "Larsen", nome: "Shaw", status: true},
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
       ],
-      agentes: [],
+      names: [],
       filter: '',
       filter_fields: [''],
       busca: '',
-      status_filter: true,
+      flag_filter: true,
     };
   },
   methods: {
     setFilter(filter, field) {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
-    }
+    },
+    async getNames() {
+      let res = await axios.get(baseApiUrl + "/agents");
+      let u = res.data.data;
+        console.clear();
+        console.log(u);
+      for (let i in u) {
+        u[i].flag = Boolean(u[i].flag);
+        this.items[0].names.push(u[i].name);
+        this.items.push(u[i]);
+      }
+      console.log(this.items);
+
+      
+    },
+    
   },
+  // get
+  // post
+  // put
+  // delete
   created() {
-    // this.service = new UsuarioMetodos(this.$resource);
-    // this.service.list().then(
-    //   (usuarios) => (this.usuarios = usuarios),
-    //   (err) => {
-    //     console.log(err);
-    //     this.msg = err.message;
-    //   }
-    // );
+    this.getNames();
+    // this.getPages();
+    // this.setDefaultUser();
   },
 
 };

@@ -5,19 +5,19 @@
              filter-debounce="50"
              :filter-included-fields="filter_fields"
              sticky-header>
-      <template v-slot:head(usuario)="data">
+      <template v-slot:head(name)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(nome)="data">
+      <template v-slot:head(username)="data">
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(email)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(perfil)="data">
+      <template v-slot:head(perfilName)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(status)="data">
+      <template v-slot:head(enable)="data">
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(add)="data">
@@ -26,40 +26,40 @@
         </b-button>
       </template>
 
-      <template v-slot:cell(usuario)="slot">
-        <span :id="(slot.item.usuario)+'_pausa'">{{slot.value}}</span>
+      <template v-slot:cell(name)="slot">
+        <span :id="(slot.item.name)+'_pausa'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(nome)="slot" >
-        <span :id="(slot.item.usuario)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(username)="slot" >
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(email)="slot">
-        <span :id="(slot.item.usuario)+'_alerta'">{{slot.value}}</span>
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(perfil)="slot">
-        <span :id="(slot.item.usuario)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(perfilName)="slot">
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(limite)="slot">
-        <span :id="(slot.item.usuario)+'_limite'">{{slot.value}}</span>
+        <span :id="(slot.item.name)+'_limite'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(icone)="slot">
-        <span :id="(slot.item.usuario)+'_icone'" v-html="slot.value" />
+        <span :id="(slot.item.name)+'_icone'" v-html="slot.value" />
       </template>
-      <template v-slot:cell(status)="slot">
-        <b-form-checkbox v-model="slot.value" :id="(slot.item.usuario)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+      <template v-slot:cell(enable)="slot">
+        <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
       </template>
       <template v-slot:cell(add)="slot">
-        <!-- v-b-modal="(slot.item.usuario)+'_edit_modal'" 
-        , email: '', usuario:'', -->
-        <b-button :id="(slot.item.usuario)+'_edit'" class="edit-btn" variant="outline" :to="{name:'RegistroUsuarios', params:{nome: slot.item.usuario}}" v-html="editIcon"/>
-        <b-btn :id="(slot.item.usuario)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.usuario + '_delete'"/>
+        <!-- v-b-modal="(slot.item.name)+'_edit_modal'" 
+        , email: '', name:'', -->
+        <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline" :to="{name:'RegistroUsuarios', params:{username: slot.item.name}}" v-html="editIcon"/>
+        <b-btn :id="(slot.item.name)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.name + '_delete'"/>
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.usuario+'_edit'">
+    <div v-for="(i, index) in filas" :key="i.name+'_edit'">
       <b-modal
-          :id="i.usuario+'_edit_modal'"
-          :ref="i.usuario+'_edit_modal'"
+          :id="i.name+'_edit_modal'"
+          :ref="i.name+'_edit_modal'"
           title="Editar Pausa"
           size="xl"
           :hide-header-close="true"
@@ -77,37 +77,37 @@
         <b-container fluid>
           <b-col cols="14">
             <b-row>
-              <b-col cols="4" class="usuario-head-container">
-                <span class="usuario-head">Usuário</span>
+              <b-col cols="4" class="name-head-container">
+                <span class="name-head">Usuário</span>
               </b-col>
-              <b-col cols="2" class="nome-head-container">
-                <span class="nome-head">Nome</span>
+              <b-col cols="2" class="username-head-container">
+                <span class="username-head">Nome</span>
               </b-col>
               <b-col cols="2" class="email-head-container">
                 <span class="email-head">Email</span>
               </b-col>
-              <b-col cols="1" class="perfil-head-container">
-                <span class="perfil-head">Perfil</span>
+              <b-col cols="1" class="perfilName-head-container">
+                <span class="perfilName-head">Perfil</span>
               </b-col>
-              <b-col cols="1" class="status-head-container">
-                <span class="status-head">Status</span>
+              <b-col cols="1" class="enable-head-container">
+                <span class="enable-head">Status</span>
               </b-col>
             </b-row>
             <b-row>
-              <b-col cols="4" class="usuario-body-container">
-                <b-form-input v-model="editRowInput.usuario" :presentState="i" :id="i.usuario+'_edit_row_pausa'" :ref="i.usuario+'_edit_row_pausa'" type="text" />
+              <b-col cols="4" class="name-body-container">
+                <b-form-input v-model="editRowInput.name" :presentState="i" :id="i.name+'_edit_row_pausa'" :ref="i.name+'_edit_row_pausa'" type="text" />
               </b-col>
-              <b-col cols="2" class="nome-body-container" >
-                <b-form-input v-model="editRowInput.nome" :presentState="i" :id="i.usuario+'_edit_row_produtiva'" type="text" />
+              <b-col cols="2" class="username-body-container" >
+                <b-form-input v-model="editRowInput.username" :presentState="i" :id="i.name+'_edit_row_produtiva'" type="text" />
               </b-col>
               <b-col cols="2" class="email-body-container" >
-                <b-form-input v-model="editRowInput.email" :presentState="i" :id="i.usuario+'_edit_row_obrigatoria'" type="text"/>
+                <b-form-input v-model="editRowInput.email" :presentState="i" :id="i.name+'_edit_row_obrigatoria'" type="text"/>
               </b-col>
-              <b-col cols="1" class="perfil-body-container">
-                <b-form-input v-model="editRowInput.perfil" :presentState="i" :id="i.usuario+'_edit_row_alerta'" type="text"></b-form-input>
+              <b-col cols="1" class="perfilName-body-container">
+                <b-form-input v-model="editRowInput.perfilName" :presentState="i" :id="i.name+'_edit_row_alerta'" type="text"></b-form-input>
               </b-col>
-              <b-col cols="1" class="status-body-container">
-                <b-form-checkbox v-model="editRowInput.status" :presentState="i" :id="i.usuario+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
+              <b-col cols="1" class="enable-body-container">
+                <b-form-checkbox v-model="editRowInput.enable" :presentState="i" :id="i.name+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
               </b-col>
             </b-row>
           </b-col>
@@ -117,7 +117,7 @@
       <!-- ---------------------------------------------------- -->
       <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
       <b-modal
-          :id="i.usuario+'_delete'"
+          :id="i.name+'_delete'"
           title="ATENÇÃO!!!"
           :hide-header-close="false"
           :no-close-on-backdrop="false"
@@ -127,9 +127,9 @@
           ok-variant="danger"
           cancel-title="MANTER"
           cancel-variant="success"
-          @ok="deleteRow(i.usuario)"
-          @cancel="cancelDelete(i.usuario)">
-        Tem certeza que deseja excluir a usuario <b>{{i.usuario}}</b>?
+          @ok="deleteRow(i.name)"
+          @cancel="cancelDelete(i.name)">
+        Tem certeza que deseja excluir a name <b>{{i.name}}</b>?
       </b-modal>
     </div>
     <!-- MODAL PARA EXCLUSÃO DE LINHA (FIM) -->
@@ -154,37 +154,37 @@
       <b-container fluid>
         <b-col cols="12">
           <b-row>
-            <b-col cols="4" class="usuario-head-container">
-              <span class="usuario-head">Usuário</span>
+            <b-col cols="4" class="name-head-container">
+              <span class="name-head">Usuário</span>
             </b-col>
-            <b-col cols="2" class="nome-head-container">
-              <span class="nome-head">Nome</span>
+            <b-col cols="2" class="username-head-container">
+              <span class="username-head">Nome</span>
             </b-col>
             <b-col cols="2" class="email-head-container">
               <span class="email-head">Email</span>
             </b-col>
-            <b-col cols="1" class="perfil-head-container">
-              <span class="perfil-head">Perfil</span>
+            <b-col cols="1" class="perfilName-head-container">
+              <span class="perfilName-head">Perfil</span>
             </b-col>
-            <b-col cols="1" class="status-head-container">
-              <span class="status-head">Ativa</span>
+            <b-col cols="1" class="enable-head-container">
+              <span class="enable-head">Ativa</span>
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="4" class="usuario-body-container">
-              <b-form-input v-model="newRowInput.usuario" :id="'new_row_pausa'" type="text"></b-form-input>
+            <b-col cols="4" class="name-body-container">
+              <b-form-input v-model="newRowInput.name" :id="'new_row_pausa'" type="text"></b-form-input>
             </b-col>
-            <b-col cols="2" class="nome-body-container" >
-              <b-form-input v-model="newRowInput.nome" :id="'new_row_produtiva'" type="text"/>
+            <b-col cols="2" class="username-body-container" >
+              <b-form-input v-model="newRowInput.username" :id="'new_row_produtiva'" type="text"/>
             </b-col>
             <b-col cols="2" class="email-body-container" >
               <b-form-input v-model="newRowInput.email" :id="'new_row_obrigatoria'" type="text"/>
             </b-col>
-            <b-col cols="1" class="perfil-body-container">
-              <b-form-input v-model="newRowInput.perfil" :id="'new_row_alerta'" type="text"></b-form-input>
+            <b-col cols="1" class="perfilName-body-container">
+              <b-form-input v-model="newRowInput.perfilName" :id="'new_row_alerta'" type="text"></b-form-input>
             </b-col>
-            <b-col cols="1" class="status-body-container">
-              <b-form-checkbox v-model="newRowInput.status" :id="'new_row_ativa'" :value="true" :unchecked-value="false" switch />
+            <b-col cols="1" class="enable-body-container">
+              <b-form-checkbox v-model="newRowInput.enable" :id="'new_row_ativa'" :value="true" :unchecked-value="false" switch />
             </b-col>
           </b-row>
         </b-col>
@@ -199,13 +199,13 @@
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
-  usuario:'',
-  nome: false,
+  name:'',
+  username: false,
   email: false,
-  perfil:'',
+  perfilName:'',
   limite: '',
   icone: '',
-  status: true,
+  enable: true,
   add: '<span class="fal fa-trash-alt"/>',
 };
 
@@ -219,9 +219,9 @@ export default {
   },
   methods: {
     deleteRow(ev){
-      const p = this.usuarios.indexOf(ev);
+      const p = this.names.indexOf(ev);
       this.filas.splice(p,1);
-      this.usuarios.splice(p,1);
+      this.names.splice(p,1);
       let toast = {
         isValidated:true,
         title:'USUÁRIO EXCLUÍDO',
@@ -238,7 +238,7 @@ export default {
       this.validateAndToast(toast);
     },
     okayAdd(){
-      let newPausa = this.newRowInput.usuario.trim();
+      let newPausa = this.newRowInput.name.trim();
       if (newPausa.length>0){
         console.log("Filas ok:")
         console.log(this.filas)
@@ -257,14 +257,14 @@ export default {
         let toast = {
           isValidated:false,
           title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem username ou com o username em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
 
     },
     cancelAdd(){
-      let newPausa = this.newRowInput.usuario.trim();
+      let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated:false,
         title:'NOVA PAUSA NÃO ADICIONADA',
@@ -279,9 +279,9 @@ export default {
       this.newRowInput = {...this.newRowDefault}
     },
     updateRow(row){
-      let p = this.editRowInput.usuario.trim();
+      let p = this.editRowInput.name.trim();
 
-      if(p.length > 0){ // checando se o nome não está em branco
+      if(p.length > 0){ // checando se o username não está em branco
         /* Atualizando Fila e Pausas com dados editados */
         this.filas.splice(row,1,{...this.editRowInput});
         this.pausas.splice(row,1, p);
@@ -300,14 +300,14 @@ export default {
         let toast = {
           isValidated:false,
           title:'PAUSA NÃO EDITADA',
-          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu username ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
     },
     cancelEdit(row){
       this.editRowInput = {...this.newRowDefault};
-      let p = this.filas[row].usuario;
+      let p = this.filas[row].name;
       let toast = {
         isValidated:false,
         title:'PAUSA NÃO EDITADA',
@@ -329,6 +329,9 @@ export default {
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
     // }
   },
+  // computed() {
+  //   Boolean(this.item.enable);
+  //   },
   mounted(){
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
@@ -339,18 +342,18 @@ export default {
       editRowInput: Object.assign({},this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
-      usuarios: this.items[0].usuarios,
+      names: this.items[0].names,
       icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
         {value:'i2', html:'<span class="fal fa-plus"/>'},
         {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
         {value:'i4', html:'<span class="fal fa-abacus"/>'}],
       fields: [
         {
-          key:'usuario',
+          key:'name',
           label: 'Usuário',
         },
         {
-          key:'nome',
+          key:'username',
           label: 'Nome'
         },
         {
@@ -358,13 +361,14 @@ export default {
           label: 'Email'
         },
         {
-          key:'perfil',
+          key:'perfilName',
           label: 'Perfil'
         },
        
         {
-          key:'status',
-          label: 'Status'
+          key:'enable',
+          label: 'Status',
+          // Boolean,
         },
         {
           key:'add',
@@ -410,13 +414,13 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.usuario-head-container, .nome-head-container, .email-head-container, .perfil-head-container, .limite-head-container, .icone-head-container, .status-head-container{
+.name-head-container, .username-head-container, .email-head-container, .perfilName-head-container, .limite-head-container, .icone-head-container, .enable-head-container{
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
 
-.usuario-head {
+.name-head {
   background-color: #0d6d9d !important;
   color:#fff !important;
   border-color: #0d6d9d !important;
@@ -426,7 +430,7 @@ input::-webkit-inner-spin-button {
   vertical-align: middle !important;
 }
 
-.nome-head, .email-head, .perfil-head, .limite-head, .icone-head, .status-head{
+.username-head, .email-head, .perfilName-head, .limite-head, .icone-head, .enable-head{
   background-color: #0d6d9d !important;
   color:#fff !important;
   border-color: #0d6d9d !important;
@@ -438,7 +442,7 @@ input::-webkit-inner-spin-button {
 }
 
 
-.usuario-body-container, .nome-body-container, .email-body-container, .perfil-body-container, .limite-body-container, .icone-body-container, .status-body-container {
+.name-body-container, .username-body-container, .email-body-container, .perfilName-body-container, .limite-body-container, .icone-body-container, .enable-body-container {
   display: flex;
   justify-content: center;
   align-content: center;

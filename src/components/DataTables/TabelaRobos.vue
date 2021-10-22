@@ -5,19 +5,22 @@
              filter-debounce="50"
              :filter-included-fields="filter_fields"
              sticky-header>
-      <template v-slot:head(robo)="data">
+      <template v-slot:head(login_crm)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(nome)="data">
+      <template v-slot:head(name)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(documento)="data">
+      <template v-slot:head(email)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(login_em)="data">
+      <template v-slot:head(document)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(status)="data">
+      <template v-slot:head(last_login)="data">
+        <span>{{data.label}}</span>
+      </template>
+      <template v-slot:head(flag)="data">
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(add)="data">
@@ -26,38 +29,38 @@
         </b-button>
       </template>
 
-      <template v-slot:cell(robo)="slot">
-        <span :id="(slot.item.robo)+'_pausa'">{{slot.value}}</span>
+      <template v-slot:cell(login_crm)="slot" >
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(nome)="slot" >
-        <span :id="(slot.item.robo)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(name)="slot">
+        <span :id="(slot.item.name)+'_pausa'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(email)="slot">
-        <span :id="(slot.item.robo)+'_alerta'">{{slot.value}}</span>
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(documento)="slot">
-        <span :id="(slot.item.robo)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(document)="slot">
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(limite)="slot">
-        <span :id="(slot.item.robo)+'_limite'">{{slot.value}}</span>
+        <span :id="(slot.item.name)+'_limite'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(icone)="slot">
-        <span :id="(slot.item.robo)+'_icone'" v-html="slot.value" />
+        <span :id="(slot.item.name)+'_icone'" v-html="slot.value" />
       </template>
-      <template v-slot:cell(status)="slot">
-        <b-form-checkbox v-model="slot.value" :id="(slot.item.robo)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+      <template v-slot:cell(flag)="slot">
+        <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
       </template>
       <template v-slot:cell(add)="slot">
-        <b-button :id="(slot.item.robo)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.robo)+'_edit_modal'"  v-html="editIcon"/>
-        <b-btn :id="(slot.item.robo)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.robo + '_delete'"/>
+        <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.name)+'_edit_modal'"  v-html="editIcon"/>
+        <b-btn :id="(slot.item.name)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.name + '_delete'"/>
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.robo+'_edit'">
+    <div v-for="(i, index) in filas" :key="i.name+'_edit'">
       <b-modal
-          :id="i.robo+'_edit_modal'"
-          :ref="i.robo+'_edit_modal'"
+          :id="i.name+'_edit_modal'"
+          :ref="i.name+'_edit_modal'"
           title="Editar Agente"
           size="xl"
           :hide-header-close="true"
@@ -75,32 +78,37 @@
         <b-container fluid>
           <b-col cols="14">
             <b-row>
-              <b-col cols="4" class="robo-head-container">
-                <span class="robo-head">Login</span>
+              <b-col cols="4" class="login_crm-head-container">
+                <span class="login_crm-head">Login</span>
               </b-col>
-              <b-col cols="2" class="nome-head-container">
-                <span class="nome-head">Nome</span>
+              <b-col cols="2" class="name-head-container">
+                <span class="name-head">Nome</span>
               </b-col>
-              
-              <b-col cols="1" class="documento-head-container">
-                <span class="documento-head">Documento</span>
+              <b-col cols="2" class="email-head-container">
+                <span class="email-head">Email</span>
               </b-col>
-              <b-col cols="1" class="status-head-container">
-                <span class="status-head">Status</span>
+              <b-col cols="1" class="document-head-container">
+                <span class="document-head">Documento</span>
+              </b-col>
+              <b-col cols="1" class="flag-head-container">
+                <span class="flag-head">Status</span>
               </b-col>
             </b-row>
             <b-row>
-              <b-col cols="4" class="robo-body-container">
-                <b-form-input v-model="editRowInput.robo" :presentState="i" :id="i.robo+'_edit_row_pausa'" :ref="i.robo+'_edit_row_pausa'" type="text" />
+              <b-col cols="2" class="login_crm-body-container" >
+                <b-form-input v-model="editRowInput.login_crm" :presentState="i" :id="i.name+'_edit_row_produtiva'" type="text" />
               </b-col>
-              <b-col cols="2" class="nome-body-container" >
-                <b-form-input v-model="editRowInput.nome" :presentState="i" :id="i.robo+'_edit_row_produtiva'" type="text" />
+              <b-col cols="4" class="name-body-container">
+                <b-form-input v-model="editRowInput.name" :presentState="i" :id="i.name+'_edit_row_pausa'" :ref="i.name+'_edit_row_pausa'" type="text" />
               </b-col>
-              <b-col cols="1" class="documento-body-container">
-                <b-form-input v-model="editRowInput.documento" :presentState="i" :id="i.robo+'_edit_row_alerta'" type="text"></b-form-input>
+              <b-col cols="2" class="email-body-container" >
+                <b-form-input v-model="editRowInput.email" :presentState="i" :id="i.name+'_edit_row_obrigatoria'" type="text"/>
               </b-col>
-              <b-col cols="1" class="status-body-container">
-                <b-form-checkbox v-model="editRowInput.status" :presentState="i" :id="i.robo+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
+              <b-col cols="1" class="document-body-container">
+                <b-form-input v-model="editRowInput.document" :presentState="i" :id="i.name+'_edit_row_alerta'" type="text"></b-form-input>
+              </b-col>
+              <b-col cols="1" class="flag-body-container">
+                <b-form-checkbox v-model="editRowInput.flag" :presentState="i" :id="i.name+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
               </b-col>
             </b-row>
           </b-col>
@@ -110,7 +118,7 @@
       <!-- ---------------------------------------------------- -->
       <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
       <b-modal
-          :id="i.robo+'_delete'"
+          :id="i.name+'_delete'"
           title="ATENÇÃO!!!"
           :hide-header-close="false"
           :no-close-on-backdrop="false"
@@ -120,9 +128,9 @@
           ok-variant="danger"
           cancel-title="MANTER"
           cancel-variant="success"
-          @ok="deleteRow(i.robo)"
-          @cancel="cancelDelete(i.robo)">
-        Tem certeza que deseja excluir o robo <b>{{i.robo}}</b>?
+          @ok="deleteRow(i.name)"
+          @cancel="cancelDelete(i.name)">
+        Tem certeza que deseja excluir o name <b>{{i.name}}</b>?
       </b-modal>
     </div>
     <!-- MODAL PARA EXCLUSÃO DE LINHA (FIM) -->
@@ -147,32 +155,37 @@
       <b-container fluid>
         <b-col cols="12">
           <b-row>
-            <b-col cols="4" class="robo-head-container">
-              <span class="robo-head">Login</span>
+            <b-col cols="4" class="login_crm-head-container">
+              <span class="login_crm-head">Login</span>
             </b-col>
-            <b-col cols="2" class="nome-head-container">
-              <span class="nome-head">Nome</span>
+            <b-col cols="2" class="name-head-container">
+              <span class="name-head">Nome</span>
             </b-col>
-            
-            <b-col cols="1" class="documento-head-container">
-              <span class="documento-head">Documento</span>
+            <b-col cols="2" class="email-head-container">
+              <span class="email-head">Email</span>
             </b-col>
-            <b-col cols="1" class="status-head-container">
-              <span class="status-head">Ativa</span>
+            <b-col cols="1" class="document-head-container">
+              <span class="document-head">Documento</span>
+            </b-col>
+            <b-col cols="1" class="flag-head-container">
+              <span class="flag-head">Ativa</span>
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="4" class="robo-body-container">
-              <b-form-input v-model="newRowInput.robo" :id="'new_row_pausa'" type="text"></b-form-input>
+            <b-col cols="2" class="login_crm-body-container" >
+              <b-form-input v-model="newRowInput.login_crm" :id="'new_row_produtiva'" type="text"/>
             </b-col>
-            <b-col cols="2" class="nome-body-container" >
-              <b-form-input v-model="newRowInput.nome" :id="'new_row_produtiva'" type="text"/>
+            <b-col cols="4" class="name-body-container">
+              <b-form-input v-model="newRowInput.name" :id="'new_row_pausa'" type="text"></b-form-input>
             </b-col>
-            <b-col cols="1" class="documento-body-container">
-              <b-form-input v-model="newRowInput.documento" :id="'new_row_alerta'" type="text"></b-form-input>
+            <b-col cols="2" class="email-body-container" >
+              <b-form-input v-model="newRowInput.email" :id="'new_row_obrigatoria'" type="text"/>
             </b-col>
-            <b-col cols="1" class="status-body-container">
-              <b-form-checkbox v-model="newRowInput.status" :id="'new_row_ativa'" :value="true" :unchecked-value="false" switch />
+            <b-col cols="1" class="document-body-container">
+              <b-form-input v-model="newRowInput.document" :id="'new_row_alerta'" type="text"></b-form-input>
+            </b-col>
+            <b-col cols="1" class="flag-body-container">
+              <b-form-checkbox v-model="newRowInput.flag" :id="'new_row_ativa'" :value="true" :unchecked-value="false" switch />
             </b-col>
           </b-row>
         </b-col>
@@ -187,13 +200,13 @@
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
-  robo:'',
-  nome: false,
+  name:'',
+  login_crm: null,
   email: false,
-  documento:'',
+  document:'',
   limite: '',
   icone: '',
-  status: true,
+  flag: true,
   add: '<span class="fal fa-trash-alt"/>',
 };
 
@@ -207,26 +220,26 @@ export default {
   },
   methods: {
     deleteRow(ev){
-      const p = this.robos.indexOf(ev);
+      const p = this.names.indexOf(ev);
       this.filas.splice(p,1);
-      this.robos.splice(p,1);
+      this.names.splice(p,1);
       let toast = {
         isValidated:true,
-        title:'USUÁRIO EXCLUÍDO',
-        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
+        title:'AGENTE EXCLUÍDO',
+        message:'Agente '+ev.toUpperCase()+' excluído com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'USUÁRIO MANTIDO',
-        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
+        title:'AGENTE MANTIDO',
+        message:'Agente '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
     okayAdd(){
-      let newPausa = this.newRowInput.robo.trim();
+      let newPausa = this.newRowInput.name.trim();
       if (newPausa.length>0){
         console.log("Filas ok:")
         console.log(this.filas)
@@ -236,23 +249,23 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO USUÁRIO ADICIONADA',
-          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
+          title:'NOVO AGENTE ADICIONADA',
+          message:'Novo name '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO AGENTE VAZIO NÃO ADICIONADo',
+          message:'Nova name '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar names sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
 
     },
     cancelAdd(){
-      let newPausa = this.newRowInput.robo.trim();
+      let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated:false,
         title:'NOVA PAUSA NÃO ADICIONADA',
@@ -267,7 +280,7 @@ export default {
       this.newRowInput = {...this.newRowDefault}
     },
     updateRow(row){
-      let p = this.editRowInput.robo.trim();
+      let p = this.editRowInput.name.trim();
 
       if(p.length > 0){ // checando se o nome não está em branco
         /* Atualizando Fila e Pausas com dados editados */
@@ -295,7 +308,7 @@ export default {
     },
     cancelEdit(row){
       this.editRowInput = {...this.newRowDefault};
-      let p = this.filas[row].robo;
+      let p = this.filas[row].name;
       let toast = {
         isValidated:false,
         title:'PAUSA NÃO EDITADA',
@@ -327,33 +340,34 @@ export default {
       editRowInput: Object.assign({},this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
-      robos: this.items[0].robos,
+      names: this.items[0].names,
       icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
         {value:'i2', html:'<span class="fal fa-plus"/>'},
         {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
         {value:'i4', html:'<span class="fal fa-abacus"/>'}],
       fields: [
         {
-          key:'robo',
+          key:'login_crm',
           label: 'Login',
         },
         {
-          key:'nome',
+          key:'name',
           label: 'Nome'
         },
-       
+        
         {
-          key:'documento',
+          key:'document',
           label: 'Documento'
         },
         {
-          key:'login_em',
+          key:'last_login',
           label: 'Login em'
         },
         {
-          key:'status',
-          label: 'Status'
-        },
+          key:'flag',
+          label: 'Status',
+          Boolean,
+},
         {
           key:'add',
           label: '<span class="fal fa-plus fa-1x head-add-button"/>'
@@ -398,13 +412,13 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.robo-head-container, .nome-head-container, .email-head-container, .documento-head-container, .limite-head-container, .icone-head-container, .status-head-container{
+.name-head-container, .login_crm-head-container, .email-head-container, .document-head-container, .limite-head-container, .icone-head-container, .flag-head-container{
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
 
-.robo-head {
+.name-head {
   background-color: #0d6d9d !important;
   color:#fff !important;
   border-color: #0d6d9d !important;
@@ -414,7 +428,7 @@ input::-webkit-inner-spin-button {
   vertical-align: middle !important;
 }
 
-.nome-head, .email-head, .documento-head, .limite-head, .icone-head, .status-head{
+.login_crm-head, .email-head, .document-head, .limite-head, .icone-head, .flag-head{
   background-color: #0d6d9d !important;
   color:#fff !important;
   border-color: #0d6d9d !important;
@@ -426,7 +440,7 @@ input::-webkit-inner-spin-button {
 }
 
 
-.robo-body-container, .nome-body-container, .email-body-container, .documento-body-container, .limite-body-container, .icone-body-container, .status-body-container {
+.name-body-container, .login_crm-body-container, .email-body-container, .document-body-container, .limite-body-container, .icone-body-container, .flag-body-container {
   display: flex;
   justify-content: center;
   align-content: center;

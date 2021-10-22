@@ -57,4 +57,6 @@ Vue.use(VeeValidate, {
 //responsividade
 // VC3
 // Subtrair linhas
-// criar script(após servidor) e finalização(após filas) no menu administrativo
+// criar script(após servidor) e finalização(após filas) no menu administrativo (done)
+// rever sorteables
+// bug parametro booleano passado para as tabelas 

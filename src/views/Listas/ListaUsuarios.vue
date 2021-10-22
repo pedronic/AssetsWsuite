@@ -7,7 +7,7 @@
           <div class="d-flex" id="filtro-grupo-pausa">
             <b-form-input
               v-model="busca"
-              @keydown.enter.native="setFilter(busca, 'usuario')"
+              @keydown.enter.native="setFilter(busca, 'name')"
             ></b-form-input>
             <div class="card">
               <div class="card-body" />
@@ -16,7 +16,7 @@
               type="submit"
               id="pesquisa_faturamento"
               class="btn btn-info waves-effect waves-themed fal fa-search"
-              @click="setFilter(busca, 'usuario')"
+              @click="setFilter(busca, 'name')"
             />
           </div>
         </div>
@@ -24,12 +24,12 @@
 
       <div class="card">
         <div class="card-body d-flex">
-          <div class="d-flex" id="status-filter">
+          <div class="d-flex" id="enable-filter">
             <b-form-checkbox
               v-model="status_filter"
-              id="status-filter-button"
+              id="enable-filter-button"
               switch
-              @change="setFilter(status_filter, 'status')"
+              @change="setFilter(status_filter, 'enable')"
             />
           </div>
         </div>
@@ -69,29 +69,29 @@ export default {
     return {
       items: [
         {
-          usuarios: ["Exemplo", "Outro Exemplo"],
+          names: ["Exemplo", "Outro Exemplo"],
         },
         {
-          usuario: "Exemplo",
-          Nome: "Ex",
-          Email: "ex@dom.com.br",
-          Perfil: "lado",
-          status: true,
+          name: "Exemplo",
+          username: "Ex",
+          email: "ex@dom.com.br",
+          perfilName: "lado",
+          enable: true,
         },
         {
-          usuario: "Outro Exemplo",
-          Nome: "Ox",
-          Email: "ox@dom.com.br",
-          Perfil: "azimutal",
-          status: false,
+          name: "Outro Exemplo",
+          username: "Ox",
+          email: "ox@dom.com.br",
+          perfilName: "azimutal",
+          enable: false,
         },
       ],
-      usuarios: [],
+      names: [],
       msg: "",
       filter: "",
       filter_fields: [""],
       busca: "",
-      status_filter: true,
+      enable_filter: true,
     };
   },
 
@@ -103,73 +103,18 @@ export default {
     async getUsers() {
       let res = await axios.get(baseApiUrl + "/users");
       let u = res.data.data;
-      console.clear();
-      console.log(u);
-    //   let users = [];
-    //   let metaUsers = [];
-    //   let metaData = {};
-    //   let metaID = {};
-    //   let user = {};
-    //   // {
-    //   //     name: '',
-    //   //     id: '',
-    //   //     data:[]
-    //   // };
-    //   let data = {};
-    //   // {
-    //   //     name:'',
-    //   //     page_id:null,
-    //   //     modulo_name:'',
-    //   //     add:null,
-    //   //     read:null,
-    //   //     edit:null,
-    //   //     delete:null,
-    //   //     browser:null,
-    //   // };
-    //   for (let i in u) {
-    //     if (metaUsers.indexOf(u[i].perfil_name) < 0) {
-    //       metaUsers.push(u[i].perfil_name);
-    //       metaData[u[i].perfil_name] = [i];
-    //       metaID[u[i].perfil_name] = [u[i].perfil_id];
-    //     } else {
-    //       metaData[u[i].perfil_name].push(i);
-    //     }
-    //   }
-    //   // console.log("Meta Users:\n",metaUsers,"\nMeta Data:\n",metaData);
-    //   for (let i in metaUsers) {
-    //     user.name = metaUsers[i];
-    //     user.id = metaID[metaUsers[i]];
-    //     user.data = [];
+        console.clear();
+        console.log(u);
+      for (let i in u) {
+        u[i].enable = Boolean(u[i].enable);
+        this.items[0].names.push(u[i].username);
+        this.items.push(u[i]);
+      }
+      console.log(this.items);
 
-    //     for (let j in metaData[metaUsers[i]]) {
-    //       data.name = u[metaData[metaUsers[i]][j]].page_name;
-    //       data.page_id = u[metaData[metaUsers[i]][j]].page_id;
-    //       data.modulo_name = u[metaData[metaUsers[i]][j]].modulo_name;
-    //       data.add = u[metaData[metaUsers[i]][j]].add ? true : false;
-    //       data.read = u[metaData[metaUsers[i]][j]].read ? true : false;
-    //       data.edit = u[metaData[metaUsers[i]][j]].edit ? true : false;
-    //       data.delete = u[metaData[metaUsers[i]][j]].delete ? true : false;
-    //       data.browser = u[metaData[metaUsers[i]][j]].browser ? true : false;
-    //       user.data.push({ ...data });
-    //     }
-    //     users.push({ ...user });
-    //   }
-    //   // console.log("Users:\n",users)
-    //   this.users = [...users];
+      
     },
-    // getPages() {
-    //   this.defaultAccessPages = JSON.parse(
-    //     localStorage.getItem("__defaultAccessPages")
-    //   );
-    //   this.pagesIndexTable = JSON.parse(
-    //     localStorage.getItem("__pagesIndexTable")
-    //   );
-    //   // console.log("Default Access Pages:\n",this.defaultAccessPages);
-    // },
-    // setDefaultUser() {
-    //   this.defaultUserData = { ...defaultNewUserProfile };
-    //   // console.log("Default User Data:\n",this.defaultUserData);
-    // },
+    
   },
   // get
   // post
@@ -180,7 +125,7 @@ export default {
     // this.getPages();
     // this.setDefaultUser();
   },
-}
+};
 </script>
 
 <style scoped>
