@@ -359,7 +359,7 @@ export default {
             };
             this.validateAndToast(toast);
         },
-        putEditedRow(body, id, row_name){
+        putEditedRow(body, id, row){
             // const body = {...body_in};
             console.log("Body @putEditedRow():\n",body)
             axios.put(baseApiUrl+'/breaks/'+id, body)
@@ -371,8 +371,8 @@ export default {
                     message:'Pausa '+body.name.toUpperCase()+' editada com sucesso!'
                 }
                 this.validateAndToast(toast);
-                this.filas.splice(row_name,1,{...this.editRowInput});
-                this.pausas.splice(row_name,1, this.editRowInput.pausa.trim());
+                this.filas.splice(row,1,{...this.editRowInput});
+                this.pausas.splice(row,1, this.editRowInput.pausa.trim());
                 this.editRowInput = {...this.newRowDefault};
             })
             .catch(error => {
@@ -380,7 +380,7 @@ export default {
                 let toast = {
                     isValidated:false,
                     title:'PAUSA NÃO EDITADA',
-                    message:'A Pausa '+ body.name.toUpperCase()+' não pode ser editada. Motivo: '+error.message,
+                    message:'A Pausa '+ body.name.toUpperCase()+' não pôde ser editada. Motivo: '+error.message,
                 }
                 this.validateAndToast(toast);
                 this.editRowInput = {...this.newRowDefault};
