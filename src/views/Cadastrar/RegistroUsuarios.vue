@@ -6,6 +6,7 @@
         <div class="card-body" />
       </div>
     </PagesSubHeader>
+    {{ nomeEdit }}
     <form @submit.prevent="carregar()" class="conteiner">
       <div class="form-group">
         <div class="d-inline">
@@ -251,6 +252,7 @@ export default {
   },
   data() {
     return {
+      nomeEdit: this.$route.params.nome,
       userMails: [],
       userNames: [],
       id: this.$route.params.id,

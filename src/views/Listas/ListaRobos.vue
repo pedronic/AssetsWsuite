@@ -1,38 +1,30 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-user-robot" titulo="Lista de Robôs">
-
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de Robôs">
       <div class="card">
         <div class="card-body d-flex">
-            <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Login')"></b-form-input>
-                <div class="card">
-                  <div class="card-body"/>
-                </div>
-                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Login')"/>
+          <div class="d-flex" id="filtro-grupo-pausa">
+            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'name')"></b-form-input>
+            <div class="card">
+              <div class="card-body"/>
             </div>
+            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'name')"/>
+          </div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body d-flex">
-            <div class="d-flex" id="status-filter">
-                <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
-            </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-body d-flex">
-          <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-robos',params:{nome:''}}" >
-            <b-btn variant="success" class="fal fa-plus"/>
-          </router-link>
+          <div class="d-flex" id="status-filter">
+            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'flag')"/>
+          </div>
         </div>
       </div>
 
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
+
     <TabelaRobos :items="items" :filter="filter" :filter_fields="filter_fields"/>        
   </div>
 </template>
@@ -41,6 +33,9 @@
 // import UsuarioMetodos from "../domain/User/UsuarioMetodos";
 import TabelaRobos from '../../components/DataTables/TabelaRobos.vue'
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import axios from "axios";
+import { baseApiUrl } from "@/config/global";
+
 
 export default {
   components: {
@@ -50,10 +45,13 @@ export default {
   data() {
     return {
       items: [
-        { Login: "Dickerson", nome: "Macdonald", status:true },
-        { Login: "Larsen", nome: "Shaw", status:true },
+        {
+          names: ["Dickerson", "Larsen"],
+        },
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
       ],
-      usuarios: [],
+      names: [],
       msg: "",
       filter:'',
       filter_fields:[''],
@@ -77,15 +75,19 @@ export default {
     //   }
     // );
   },
-  computed: {
-    UsuarioFiltrado() {
-      if (this.filter) {
-        let exp = new RegExp(this.filter.trim(), "i");
-        return this.usuarios.filter((usuario) => exp.test(usuario.user));
-      } else {
-        return this.usuarios;
+  mounted: {
+     async getNames() {
+      let res = await axios.get(baseApiUrl + "/agents");
+      let u = res.data.data;
+        console.clear();
+        console.log(u);
+      for (let i in u) {
+        u[i].flag = Boolean(u[i].flag);
+        this.items[0].names.push(u[i].name);
+        this.items.push(u[i]);
       }
-    },
+      console.log(this.items);
+     },
   },
 };
 </script>

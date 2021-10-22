@@ -15,8 +15,8 @@
       </div>
     </div>
     <!-- <div class="page-inner bg-brand-gradient" v-else>
-      <login />
     </div> -->
+      <!-- <login /> -->
   </div>
 </template>
 
@@ -57,7 +57,7 @@ export default {
 			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
 			if (res.data) {
 				this.$store.commit('setUser', userData)
-				
+		
 				if(this.$mq === 'xs' || this.$mq === 'sm') {
 					this.$store.commit('toggleMenu', false)
 				}
@@ -100,5 +100,4 @@ export default {
 }
 </style>
 
-// tabela registro finalizações > cadastrar apenas visualização?
 // validacao fields

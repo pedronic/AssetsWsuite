@@ -1,32 +1,33 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de finalizações">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de finalizacoes">
       <div class="card">
-        <div class="card-body"/>
+        <div class="card-body d-flex">
+          <div class="d-flex" id="filtro-grupo-pausa">
+            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'finalizacao')"></b-form-input>
+            <div class="card">
+              <div class="card-body"/>
+            </div>
+            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'finalizacao')"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body d-flex">
+          <div class="d-flex" id="status-filter">
+            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+          </div>
+        </div>
       </div>
 
     </PagesSubHeader>
-    <div class="row mb-2 justify-content-center">
-      <div class="col-12">
-        <div class="profile-content user-name-line d-flex">
-          <i class="fal fa-at fa-2x" style="margin-left: 5px" />
-          <b-form-input
-              id="profile-name-input"
-              type="text"
-              placeholder="Finalizações"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="panel ">
-      <div class="panel-container show">
-        <div class="panel-content">
-          <TabelaFinalizacoes/>
-        </div>
-      </div>
-    </div>
+    <!-- Cabeçalho: FIM -->
 
-  </div>
+    <TabelaFinalizacoes :items="items" :filter="filter" :filter_fields="filter_fields"/>
+        </div>
+      
+    
 </template>
 
 <script>
@@ -42,12 +43,45 @@ export default {
   name: "ListaFinalizacoes",
   data() {
     return {
-      filter: "",
-      usuarios: [],
+      items: [
+        {
+          finalizacoes: ["Exemplo","Outro Exemplo"],
+        },
+        {
+          finalizacao: 'Exemplo',
+          ID: 'Ex',
+          descricao: 'ex@dom.com.br',
+          CPC: true,
+          CPCA: true,
+          alega_pgto: false,
+          promessav: true,
+          status:true
+        },
+        {
+          finalizacao: 'Outro Exemplo',
+          ID: 'Ox',
+          descricao: 'ox@dom.com.br',
+          CPC: false,
+          CPCA: true,
+          alega_pgto: false,
+          promessav: false,
+          status:true
+        },
+      ],
+      finalizacoes: [],
       msg: "",
+      filter:'',
+      filter_fields:[''],
+      busca:'',
+      status_filter: true,
     };
   },
-  methods: {},
+  methods: {
+    setFilter(filter,field){
+      this.filter = filter.toString();
+      this.filter_fields.splice(0,1,field);
+    }
+  },
   created() {
     this.service = new UsuarioMetodos(this.$resource);
     this.service.list().then(
@@ -71,41 +105,9 @@ export default {
 };
 </script>
 
-<style>
-.user-name-line {
-  align-items: center !important;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #d0cece;
-  padding-left: 0%;
-  padding-right: 0%;
-}
-.user-name-line2 {
-  align-items: center !important;
-  border-style: solid;
-  border-width: 1px;
-  height: 42px;
-  border-color: #d0cece;
-  padding-left: 0%;
-  padding-right: 0%;
-}
-#profile-name-input{
-  margin-left: 5px;
-  margin-right: 0px;
-  border-left-color: black;
-  border-radius: 0px;
-}
-#profile-name-input2{
-  margin-left: 5px;
-  margin-right: 0px;
-  border-left-color: black;
-  border-radius: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
-}
+<style scoped>
 .dow-color2 {
-background-color: rgb(13, 109, 157) !important;
+  background-color: rgb(13, 109, 157) !important;
 }
 
 .col-botoes {
@@ -126,12 +128,21 @@ background-color: rgb(13, 109, 157) !important;
   padding: 0;
 }
 
-.card-body {
+.card-body{
   padding: 5px;
-  height: 50px;
-  width: 0;
-  border: 0;
-  color: #ffffff;
+  /* height: 50px; */
+  /* width: 0;
+  border: 0px;
+  color: #ffffff transparent; */
+}
+.card > .card-body > .d-flex > button#pesquisa_faturamento{
+  margin-right: 0.3rem !important;
+}
+.card > .card-body > .d-flex > button,input{
+  height: 38px !important;
+}
+.d-flex#filtro-grupo-pausa{
+  height: 38px !important;
 }
 
 .card {

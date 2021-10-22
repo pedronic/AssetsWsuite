@@ -95,7 +95,7 @@
         <i class="fal fa-route iconDAM"></i>
         <span data-i18n="drpdwn.settings">Rotas</span>
         <a class="ml-auto" href="#">
-          <router-link :to="{ name: ''}">
+          <router-link :to="{ name: 'RegistroRotas'}">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>
@@ -113,6 +113,18 @@
         </a>
       </div>
     </router-link>
+
+     <router-link :to="{ name: 'ListaFinalizacoes'}">
+      <div class="dropdown-item d-flex itens">
+        <i class="fal fa-road iconDAM"></i>
+        <span data-i18n="drpdwn.settings">Finalizações</span>
+        <a class="ml-auto" href="#">
+          <router-link :to="{ name: 'RegistroFinalizacoes' }">
+            <i class="fal fa-plus-circle"></i>
+          </router-link>
+        </a>
+      </div>
+    </router-link>
       
     <router-link :to="{ name: 'ListaServidores' }">
       <div class="dropdown-item d-flex itens">
@@ -120,6 +132,17 @@
         <span data-i18n="drpdwn.settings">Servidores</span>
         <a class="ml-auto" href="#">
           <router-link :to="{ name: 'RegistroServidores' }">
+            <i class="fal fa-plus-circle"></i>
+          </router-link>
+        </a>
+      </div>
+    </router-link>
+    <router-link :to="{ name: 'ListaScripts' }">
+      <div class="dropdown-item d-flex itens">
+        <i class="fal fa-server iconDAM"></i>
+        <span data-i18n="drpdwn.settings">Scripts</span>
+        <a class="ml-auto" href="#">
+          <router-link :to="{ name: 'RegistroScripts' }">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>

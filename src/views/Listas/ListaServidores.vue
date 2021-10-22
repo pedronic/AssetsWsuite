@@ -1,16 +1,16 @@
 <template>
   <div class="relatorios">
     <!-- Cabeçalho -->
-    <PagesSubHeader icon="fal fa-server" titulo="Lista de Servidores">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de Servidores">
 
       <div class="card">
         <div class="card-body d-flex">
             <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'Nome')"></b-form-input>
+                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'servidor')"></b-form-input>
                 <div class="card">
                   <div class="card-body"/>
                 </div>
-                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'Nome')"/>
+                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'servidor')"/>
             </div>
         </div>
       </div>
@@ -23,16 +23,9 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-body d-flex">
-          <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-servidores',params:{nome:''}}" >
-            <b-btn variant="success" class="fal fa-plus"/>
-          </router-link>
-        </div>
-      </div>
-
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
+
     <TabelaServidores :items="items" :filter="filter" :filter_fields="filter_fields"/>
   </div>
 </template>
@@ -51,21 +44,24 @@ export default {
     return {
       items: [
         {
-          Nome: 'Exemplo',
+          servidores: ["Exemplo","Outro Exemplo"],
+        },
+        {
+          servidor: 'Exemplo',
           tipo: '',
           ip: '',
           perfil: '',
           status:true
         },
         {
-          Nome: 'Outro Exemplo',
+          servidor: 'Outro Exemplo',
           tipo: '',
           ip: '',
           perfil: '',
-          status:true
+          status:false
         },
       ],
-      usuarios: [],
+      servidores: [],
       msg: "",
       filter:'',
       filter_fields:[''],
