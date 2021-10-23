@@ -124,8 +124,9 @@ export default {
           VC1: false,
           VC2: false,
           VC3: false,
-          LD1: false,
+          LDI: false,
           status:true,
+          secret:''
         },
         {
           operadora: 'Outro Exemplo',
@@ -137,8 +138,9 @@ export default {
           VC1: true,
           VC2: false,
           VC3: false,
-          LD1: false,
+          LDI: false,
           status:true,
+          secret:''
         },
       ], */
       operadoras: [],

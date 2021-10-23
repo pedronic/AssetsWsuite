@@ -83,7 +83,7 @@
         <i class="fal fa-sim-card iconDAM"></i>
         <span data-i18n="drpdwn.settings">Operadoras</span>
         <a class="ml-auto" href="#">
-          <router-link :to="{ name: 'RegistroOperadoras' }">
+          <router-link :to="{ name: 'RegistroOperadoras', params:{opID: -1} }">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>

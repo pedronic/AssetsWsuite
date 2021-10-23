@@ -51,6 +51,7 @@ const routes = [
   {
     path: '/registro-operadoras',
     name: 'RegistroOperadoras',
+    props: true,
     component: () => import( '../views/Cadastrar/RegistroOperadoras.vue')
   },
   {

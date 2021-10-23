@@ -37,9 +37,12 @@
         <span>{{ data.label }}</span>
       </template>
       <template v-slot:head(add)="data">
-        <b-button v-b-modal="'new_line'" class="head-add-button btn-success" variant="outline-dark">
-          <span class="head-add-button" v-html="data.label"/>
-        </b-button>
+        <!-- <b-button v-b-modal="'new_line'" class="head-add-button btn-success" variant="outline-dark"> -->
+        <router-link  :to="{name:'RegistroOperadoras',params:{opID: newID}}">
+          <b-button class="head-add-button btn-success" variant="outline-dark">
+            <span class="head-add-button" v-html="data.label"/>
+          </b-button>
+        </router-link>
       </template>
 
       <template v-slot:cell(operadora)="slot">
@@ -83,8 +86,11 @@
                          :value="true" disabled switch/>
       </template>
       <template v-slot:cell(add)="slot">
-        <b-button :id="(slot.item.operadora)+'_edit'" v-b-modal="(slot.item.operadora)+'_edit_modal'" class="edit-btn"
-                  variant="outline" v-html="editIcon"/>
+        <router-link  :to="{name:'RegistroOperadoras', params:{opID: slot.item.id}}">
+          <!-- <b-button :id="(slot.item.operadora)+'_edit'" v-b-modal="(slot.item.operadora)+'_edit_modal'" class="edit-btn"
+                    variant="outline" v-html="editIcon"/> -->
+          <b-button :id="(slot.item.operadora)+'_edit'" class="edit-btn" variant="outline" v-html="editIcon"/>
+        </router-link>
         <b-btn :id="(slot.item.operadora)+'_add'" v-b-modal="slot.item.operadora + '_delete'" class="add-btn" variant="outline"
                v-html="deleteIcon"/>
       </template>
@@ -210,7 +216,7 @@
           ok-variant="danger"
           title="ATENÇÃO!!!"
           @cancel="cancelDelete(i.operadora)"
-          @ok="deleteRow(i.operadora)">
+          @ok="deleteRow(i.operadora,i.id)">
         Tem certeza que deseja excluir a operadora <b>{{ i.operadora }}</b>?
       </b-modal>
     </div>
@@ -325,8 +331,11 @@
 
 <script>
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
 
-const defaultRow = {
+
+/* const defaultRow = {
           operadora: '',
           IP: '',
           porta: '',
@@ -336,9 +345,10 @@ const defaultRow = {
           VC1: false,
           VC2: true,
           VC3: false,
-          LD1: false,
+          LDI: false,
           status:true,
-        };
+          secret: defaultOperatorSecret
+        }; */
 
 export default {
   name: 'TabelaPausas',
@@ -347,16 +357,31 @@ export default {
     items: Array,
   },
   methods: {
-    deleteRow(ev) {
-      const p = this.operadoras.indexOf(ev);
-      this.filas.splice(p, 1);
-      this.operadoras.splice(p, 1);
-      let toast = {
-        isValidated: true,
-        title: 'PAUSA EXCLUÍDA',
-        message: 'Pausa ' + ev.toUpperCase() + ' excluída com sucesso!',
-      }
-      this.validateAndToast(toast);
+    deleteRow(op,id) {
+      const p = this.operadoras.indexOf(op);
+      const opID = id.toString();
+      console.log("Operator ID:\t",opID)
+      axios.delete(baseApiUrl+'/operators/'+opID)
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText)
+        let toast = {
+          isValidated: true,
+          title: 'OPERADORA EXCLUÍDA',
+          message: 'Operadora ' + op.toUpperCase() + ' excluída com sucesso!',
+        }
+        this.validateAndToast(toast);
+        this.filas.splice(p, 1);
+        this.operadoras.splice(p, 1);
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE:\n",error.response)
+        let toast = {
+          isValidated:false,
+          title:'OPERADORA NÃO EXCLUÍDA',
+          message:'A Operadora '+ op.toUpperCase()+' não pôde ser excluída. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
+      })
     },
     cancelDelete(p) {
       let toast = {
@@ -369,18 +394,11 @@ export default {
     okayAdd() {
       let newPausa = this.newRowInput.operadora.trim();
       if (newPausa.length > 0) {
-        console.log("Filas ok:")
-        console.log(this.filas)
-        console.log("New Row Input:")
-        console.log(this.newRowInput)
-        this.filas.push(Object.assign({}, this.newRowInput));
-        this.operadoras.push(newPausa);
-        let toast = {
-          isValidated: true,
-          title: 'NOVA PAUSA ADICIONADA',
-          message: 'Nova Pausa ' + newPausa.toUpperCase() + ' adicionada com sucesso!',
-        }
-        this.validateAndToast(toast);
+        // console.log("Filas ok:")
+        // console.log(this.filas)
+        // console.log("New Row Input:")
+        // console.log(this.newRowInput)
+        
       } else {
         let toast = {
           isValidated: false,
@@ -400,17 +418,40 @@ export default {
       };
       this.validateAndToast(toast);
     },
-    populateEditLine(i) {
-      this.editRowInput = {...this.filas[i]};
-    },
     populateNewLine() {
       this.newRowInput = {...this.newRowDefault}
+    },
+    postNewRow(body) {
+      axios.post(baseApiUrl+'/operators',body)
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText)
+        let toast = {
+          isValidated: true,
+          title: 'NOVA OPERADORA ADICIONADA',
+          message: 'Nova Operadora ' + body.name.toUpperCase() + ' adicionada com sucesso!',
+        }
+        this.validateAndToast(toast);
+        this.filas.push(Object.assign({}, this.newRowInput));
+        this.operadoras.push(body.name);
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE:\n",error.response)
+        let toast = {
+          isValidated:false,
+          title:'NOVA OPERADORA NÃO ADICIONADA',
+          message:'Nova Operadora '+ body.name.toUpperCase()+' não pôde ser adicionada. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
+      })
+    },
+    populateEditLine(i) {
+      this.editRowInput = {...this.filas[i]};
     },
     updateRow(row) {
       let p = this.editRowInput.operadora.trim();
 
       if (p.length > 0) { // checando se o nome não está em branco
-        /* Atualizando Fila e Pausas com dados editados */
+        /* Atualizando Fila e Operadoras com dados editados */
         this.filas.splice(row, 1, {...this.editRowInput});
         this.operadoras.splice(row, 1, p);
         this.editRowInput = {...this.newRowDefault};
@@ -444,20 +485,11 @@ export default {
     }
   },
   created() {
-    this.newRowDefault = {...defaultRow};
-    // this.newRowInput = Object.assign({},this.newRowDefault);
-    // this.editRowInput = Object.assign({},this.newRowDefault);
     localStorage.setItem('__pedro-dev', JSON.stringify(this.items.slice(1, this.items.length)));
-    // this.editRowInput = this.filas;
-    // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
   watch: {
-    // filas(newValue){
-    //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
-    // }
   },
   mounted() {
-    // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
   data() {
     return {
@@ -467,6 +499,7 @@ export default {
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
       operadoras: this.items[0].operadoras,
+      newID:-1,
       icons: [{value: 'i1', html: '<span class="fal fa-trash-alt"/>'},
         {value: 'i2', html: '<span class="fal fa-plus"/>'},
         {value: 'i3', html: '<span class="fal fa-air-conditioner"/>'},
@@ -626,19 +659,22 @@ input::-webkit-inner-spin-button {
   vertical-align: middle !important;
 }
 
-.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="8"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="8"] {
+/* .tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="8"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="8"] {
   width: 3.5%;
   text-align: center;
-}
+} */
 
-.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="7"], [aria-colindex="6"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="7"], [aria-colindex="6"] {
+.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="10"], .tabela-operadoras > .table.b-table > tbody > tr >[aria-colindex="9"], .tabela-operadoras > .table.b-table > tbody > tr >[aria-colindex="8"], .tabela-operadoras > .table.b-table > tbody > tr >[aria-colindex="7"], .tabela-operadoras > .table.b-table > tbody > tr >[aria-colindex="6"], .tabela-operadoras > .table.b-table > tbody > tr >[aria-colindex="5"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="10"],.tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="9"], .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="8"], .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="7"], .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="6"], .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="5"] {
   width: 3%;
   text-align: center;
   justify-content: center;
-  display: table-cell;
+  /* display: inline-flex; */
+}
+.table.b-table > thead > tr > [aria-colindex="10"] > span, .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="9"] > span, .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="8"] > span, .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="7"]> span, .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="6"]> span, .tabela-operadoras > .table.b-table > thead > tr >[aria-colindex="5"]> span{
+  margin-left: -10px !important;
 }
 
-.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="5"], [aria-colindex="4"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="5"], [aria-colindex="4"] {
+.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="4"], .tabela-operadoras > .table.b-table > thead > tr >  [aria-colindex="4"] {
   width: 6%;
   text-align: center;
 }
@@ -649,23 +685,37 @@ input::-webkit-inner-spin-button {
 }
 
 .tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="1"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="1"] {
-  width: 10%;
+  width: 30%;
 }
 
 .tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="1"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="1"] {
   text-align: left !important;
 }
 
-#editar-operadoras > .table.b-table > tbody > tr > [aria-colindex="8"], #editar-operadoras > .table.b-table > thead > tr > [aria-colindex="8"] {
-  display: none !important;
-}
+/* #editar-operadoras > .table.b-table > tbody > tr > [aria-colindex="8"], #editar-operadoras > .table.b-table > thead > tr > [aria-colindex="8"] {
+  display: none !important; 
+}*/
 
-.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="11"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="12"] {
+.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="12"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="12"] {
+  /* display: flex; */
   text-align: center !important;
   width: 5%;
 }
+/* .tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="12"]{
+  display: flex;
+} */
 
-.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="9"] {
+.tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="11"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="11"] {
+  /* display: flex; */
+  text-align: center !important;
+  width: 2.5%;
+}
+
+.table.b-table > thead > tr > [aria-colindex="11"] > span {
+  margin-left: -10px !important;
+}
+
+/* .tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="9"] {
   text-align: center !important;
   width: 5%;
 }
@@ -673,5 +723,5 @@ input::-webkit-inner-spin-button {
 .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="10"] {
   text-align: center !important;
   width: 1%;
-}
+} */
 </style>
