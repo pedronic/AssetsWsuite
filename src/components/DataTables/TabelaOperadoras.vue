@@ -55,31 +55,31 @@
         <span :id="(slot.item.operadora)+'_pausa'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(local)="slot">
-        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.value" :unchecked-value="false"
-                         :value="true" disabled/>
-      </template>
-      <template v-slot:cell(LDN)="slot">
-        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.value" :unchecked-value="false"
-                         :value="true" disabled/>
-      </template>
-      <template v-slot:cell(VC1)="slot">
-        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.value" :unchecked-value="false"
-                         :value="true" disabled/>
-      </template>
-      <template v-slot:cell(VC2)="slot">
-        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.value" :unchecked-value="false"
-                         :value="true" disabled/>
-      </template>
-      <template v-slot:cell(VC3)="slot">
-        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.value" :unchecked-value="false"
+        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.item.local" :unchecked-value="false"
                          :value="true" disabled/>
       </template>
       <template v-slot:cell(LDI)="slot">
-        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.value" :unchecked-value="false"
+        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.item.LDI" :unchecked-value="false"
+                         :value="true" disabled/>
+      </template>
+      <template v-slot:cell(VC1)="slot">
+        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.item.VC1" :unchecked-value="false"
+                         :value="true" disabled/>
+      </template>
+      <template v-slot:cell(VC2)="slot">
+        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.item.VC2" :unchecked-value="false"
+                         :value="true" disabled/>
+      </template>
+      <template v-slot:cell(VC3)="slot">
+        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.item.VC3" :unchecked-value="false"
+                         :value="true" disabled/>
+      </template>
+      <template v-slot:cell(LDN)="slot">
+        <b-form-checkbox :id="(slot.item.operadora)+'_produtiva'" v-model="slot.item.LDI" :unchecked-value="false"
                          :value="true" disabled/>
       </template>
       <template v-slot:cell(status)="slot">
-        <b-form-checkbox :id="(slot.item.operadora)+'_ativa'" v-model="slot.value" :unchecked-value="false"
+        <b-form-checkbox :id="(slot.item.operadora)+'_ativa'" v-model="slot.item.status" :unchecked-value="false"
                          :value="true" disabled switch/>
       </template>
       <template v-slot:cell(add)="slot">
@@ -104,15 +104,15 @@
           ok-title="SALVAR"
           ok-variant="info"
           size="xl"
-          title="Editar Pausa"
+          title="Editar Operadora"
           @cancel="cancelEdit(index)"
           @ok="updateRow(index)"
           @show="populateEditLine(index)"
       >
         <b-container fluid>
-          <b-col cols="14">
+          <b-col cols="12">
             <b-row>
-              <b-col class="operadora-head-container" cols="1">
+              <b-col class="operadora-head-container" cols="2">
                 <span class="operadora-head">Nome</span>
               </b-col>
               <b-col class="produtiva-head-container" cols="1">
@@ -128,7 +128,7 @@
                 <span class="limite-head">Local</span>
               </b-col>
               <b-col class="icone-head-container" cols="1">
-                <span class="icone-head">LDN</span>
+                <span class="icone-head">LDI</span>
               </b-col>
               <b-col class="icone-head-container" cols="1">
                 <span class="icone-head">VC1</span>
@@ -147,20 +147,20 @@
               </b-col>
             </b-row>
             <b-row>
-              <b-col class="operadora-body-container" cols="1">
-                <b-form-input :id="i.operadora+'_edit_row_pausa'" :ref="i.operadora+'_edit_row_pausa'" v-model="editRowInput.operadora"
+              <b-col class="operadora-body-container" cols="2">
+                <b-form-input :id="i.operadora+'_edit_row_operadora'" :ref="i.operadora+'_edit_row_operadora'" v-model="editRowInput.operadora"
                               :presentState="i" type="text"/>
               </b-col>
               <b-col class="operadora-body-container" cols="1">
-                <b-form-input :id="i.operadora+'_edit_row_pausa'" :ref="i.operadora+'_edit_row_pausa'" v-model="editRowInput.IP"
+                <b-form-input :id="i.operadora+'_edit_row_operadora'" :ref="i.operadora+'_edit_row_operadora'" v-model="editRowInput.IP"
                               :presentState="i" type="text"/>
               </b-col>
               <b-col class="operadora-body-container" cols="1">
-                <b-form-input :id="i.operadora+'_edit_row_pausa'" :ref="i.operadora+'_edit_row_pausa'" v-model="editRowInput.porta"
+                <b-form-input :id="i.operadora+'_edit_row_operadora'" :ref="i.operadora+'_edit_row_operadora'" v-model="editRowInput.porta"
                               :presentState="i" type="text"/>
               </b-col>
               <b-col class="operadora-body-container" cols="1">
-                <b-form-input :id="i.operadora+'_edit_row_pausa'" :ref="i.operadora+'_edit_row_pausa'" v-model="editRowInput.contexto"
+                <b-form-input :id="i.operadora+'_edit_row_operadora'" :ref="i.operadora+'_edit_row_operadora'" v-model="editRowInput.contexto"
                               :presentState="i" type="text"/>
               </b-col>
               <b-col class="obrigatoria-body-container" cols="1">
@@ -168,7 +168,7 @@
                                  :unchecked-value="false" :value="true"/>
               </b-col>
               <b-col class="produtiva-body-container" cols="1">
-                <b-form-checkbox :id="i.LDN+'_edit_row_produtiva'" v-model="editRowInput.LDN" :presentState="i"
+                <b-form-checkbox :id="i.LDI+'_edit_row_produtiva'" v-model="editRowInput.LDI" :presentState="i"
                                  :unchecked-value="false" :value="true"/>
               </b-col>
               <b-col class="obrigatoria-body-container" cols="1">
@@ -236,7 +236,7 @@
       <b-container fluid>
         <b-col cols="12">
           <b-row>
-            <b-col class="operadora-head-container" cols="1">
+            <b-col class="operadora-head-container" cols="2">
               <span class="operadora-head">Nome</span>
             </b-col>
             <b-col class="produtiva-head-container" cols="1">
@@ -252,7 +252,7 @@
               <span class="limite-head">Local</span>
             </b-col>
             <b-col class="icone-head-container" cols="1">
-              <span class="icone-head">LDN</span>
+              <span class="icone-head">LDI</span>
             </b-col>
             <b-col class="icone-head-container" cols="1">
               <span class="icone-head">VC1</span>
@@ -271,7 +271,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col class="operadora-body-container" cols="1">
+            <b-col class="operadora-body-container" cols="2">
               <b-form-input :id="'new_row_pausa'" v-model="newRowInput.operadora" type="text"></b-form-input>
             </b-col>
             <b-col class="operadora-body-container" cols="1">
@@ -288,7 +288,7 @@
                                :value="true"/>
             </b-col>
             <b-col class="produtiva-body-container" cols="1">
-              <b-form-checkbox :id="'new_row_LDN'" v-model="newRowInput.LDN" :unchecked-value="false"
+              <b-form-checkbox :id="'new_row_LDI'" v-model="newRowInput.LDI" :unchecked-value="false"
                                :value="true"/>
             </b-col>
             <b-col class="obrigatoria-body-container" cols="1">
@@ -327,15 +327,18 @@
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
-  operadora: '',
-  produtiva: false,
-  obrigatoria: false,
-  alerta: '',
-  limite: '',
-  icone: '',
-  ativa: true,
-  add: '<span class="fal fa-trash-alt"/>',
-};
+          operadora: '',
+          IP: '',
+          porta: '',
+          contexto: '',
+          local: false,
+          LDN: false,
+          VC1: false,
+          VC2: true,
+          VC3: false,
+          LD1: false,
+          status:true,
+        };
 
 export default {
   name: 'TabelaPausas',

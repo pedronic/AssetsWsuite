@@ -5,7 +5,7 @@
 
       <div class="card">
         <div class="card-body d-flex">
-            <div class="d-flex" id="filtro-grupo-pausa">
+            <div class="d-flex" id="filtro-grupo-operadora">
                 <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'operadora')"></b-form-input>
                 <div class="card">
                   <div class="card-body"/>
@@ -25,7 +25,7 @@
 
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-    <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields"/>
+    <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable"/>
   </div>
 </template>
 
@@ -33,14 +33,84 @@
 import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
 import TabelaOperadoras from '../../components/DataTables/TabelaOperadoras.vue'
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
+
 export default {
+  name:'ListaOperadoras',
+  mixins: [ValidateToaster],
   components: {
     PagesSubHeader,
     TabelaOperadoras,
   },
+  methods: {
+    async getOperadoras(){
+      let res = await axios.get(baseApiUrl+"/operators");
+      let p = res.data.data;
+      let operadoras = [];
+      let first = {};
+      let items = [];
+      let operadora = {};
+      
+      for(let i in p){
+          operadoras.push(p[i].name);
+      }
+      first.operadoras = [...operadoras];
+      items.push({...first});
+
+      for(let i in p){
+          operadora.operadora = p[i].name;
+          operadora.IP = p[i].host;
+          operadora.porta = p[i].port;
+          operadora.contexto = p[i].context;
+          operadora.id = p[i].id;
+          operadora.local = p[i].flag_local?true:false;
+          operadora.LDN = p[i].flag_ldn?true:false;
+          operadora.VC1 = p[i].flag_vc1?true:false;
+          operadora.VC2 = p[i].flag_vc2?true:false;
+          operadora.VC3 = p[i].flag_vc3?true:false;
+          operadora.LDI = p[i].flag_ldi?true:false;
+          operadora.status = p[i].status?true:false;
+          operadora.secret = p[i].secret;
+          operadora.dial_format = p[i].dial_format;
+          items.push({...operadora});
+      }
+      console.log("Items:\n",items);
+      this.items = [...items];
+      this.buildTable = true;
+    },
+    setFilter(filter,field){
+      this.filter = filter.toString();
+      this.filter_fields.splice(0,1,field);
+    }
+  },
+  created() {
+    this.getOperadoras();
+    this.service = new UsuarioMetodos(this.$resource);
+    this.service.list().then(
+        (usuarios) => (this.usuarios = usuarios),
+        (err) => {
+          console.log(err);
+          this.msg = err.message;
+        }
+    );
+    
+  },
+  computed: {
+    UsuarioFiltrado() {
+      if (this.filter) {
+        let exp = new RegExp(this.filter.trim(), "i");
+        return this.usuarios.filter((usuario) => exp.test(usuario.user));
+      } else {
+        return this.usuarios;
+      }
+    },
+  },
   data() {
     return {
-      items: [
+      items:null,
+      /* [
         {
           operadoras: ["Exemplo","Outro Exemplo"],
         },
@@ -49,7 +119,7 @@ export default {
           IP: '192.168.0.226',
           porta: '8080',
           contexto: '',
-         local: true,
+          local: true,
           LDN: true,
           VC1: false,
           VC2: false,
@@ -62,7 +132,7 @@ export default {
           IP: '192.168.0.296',
           porta: '3000',
           contexto: '',
-         local: true,
+          local: true,
           LDN: false,
           VC1: true,
           VC2: false,
@@ -70,41 +140,16 @@ export default {
           LD1: false,
           status:true,
         },
-      ],
+      ], */
       operadoras: [],
       msg: "",
       filter:'',
       filter_fields:[''],
       busca:'',
       status_filter: true,
+      buildTable:false,
     };
-  },
-  methods: {
-    setFilter(filter,field){
-      this.filter = filter.toString();
-      this.filter_fields.splice(0,1,field);
-    }
-  },
-  created() {
-    this.service = new UsuarioMetodos(this.$resource);
-    this.service.list().then(
-        (usuarios) => (this.usuarios = usuarios),
-        (err) => {
-          console.log(err);
-          this.msg = err.message;
-        }
-    );
-  },
-  computed: {
-    UsuarioFiltrado() {
-      if (this.filter) {
-        let exp = new RegExp(this.filter.trim(), "i");
-        return this.usuarios.filter((usuario) => exp.test(usuario.user));
-      } else {
-        return this.usuarios;
-      }
-    },
-  },
+  }
 };
 </script>
 
@@ -141,7 +186,7 @@ export default {
 .card > .card-body > .d-flex > button,input{
     height: 38px !important;
 }
-.d-flex#filtro-grupo-pausa{
+.d-flex#filtro-grupo-operadora{
     height: 38px !important;
 }
 
