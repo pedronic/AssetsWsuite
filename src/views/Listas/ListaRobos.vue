@@ -25,7 +25,7 @@
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
 
-    <TabelaRobos :items="items" :filter="filter" :filter_fields="filter_fields"/>        
+    <TabelaRobos :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable"/>        
   </div>
 </template>
 
@@ -42,44 +42,75 @@ export default {
     PagesSubHeader,
     TabelaRobos,
   },
+  methods: {
+    setFilter(filter, field) {
+      this.filter = filter.toString();
+      this.filter_fields.splice(0, 1, field);
+    },
+    async getAgentRobos() {
+      let res = await axios.get(baseApiUrl + "/agents");
+      let a = res.data.data;
+      let robos = [];
+      let first = {};
+      let items = [];
+      let robo = {};
+
+        // console.clear();
+        // console.log(u);
+      // for (let i in a) {
+      //   u[i].flag = new Boolean(u[i].flag);
+      //   this.items[0].names.push(u[i].name);
+      //   this.items.push(u[i]);
+      // }
+      for(let i in a){
+        robos.push(a[i].name)
+      }
+      first.names = [...robos];
+      items.push({...first});
+
+      for(let i in a){
+        robo.name = a[i].name;
+        robo.login_crm = a[i].login_crm;
+        robo.email = a[i].email;
+        robo.document = '';// Não disponível ainda. futuramente: a[i].document;
+        robo.last_login = a[i].last_login;
+        robo.flag = a[i].flag?true:false;
+        items.push({...robo});
+      }
+      this.items = [...items];
+      console.log("Items @getAgentRobos():\n",this.items);
+      this.buildTable = true;      
+    },
+    
+  },
+  // get
+  // post
+  // put
+  // delete
+  created() {
+    this.getAgentRobos();
+    // this.getPages();
+    // this.setDefaultUser();
+  },
   data() {
     return {
-      items: [
+      msg: "",
+      buildTable:false,
+      items:null,
+      /* [
         {
           names: ["Dickerson", "Larsen"],
         },
-        {login_crm: "", name: "Macdonald", document:'', last_login:'', flag: true},
-        {login_crm: "", name: "Shaw", document:'', last_login:'', flag: false},
-      ],
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
+      ], */
       names: [],
-      msg: "",
-      filter:'',
-      filter_fields:[''],
-      busca:'',
-      status_filter: true,
+      filter: '',
+      filter_fields: [''],
+      busca: '',
+      flag_filter: true,
     };
-  },
-  methods: {
-    setFilter(filter,field){
-      this.filter = filter.toString();
-      this.filter_fields.splice(0,1,field);
-    },
-  async getNames() {
-      let res = await axios.get(baseApiUrl + "/agents");
-      let u = res.data.data;
-        console.clear();
-        console.log(u);
-      for (let i in u) {
-        u[i].flag = Boolean(u[i].flag);
-        this.items[0].names.push(u[i].name);
-        this.items.push(u[i]);
-      }
-      console.log(this.items);
-     },
-  },
-  created() {
-    this.getNames()
-  },
+  }
 };
 </script>
 

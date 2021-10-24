@@ -24,7 +24,8 @@
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(add)="data">
-        <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
+        <!-- v-b-modal="'new_line'" -->
+        <b-button class="head-add-button btn-success" :to="{name:'RegistroAgentes'}" variant="outline-dark">
           <span v-html="data.label" class="head-add-button"/>
         </b-button>
       </template>

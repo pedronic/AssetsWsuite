@@ -5,16 +5,16 @@
              filter-debounce="50"
              :filter-included-fields="filter_fields"
              sticky-header>
-      <template v-slot:head(servidor)="data">
+      <template v-slot:head(name)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(tipo)="data">
+      <template v-slot:head(type)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(IP)="data">
+      <template v-slot:head(ip)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(status)="data">
+      <template v-slot:head(flag)="data">
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(add)="data">
@@ -23,38 +23,38 @@
         </b-button>
       </template>
 
-      <template v-slot:cell(servidor)="slot">
-        <span :id="(slot.item.servidor)+'_pausa'">{{slot.value}}</span>
+      <template v-slot:cell(name)="slot">
+        <span :id="(slot.item.name)+'_pausa'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(nome)="slot" >
-        <span :id="(slot.item.servidor)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(type)="slot" >
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(email)="slot">
-        <span :id="(slot.item.servidor)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(ip)="slot">
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(perfil)="slot">
-        <span :id="(slot.item.servidor)+'_alerta'">{{slot.value}}</span>
+        <span :id="(slot.item.name)+'_alerta'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(limite)="slot">
-        <span :id="(slot.item.servidor)+'_limite'">{{slot.value}}</span>
+        <span :id="(slot.item.name)+'_limite'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(icone)="slot">
-        <span :id="(slot.item.servidor)+'_icone'" v-html="slot.value" />
+        <span :id="(slot.item.name)+'_icone'" v-html="slot.value" />
       </template>
-      <template v-slot:cell(status)="slot">
-        <b-form-checkbox v-model="slot.value" :id="(slot.item.servidor)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+      <template v-slot:cell(flag)="slot">
+        <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
       </template>
       <template v-slot:cell(add)="slot">
-        <b-button :id="(slot.item.servidor)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.servidor)+'_edit_modal'"  v-html="editIcon"/>
-        <b-btn :id="(slot.item.servidor)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.servidor + '_delete'"/>
+        <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.name)+'_edit_modal'"  v-html="editIcon"/>
+        <b-btn :id="(slot.item.name)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.name + '_delete'"/>
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.servidor+'_edit'">
+    <div v-for="(i, index) in filas" :key="i.name+'_edit'">
       <b-modal
-          :id="i.servidor+'_edit_modal'"
-          :ref="i.servidor+'_edit_modal'"
+          :id="i.name+'_edit_modal'"
+          :ref="i.name+'_edit_modal'"
           title="Editar Pausa"
           size="xl"
           :hide-header-close="true"
@@ -72,31 +72,31 @@
         <b-container fluid>
           <b-col cols="14">
             <b-row>
-              <b-col cols="4" class="servidor-head-container">
-                <span class="servidor-head">Nome</span>
+              <b-col cols="4" class="name-head-container">
+                <span class="name-head">Nome</span>
               </b-col>
               <b-col cols="2" class="nome-head-container">
                 <span class="nome-head">Tipo</span>
               </b-col>
               <b-col cols="2" class="email-head-container">
-                <span class="email-head">IP</span>
+                <span class="email-head">ip</span>
               </b-col>
               <b-col cols="1" class="status-head-container">
                 <span class="status-head">Status</span>
               </b-col>
             </b-row>
             <b-row>
-              <b-col cols="4" class="servidor-body-container">
-                <b-form-input v-model="editRowInput.servidor" :presentState="i" :id="i.servidor+'_edit_row_pausa'" :ref="i.servidor+'_edit_row_pausa'" type="text" />
+              <b-col cols="4" class="name-body-container">
+                <b-form-input v-model="editRowInput.name" :presentState="i" :id="i.name+'_edit_row_pausa'" :ref="i.name+'_edit_row_pausa'" type="text" />
               </b-col>
               <b-col cols="2" class="nome-body-container" >
-                <b-form-input v-model="editRowInput.tipo" :presentState="i" :id="i.servidor+'_edit_row_produtiva'" type="text" />
+                <b-form-input v-model="editRowInput.tipo" :presentState="i" :id="i.name+'_edit_row_produtiva'" type="text" />
               </b-col>
               <b-col cols="2" class="email-body-container" >
-                <b-form-input v-model="editRowInput.IP" :presentState="i" :id="i.servidor+'_edit_row_obrigatoria'" type="text"/>
+                <b-form-input v-model="editRowInput.ip" :presentState="i" :id="i.name+'_edit_row_obrigatoria'" type="text"/>
               </b-col>
               <b-col cols="1" class="status-body-container">
-                <b-form-checkbox v-model="editRowInput.status" :presentState="i" :id="i.servidor+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
+                <b-form-checkbox v-model="editRowInput.status" :presentState="i" :id="i.name+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
               </b-col>
             </b-row>
           </b-col>
@@ -106,7 +106,7 @@
       <!-- ---------------------------------------------------- -->
       <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
       <b-modal
-          :id="i.servidor+'_delete'"
+          :id="i.name+'_delete'"
           title="ATENÇÃO!!!"
           :hide-header-close="false"
           :no-close-on-backdrop="false"
@@ -116,9 +116,9 @@
           ok-variant="danger"
           cancel-title="MANTER"
           cancel-variant="success"
-          @ok="deleteRow(i.servidor)"
-          @cancel="cancelDelete(i.servidor)">
-        Tem certeza que deseja excluir a servidor <b>{{i.servidor}}</b>?
+          @ok="deleteRow(i.name)"
+          @cancel="cancelDelete(i.name)">
+        Tem certeza que deseja excluir a name <b>{{i.name}}</b>?
       </b-modal>
     </div>
     <!-- MODAL PARA EXCLUSÃO DE LINHA (FIM) -->
@@ -150,21 +150,21 @@
               <span class="email-head">Tipo</span>
             </b-col>
             <b-col cols="1" class="perfil-head-container">
-              <span class="perfil-head">IP</span>
+              <span class="perfil-head">ip</span>
             </b-col>
             <b-col cols="1" class="status-head-container">
               <span class="status-head">Ação</span>
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="2" class="servidor-body-container">
-              <b-form-input v-model="newRowInput.servidor" :id="'new_row_pausa'" type="text"></b-form-input>
+            <b-col cols="2" class="name-body-container">
+              <b-form-input v-model="newRowInput.name" :id="'new_row_pausa'" type="text"></b-form-input>
             </b-col>
             <b-col cols="2" class="nome-body-container" >
               <b-form-input v-model="newRowInput.tipo" :id="'new_row_produtiva'" type="text"/>
             </b-col>
             <b-col cols="1" class="email-body-container" >
-              <b-form-input v-model="newRowInput.IP" :id="'new_row_obrigatoria'" type="text"/>
+              <b-form-input v-model="newRowInput.ip" :id="'new_row_obrigatoria'" type="text"/>
             </b-col>
            
             <b-col cols="1" class="status-body-container">
@@ -183,7 +183,7 @@
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
-  servidor:'',
+  name:'',
   nome: false,
   email: false,
   perfil:'',
@@ -203,9 +203,9 @@ export default {
   },
   methods: {
     deleteRow(ev){
-      const p = this.servidores.indexOf(ev);
+      const p = this.names.indexOf(ev);
       this.filas.splice(p,1);
-      this.servidores.splice(p,1);
+      this.names.splice(p,1);
       let toast = {
         isValidated:true,
         title:'USUÁRIO EXCLUÍDO',
@@ -222,7 +222,7 @@ export default {
       this.validateAndToast(toast);
     },
     okayAdd(){
-      let newPausa = this.newRowInput.servidor.trim();
+      let newPausa = this.newRowInput.name.trim();
       if (newPausa.length>0){
         console.log("Filas ok:")
         console.log(this.filas)
@@ -248,7 +248,7 @@ export default {
 
     },
     cancelAdd(){
-      let newPausa = this.newRowInput.servidor.trim();
+      let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated:false,
         title:'NOVA PAUSA NÃO ADICIONADA',
@@ -263,7 +263,7 @@ export default {
       this.newRowInput = {...this.newRowDefault}
     },
     updateRow(row){
-      let p = this.editRowInput.servidor.trim();
+      let p = this.editRowInput.name.trim();
 
       if(p.length > 0){ // checando se o nome não está em branco
         /* Atualizando Fila e Pausas com dados editados */
@@ -291,7 +291,7 @@ export default {
     },
     cancelEdit(row){
       this.editRowInput = {...this.newRowDefault};
-      let p = this.filas[row].servidor;
+      let p = this.filas[row].name;
       let toast = {
         isValidated:false,
         title:'PAUSA NÃO EDITADA',
@@ -323,28 +323,29 @@ export default {
       editRowInput: Object.assign({},this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
-      servidores: this.items[0].servidores,
+      names: this.items[0].names,
       icons: [{value:'i1', html:'<span class="fal fa-trash-alt"/>'},
         {value:'i2', html:'<span class="fal fa-plus"/>'},
         {value:'i3', html:'<span class="fal fa-air-conditioner"/>'},
         {value:'i4', html:'<span class="fal fa-abacus"/>'}],
       fields: [
         {
-          key:'servidor',
+          key:'name',
           label: 'Nome',
         },
         {
-          key:'tipo',
+          key:'type',
           label: 'Tipo'
         },
         {
-          key:'IP',
+          key:'ip',
           label: 'IP'
         },
         
         {
-          key:'status',
-          label: 'Status'
+          key:'flag',
+          label: 'Status',
+        // Boolean
         },
         {
           key: 'add',
@@ -390,13 +391,13 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.servidor-head-container, .nome-head-container, .email-head-container, .perfil-head-container, .limite-head-container, .icone-head-container, .status-head-container{
+.name-head-container, .nome-head-container, .email-head-container, .perfil-head-container, .limite-head-container, .icone-head-container, .status-head-container{
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
 
-.servidor-head {
+.name-head {
   background-color: #0d6d9d !important;
   color:#fff !important;
   border-color: #0d6d9d !important;
@@ -418,7 +419,7 @@ input::-webkit-inner-spin-button {
 }
 
 
-.servidor-body-container, .nome-body-container, .email-body-container, .perfil-body-container, .limite-body-container, .icone-body-container, .status-body-container {
+.name-body-container, .nome-body-container, .email-body-container, .perfil-body-container, .limite-body-container, .icone-body-container, .status-body-container {
   display: flex;
   justify-content: center;
   align-content: center;

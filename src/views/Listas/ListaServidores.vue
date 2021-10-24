@@ -41,6 +41,7 @@
       :items="items"
       :filter="filter"
       :filter_fields="filter_fields"
+      v-if="buildTable"
     />
   </div>
 </template>
@@ -56,57 +57,73 @@ export default {
     PagesSubHeader,
     TabelaServidores,
   },
-  name: "ListaServidores",
-  data() {
-    return {
-      items: [
-        {
-          names: ["Exemplo", "Outro Exemplo"],
-        },
-        {
-          name: "Exemplo",
-          type: "",
-          ip: "",
-          profile: "",
-          flag: true,
-        },
-        {
-          name: "Outro Exemplo",
-          tipo: "",
-          ip: "",
-          profile: "",
-          flag: false,
-        },
-      ],
-      names: [],
-      msg: "",
-      filter: "",
-      filter_fields: [""],
-      busca: "",
-      status_filter: true,
-    };
-  },
   methods: {
     setFilter(filter, field) {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getNames() {
-      let res = await axios.get(baseApiUrl + "/agents");
-      let u = res.data.data;
-      console.clear();
-      console.log(u);
-      // for (let i in u) {
-      //   u[i].flag = Boolean(u[i].flag);
+    async getServers() {
+      let res = await axios.get(baseApiUrl + "/servers");
+      let a = res.data.data;
+      let servers = [];
+      let first = {};
+      let items = [];
+      let server = {};
+
+        // console.clear();
+        // console.log(u);
+      // for (let i in a) {
+      //   u[i].flag = new Boolean(u[i].flag);
       //   this.items[0].names.push(u[i].name);
       //   this.items.push(u[i]);
       // }
-      console.log(this.items);
+      for(let i in a){
+        servers.push(a[i].name)
+      }
+      first.names = [...servers];
+      items.push({...first});
+
+      for(let i in a){
+        server.name = a[i].name;
+        server.type = a[i].type;
+        server.ip = a[i].ip;
+        server.flag = a[i].flag?true:false;
+        items.push({...server});
+      }
+      console.log("Items @getServers():\n",this.items);
+      this.items = [...items];
+      this.buildTable = true;      
     },
+    
   },
+  // get
+  // post
+  // put
+  // delete
   created() {
-    this.getNames();
+    this.getServers();
+    // this.getPages();
+    // this.setDefaultUser();
   },
+  data() {
+    return {
+      msg: "",
+      buildTable:false,
+      items:null,
+      /* [
+        {
+          names: ["Dickerson", "Larsen"],
+        },
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
+      ], */
+      names: [],
+      filter: '',
+      filter_fields: [''],
+      busca: '',
+      flag_filter: true,
+    };
+  }
 };
 </script>
 

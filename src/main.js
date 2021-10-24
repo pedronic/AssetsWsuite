@@ -59,4 +59,6 @@ Vue.use(VeeValidate, {
 // Subtrair linhas
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables
+// rever fields
 // bug parametro booleano passado para as tabelas 
+// head lista mailing

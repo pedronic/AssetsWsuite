@@ -24,7 +24,7 @@
 
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-    <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items"/>
+    <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items" v-if="buildTable"/>
   </div>
 </template>
 
@@ -40,23 +40,6 @@ export default {
     PagesSubHeader,
     TabelaAgentes,
   },
-  data() {
-    return {
-      msg: "",
-      items: [
-        {
-          names: ["Dickerson", "Larsen"],
-        },
-        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
-        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
-      ],
-      names: [],
-      filter: '',
-      filter_fields: [''],
-      busca: '',
-      flag_filter: true,
-    };
-  },
   methods: {
     setFilter(filter, field) {
       this.filter = filter.toString();
@@ -64,17 +47,37 @@ export default {
     },
     async getNames() {
       let res = await axios.get(baseApiUrl + "/agents");
-      let u = res.data.data;
-        console.clear();
-        console.log(u);
-      for (let i in u) {
-        u[i].flag = Boolean(u[i].flag);
-        this.items[0].names.push(u[i].name);
-        this.items.push(u[i]);
-      }
-      console.log(this.items);
+      let a = res.data.data;
+      let agentes = [];
+      let first = {};
+      let items = [];
+      let agente = {};
 
-      
+        // console.clear();
+        // console.log(u);
+      // for (let i in a) {
+      //   u[i].flag = new Boolean(u[i].flag);
+      //   this.items[0].names.push(u[i].name);
+      //   this.items.push(u[i]);
+      // }
+      for(let i in a){
+        agentes.push(a[i].name)
+      }
+      first.names = [...agentes];
+      items.push({...first});
+
+      for(let i in a){
+        agente.name = a[i].name;
+        agente.login_crm = a[i].login_crm;
+        agente.email = a[i].email;
+        agente.document = '';// Não disponível ainda. futuramente: a[i].document;
+        agente.last_login = a[i].last_login;
+        agente.flag = a[i].flag?true:false;
+        items.push({...agente});
+      }
+      console.log("Items @getNames():\n",this.items);
+      this.items = [...items];
+      this.buildTable = true;      
     },
     
   },
@@ -87,7 +90,25 @@ export default {
     // this.getPages();
     // this.setDefaultUser();
   },
-
+  data() {
+    return {
+      msg: "",
+      buildTable:false,
+      items:null,
+      /* [
+        {
+          names: ["Dickerson", "Larsen"],
+        },
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
+      ], */
+      names: [],
+      filter: '',
+      filter_fields: [''],
+      busca: '',
+      flag_filter: true,
+    };
+  }
 };
 </script>
 
