@@ -99,6 +99,7 @@
                         <span class="image-preview-input-title "> </span>
                             <!-- v-model="pic" -->
                         <input
+                        @input="pic = $event.target.value"
                             type="file"
                             accept="image/png, image/jpeg, image/gif"
                             name="input-file-preview"
@@ -149,7 +150,7 @@
               </div>
             </div>
           </div>
-          <!-- {{ pic }} -->
+          {{ pic }}
           {{ tipo_jornadas }}
           <div class="panel">
             <div class="panel-container show">
@@ -201,15 +202,6 @@ export default {
     Multiselect,
   },
   methods: {
-    // carregar() {
-    //   this.service.register(this.usuario).then(
-    //     () => {
-    //       if (this.id) this.$router.push({ name: "Home" });
-    //       this.usuario = new Usuario();
-    //     },
-    //     (err) => console.log(err)
-    //   );
-    // },
   },
   data() {
     return {
@@ -218,6 +210,7 @@ export default {
       email: '',
       password: '',
       document: '',
+      pic: '',
       jornadas_tipos: [
         { name: "Ativa", code: "A" },
         { name: "Manual", code: "M" },
