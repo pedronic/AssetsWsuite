@@ -366,7 +366,7 @@ export default {
         {
           key:'flag',
           label: 'Status',
-          Boolean,
+          // Boolean,
 },
         {
           key:'add',

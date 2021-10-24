@@ -48,8 +48,8 @@ export default {
         {
           names: ["Dickerson", "Larsen"],
         },
-        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
-        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
+        {login_crm: "", name: "Macdonald", document:'', last_login:'', flag: true},
+        {login_crm: "", name: "Shaw", document:'', last_login:'', flag: false},
       ],
       names: [],
       msg: "",
@@ -63,20 +63,8 @@ export default {
     setFilter(filter,field){
       this.filter = filter.toString();
       this.filter_fields.splice(0,1,field);
-    }
-  },
-  created() {
-    // this.service = new UsuarioMetodos(this.$resource);
-    // this.service.list().then(
-    //   (usuarios) => (this.usuarios = usuarios),
-    //   (err) => {
-    //     console.log(err);
-    //     this.msg = err.message;
-    //   }
-    // );
-  },
-  mounted: {
-     async getNames() {
+    },
+  async getNames() {
       let res = await axios.get(baseApiUrl + "/agents");
       let u = res.data.data;
         console.clear();
@@ -88,6 +76,9 @@ export default {
       }
       console.log(this.items);
      },
+  },
+  created() {
+    this.getNames()
   },
 };
 </script>
