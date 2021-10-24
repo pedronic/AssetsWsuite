@@ -19,13 +19,16 @@
       </template>
       <template v-slot:head(fila)="data">
         <span>{{data.label}}</span>
-      </template> <template v-slot:head(mailing)="data">
-      <span>{{data.label}}</span>
-    </template> <template v-slot:head(registros_carregados)="data">
-      <span>{{data.label}}</span>
-    </template> <template v-slot:head(telefones_carregados)="data">
-      <span>{{data.label}}</span>
-    </template>
+      </template> 
+      <!-- <template v-slot:head(mailing)="data">
+        <span>{{data.label}}</span>
+      </template>  -->
+      <template v-slot:head(registros_carregados)="data">
+        <span>{{data.label}}</span>
+      </template> 
+      <template v-slot:head(telefones_carregados)="data">
+        <span>{{data.label}}</span>
+      </template>
       <template v-slot:head(status)="data">
         <span>{{data.label}}</span>
       </template>

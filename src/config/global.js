@@ -141,6 +141,43 @@ export const defaultOperator = {
     status:false // Number [0/1]
 }
 
+export const defaultQueue = {
+    name_queue:'',
+    queue_number:'',// Number.toString()
+    type:'',
+    q_type:[], // Ainda não troca dados com o backend
+    ftp_name:'', // Ainda não troca dados com o backend
+    finalization_name:'', // Ainda não troca dados com o backend (falta endpoint)
+    finalization_id:null, // Number
+    rec_format:'', // Ainda não está tabulado no backend nem trocando dados portanto
+    rec_type:null, // Number
+    aftersession_time:null, // Number
+    breakGroup_id:null, // Number; Dado de Grupo de Pausas
+    breakGroup_name:'', // Number; Dado de Grupo de Pausas
+
+    route_name:'',
+    route_id:null, // Number
+    strategy:'',
+    speedy:null, // Number [0;10]
+    dial_format:"", // Dado de Operadora
+    call_limit:null, // Number; from Operadora (endpoint /operators) originalmente "call-limit"
+    blacklists:[], // Ainda não troca dados com o backend (endpoint para blacklists ainda não existe)
+    
+    bina_number:null, // Number
+    bina_flag:false, // Number [0/1]
+
+    timeout:null, // Number
+    weight:null, // Number [1;4]
+    musiconhold:'',
+    
+    work_time:[], // Parsed Object from endpoint /queues
+
+    pausas:[], // Dado de Pausas
+
+    agentes:[] // Dado de Agentes
+
+}
+
 export const vueMultiselectProps = {
         selectLabel:'Pressione Enter para selecionar',
         selectGroupLabel:'Pressione Enter para selecionar o grupo',
@@ -149,4 +186,4 @@ export const vueMultiselectProps = {
         deselectGroupLabel:'Pressione Enter para remover o grupo'
     }
 
-export default { baseApiUrl, showError, userKey, defaultNewUserProfile, defaultOperator, vueMultiselectProps }
+export default { baseApiUrl, showError, userKey, defaultNewUserProfile, defaultOperator, defaultQueue, vueMultiselectProps }

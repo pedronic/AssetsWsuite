@@ -6,7 +6,7 @@
             </div>
         </pages-sub-header>
     <!-- Seção Superior da Página -->
-        <b-container fluid>
+        <b-container fluid v-if="dataOK">
             <b-col cols='12'>
                 <!-- Linha 1 {{ Nome[6] } , { Numero da Fila[3] } , { Tipo (Humano x Robô)[3] }} -->
                     <b-row class="filas-top-section-row">
@@ -58,7 +58,9 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_finish" :placeholder="'Finalização'" :label="'name'" :track-by="'code'" :options="finish_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                    <multiselect v-model="tipo_finish"
+                                    :taggable="true" :placeholder="'Finalização'" :label="'name'" :track-by="'code'" :options="finish_tipos" 
+                                    :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                 </div>
                             </div>
                         </b-col>
@@ -106,7 +108,7 @@
     <!-- Seção Superior da Página: FIM -->
 
     <!-- Seção Média da Página (TABS) -->
-        <b-container fluid id="foundIt">
+        <b-container fluid id="foundIt" v-if="dataOK">
             <b-tabs justified>
 
                 <!-- Tab 1 {Ativa por Discador} -->
@@ -174,7 +176,10 @@
                                         <b-col cols='12'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input"  type="text" placeholder="Black Lists"/>
+                                                <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Black Lists"/> -->
+                                                <div id="multiselect-input">
+                                                    <multiselect v-model="tipo_blacklists" :placeholder="'Blacklists'" :label="'name'" :track-by="'code'" :options="blacklists_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                </div>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -385,7 +390,7 @@
                     </b-col>
                     <b-col cols='10'/>
                     <b-col cols='1'>
-                        <label><b-form-checkbox switch v-model="status"><span>Status</span></b-form-checkbox></label>
+                        <label><b-form-checkbox switch v-model="status" v-if="dataOK"><span>Status</span></b-form-checkbox></label>
                     </b-col>
                 </b-row>
             </b-col>
@@ -399,7 +404,8 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
 import TabelaAgentes from '../../components/FilasTable/TabelaAgentes.vue';
 import Multiselect from 'vue-multiselect';
-import {vueMultiselectProps} from '../../config/global.js';
+import {baseApiUrl, vueMultiselectProps} from '../../config/global.js';
+import axios from 'axios'
 
 export default {
     name: "FilasCadastro",
@@ -415,16 +421,26 @@ export default {
     methods: {
         formatTime(d){
             return String(d).substring(0,5);
+        },
+        getDataItems(){
+            axios.get(baseApiUrl+'/queues')
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let r = res.data.data
+                let q = r[0]
+                let w = JSON.parse(q.work_time)
+                console.log("Parsed Object work_time @getDataItems():\n",w)
+                this.dataOK = true;
+            })
         }
     },
-    computed(){
-        return{
-            // pausegroup_tipos = [...this.lista_de_pausas.slice(1,this.lista_de_pausas.length)]
-        }
+    created() {
+        this.getDataItems();
     },
     data() {
         return {
             status: true,
+            dataOK:false,
             start:'',
             end:'',
             timeMask:'##:##',
@@ -579,6 +595,11 @@ export default {
                 {name:"Beethoven", code:1},
                 {name:"Mozart", code:2},
                 {name:"Queen", code:3}
+            ],
+            blacklists_tipos:[
+                {name:"Lista Proibida 1", code:1},
+                {name:"Lista Proibida 2", code:2},
+                {name:"Lista Proibida 3", code:3}
             ]
         }
     }
