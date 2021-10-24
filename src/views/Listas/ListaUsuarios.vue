@@ -44,8 +44,8 @@
       </div> -->
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-
     <TabelaUsuariosCadastrados
+    v-if="buildTable"
       :items="items"
       :filter="filter"
       :filter_fields="filter_fields"
@@ -65,36 +65,6 @@ export default {
     PagesSubHeader,
     TabelaUsuariosCadastrados,
   },
-  data() {
-    return {
-      items: [
-        {
-          names: ["Exemplo", "Outro Exemplo"],
-        },
-        {
-          name: "Exemplo",
-          username: "Ex",
-          email: "ex@dom.com.br",
-          perfilName: "lado",
-          enable: true,
-        },
-        {
-          name: "Outro Exemplo",
-          username: "Ox",
-          email: "ox@dom.com.br",
-          perfilName: "azimutal",
-          enable: false,
-        },
-      ],
-      names: [],
-      msg: "",
-      filter: "",
-      filter_fields: [""],
-      busca: "",
-      enable_filter: true,
-    };
-  },
-
   methods: {
     setFilter(filter, field) {
       this.filter = filter.toString();
@@ -102,17 +72,36 @@ export default {
     },
     async getUsers() {
       let res = await axios.get(baseApiUrl + "/users");
-      let u = res.data.data;
-        console.clear();
-        console.log(u);
-      for (let i in u) {
-        u[i].enable = Boolean(u[i].enable);
-        this.items[0].names.push(u[i].username);
-        this.items.push(u[i]);
-      }
-      console.log(this.items);
+      let a = res.data.data;
+      let usuarios = [];
+      let first = {};
+      let items = [];
+      let usuario = {};
 
-      
+        // console.clear();
+        // console.log(u);
+      // for (let i in a) {
+      //   u[i].enable = new Boolean(u[i].enable);
+      //   this.items[0].names.push(u[i].name);
+      //   this.items.push(u[i]);
+      // }
+      for(let i in a){
+        usuarios.push(a[i].name)
+      }
+      first.names = [...usuarios];
+      items.push({...first});
+
+      for(let i in a){
+        usuario.name = a[i].name;
+        usuario.username = a[i].username;
+        usuario.email = a[i].email;
+        usuario.profileName = '';// Não disponível ainda. futuramente: a[i].profileName;
+        usuario.enable = a[i].enable?true:false;
+        items.push({...usuario});
+      }
+      console.log("Items @getUsers():\n",this.items);
+      this.items = [...items];
+      this.buildTable = true;      
     },
     
   },
@@ -125,6 +114,25 @@ export default {
     // this.getPages();
     // this.setDefaultUser();
   },
+  data() {
+    return {
+      msg: "",
+      buildTable:false,
+      items:null,
+      /* [
+        {
+          names: ["Dickerson", "Larsen"],
+        },
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', enable: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', enable: false},
+      ], */
+      names: [],
+      filter: '',
+      filter_fields: [''],
+      busca: '',
+      flag_filter: true,
+    };
+  }
 };
 </script>
 

@@ -14,6 +14,7 @@
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
                   <b-form-input
+                    v-model="name"
                     id="profile-name-input"
                     type="text"
                     placeholder="Nome"
@@ -26,6 +27,7 @@
                     <i class="fal fa-at fa-2x" style="margin-left: 5px" />
                     <b-form-input
                       id="profile-name-input"
+                      v-model="email"
                       type="text"
                       placeholder="E-mail"
                     />
@@ -39,6 +41,7 @@
                     style="margin-left: 5px"
                   />
                   <b-form-input
+                    v-model="login_crm"
                     id="profile-name-input"
                     type="text"
                     placeholder="Login"
@@ -54,6 +57,7 @@
                   <div class="profile-content user-name-line d-flex">
                     <i class="fal fa-key fa-2x" style="margin-left: 5px" />
                     <b-form-input
+                    v-model="password"
                       id="profile-name-input"
                       type="password"
                       placeholder="Senha"
@@ -68,6 +72,7 @@
                     style="margin-left: 5px"
                   />
                   <b-form-input
+                    v-model="document"
                     id="profile-name-input"
                     type="text"
                     placeholder="Documento"
@@ -92,7 +97,9 @@
                           <i id="pic" class="fal fa-image fa-2x"></i
                           >
                         <span class="image-preview-input-title "> </span>
+                            <!-- v-model="pic" -->
                         <input
+                        @input="pic = $event.target.value"
                             type="file"
                             accept="image/png, image/jpeg, image/gif"
                             name="input-file-preview"
@@ -135,6 +142,7 @@
                       :label="'name'"
                       :track-by="'code'"
                       :options="jornadas_tipos"
+                      
                       :multiple="false"
                     />
                   </div>
@@ -142,6 +150,8 @@
               </div>
             </div>
           </div>
+          {{ pic }}
+          {{ tipo_jornadas }}
           <div class="panel">
             <div class="panel-container show">
               <div class="panel-content">
@@ -192,19 +202,15 @@ export default {
     Multiselect,
   },
   methods: {
-    // carregar() {
-    //   this.service.register(this.usuario).then(
-    //     () => {
-    //       if (this.id) this.$router.push({ name: "Home" });
-    //       this.usuario = new Usuario();
-    //     },
-    //     (err) => console.log(err)
-    //   );
-    // },
   },
   data() {
     return {
       tipo_jornadas: [],
+      name:'',
+      email: '',
+      password: '',
+      document: '',
+      pic: '',
       jornadas_tipos: [
         { name: "Ativa", code: "A" },
         { name: "Manual", code: "M" },

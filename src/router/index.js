@@ -105,11 +105,6 @@ const routes = [
     component: () => import('../views/Cadastrar/RegistroRobos.vue')
   },
   {
-    path:'/registro-rotas',
-    name: 'RegistroRotas',
-    component: () => import('../views/Cadastrar/RegistroRotas.vue')
-  },
-  {
     path: '/lista-de-scripts',
     name: 'ListaScripts',
     component: () => import( '../views/Listas/ListaScripts.vue')
