@@ -185,10 +185,10 @@
 <script>
 // import Usuario from "../../domain/User/Usuario";
 import Multiselect from "vue-multiselect";
-import axios from "axios";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import "jquery";
 // import "select2";
+import axios from "axios";
 import {baseApiUrl} from "@/config/global";
 
 export default {

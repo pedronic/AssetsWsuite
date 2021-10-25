@@ -2,122 +2,129 @@
   <div>
     <PagesSubHeader icon="fal fa-list-ol" titulo="Mailing">
       <div class="card">
-        <div class="card-body"/>
+        <div class="card-body" />
       </div>
     </PagesSubHeader>
     <div>
       <form>
         <div class="form-group">
-
           <div class="d-inline">
-            <div class="row mb-2 justify-content-center ">
-
+            <div class="row mb-2 justify-content-center">
               <div class="col-4">
                 <div class="d-inline">
                   <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    id="profile-name-input"
-                    type="text"
-                    placeholder="Nome"
-                  />
-                </div>
+                    <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Nome"
+                    />
+                  </div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
                   <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-at fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    id="profile-name-input"
-                    type="text"
-                    placeholder="Data do mailing"
-                  />
-                </div>
+                    <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      id="profile-name-input"
+                      type="text"
+                      placeholder="Data do mailing"
+                    />
+                  </div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="d-inline">
                   <div class="profile-content user-name-line d-flex">
-                <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                <div id="multiselect-input">
-                  <multiselect
-                    v-model="filas_finish"
-                    :placeholder="'Filas'"
-                    :label="'name'"
-                    :track-by="'code'"
-                    :options="finish_filas"
-                    :multiple="true"
-                  />
-                </div>
-              </div>
+                    <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                    <div id="multiselect-input">
+                      <multiselect
+                        v-model="filas_finish"
+                        :placeholder="'Filas'"
+                        :label="'name'"
+                        :track-by="'code'"
+                        :options="finish_filas"
+                        :multiple="true"
+                        :selectLabel="MSprops.selectLabel"
+                        :selectGroupLabel="MSprops.selectGroupLabel"
+                        :selectedLabel="MSprops.selectedLabel"
+                        :deselectLabel="MSprops.deselectLabel"
+                        :deselectGroupLabel="MSprops.deselectGroupLabel"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="d-inline">
             <div class="row mb-2 justify-content-left">
-            <div class="col-4">
-              <div class="profile-content user-name-line d-flex">
-                <div class="input-group image-preview">
+              <div class="col-4">
+                <div class="profile-content user-name-line d-flex">
+                  <div class="input-group image-preview">
                     <span class="input-group">
                       <!-- image-preview-clear button -->
                       <button
-                          type="button"
-                          class="btn btn-default image-preview-clear"
-                          style="display: none"
+                        type="button"
+                        class="btn btn-default image-preview-clear"
+                        style="display: none"
                       >
                         <span class="glyphicon glyphicon-remove"></span> Limpar
                       </button>
                       <!-- image-preview-input -->
-                      <div class="btn btn-default image-preview-input" id="butao">
-                          <i id="pic" class="fal fa-at fa-2x"></i
-                          >
-                        <span class="image-preview-input-title "> </span>
+                      <div
+                        class="btn btn-default image-preview-input"
+                        id="butao"
+                      >
+                        <i id="pic" class="fal fa-at fa-2x"></i>
+                        <span class="image-preview-input-title"> </span>
                         <input
-                            type="file"
-                            accept="txt, csv"
-                            name="input-file-preview"
+                          type="file"
+                          accept="txt, csv"
+                          name="input-file-preview"
                         />
                         <!-- rename it -->
                       </div>
                       <input
-                          type="text"
-                          placeholder="Arquivo"
-                          class="form-control image-preview-filename"
-                          id="input-pic"
-                          disabled="disabled"
+                        type="text"
+                        placeholder="Arquivo"
+                        class="form-control image-preview-filename"
+                        id="input-pic"
+                        disabled="disabled"
                       />
                       <!-- don't give a name === doesn't send on POST/GET -->
                     </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          </div>
-        <b-row>
-          <b-col class="mr-auto p-3" cols="auto">
-            <button class="btn btn-dark botao-salvar" type="submit"><i class="fal fa-upload mr-2"></i>Importar</button>
-          </b-col>
-          <b-col class="p-3" cols="auto">
-            <div class="custom-control custom-switch">
-              <input
+          <b-row>
+            <b-col class="mr-auto p-3" cols="auto">
+              <button class="btn btn-dark botao-salvar" type="submit">
+                <i class="fal fa-upload mr-2"></i>Importar
+              </button>
+            </b-col>
+            <b-col class="p-3" cols="auto">
+              <div class="custom-control custom-switch">
+                <input
                   id="customSwitch1"
                   checked
                   class="custom-control-input bg-dark"
                   type="checkbox"
-              />
-              <input
+                />
+                <input
                   id="customSwitch1"
                   class="custom-control-input bg-dark"
                   type="checkbox"
-              />
-              <label id="kkk" class="custom-control-label "
-                     for="customSwitch1">Status</label
-              >
-            </div>
-          </b-col>
-        </b-row>
+                />
+                <label id="kkk" class="custom-control-label" for="customSwitch1"
+                  >Status</label
+                >
+              </div>
+            </b-col>
+          </b-row>
         </div>
       </form>
     </div>
@@ -125,16 +132,16 @@
 </template>
 
 <script>
-import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import Multiselect from "vue-multiselect";
-
+import { vueMultiselectProps } from "../../config/global.js";
 
 export default {
   components: {
     PagesSubHeader,
     Multiselect,
   },
-  name: 'RegistroMailing',
+  name: "RegistroMailing",
   methods: {
     // carregar() {
     //   this.service.register(this.usuario).then(
@@ -149,10 +156,12 @@ export default {
   data() {
     return {
       filas_finish: [],
-        finish_filas: [
-          { name: "Fila 1000", code: "1000" },
-          { name: "Fila 2000", code: "2000" },
-        ],
+      finish_filas: [
+        { name: "Fila 1000", code: "1000" },
+        { name: "Fila 2000", code: "2000" },
+      ],
+      MSprops: vueMultiselectProps,
+
       // msg: "",
       //   usuario: new Usuario(),
       //   id: this.$route.params.id,
@@ -321,5 +330,4 @@ i.fal.fa-2x {
   box-shadow: none;
   border: none;
 }
-
 </style>

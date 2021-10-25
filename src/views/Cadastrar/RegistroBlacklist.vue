@@ -48,6 +48,11 @@
                   :track-by="'code'"
                   :options="finish_filas"
                   :multiple="true"
+                  :selectLabel="MSprops.selectLabel"
+                  :selectGroupLabel="MSprops.selectGroupLabel"
+                  :selectedLabel="MSprops.selectedLabel"
+                  :deselectLabel="MSprops.deselectLabel"
+                  :deselectGroupLabel="MSprops.deselectGroupLabel"
                 />
               </div>
             </div>
@@ -63,36 +68,35 @@
             <div class="col-4">
               <div class="profile-content user-name-line d-flex">
                 <div class="input-group image-preview">
-                    <span class="input-group">
-                      <!-- image-preview-clear button -->
-                      <button
-                          type="button"
-                          class="btn btn-default image-preview-clear"
-                          style="display: none"
-                      >
-                        <span class="glyphicon glyphicon-remove"></span> Limpar
-                      </button>
-                      <!-- image-preview-input -->
-                      <div class="btn btn-default image-preview-input" id="butao">
-                          <i id="pic" class="fal fa-at fa-2x"></i
-                          >
-                        <span class="image-preview-input-title "> </span>
-                        <input
-                            type="file"
-                            accept="txt, csv"
-                            name="input-file-preview"
-                        />
-                        <!-- rename it -->
-                      </div>
+                  <span class="input-group">
+                    <!-- image-preview-clear button -->
+                    <button
+                      type="button"
+                      class="btn btn-default image-preview-clear"
+                      style="display: none"
+                    >
+                      <span class="glyphicon glyphicon-remove"></span> Limpar
+                    </button>
+                    <!-- image-preview-input -->
+                    <div class="btn btn-default image-preview-input" id="butao">
+                      <i id="pic" class="fal fa-at fa-2x"></i>
+                      <span class="image-preview-input-title"> </span>
                       <input
-                          type="text"
-                          placeholder="Arquivo"
-                          class="form-control image-preview-filename"
-                          id="input-pic"
-                          disabled="disabled"
+                        type="file"
+                        accept="txt, csv"
+                        name="input-file-preview"
                       />
-                      <!-- don't give a name === doesn't send on POST/GET -->
-                    </span>
+                      <!-- rename it -->
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Arquivo"
+                      class="form-control image-preview-filename"
+                      id="input-pic"
+                      disabled="disabled"
+                    />
+                    <!-- don't give a name === doesn't send on POST/GET -->
+                  </span>
                 </div>
               </div>
             </div>
@@ -140,52 +144,35 @@
               </div>
             </div>
             <div class="mt-2">
-                    <div v-for="i of putins" :key="i">
-                      <div class="pl-3">
-                        <div
-                          class="
-                            row
-                            mb-2
-                            no-gutters
-                            row-grid
-                            align-items-stretch
-                          "
-                        >
-                          <div class="col-1 mr-2">
-                            <div class="profile-content user-name-line d-flex">
-                              <i
-                                class="fal fa-ad fa-2x"
-                                style="margin-left: 5px"
-                              />
-                              <b-form-input
-                                id="profile-name-input"
-                                type="text"
-                                placeholder="DDD"
-                              />
-                            </div>
-                          </div>
-                          <div class="col-3">
-                            <div class="d-inline">
-                              <div
-                                class="profile-content user-name-line d-flex"
-                              >
-                                <i
-                                  class="fal fa-at fa-2x"
-                                  style="margin-left: 5px"
-                                />
-                                <b-form-input
-                                  id="profile-name-input"
-                                  type="text"
-                                  placeholder="Número"
-                                />
-                              </div>
-                            </div>
-                          </div>
+              <div v-for="i of putins" :key="i">
+                <div class="pl-3">
+                  <div class="row mb-2 no-gutters row-grid align-items-stretch">
+                    <div class="col-1 mr-2">
+                      <div class="profile-content user-name-line d-flex">
+                        <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                        <b-form-input
+                          id="profile-name-input"
+                          type="text"
+                          placeholder="DDD"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="d-inline">
+                        <div class="profile-content user-name-line d-flex">
+                          <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                          <b-form-input
+                            id="profile-name-input"
+                            type="text"
+                            placeholder="Número"
+                          />
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
           </div>
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
@@ -204,6 +191,7 @@
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 import Multiselect from "vue-multiselect";
+import { vueMultiselectProps } from "../../config/global.js";
 
 export default {
   components: {
@@ -218,6 +206,7 @@ export default {
         { name: "Fila 1000", code: "1000" },
         { name: "Fila 2000", code: "2000" },
       ],
+      MSprops: vueMultiselectProps,
     };
   },
 

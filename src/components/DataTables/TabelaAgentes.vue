@@ -140,7 +140,7 @@
     <b-modal
         id="new_line"
         refs="new_line"
-        title="Adicionar Nova Pausa"
+        title="Adicionar Novo Agente"
         size="xl"
         :hide-header-close="false"
         :no-close-on-backdrop="false"
@@ -212,7 +212,7 @@ const defaultRow = {
 };
 
 export default {
-  name:'TabelaPausas',
+  name:'TabelaAgentes',
   mixins: [ValidateToaster],
   props:{
     items: Array,
@@ -242,7 +242,7 @@ export default {
     okayAdd(){
       let newPausa = this.newRowInput.name.trim();
       if (newPausa.length>0){
-        console.log("Filas ok:")
+        console.log("Agnentes ok:")
         console.log(this.filas)
         console.log("New Row Input:")
         console.log(this.newRowInput)
@@ -250,16 +250,16 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO AGENTE ADICIONADA',
-          message:'Novo name '+newPausa.toUpperCase()+' adicionado com sucesso!',
+          title:'NOVO AGENTE ADICIONADO',
+          message:'Novo agente '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO AGENTE VAZIO NÃO ADICIONADo',
-          message:'Nova name '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar names sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO AGENTE VAZIO NÃO ADICIONADO',
+          message:'Nova agente '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar names sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }

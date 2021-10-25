@@ -6,7 +6,7 @@
       </div>
     </PagesSubHeader>
     <div>
-      <form>
+      <form @submit.prevent="carregar()">
         <div class="form-group">
           <div class="d-inline">
             <div class="row mb-2 justify-content-center">
@@ -57,7 +57,7 @@
                   <div class="profile-content user-name-line d-flex">
                     <i class="fal fa-key fa-2x" style="margin-left: 5px" />
                     <b-form-input
-                    v-model="password"
+                      v-model="password"
                       id="profile-name-input"
                       type="password"
                       placeholder="Senha"
@@ -72,52 +72,27 @@
                     style="margin-left: 5px"
                   />
                   <b-form-input
-                    v-model="document"
+                    v-model="confirmPassword"
                     id="profile-name-input"
-                    type="text"
-                    placeholder="Documento"
+                    type="password"
+                    placeholder="Confirmar senha"
                   />
                 </div>
               </div>
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                    <div class="input-group image-preview">
-                    <span class="input-group">
-                      <!-- image-preview-clear button -->
-                      <button
-                          type="button"
-                          class="btn btn-default image-preview-clear"
-                          style="display: none"
-                      >
-                        <span class="glyphicon glyphicon-remove"></span> Limpar
-                      </button>
-                      <!-- image-preview-input -->
-                      <div class="btn btn-default image-preview-input" id="butao">
-                          <i id="pic" class="fal fa-image fa-2x"></i
-                          >
-                        <span class="image-preview-input-title "> </span>
-                            <!-- v-model="pic" -->
-                        <input
-                        @input="pic = $event.target.value"
-                            type="file"
-                            accept="image/png, image/jpeg, image/gif"
-                            name="input-file-preview"
-                        />
-                        <!-- rename it -->
-                      </div>
-                      <input
-                          type="text"
-                          placeholder="Foto"
-                          class="form-control image-preview-filename"
-                          id="input-pic"
-                          disabled="disabled"
+                  <div class="col-4">
+                    <div class="profile-content user-name-line d-flex">
+                      <i
+                        class="fal fa-user-secret fa-2x"
+                        style="margin-left: 5px"
                       />
-                      <!-- don't give a name === doesn't send on POST/GET -->
-                    </span>
+                      <b-form-input
+                        v-model="agent"
+                        id="profile-name-input"
+                        type="text"
+                        placeholder="Ramal"
+                      />
                     </div>
-                  </div>
-                </div>
+                  
               </div>
             </div>
           </div>
@@ -142,23 +117,56 @@
                       :label="'name'"
                       :track-by="'code'"
                       :options="jornadas_tipos"
-                      
                       :multiple="false"
+                      :selectLabel="MSprops.selectLabel"
+                      :selectGroupLabel="MSprops.selectGroupLabel"
+                      :selectedLabel="MSprops.selectedLabel"
+                      :deselectLabel="MSprops.deselectLabel"
+                      :deselectGroupLabel="MSprops.deselectGroupLabel"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="profile-content user-name-line d-flex">
+                  <i
+                    class="fal fa-address-card fa-2x"
+                    style="margin-left: 5px"
+                  />
+                  <b-form-input
+                    v-model="document"
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="Documento"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                  <div id="multiselect-input">
+                    <multiselect
+                      v-model="filas_finish"
+                      placeholder="Filas"
+                      :label="'queue_name'"
+                      :track-by="'queue_id'"
+                      :options="filas"
+                      :multiple="true"
                     />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {{ pic }}
+          {{ agent }}
           {{ tipo_jornadas }}
-          <div class="panel">
+          <!-- <div class="panel">
             <div class="panel-container show">
               <div class="panel-content">
-                <TabelaFilas :items="lista_de_filas"/>
+                <TabelaFilas :items="lista_de_filas" />
               </div>
             </div>
-          </div>
+          </div> -->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
               <button class="btn btn-dark botao-salvar" type="submit">
@@ -191,51 +199,115 @@
 </template>
 
 <script>
-import TabelaFilas from "../../components/DataTables/TabelaFilas.vue";
+// import TabelaFilas from "../../components/DataTables/TabelaFilas.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import Multiselect from "vue-multiselect";
+import { vueMultiselectProps } from "../../config/global.js";
+import axios from "axios";
+import { baseApiUrl } from "@/config/global";
 
 export default {
   components: {
-    TabelaFilas,
+    // TabelaFilas,
     PagesSubHeader,
     Multiselect,
   },
   methods: {
+    async getAgents() {
+      let agents = axios.get(baseApiUrl + "/agents");
+      for (let u in agents) {
+        this.agents.push(agents[u].agent);
+      }
+    },
+    async getFilas() {
+      let f = await axios.get(baseApiUrl + "/queues");
+      console.log("f.data.data\n", f.data.data);
+      this.filas = f.data.data;
+    },
+    async postNewAgent(nu) {
+      let s = await axios.post(`${baseApiUrl}/agents`, nu);
+      console.log("Post status:\n", s);
+    },
+    carregar() {
+      // Refatorar para incluir avisos de toast após ação
+      let passCheck = !(this.password === this.confirmPassword);
+      let blankPass = !(this.password.trim().length > 0);
+      let blankName = !(this.name.trim().length > 0);
+      let blankMail = !(this.email.trim().length > 0);
+      let blankLogin_crm = !(this.agent.trim().length > 0);
+      let blankDocument = !(this.document.trim().length > 0);
+      let blankJourney = !(this.tipo_jornadas.length > 0);
+      let validAgent = !(this.agents.indexOf(this.agent.trim()) > -1);
+      if (
+        passCheck ||
+        blankPass ||
+        blankJourney ||
+        blankName ||
+        blankMail ||
+        blankLogin_crm ||
+        blankDocument ||
+        validAgent
+      )
+        return;
+      else {
+        let postBody = {};
+        postBody.login_crm = this.login_crm.trim();
+        postBody.email = this.email.trim();
+        postBody.name = this.name.trim();
+        postBody.password = this.password.trim();
+        postBody.confirmPassword = this.confirmPassword.trim();
+        postBody.agent = this.agent.trim();
+        postBody.journey = this.tipo_jornadas.code;
+        for (let f in this.filas_finish) {
+          this.queue_default.push(this.filas_finish[f]);
+        }
+        postBody.queue_default = [...this.queue_default];
+        console.log(postBody);
+        this.postNewAgent(postBody);
+      }
+    },
   },
   data() {
     return {
       tipo_jornadas: [],
-      name:'',
-      email: '',
-      password: '',
-      document: '',
-      pic: '',
+      filas_finish: [],
+      agents: [],
+      filas: [],
+      name: "",
+      login_crm: "",
+      email: "",
+      password: "",
+      document: "",
+      confirmPassword: "",
+      agent: "",
+      MSprops: vueMultiselectProps,
       jornadas_tipos: [
-        { name: "Ativa", code: "A" },
-        { name: "Manual", code: "M" },
-        { name: "Recebe", code: "R" },
+        { name: "Ativa", code: "active" },
+        { name: "Manual", code: "manual" },
+        { name: "Receptiva", code: "receptive" },
       ],
-      lista_de_filas:[
+      lista_de_filas: [
         {
-          selected:false,
-          agente:"Fila 1000",
-          p0:false,
-          p1:true,
-          p2:false
+          selected: false,
+          agente: "Fila 1000",
+          p0: false,
+          p1: true,
+          p2: false,
         },
         {
-          selected:false,
-          agente:"Fila 2000",
-          p0:false,
-          p1:false,
-          p2:false
-        }
+          selected: false,
+          agente: "Fila 2000",
+          p0: false,
+          p1: false,
+          p2: false,
+        },
       ],
-      
     };
   },
   mounted() {
+    this.getFilas();
+    this.getAgents();
+
     $(document).on("click", "#close-preview", function () {
       $(".image-preview").popover("hide");
     });
@@ -269,13 +341,11 @@ export default {
       });
     });
   },
-  created() {
-    
-  }
+  created() {},
 };
 </script>
 <style scoped>
-#input-pic {
+#input-agent {
   border-left: 1px solid rgb(0, 0, 0) !important;
 }
 

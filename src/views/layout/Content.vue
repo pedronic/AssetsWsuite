@@ -9,13 +9,13 @@
 </template>
 
 <script>
-//import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue'
-// import { mapState } from "vuex"
+// import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue'
+import { mapState } from "vuex"
 export default {
   name: "Content",
   components:{
   },
-  // computed: mapState(['user'])
+  computed: mapState(['user'])
 };
 </script>
 

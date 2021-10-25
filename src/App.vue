@@ -99,5 +99,5 @@ export default {
   }
 }
 </style>
-
+// agentes [jornadas] recebe??
 // validacao fields

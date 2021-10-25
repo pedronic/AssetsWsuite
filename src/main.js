@@ -38,12 +38,12 @@ Vue.use(VeeValidate, {
 
 
 // selec2 (feito)
-// botão de remoção com box de confirmação
+// botão de remoção com box de confirmação (feito)
 // blacklist inserir uma barra de pesquisa em cada card (feito)
 // validar todos os inputs 
 // definir ícones
 // arrumar primeiro telefone (feito)
-// importar -> toast "sucesso" -> lista
+// importar -> toast "sucesso" -> lista 
 // mexer nas dimenoes dos inputes registro operadroras (feito)
 // textarea max 15 linhas (feito)
 // 2o formato discagem = dtmf (DONE)
@@ -62,3 +62,5 @@ Vue.use(VeeValidate, {
 // rever fields
 // bug parametro booleano passado para as tabelas 
 // head lista mailing
+// filas agentes only 0 (por enquanto)
+// icone ramal registroagentes
