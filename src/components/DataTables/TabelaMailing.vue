@@ -80,7 +80,7 @@ const defaultRow = {
 };
 
 export default {
-  name:'TabelaPausas',
+  name:'TabelaMailing',
   mixins: [ValidateToaster],
   props:{
     items: Array,
@@ -94,16 +94,16 @@ export default {
       this.mailings.splice(p,1);
       let toast = {
         isValidated:true,
-        title:'USUÁRIO EXCLUÍDO',
-        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
+        title:'MAILING EXCLUÍDO',
+        message:'Mailing '+ev.toUpperCase()+' excluído com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'USUÁRIO MANTIDO',
-        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
+        title:'MAILING MANTIDO',
+        message:'Mailing '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
@@ -118,16 +118,16 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO USUÁRIO ADICIONADA',
-          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
+          title:'NOVO MAILING ADICIONADA',
+          message:'Novo mailing '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO MAILING VAZIO NÃO ADICIONADA',
+          message:'Nova Mailing '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -137,8 +137,8 @@ export default {
       let newPausa = this.newRowInput.mailing.trim();
       let toast = {
         isValidated:false,
-        title:'NOVA PAUSA NÃO ADICIONADA',
-        message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title:'NOVA MAILING NÃO ADICIONADA',
+        message:'Nova Mailing '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -159,8 +159,8 @@ export default {
 
         let toast = {
           isValidated:true,
-          title:'PAUSA EDITADA',
-          message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
+          title:'MAILING EDITADA',
+          message:'Mailing '+p.toUpperCase()+' editada com sucesso!',
         }
         this.validateAndToast(toast);
       }
@@ -169,8 +169,8 @@ export default {
 
         let toast = {
           isValidated:false,
-          title:'PAUSA NÃO EDITADA',
-          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title:'MAILING NÃO EDITADA',
+          message:'Mailing '+p.toUpperCase()+' não foi modificada. Não é possível atualizar um mailing apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -180,8 +180,8 @@ export default {
       let p = this.filas[row].mailing;
       let toast = {
         isValidated:false,
-        title:'PAUSA NÃO EDITADA',
-        message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+        title:'MAILNG NÃO EDITADA',
+        message:'Mailing '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }

@@ -79,20 +79,19 @@
                   />
                 </div>
               </div>
-                  <div class="col-4">
-                    <div class="profile-content user-name-line d-flex">
-                      <i
-                        class="fal fa-user-secret fa-2x"
-                        style="margin-left: 5px"
-                      />
-                      <b-form-input
-                        v-model="agent"
-                        id="profile-name-input"
-                        type="text"
-                        placeholder="Ramal"
-                      />
-                    </div>
-                  
+              <div class="col-4">
+                <div class="profile-content user-name-line d-flex">
+                  <i
+                    class="fal fa-user-secret fa-2x"
+                    style="margin-left: 5px"
+                  />
+                  <b-form-input
+                    v-model="agent"
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="Ramal"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -151,7 +150,7 @@
                       :label="'queue_name'"
                       :track-by="'queue_id'"
                       :options="filas"
-                      :multiple="true"
+                      :multiple="false"
                     />
                   </div>
                 </div>
@@ -160,6 +159,7 @@
           </div>
           {{ agent }}
           {{ tipo_jornadas }}
+          {{ agents }}
           <!-- <div class="panel">
             <div class="panel-container show">
               <div class="panel-content">
@@ -214,9 +214,10 @@ export default {
   },
   methods: {
     async getAgents() {
-      let agents = axios.get(baseApiUrl + "/agents");
-      for (let u in agents) {
-        this.agents.push(agents[u].agent);
+      let agents = await axios.get(baseApiUrl + "/agents");
+      let data = agents.data.data;
+      for (let u in data) {
+        this.agents.push(data[u].agent);
       }
     },
     async getFilas() {
@@ -234,10 +235,13 @@ export default {
       let blankPass = !(this.password.trim().length > 0);
       let blankName = !(this.name.trim().length > 0);
       let blankMail = !(this.email.trim().length > 0);
-      let blankLogin_crm = !(this.agent.trim().length > 0);
+      let blankLogin_crm = !(this.login_crm.trim().length > 0);
+      let blankAgent = !(this.agent.trim().length > 0);
       let blankDocument = !(this.document.trim().length > 0);
-      let blankJourney = !(this.tipo_jornadas.length > 0);
-      let validAgent = !(this.agents.indexOf(this.agent.trim()) > -1);
+      let blankJourney = !(this.tipo_jornadas.length = 1);
+      let validAgent = !(this.agents.indexOf(this.agent.trim()) < 0);
+      console.clear();
+      // console.log(this.agents.indexOf(this.agent.trim()));
       if (
         passCheck ||
         blankPass ||
@@ -245,23 +249,34 @@ export default {
         blankName ||
         blankMail ||
         blankLogin_crm ||
+        blankAgent ||
         blankDocument ||
         validAgent
       )
         return;
       else {
         let postBody = {};
-        postBody.login_crm = this.login_crm.trim();
-        postBody.email = this.email.trim();
-        postBody.name = this.name.trim();
+        postBody.company_id = this.company_id;
+        postBody.agent = this.agent.trim();
         postBody.password = this.password.trim();
         postBody.confirmPassword = this.confirmPassword.trim();
-        postBody.agent = this.agent.trim();
-        postBody.journey = this.tipo_jornadas.code;
-        for (let f in this.filas_finish) {
-          this.queue_default.push(this.filas_finish[f]);
-        }
-        postBody.queue_default = [...this.queue_default];
+        postBody.name = this.name.trim();
+        postBody.cpf = this.cpf;
+        postBody.login_crm = this.login_crm.trim();
+        // postBody.email = this.email.trim();
+        // postBody.journey = this.tipo_jornadas.code;
+        // postBody.type = this.type;
+        // postBody.work_time = this.work_time;
+        // postBody.flag = this.flag;
+        // postBody.last_login = this.last_login;
+        // postBody.created_at = this.created_at;
+        // postBody.updated_at = this.updated_at;
+
+        // for (let f in this.filas_finish) {
+        //   this.queue_default.push(this.filas_finish[f]);
+        // }
+        postBody.queue_default = this.filas_finish.name;
+        console.clear();
         console.log(postBody);
         this.postNewAgent(postBody);
       }
@@ -276,6 +291,7 @@ export default {
       name: "",
       login_crm: "",
       email: "",
+      queue_default: [],
       password: "",
       document: "",
       confirmPassword: "",
@@ -302,6 +318,15 @@ export default {
           p2: false,
         },
       ],
+      cpf: null,
+      company_id: 2,
+      type: "human",
+      work_time:
+        '[\r\n{"opText":"Segunda-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Terça-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Quarta-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Quinta-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Sexta-Feira","in":"08:00","out":""20:40"},\r\n{"opText":"Sábado","in":"08:00","out":"14:00"},\r\n{"opText":"Domingo","in":"","out":""}\r\n]',
+      flag: 1,
+      last_login: null,
+      created_at: "2021-10-21T09:58:30.000Z",
+      updated_at: null,
     };
   },
   mounted() {

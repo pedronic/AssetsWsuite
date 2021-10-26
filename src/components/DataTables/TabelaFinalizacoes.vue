@@ -85,7 +85,7 @@
           ok-title="SALVAR"
           ok-variant="info"
           size="xl"
-          title="Editar Pausa"
+          title="Editar finalização"
           @cancel="cancelEdit(index)"
           @ok="updateRow(index)"
           @show="populateEditLine(index)"
@@ -190,7 +190,7 @@
         ok-variant="success"
         refs="new_line"
         size="xl"
-        title="Adicionar Nova Pausa"
+        title="Adicionar Nova Finalização"
         @cancel="cancelAdd()"
         @ok="okayAdd()"
         @show="populateNewLine()">
@@ -277,7 +277,7 @@ const defaultRow = {
 };
 
 export default {
-  name: 'TabelaPausas',
+  name: 'TabelaFinalizacoes',
   mixins: [ValidateToaster],
   props: {
     items: Array,
@@ -289,16 +289,16 @@ export default {
       this.finalizacoes.splice(p, 1);
       let toast = {
         isValidated: true,
-        title: 'PAUSA EXCLUÍDA',
-        message: 'Pausa ' + ev.toUpperCase() + ' excluída com sucesso!',
+        title: 'FINALIZAÇÂO EXCLUÍDA',
+        message: 'Finalização ' + ev.toUpperCase() + ' excluída com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p) {
       let toast = {
         isValidated: false,
-        title: 'PAUSA MANTIDA',
-        message: 'Pausa ' + p.toUpperCase() + ' foi mantida. A exclusão foi cancelada pelo usuário.',
+        title: 'FINALIZAÇÃO MANTIDA',
+        message: 'Finalização ' + p.toUpperCase() + ' foi mantida. A finalização foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -313,15 +313,15 @@ export default {
         this.finalizacoes.push(newPausa);
         let toast = {
           isValidated: true,
-          title: 'NOVA PAUSA ADICIONADA',
-          message: 'Nova Pausa ' + newPausa.toUpperCase() + ' adicionada com sucesso!',
+          title: 'NOVA FINALIZAÇÃO ADICIONADA',
+          message: 'Nova Finalização ' + newPausa.toUpperCase() + ' adicionada com sucesso!',
         }
         this.validateAndToast(toast);
       } else {
         let toast = {
           isValidated: false,
-          title: 'NOVA PAUSA VAZIA NÃO ADICIONADA',
-          message: 'Nova Pausa ' + newPausa.toUpperCase() + ' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title: 'NOVA FINALIZAÇÃO VAZIA NÃO ADICIONADA',
+          message: 'Nova Finalização ' + newPausa.toUpperCase() + ' não foi adicionada. Não é possível adicionar Finalizações sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -331,8 +331,8 @@ export default {
       let newPausa = this.newRowInput.finalizacao.trim();
       let toast = {
         isValidated: false,
-        title: 'NOVA PAUSA NÃO ADICIONADA',
-        message: 'Nova Pausa ' + newPausa.toUpperCase() + ' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title: 'NOVA FINALIZAÇÃO NÃO ADICIONADA',
+        message: 'Nova Finalização ' + newPausa.toUpperCase() + ' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -353,8 +353,8 @@ export default {
 
         let toast = {
           isValidated: true,
-          title: 'PAUSA EDITADA',
-          message: 'Pausa ' + p.toUpperCase() + ' editada com sucesso!',
+          title: 'FINALIZAÇÃO EDITADA',
+          message: 'Finalização ' + p.toUpperCase() + ' editada com sucesso!',
         }
         this.validateAndToast(toast);
       } else {
@@ -362,8 +362,8 @@ export default {
 
         let toast = {
           isValidated: false,
-          title: 'PAUSA NÃO EDITADA',
-          message: 'Pausa ' + p.toUpperCase() + ' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title: 'FINALIZAÇÃO NÃO EDITADA',
+          message: 'Finalização ' + p.toUpperCase() + ' não foi modificada. Não é possível atualizar uma finalização apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -373,8 +373,8 @@ export default {
       let p = this.filas[row].finalizacao;
       let toast = {
         isValidated: false,
-        title: 'PAUSA NÃO EDITADA',
-        message: 'Pausa ' + p.toUpperCase() + ' não foi modificada. A edição foi cancelada pelo usuário.',
+        title: 'FINALIZAÇÂO NÃO EDITADA',
+        message: 'Finalização ' + p.toUpperCase() + ' não foi modificada. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }

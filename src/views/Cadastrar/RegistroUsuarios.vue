@@ -151,7 +151,11 @@
             </div>
           </div>
         </div>
-
+        {{ nameEdit }}
+        {{ emailEdit }}
+        {{ usernameEdit }}
+        {{ enableEdit }}
+        {{ perfilNameEdit }}
         <b-row>
           <b-col class="mr-auto p-3" cols="auto">
             <button class="btn btn-dark botao-salvar" type="submit">
@@ -252,7 +256,11 @@ export default {
   },
   data() {
     return {
-      nomeEdit: this.$route.params.nome,
+      nameEdit: this.$route.params.name,
+      usernameEdit: this.$route.params.username, 
+      emailEdit: this.$route.params.email, 
+      enableEdit: this.$route.params.enable,
+      perfilNameEdit: this.$route.params.perfilName,
       userMails: [],
       userNames: [],
       id: this.$route.params.id,

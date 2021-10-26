@@ -57,7 +57,7 @@
       <b-modal
           :id="i.cadastrado+'_edit_modal'"
           :ref="i.cadastrado+'_edit_modal'"
-          title="Editar Agente"
+          title="Editar Blacklist"
           size="xl"
           :hide-header-close="true"
           :no-close-on-backdrop="true"
@@ -221,16 +221,16 @@ export default {
       this.cadastrados.splice(p,1);
       let toast = {
         isValidated:true,
-        title:'USUÁRIO EXCLUÍDO',
-        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
+        title:'BLACKLIST EXCLUÍDO',
+        message:'Blacklist '+ev.toUpperCase()+' excluído com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'USUÁRIO MANTIDO',
-        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
+        title:'BLACKLIST MANTIDO',
+        message:'Blacklist '+p.toUpperCase()+' foi mantida. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
@@ -245,16 +245,16 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO USUÁRIO ADICIONADA',
-          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
+          title:'NOVA BLACKLIST ADICIONADA',
+          message:'Nova blacklist '+newPausa.toUpperCase()+' adicionada com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVA BLACKLIST VAZIA NÃO ADICIONADA',
+          message:'Nova Blacklist '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar blacklists sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -264,8 +264,8 @@ export default {
       let newPausa = this.newRowInput.cadastrado.trim();
       let toast = {
         isValidated:false,
-        title:'NOVA PAUSA NÃO ADICIONADA',
-        message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title:'NOVA BLACKLIST NÃO ADICIONADA',
+        message:'Nova Blacklist '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -286,8 +286,8 @@ export default {
 
         let toast = {
           isValidated:true,
-          title:'PAUSA EDITADA',
-          message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
+          title:'BLACKLIST EDITADA',
+          message:'Blacklist '+p.toUpperCase()+' editado com sucesso!',
         }
         this.validateAndToast(toast);
       }
@@ -296,8 +296,8 @@ export default {
 
         let toast = {
           isValidated:false,
-          title:'PAUSA NÃO EDITADA',
-          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title:'BLACKLIST NÃO EDITADA',
+          message:'Blacklist '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma blacklist apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -307,8 +307,8 @@ export default {
       let p = this.filas[row].cadastrado;
       let toast = {
         isValidated:false,
-        title:'PAUSA NÃO EDITADA',
-        message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+        title:'BLACKLIST NÃO EDITADA',
+        message:'Blacklist '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }
