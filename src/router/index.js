@@ -174,6 +174,7 @@ const routes = [
   {
     path: '/cadastrar-filas',
     name: 'FilasCadastro',
+    props: true,
     component: () => import('../views/Filas/FilasCadastro.vue')
   }
 ]

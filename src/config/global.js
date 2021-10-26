@@ -144,38 +144,50 @@ export const defaultOperator = {
 export const defaultQueue = {
     name_queue:'',
     queue_number:'',// Number.toString()
-    type:'',
-    q_type:[], // Ainda não troca dados com o backend
-    ftp_name:'', // Ainda não troca dados com o backend
+    type:'', // ['human','robot']
+    q_type:[], // Ainda não troca dados com o backend (recebe 'journey')
+    slug:'', // Nome para FTP (sem maiúslculas, espaços viram dashes, sem acentos)
     finalization_name:'', // Ainda não troca dados com o backend (falta endpoint)
     finalization_id:null, // Number
-    rec_format:'', // Ainda não está tabulado no backend nem trocando dados portanto
-    rec_type:null, // Number
-    aftersession_time:null, // Number
-    breakGroup_id:null, // Number; Dado de Grupo de Pausas
-    breakGroup_name:'', // Number; Dado de Grupo de Pausas
-
+    rec_format:[], // Number; Ainda não está tabulado no backend nem trocando dados portanto
+    rec_type:[], // Number; Ainda não está tabulado no backend nem trocando dados portanto
+    wrapuptime:null, // Number; (tempo de pós atendimento)
+    break_group_id:null, // Number; Dado de Grupo de Pausas
+/*     breakGroup_name:'', // Number; Dado de Grupo de Pausas
+ */
     route_name:'',
     route_id:null, // Number
     strategy:'',
-    speedy:null, // Number [0;10]
-    dial_format:"", // Dado de Operadora
-    call_limit:null, // Number; from Operadora (endpoint /operators) originalmente "call-limit"
-    blacklists:[], // Ainda não troca dados com o backend (endpoint para blacklists ainda não existe)
-    
-    bina_number:null, // Number
-    bina_flag:false, // Number [0/1]
+    speedy:null, // Number [1;10]
+    dial_format:'', // ['horizontal','vertical']
+    max_time_call:null, // Number (minutos); (controle de tempo de chamada Ativa)
+    blacklists:[], // Ainda não troca dados com o backend (endpoint para blacklists ainda não existe)...UPDATE: passa árvore de objetos em um array. 
+/*     Ex.: "blacklists":[
+                {
+                    "blacklist_id":"" // Number.toString()
+                    "blacklist_name":""
+                }
+            ]
+ */    
+    bina:'', // Number.toString()
+    bina_flag:false, // Number [0/1]; default:0
+    maxlen:null,// Number (segundos); (controle de tempo dechamada Manual)
 
-    timeout:null, // Number
     weight:null, // Number [1;4]
     musiconhold:'',
     
     work_time:[], // Parsed Object from endpoint /queues
 
-    pausas:[], // Dado de Pausas
-
-    agentes:[] // Dado de Agentes
-
+/*     pausas:null, // Dado do Grupo de Pausas (Array do grupo de pausas selecionado); Não retorna valores.
+ */
+    agentes:[] // Dado de Agentes...UPDATE: passa árvore de objetos em um array. 
+/*     Ex.: "agentes":[
+                {
+                    "agent_id":"" // Number.toString()
+                    "agent_name":""
+                }
+            ]
+ */    
 }
 
 export const vueMultiselectProps = {

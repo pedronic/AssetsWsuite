@@ -26,7 +26,10 @@
                         <b-col cols='3'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-at fa-2x" style="margin-left: 5px;" />
-                                <b-form-input id="profile-name-input"  type="text" placeholder="Tipo (Humano x Robô)"/>
+                                <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Tipo (Humano x Robô)"/> -->
+                                <div id="multiselect-input">
+                                    <multiselect v-model="tipo_humano" :placeholder="'Tipo (Humano x Robô)'" :label="'name'" :track-by="'code'" :options="humano_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                </div>
                             </div>
                         </b-col>
                     </b-row>
@@ -60,7 +63,7 @@
                                 <div id="multiselect-input">
                                     <multiselect v-model="tipo_finish"
                                     :taggable="true" :placeholder="'Finalização'" :label="'name'" :track-by="'code'" :options="finish_tipos" 
-                                    :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                    :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedFinalization" @remove="resetSelectedFinalization()"/>
                                 </div>
                             </div>
                         </b-col>
@@ -97,7 +100,8 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'"  :options="lista_de_pausas[0].pausas" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                    <!-- <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'"  :options="lista_de_pausas[0].pausas" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/> -->
+                                    <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'" :label="'name'" :track-by="'code'" :options="lista_de_grupos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="fillListaDePausas" @remove="emptyListaDePausas()"/>
                                 </div>
                             </div>
                         </b-col>
@@ -121,7 +125,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedRoute" @remove="resetSelectedRoute()"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -131,7 +135,7 @@
                                                 <i class="fal fa-at fa-2x" style="margin-left: 5px;" />
                                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Estratégia de Discagem"/> -->
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_strat" :placeholder="'Estratégia de Discagem'" :label="'name'" :track-by="'code'" :options="strat_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_strat" :placeholder="'Estratégia de Discagem'" :label="'name'" :track-by="'name'" :options="strat_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
                                                 </div>                                                
                                             </div>
                                         </b-col>
@@ -165,7 +169,7 @@
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input"  type="text" placeholder="Tempo Limite de Conversação"/>
+                                                <b-form-input id="profile-name-input"  type="number" placeholder="Tempo Limite de Conversação (valor INTEIRO em minutos)"/>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -199,7 +203,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_rota" :placeholder="'Rota'"              :label="'name'" :track-by="'code'" :options="rota_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedRoute" @remove="resetSelectedRoute()"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -219,7 +223,7 @@
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input"  type="text" placeholder="Tempo máximo de chamada - zero é sem limite"/>
+                                                <b-form-input id="profile-name-input"  type="text" placeholder="Tempo máximo de chamada (em segundos INTEIROS) - zero é sem limite"/>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -234,18 +238,18 @@
                         <b-container fluid>
                             <b-col cols='12'>
                                 <!-- Linha 1 {{ Tempo máximo da fila - zero é sem limite[6] }} -->
-                                    <b-row class="tab-top-section-row">
+                                   <!--  <b-row class="tab-top-section-row">
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <b-form-input id="profile-name-input"  type="text" placeholder="Tempo máximo da fila - zero é sem limite"/>
                                             </div>
                                         </b-col>
-                                    </b-row>
+                                    </b-row> -->
                                 <!-- Linha 1: FIM -->
 
                                 <!-- Linha 2 {{ Peso da Fila - (1-2-3-4):dropdown[6] }} -->
-                                    <b-row class="filas-top-section-row">
+                                    <b-row class="tab-top-section-row">
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
@@ -347,7 +351,10 @@
 
                 <!-- Tab 5 {Pausas} -->
                     <b-tab title="Pausas">
-                        <tabela-pausas :items="lista_de_pausas" class="tab-top-section-row"/>
+                        <tabela-pausas :items="lista_de_pausas" :editable="false" class="tab-top-section-row" v-if="pausasOK"/>
+                        <div v-else fluid class="container d-flex">
+                            <h3>Selecione um Grupo de Pausas para visualizar as Pausas do grupo</h3>
+                        </div>
                     </b-tab>
                 <!-- Tab 5 {Pausas}: FIM-->
 
@@ -386,7 +393,7 @@
             <b-col cols='12'>
                 <b-row>
                     <b-col cols='1'>
-                        <b-button class="botao-salvar">SALVAR</b-button>
+                        <b-button class="botao-salvar" @click="saveNewQueue()">SALVAR</b-button>
                     </b-col>
                     <b-col cols='10'/>
                     <b-col cols='1'>
@@ -404,7 +411,7 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
 import TabelaAgentes from '../../components/FilasTable/TabelaAgentes.vue';
 import Multiselect from 'vue-multiselect';
-import {baseApiUrl, vueMultiselectProps} from '../../config/global.js';
+import {baseApiUrl, vueMultiselectProps, defaultQueue} from '../../config/global.js';
 import axios from 'axios'
 
 export default {
@@ -416,31 +423,226 @@ export default {
         Multiselect
     },
     props: {
-        nome:String
+        nome:String,
+        qID:{
+            type:Number,
+            default:-1
+        }
     },
     methods: {
         formatTime(d){
             return String(d).substring(0,5);
         },
         getDataItems(){
-            axios.get(baseApiUrl+'/queues')
+            /* axios.get(baseApiUrl+'/queues')
             .then(res => {
                 console.log("Status:\t",res.status," - ",res.statusText)
                 let r = res.data.data
                 let q = r[0]
                 let w = JSON.parse(q.work_time)
-                console.log("Parsed Object work_time @getDataItems():\n",w)
+                console.log("Parsed Object work_time @getDataItems():\n",w);
+                this.checkForQID();
+            }) */
+            this.getFinalizations();
+            this.getRotas();
+            this.checkForQID();
+        },
+        getFinalizations(){
+            axios.get(baseApiUrl+'/finalizations')
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let f = res.data.data;
+                let items = [];
+                for(let i in f){
+                    let finaliz = {};
+                    finaliz.name = f[i].name;
+                    finaliz.code = f[i].id;
+                    items.push({...finaliz});
+                }
+                this.finish_tipos = [...items];
+            })
+            .catch(error => {
+                console.log("Status:\t",error.status," - ",error.message)
+            })
+        },
+        getRotas(){
+            axios.get(baseApiUrl+'/routes')
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText);
+                let r = res.data.data;
+                let items = [];
+                for(let i in r){
+                    let rota = {};
+                    rota.name = r[i].name;
+                    rota.code = r[i].id;
+                    items.push({...rota});
+                }
+                this.rota_tipos = [...items];
+            })
+            .catch(error => {
+                console.log("Status:\t",error.status," - ",error.message);
+            })
+        },
+        /* getOperatorData(){
+            // let opID = "15";
+            axios.get(baseApiUrl+'/operators/15')
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let r = res.data.data
+                let o = r[0]
+                let w = JSON.parse(o.dial_format)
+                console.log("Parsed Object dial_format @getOperatorData():\n",w)
                 this.dataOK = true;
             })
+            .catch(error => {
+                console.log("Status:\t",error.status," - ",error.message)
+            })
+        }, */
+        checkForQID(){
+            if(this.qID > 0) this.getQDataByID(this.qID);
+            else this.getQDefaultData();
+        },
+        getQDefaultData(){
+            this.queue = {...defaultQueue};
+            this.getBreakGroups();
+        },
+        getQDataByID(id){
+            let qid = id.toString();
+            axios.get(baseApiUrl+'/queues/'+qid)
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let q = res.data.data;
+                let queue = {};
+                
+                queue.name_queue = q[0].name_queue;
+                queue.queue_number = q[0].queue_number;
+                queue.type = q[0].type;
+                queue.q_type = [];// journey
+                queue.slug = q[0].slug;
+                queue.finalization_name = q[0].finalization_name;
+                queue.finalization_id = q[0].finalization_id;
+                queue.rec_format = [];
+                queue.rec_type = [];
+                queue.wrapuptime = q[0].wrapuptime;
+                queue.break_group_id = q[0].break_group_id;
+                
+                queue.route_name = q[0].route_name;
+                queue.route_id = q[0].route_id;
+                queue.strategy = q[0].strategy;
+                queue.speedy = q[0].speedy;
+                queue.dial_format = q[0].dial_format;
+                queue.max_time_call = q[0].max_time_call;
+                
+                queue.bina = q[0].bina;
+                queue.flag_bina = q[0].flag_bina?true:false;
+
+                queue.weight = q[0].weight;
+                queue.musiconhold = q[0].musiconhold;
+
+                queue.work_time = JSON.parse(q[0].work_time);
+
+                // queue.pausas = this.getBreaksFromGroup(queue.break_group_id);
+                this.getBreakGroups(queue.break_group_id);
+                queue.agentes = this.getAgentsList();
+            })
+        },
+        getBreakGroups() {
+            axios.get(baseApiUrl+'/breaksGroups')
+            .then(res => {
+                let g = res.data.data;
+                let grupos = [];
+
+                for(let i in g){
+                    let grupo = {};
+                    grupo.name = g[i].group_name;
+                    grupo.code = g[i].group_id;
+                    grupos.push({...grupo});
+                }
+                console.log("Grupos:\n",grupos);
+                this.lista_de_grupos = [...grupos];
+                this.dataOK = true;
+            })
+            .catch(error => {
+                console.log("Status:\t",error.status," - ",error.message);
+            })
+        },
+        getBreaksFromGroup(id) {
+            let gID = id.toString();
+            axios.get(baseApiUrl+'/breaksGroups/'+gID)
+            .then(res => {
+                let g = res.data.data;
+                let pausas = [];
+                let first = {};
+                let items = [];
+
+                let p = g[0].group_breaks;
+                for(let i in p){
+                    pausas.push(p[i].name);
+                }
+                first.pausas = [...pausas];
+                items.push({...first});
+                for(let j in g[0].group_breaks){
+                    let pausa = {};
+                    pausa.pausa = g[0].group_breaks[j].name;
+                    pausa.produtiva = g[0].group_breaks[j].productive?true:false;
+                    pausa.obrigatoria = g[0].group_breaks[j].officer?true:false;
+                    pausa.alerta = g[0].group_breaks[j].time_alert===null?'':g[0].group_breaks[j].time_alert;
+                    pausa.limite = g[0].group_breaks[j].time_limit===null?'00:01:00':g[0].group_breaks[j].time_limit;
+                    let icon = typeof(g[0].group_breaks[j].icone)==='string'?"<i class='"+g[0].group_breaks[j].icone+"'/>":g[0].group_breaks[j].icone;
+                    pausa.icone = icon;
+                    pausa.icon_class = g[0].group_breaks[j].icone===null?'fal fa-ad fa-2x':g[0].group_breaks[j].icone;
+                    pausa.ativa = g[0].group_breaks[j].status?true:false;
+                    pausa.id = g[0].group_breaks[j].id;
+                    items.push({...pausa});
+                }
+                console.log("\tItems:\n",items);
+                this.lista_de_pausas = [...items];
+                this.pausasOK = true;
+            })
+        },
+        fillListaDePausas(value){
+            // console.log("Valor:\t",value,"\tCódigo (group_id):",value.code);
+            this.lista_de_pausas = null;
+            this.pausasOK = this.pausasOK?false:this.pausasOK;
+            this.getBreaksFromGroup(value.code)
+        },
+        emptyListaDePausas(){
+            this.lista_de_pausas = null;
+            // this.lista_de_pausas = [...this.lista_de_pausas_default];
+            this.pausasOK = false;
+        },
+        setSelectedFinalization(value){
+            // console.log("Valor:\t",value,"\tCódigo (group_id):",value.code);
+            this.queue.finalization_name = value.name;
+            this.queue.finalization_id = value.code;
+            // console.log("Tipo Finish @setSelectedFinalization():\n",this.tipo_finish)
+            // console.log("Queue @setSelectedFinalization():\n",this.queue)
+        },
+        resetSelectedFinalization(){
+            this.queue.finalization_name = '';
+            this.queue.finalization_id = null;
+        },
+        setSelectedRoute(value){
+            this.queue.route_name = value.name;
+            this.queue.route_id = value.code;
+            console.log("Queue @setSelectedRoute():\n",this.queue)
+        },
+        resetSelectedRoute(){
+            this.queue.route_name = '';
+            this.queue.route_id = null;
         }
     },
     created() {
         this.getDataItems();
+        // this.getOperatorData();
+        // this.checkForQID();
     },
     data() {
         return {
             status: true,
             dataOK:false,
+            pausasOK:false,
+            queue:null,
             start:'',
             end:'',
             timeMask:'##:##',
@@ -491,7 +693,8 @@ export default {
                     end:''
                 },
             ],
-            lista_de_pausas:[
+            lista_de_pausas:null,
+            /* [
                 {   
                     pausas: ["Banheiro","OVNI"]
                 },
@@ -517,7 +720,8 @@ export default {
                     add: '<span class="fal fa-trash-alt"/>',
                     id:"00002"
                 }
-            ],
+            ] */
+            lista_de_grupos:null,
             lista_de_agentes:[
                 {
                     selected:false,
@@ -544,11 +748,12 @@ export default {
             tipo_vel:[],
             tipo_modo:[],
             tipo_peso:[],
+            tipo_humano:[],
             music_tipo:[],
             filas_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Receptiva", code:"R"}
+                {name:"Ativa",  code:'active'},
+                {name:"Manual", code:'manual'},
+                {name:"Receptiva", code:'receptive'}
             ],
             finish_tipos:[
                 {name:"Ativa",  code:"A"},
@@ -556,34 +761,43 @@ export default {
                 {name:"Recebe", code:"R"}
             ],
             recording_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
+                {name:".mp3",  code:"1"},
+                {name:".wav", code:"2"},
+                {name:".flac", code:"3"}
             ],
             tipo_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
+                {name:"Mono",  code:1},
+                {name:"Stereo", code:2}
             ],
-            rota_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
+            rota_tipos:null,
+            // [
+            //     {name:"Ativa",  code:"A"},
+            //     {name:"Manual", code:"M"},
+            //     {name:"Recebe", code:"R"}
+            // ],
             strat_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
-            ],
+                {name:'rrmemory',  code:'rrmemory'},
+                {name:'random', code:'random'},
+                {name:'fewestcall', code:'fewestcall'},
+                {name:'leastrecent', code:'leastrecent'},
+                {name:'roundrobin', code:'roundrobin'},
+                {name:'ringall', code:'ringall'}
+            ], 
             vel_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
+                {name:"1",  code:1},
+                {name:"2", code:2},
+                {name:"3", code:3},
+                {name:"4", code:4},
+                {name:"5", code:5},
+                {name:"6", code:6},
+                {name:"7", code:7},
+                {name:"8", code:8},
+                {name:"9", code:9},
+                {name:"10", code:10}
             ],
             modo_tipos:[
-                {name:"Ativa",  code:"A"},
-                {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
+                {name:'Horizontal', code:'horizontal'},
+                {name:'Vertical', code:'vertical'}
             ],
             peso_tipos:[
                 {name:"1", code:1},
@@ -600,7 +814,11 @@ export default {
                 {name:"Lista Proibida 1", code:1},
                 {name:"Lista Proibida 2", code:2},
                 {name:"Lista Proibida 3", code:3}
-            ]
+            ],
+            humano_tipos:[
+                {name:"Humano", code:"human"},
+                {name:"Robô", code:"robot"}
+            ],
         }
     }
 };

@@ -22,8 +22,8 @@
             <template v-slot:head(ativa)="data">
                 <span>{{data.label}}</span>
             </template>
-            <template v-slot:head(add)="data">
-                <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
+            <template v-slot:head(add)="data" >
+                <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark" :disabled="isEditable">
                     <span v-html="data.label" class="head-add-button"/>
                 </b-button>
             </template>
@@ -49,10 +49,10 @@
             <template v-slot:cell(ativa)="slot">
                 <b-form-checkbox v-model="slot.item.ativa" :id="(slot.item.pausa)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
             </template>
-            <template v-slot:cell(add)="slot">
-                <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'"  v-html="editIcon"/>
-                <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'"/>
-            </template>                
+            <template v-slot:cell(add)="slot" >
+                <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'"  v-html="editIcon" :disabled="isEditable"/>
+                <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'" :disabled="isEditable"/>
+            </template>
         </b-table>
 <!-- ---------------------------------------------------- -->
         <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
@@ -248,6 +248,10 @@ export default {
     mixins: [ValidateToaster],
     props:{
         items: Array,
+        editable:{
+            type:Boolean,
+            default:true
+        }
     },
     methods: {
         deleteRow(nomeDaPausa, id){
@@ -430,6 +434,7 @@ export default {
     // },
     data(){
         return {
+            isEditable:this.editable?null:'disabled',
             filas: this.items.slice(1,this.items.length),
             newRowInput: Object.assign({},this.newRowDefault),
             editRowInput: Object.assign({},this.newRowDefault),

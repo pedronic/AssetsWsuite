@@ -35,7 +35,7 @@ export default {
             let pausas = [];
             let first = {};
             let items = [];
-            let pausa = {};
+            
             
             for(let i in p){
                 pausas.push(p[i].name);
@@ -44,6 +44,7 @@ export default {
             items.push({...first});
 
             for(let i in p){
+                let pausa = {};
                 pausa.pausa = p[i].name;
                 pausa.produtiva = p[i].productive?true:false;
                 pausa.obrigatoria = p[i].officer?true:false;
