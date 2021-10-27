@@ -22,7 +22,6 @@ import TabelaAcessoUsuario from '../../components/ProfileAccessTable/TabelaAcess
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 import axios from "axios";
 import {baseApiUrl, defaultNewUserProfile} from "../../config/global";
-// import {defaultNewUserProfile} from "../../config/global";
 
 
 export default {

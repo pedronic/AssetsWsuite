@@ -49,7 +49,7 @@
         <span :id="(slot.item.name)+'_icone'" v-html="slot.value" />
       </template>
       <template v-slot:cell(flag)="slot">
-        <b-form-checkbox v-model="slot.value" :id="(slot.item.name)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+        <b-form-checkbox v-model="slot.item.flag" :id="(slot.item.name)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
       </template>
       <template v-slot:cell(add)="slot">
         <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.name)+'_edit_modal'"  v-html="editIcon"/>

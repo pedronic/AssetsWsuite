@@ -51,6 +51,7 @@ const routes = [
   {
     path: '/registro-operadoras',
     name: 'RegistroOperadoras',
+    props: true,
     component: () => import( '../views/Cadastrar/RegistroOperadoras.vue')
   },
   {
@@ -173,6 +174,7 @@ const routes = [
   {
     path: '/cadastrar-filas',
     name: 'FilasCadastro',
+    props: true,
     component: () => import('../views/Filas/FilasCadastro.vue')
   }
 ]

@@ -42,7 +42,7 @@ export default {
         filter: String,
     },
     created(){
-        this.filas = [...this.items];
+        
 
         this.prioridades = function(){
             let item = [];
@@ -118,6 +118,7 @@ export default {
     },
     data(){
         return{
+            filas: [...this.items],
             fields: [
                 {
                     key:'selected',

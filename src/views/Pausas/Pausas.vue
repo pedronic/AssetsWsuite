@@ -5,7 +5,7 @@
                 <div class="card-body"/>
             </div>
         </pages-sub-header>
-        <tabela-pausas :items="items"/>
+        <tabela-pausas :items="items" v-if="buildTable"/>
         <b-container fluid class="salvar-container">
             <router-link to='/grupo-de-pausas'>
                 <b-button class="botao-salvar">CRIAR GRUPO</b-button>
@@ -18,6 +18,8 @@
 import PagesSubHeader from '@/components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
 
 export default {
     name: 'Pausas',
@@ -26,9 +28,49 @@ export default {
         PagesSubHeader,
         TabelaPausas,
     },
+    methods: {
+        async getPausas(){
+            let res = await axios.get(baseApiUrl+"/breaks");
+            let p = res.data.data;
+            let pausas = [];
+            let first = {};
+            let items = [];
+            
+            
+            for(let i in p){
+                pausas.push(p[i].name);
+            }
+            first.pausas = [...pausas];
+            items.push({...first});
+
+            for(let i in p){
+                let pausa = {};
+                pausa.pausa = p[i].name;
+                pausa.produtiva = p[i].productive?true:false;
+                pausa.obrigatoria = p[i].officer?true:false;
+                pausa.alerta = p[i].time_alert===null?'':p[i].time_alert;
+                pausa.limite = p[i].time_limit===null?'00:01:00':p[i].time_limit;
+                let icon = typeof(p[i].icone)==='string'?"<i class='"+p[i].icone+"'/>":p[i].icone;
+                pausa.icone = icon;
+                pausa.icon_class = p[i].icone===null?'fal fa-ad fa-2x':p[i].icone;
+                pausa.ativa = p[i].status?true:false;
+                pausa.id = p[i].id;
+                items.push({...pausa});
+            }
+            console.log("Items:\n",items);
+            this.items = [...items];
+            this.buildTable = true;
+        }
+    },
+    created() {
+        this.getPausas();
+    },
     data(){
         return{
-            items:[
+            buildTable:false,
+            items:null,
+           /*
+            [
                 {   
                     pausas: ["Banheiro","OVNI"]
                 },
@@ -53,6 +95,7 @@ export default {
                     add: '<span class="fal fa-trash-alt"/>',
                 }
             ]
+            */
         }
     }
 

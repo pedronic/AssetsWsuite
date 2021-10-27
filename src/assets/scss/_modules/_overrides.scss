@@ -10,3 +10,12 @@
     padding: 10px;
     padding-bottom: 20px;
 }
+
+.btn-success.btn-outline-dark.disabled{
+    border-color: #2e2e2e;
+    background-color: #85cdae;
+}
+
+label[for="status-button"]{
+    padding-top: 0.35ch !important;
+}

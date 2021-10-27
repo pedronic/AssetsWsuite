@@ -18,9 +18,14 @@
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(add)="data">
-        <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
+        <!-- <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
           <span v-html="data.label" class="head-add-button"/>
-        </b-button>
+        </b-button> -->
+        <router-link  :to="{name:'RegistroServidores',params:{serverID: newID}}">
+          <b-button class="head-add-button btn-success" variant="outline-dark">
+            <span class="head-add-button" v-html="data.label"/>
+          </b-button>
+        </router-link>
       </template>
 
       <template v-slot:cell(name)="slot">

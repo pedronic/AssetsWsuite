@@ -22,8 +22,8 @@
             <template v-slot:head(ativa)="data">
                 <span>{{data.label}}</span>
             </template>
-            <template v-slot:head(add)="data">
-                <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
+            <template v-slot:head(add)="data" >
+                <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark" :disabled="isEditable">
                     <span v-html="data.label" class="head-add-button"/>
                 </b-button>
             </template>
@@ -32,10 +32,10 @@
                 <span :id="(slot.item.pausa)+'_pausa'">{{slot.value}}</span>
             </template>
             <template v-slot:cell(produtiva)="slot" >
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_produtiva'" :value="true" :unchecked-value="false" disabled/>
+                <b-form-checkbox v-model="slot.item.produtiva" :id="(slot.item.pausa)+'_produtiva'" :value="true" :unchecked-value="false" disabled/>
             </template>
             <template v-slot:cell(obrigatoria)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_obrigatoria'" :value="true" :unchecked-value="false" disabled/>
+                <b-form-checkbox v-model="slot.item.obrigatoria" :id="(slot.item.pausa)+'_obrigatoria'" :value="true" :unchecked-value="false" disabled/>
             </template>
             <template v-slot:cell(alerta)="slot">
                 <span :id="(slot.item.pausa)+'_alerta'">{{slot.value}}</span>
@@ -44,15 +44,15 @@
                 <span :id="(slot.item.pausa)+'_limite'">{{slot.value}}</span>
             </template>
             <template v-slot:cell(icone)="slot">
-                <span :id="(slot.item.pausa)+'_icone'" v-html="slot.value" />
+                <span :id="(slot.item.pausa)+'_icone'" v-html="slot.item.icone" />
             </template>
             <template v-slot:cell(ativa)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.pausa)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+                <b-form-checkbox v-model="slot.item.ativa" :id="(slot.item.pausa)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
             </template>
-            <template v-slot:cell(add)="slot">
-                <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'"  v-html="editIcon"/>
-                <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'"/>
-            </template>                
+            <template v-slot:cell(add)="slot" >
+                <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'"  v-html="editIcon" :disabled="isEditable"/>
+                <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'" :disabled="isEditable"/>
+            </template>
         </b-table>
 <!-- ---------------------------------------------------- -->
         <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
@@ -71,7 +71,7 @@
             cancel-title="CANCELAR" 
             cancel-variant="danger"
             @ok="updateRow(index)"
-            @cancel="cancelEdit(index)"
+            @cancel="cancelEdit(i.pausa)"
             @show="populateEditLine(index)"
             >
                 <b-container fluid>
@@ -116,10 +116,11 @@
                                 <b-form-input v-model="editRowInput.limite" :presentState="i" :id="i.pausa+'_edit_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
-                                <b-form-select v-model="editRowInput.icone" :id="i.pausa+'_edit_row_icone'" :select-size="4">
-                                    <b-form-select-option v-for="j in icons" :key="j.value">
+                                <!-- SUBSTITUIR TAG: Utilizar <VueMultiselect> no lugar de lista para exibir as imagens -->
+                                <b-form-select v-model="editRowInput.icone" :id="i.pausa+'_edit_row_icone'" :select-size="4" :options="icons">
+                                    <!-- <b-form-select-option v-for="j in icons" :key="j.value">
                                         <span :id="j.value" v-html="j.html"/>
-                                    </b-form-select-option>
+                                    </b-form-select-option> -->
                                 </b-form-select>
                             </b-col>
                             <b-col cols="1" class="ativa-body-container">
@@ -143,7 +144,7 @@
                 ok-variant="danger" 
                 cancel-title="MANTER" 
                 cancel-variant="success"
-                @ok="deleteRow(i.pausa)"
+                @ok="deleteRow(i.pausa, i.id)"
                 @cancel="cancelDelete(i.pausa)">
                        Tem certeza que deseja excluir a pausa <b>{{i.pausa}}</b>?
             </b-modal>
@@ -209,6 +210,7 @@
                                 <b-form-input v-model="newRowInput.limite" :id="'new_row_limite'" type="text"  v-mask="'##:##:##'"></b-form-input>
                             </b-col>
                             <b-col cols="1" class="icone-body-container">
+                                <!-- SUBSTITUIR TAG: Utilizar <VueMultiselect> no lugar de lista para exibir as imagens -->
                                 <b-form-select v-model="newRowInput.icone" :id="'new_row_icone'" :select-size="4" :options="icons">
                                 </b-form-select>
                             </b-col>
@@ -226,6 +228,8 @@
 
 <script>
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
 
 const defaultRow = {
                     pausa:'',
@@ -234,8 +238,9 @@ const defaultRow = {
                     alerta:'',
                     limite: '',
                     icone: '',
+                    icon_class:'fal fa-ad fa-2x',
                     ativa: true,
-                    add: '<span class="fal fa-trash-alt"/>',
+                    id:''
                 };
 
 export default {
@@ -243,18 +248,35 @@ export default {
     mixins: [ValidateToaster],
     props:{
         items: Array,
+        editable:{
+            type:Boolean,
+            default:true
+        }
     },
     methods: {
-        deleteRow(ev){
-            const p = this.pausas.indexOf(ev);
-            this.filas.splice(p,1);
-            this.pausas.splice(p,1);
-            let toast = {
-                isValidated:true,
-                title:'PAUSA EXCLUÍDA',
-                message:'Pausa '+ev.toUpperCase()+' excluída com sucesso!',
-            }
-            this.validateAndToast(toast);
+        deleteRow(nomeDaPausa, id){
+            const p = this.pausas.indexOf(nomeDaPausa);
+            axios.delete(baseApiUrl +'/breaks/'+id)
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let toast = {
+                    isValidated:true,
+                    title:'PAUSA EXCLUÍDA',
+                    message:'Pausa '+nomeDaPausa.toUpperCase()+' excluída com sucesso!',
+                }
+                this.validateAndToast(toast);
+                this.filas.splice(p,1);
+                this.pausas.splice(p,1);
+            })
+            .catch(error => {
+                console.log("\n\tERROR RESPONSE:\n",error.response)
+                let toast = {
+                    isValidated:false,
+                    title:'PAUSA NÃO EXCLUÍDA',
+                    message:'A Pausa '+ nomeDaPausa.toUpperCase()+' não pôde ser excluída. Motivo: '+error.message,
+                }
+                this.validateAndToast(toast);
+            })
         },
         cancelDelete(p){
             let toast = {
@@ -267,18 +289,17 @@ export default {
         okayAdd(){
             let newPausa = this.newRowInput.pausa.trim();
             if (newPausa.length>0){
-                console.log("Filas ok:")
-                console.log(this.filas)
-                console.log("New Row Input:")
-                console.log(this.newRowInput)
-                this.filas.push(Object.assign({},this.newRowInput));
-                this.pausas.push(newPausa);
-                let toast = {
-                    isValidated:true,
-                    title:'NOVA PAUSA ADICIONADA',
-                    message:'Nova Pausa '+newPausa.toUpperCase()+' adicionada com sucesso!',
-                }
-                this.validateAndToast(toast);
+                let body = {};
+                    body.name = this.newRowInput.pausa.trim();
+                    body.productive = this.newRowInput.produtiva?1:0;
+                    body.officer = this.newRowInput.obrigatoria?1:0;
+                    body.time_alert = (this.newRowInput.alerta===null || this.newRowInput.alerta.length===0)?"":this.newRowInput.alerta;
+                    body.time_limit = (this.newRowInput.limite===null || this.newRowInput.limite.length===0)?"00:01:00":this.newRowInput.limite;
+                    body.status = this.newRowInput.ativa?1:0;
+                    console.log("Icon Class @okayAdd():\n",this.newRowInput.icon_class);
+                    body.icone = this.newRowInput.icon_class.length>0?this.newRowInput.icon_class:this.newRowInput.icone;
+                console.log("\nBody @okayAdd():\n",body)
+                this.postNewRow(body,newPausa)
             }
             else {
                 let toast = {
@@ -310,20 +331,20 @@ export default {
 
             if(p.length > 0){ // checando se o nome não está em branco
                 /* Atualizando Fila e Pausas com dados editados */
-                this.filas.splice(row,1,{...this.editRowInput});
-                this.pausas.splice(row,1, p);
-                this.editRowInput = {...this.newRowDefault};
-
-                let toast = {
-                    isValidated:true,
-                    title:'PAUSA EDITADA',
-                    message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
-                }
-                this.validateAndToast(toast);
+                let body = {};
+                    body.name = this.editRowInput.pausa.trim();
+                    body.productive = this.editRowInput.produtiva?1:0;
+                    body.officer = this.editRowInput.obrigatoria?1:0;
+                    body.time_alert = this.editRowInput.alerta===null?"":this.editRowInput.alerta;
+                    body.time_limit = this.editRowInput.limite===null?"00:01:00":this.editRowInput.limite;
+                    body.status = this.editRowInput.ativa?1:0;
+                    console.log("Icon Class @updateRow():\n",this.editRowInput.icon_class);
+                    body.icone = this.editRowInput.icon_class.length>0?this.editRowInput.icon_class:this.editRowInput.icone;
+                console.log("\nBody @updateRow():\n",body)
+                this.putEditedRow(body,this.editRowInput.id,row);
             }
             else {
                 this.editRowInput = {...this.newRowDefault};
-
                 let toast = {
                     isValidated:false,
                     title:'PAUSA NÃO EDITADA',
@@ -332,22 +353,74 @@ export default {
                 this.validateAndToast(toast);
             }
         },
-        cancelEdit(row){
+        cancelEdit(row_name){
             this.editRowInput = {...this.newRowDefault};
-            let p = this.filas[row].pausa;
+            let p = row_name;
             let toast = {
                 isValidated:false,
                 title:'PAUSA NÃO EDITADA',
                 message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
             };
             this.validateAndToast(toast);
+        },
+        putEditedRow(body, id, row){
+            // const body = {...body_in};
+            console.log("Body @putEditedRow():\n",body)
+            axios.put(baseApiUrl+'/breaks/'+id, body)
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let toast = {
+                    isValidated:true,
+                    title:'PAUSA EDITADA',
+                    message:'Pausa '+body.name.toUpperCase()+' editada com sucesso!'
+                }
+                this.validateAndToast(toast);
+                this.filas.splice(row,1,{...this.editRowInput});
+                this.pausas.splice(row,1, this.editRowInput.pausa.trim());
+                this.editRowInput = {...this.newRowDefault};
+            })
+            .catch(error => {
+                console.log("\n\tERROR RESPONSE:\n",error.response)
+                let toast = {
+                    isValidated:false,
+                    title:'PAUSA NÃO EDITADA',
+                    message:'A Pausa '+ body.name.toUpperCase()+' não pôde ser editada. Motivo: '+error.message,
+                }
+                this.validateAndToast(toast);
+                this.editRowInput = {...this.newRowDefault};
+            })
+        },
+        postNewRow(body, new_row_name){
+            console.log("Body @postNewRow():\n",body)
+            axios.post(baseApiUrl+'/breaks', body)
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let toast = {
+                    isValidated:true,
+                    title:'NOVA PAUSA ADICIONADA',
+                    message:'Nova Pausa '+body.name.toUpperCase()+' adicionada com sucesso!',
+                }
+                this.validateAndToast(toast);
+                this.filas.push(Object.assign({},this.newRowInput));
+                this.pausas.push(new_row_name);
+            })
+            .catch(error => {
+                console.log("\n\tERROR RESPONSE:\n",error.response)
+                let toast = {
+                    isValidated:false,
+                    title:'NOVA PAUSA NÃO ADICIONADA',
+                    message:'Nova Pausa '+ body.name.toUpperCase()+' não pôde ser adicionada. Motivo: '+error.message,
+                }
+                this.validateAndToast(toast);
+            })
         }
     },
-    created(){
+    mounted(){
         this.newRowDefault = {...defaultRow};
         // this.newRowInput = Object.assign({},this.newRowDefault);
         // this.editRowInput = Object.assign({},this.newRowDefault);
         localStorage.setItem('__pedro-dev', JSON.stringify(this.items.slice(1,this.items.length)));
+        // this.init();
         // this.editRowInput = this.filas;
         // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
     },
@@ -356,11 +429,12 @@ export default {
         //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
         // }
     },
-    mounted(){     
-        // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
-    },
+    // mounted(){     
+    //     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
+    // },
     data(){
         return {
+            isEditable:this.editable?null:'disabled',
             filas: this.items.slice(1,this.items.length),
             newRowInput: Object.assign({},this.newRowDefault),
             editRowInput: Object.assign({},this.newRowDefault),

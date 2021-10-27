@@ -8,7 +8,8 @@
     <div>
       <form>
         <div class="form-group">
-
+        
+        <!-- LINHA 1 -->
           <div class="d-inline">
             <div class="row mb-2 justify-content-center ">
 
@@ -55,6 +56,9 @@
               </div>
             </div>
           </div>
+        <!-- LINHA 1: FIM -->
+
+        <!-- LINHA 2 -->
           <div class="d-inline">
             <div class="row mb-2 justify-content-center ">
 
@@ -92,6 +96,7 @@
               </div>
             </div>
           </div>
+        <!-- LINHA 2: FIM -->
         <b-row>
           <b-col class="mr-auto p-3" cols="auto">
             <button class="btn btn-dark botao-salvar" type="submit">Salvar</button>
