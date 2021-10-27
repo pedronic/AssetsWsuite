@@ -29,7 +29,7 @@
                   <b-form-input
                     v-model="email"
                     id="profile-name-input"
-                    type="text"
+                    type="email"
                     placeholder="Email"
                   />
                 </div>

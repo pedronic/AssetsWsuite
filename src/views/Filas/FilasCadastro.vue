@@ -13,14 +13,14 @@
                         <b-col cols='6'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                <b-form-input id="profile-name-input"  type="text" placeholder="Nome"/>
+                                <b-form-input id="profile-name-input"  type="text" placeholder="Nome" v-model="name_queue" @change="setSlug"/>
                             </div>
                         </b-col>
 
                         <b-col cols='3'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-at fa-2x" style="margin-left: 5px;" />
-                                <b-form-input id="profile-name-input"  type="text" placeholder="Número da Fila"/>
+                                <b-form-input id="profile-name-input"  type="number" placeholder="Número da Fila" v-model="queue_number" @change="setQNumber"/>
                             </div>
                         </b-col>
                         <b-col cols='3'>
@@ -28,7 +28,7 @@
                                 <i class="fal fa-at fa-2x" style="margin-left: 5px;" />
                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Tipo (Humano x Robô)"/> -->
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_humano" :placeholder="'Tipo (Humano x Robô)'" :label="'name'" :track-by="'code'" :options="humano_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                    <multiselect v-model="tipo_humano" :placeholder="'Tipo (Humano x Robô)'" :label="'name'" :track-by="'code'" :options="humano_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedQType" @remove="resetSelectedQType()"/>
                                 </div>
                             </div>
                         </b-col>
@@ -49,7 +49,7 @@
                         <b-col cols='6'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                <b-form-input id="profile-name-input"  type="text" placeholder="Nome para FTP"/>
+                                <b-form-input id="profile-name-input"  type="text" placeholder="Nome para FTP" disabled v-model="queue.slug"/>
                             </div>
                         </b-col>
                     </b-row>
@@ -72,7 +72,7 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_recording" :placeholder="'Formato Gravação'" :label="'name'" :track-by="'code'" :options="recording_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                    <multiselect v-model="tipo_recording" :placeholder="'Formato Gravação'" :label="'name'" :track-by="'code'" :options="recording_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedRecFormat" @remove="resetSelectedRecFormat()"/>
                                 </div>
                             </div>
                         </b-col>
@@ -80,7 +80,8 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_tipo" :placeholder="'Tipo'" :label="'name'" :track-by="'code'" :options="tipo_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                    <multiselect v-model="tipo_tipoSom" :placeholder="'Tipo de Gravação'" :label="'name'" :track-by="'code'" :options="tipoSom_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"
+                                    @select="setSelectedRecType" @remove="resetSelectedRecType()"/>
                                 </div>
                             </div>
                         </b-col>
@@ -92,7 +93,7 @@
                         <b-col cols='6'>
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                <b-form-input id="profile-name-input"  type="text" placeholder="Tempo de Pós Atendimento"/>
+                                <b-form-input id="profile-name-input"  type="number" placeholder="Tempo de Pós Atendimento (valor INTEIRO em segundos)" v-model="wrapuptime" @change="setWrapuptime"/>
                             </div>
                         </b-col>
 
@@ -100,7 +101,6 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <!-- <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'"  :options="lista_de_pausas[0].pausas" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/> -->
                                     <multiselect v-model="tipo_pausegroup" :placeholder="'Grupo de Pausas'" :label="'name'" :track-by="'code'" :options="lista_de_grupos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="fillListaDePausas" @remove="emptyListaDePausas()"/>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                                                 <i class="fal fa-at fa-2x" style="margin-left: 5px;" />
                                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Estratégia de Discagem"/> -->
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_strat" :placeholder="'Estratégia de Discagem'" :label="'name'" :track-by="'name'" :options="strat_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_strat" :placeholder="'Estratégia de Discagem'" :label="'name'" :track-by="'name'" :options="strat_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedStrategy" @@remove="resetSelectedStrategy()"/>
                                                 </div>                                                
                                             </div>
                                         </b-col>
@@ -148,7 +148,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_vel" :placeholder="'Velocidade'" :label="'name'" :track-by="'code'" :options="vel_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_vel" :placeholder="'Velocidade'" :label="'name'" :track-by="'code'" :options="vel_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedSpeed" @remove="resetSelectedSpeed()"/>
                                                 </div>   
                                             </div>
                                         </b-col>
@@ -157,7 +157,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_modo" :placeholder="'Modo de Discagem'" :label="'name'" :track-by="'code'" :options="modo_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_modo" :placeholder="'Modo de Discagem'" :label="'name'" :track-by="'code'" :options="modo_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedDialFormat" @remove="resetSelectedDialFormat()"/>
                                                 </div>   
                                             </div>
                                         </b-col>
@@ -169,7 +169,7 @@
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input"  type="number" placeholder="Tempo Limite de Conversação (valor INTEIRO em minutos)"/>
+                                                <b-form-input id="profile-name-input"  type="number" placeholder="Tempo Limite de Conversação (valor INTEIRO em minutos)" v-model="max_time_call" @change="setMaxTimeCall"/>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -182,7 +182,7 @@
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Black Lists"/> -->
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_blacklists" :placeholder="'Blacklists'" :label="'name'" :track-by="'code'" :options="blacklists_tipos" :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_blacklists" :placeholder="'Blacklists'" :label="'name'" :track-by="'code'" :options="blacklists_tipos" :multiple="true" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedBlacklists" @remove="resetSelectedBlacklists"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -211,8 +211,8 @@
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line2 d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input2"  type="text" placeholder="Número do Bina"/>
-                                                <b-form-checkbox v-model="bina_number" id="bina_switch" switch />
+                                                <b-form-input id="profile-name-input2"  type="number" placeholder="Número do Bina" v-model="bina_number" @change="setBinaNumber"/>
+                                                <b-form-checkbox v-model="queue.flag_bina" id="bina_switch" switch />
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -223,7 +223,7 @@
                                         <b-col cols='6'>
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
-                                                <b-form-input id="profile-name-input"  type="text" placeholder="Tempo máximo de chamada (em segundos INTEIROS) - zero é sem limite"/>
+                                                <b-form-input id="profile-name-input"  type="number" placeholder="Tempo máximo de chamada (valor INTEIRO em segundos) - zero é sem limite" v-model="maxlen" @change="setMaxlen"/>
                                             </div>
                                         </b-col>
                                     </b-row>
@@ -254,7 +254,7 @@
                                             <div class="profile-content user-name-line d-flex">
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_peso" :placeholder="'Peso da Fila - (1-2-3-4)'" :label="'name'" :track-by="'code'" :options="peso_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_peso" :placeholder="'Peso da Fila - (1-2-3-4)'" :label="'name'" :track-by="'code'" :options="peso_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedWeight" @remove="resetSelectedWeight()"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -268,7 +268,7 @@
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Música de espera"/> -->
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_music" :placeholder="'Música de Espera'" :label="'name'" :track-by="'code'" :options="music_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel"/>
+                                                    <multiselect v-model="tipo_music" :placeholder="'Música de Espera'" :label="'name'" :track-by="'code'" :options="music_tipos"                :multiple="false" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedMusicOnHold" @remove="resetSelectedMusicOnHold()"/>
                                                 </div>
                                             </div>
                                         </b-col>
@@ -352,8 +352,8 @@
                 <!-- Tab 5 {Pausas} -->
                     <b-tab title="Pausas">
                         <tabela-pausas :items="lista_de_pausas" :editable="false" class="tab-top-section-row" v-if="pausasOK"/>
-                        <div v-else fluid class="container d-flex">
-                            <h3>Selecione um Grupo de Pausas para visualizar as Pausas do grupo</h3>
+                        <div v-else fluid class="container d-flex justify-content-around tab-top-section-row">
+                            <h3>{{pausa_loading_text}}</h3>
                         </div>
                     </b-tab>
                 <!-- Tab 5 {Pausas}: FIM-->
@@ -397,7 +397,7 @@
                     </b-col>
                     <b-col cols='10'/>
                     <b-col cols='1'>
-                        <label><b-form-checkbox switch v-model="status" v-if="dataOK"><span>Status</span></b-form-checkbox></label>
+                        <label><b-form-checkbox switch v-model="status" v-if="dataOK" id="status-button"><span>Status</span></b-form-checkbox></label>
                     </b-col>
                 </b-row>
             </b-col>
@@ -411,11 +411,14 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue';
 import TabelaPausas from '../../components/PauseTable/TabelaPausas.vue';
 import TabelaAgentes from '../../components/FilasTable/TabelaAgentes.vue';
 import Multiselect from 'vue-multiselect';
-import {baseApiUrl, vueMultiselectProps, defaultQueue} from '../../config/global.js';
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import KebabCaseFormatter from '../../plugins/kebabCaseFormatter.js'; //importando "mixin" (no caso está na pasta plugin)
+import {baseApiUrl, vueMultiselectProps, defaultQueue, weekDaysByIndex} from '../../config/global.js';
 import axios from 'axios'
 
 export default {
     name: "FilasCadastro",
+    mixins: [ValidateToaster,KebabCaseFormatter],
     components: {
         PagesSubHeader,
         TabelaPausas,
@@ -445,6 +448,7 @@ export default {
             }) */
             this.getFinalizations();
             this.getRotas();
+            this.getAgentsList()
             this.checkForQID();
         },
         getFinalizations(){
@@ -483,21 +487,28 @@ export default {
                 console.log("Status:\t",error.status," - ",error.message);
             })
         },
-        /* getOperatorData(){
-            // let opID = "15";
-            axios.get(baseApiUrl+'/operators/15')
+        getAgentsList(){
+            axios.get(baseApiUrl+'/agents')
             .then(res => {
-                console.log("Status:\t",res.status," - ",res.statusText)
-                let r = res.data.data
-                let o = r[0]
-                let w = JSON.parse(o.dial_format)
-                console.log("Parsed Object dial_format @getOperatorData():\n",w)
-                this.dataOK = true;
+                console.log("Status:\t",res.status," - ",res.statusText);
+                let a = res.data.data;
+                let lista_de_agentes = [];
+                for(let i in a){
+                    let agente = {};
+                    agente.selected = false;
+                    let name = a[i].name===a[i].agent.toString()?(a[i].name+' - '+a[i].type):(a[i].agent.toString()+' - '+a[i].name);
+                    agente.agente = name;
+                    agente.p0 = false;
+                    agente.p1 = false;
+                    agente.p2 = false;
+                    lista_de_agentes.push({...agente});
+                }
+                this.lista_de_agentes = [...lista_de_agentes];
             })
             .catch(error => {
-                console.log("Status:\t",error.status," - ",error.message)
+                console.log("Status:\t",error.status," - ",error.message);
             })
-        }, */
+        },
         checkForQID(){
             if(this.qID > 0) this.getQDataByID(this.qID);
             else this.getQDefaultData();
@@ -506,7 +517,7 @@ export default {
             this.queue = {...defaultQueue};
             this.getBreakGroups();
         },
-        getQDataByID(id){
+/* */        getQDataByID(id){ //Não finalizado. Falta concluir o set do objeto padrão de dados.
             let qid = id.toString();
             axios.get(baseApiUrl+'/queues/'+qid)
             .then(res => {
@@ -539,11 +550,20 @@ export default {
                 queue.weight = q[0].weight;
                 queue.musiconhold = q[0].musiconhold;
 
-                queue.work_time = JSON.parse(q[0].work_time);
+                let work_time = JSON.parse(q[0].work_time);
+                queue.work_time = [];
+                for (let i in work_time){
+                    let day = {};
+                    day.day = weekDaysByIndex[i];
+                    day.index = i;
+                    day.start = work_time[i].in;
+                    day.end = work_time[i].out;
+                    queue.work_time.push({...day});
+                }
 
                 // queue.pausas = this.getBreaksFromGroup(queue.break_group_id);
                 this.getBreakGroups(queue.break_group_id);
-                queue.agentes = this.getAgentsList();
+                // queue.agentes = this.getAgentsList();
             })
         },
         getBreakGroups() {
@@ -601,15 +621,21 @@ export default {
             })
         },
         fillListaDePausas(value){
-            // console.log("Valor:\t",value,"\tCódigo (group_id):",value.code);
+            console.log("Grupo de Pausas selecionado (valor):\t",value,"\tCódigo (group_id):",value.code);
+            this.setSelectedBreakGroup(value);
             this.lista_de_pausas = null;
             this.pausasOK = this.pausasOK?false:this.pausasOK;
+            this.pausa_loading_text = 'Aguarde, a Lista de Pausas está sendo carregada...';
             this.getBreaksFromGroup(value.code)
         },
         emptyListaDePausas(){
             this.lista_de_pausas = null;
             // this.lista_de_pausas = [...this.lista_de_pausas_default];
             this.pausasOK = false;
+            this.pausa_loading_text = 'Selecione um Grupo de Pausas para visualizar as Pausas pertencentes ao grupo.';
+        },
+        setSelectedBreakGroup(value){
+            this.queue.break_group_id = value.code;
         },
         setSelectedFinalization(value){
             // console.log("Valor:\t",value,"\tCódigo (group_id):",value.code);
@@ -630,6 +656,177 @@ export default {
         resetSelectedRoute(){
             this.queue.route_name = '';
             this.queue.route_id = null;
+        },
+        setSelectedStrategy(value){
+            this.queue.strategy = value.code;
+        },
+        resetSelectedStrategy(){
+            this.queue.strategy = '';
+        },
+        setSelectedSpeed(value){
+            this.queue.speedy = value.code;
+        },
+        resetSelectedSpeed(){
+            this.queue.speedy = null;
+        },
+        setSelectedDialFormat(value){
+            this.queue.dial_format = value.code;
+        },
+        resetSelectedDialFormat(){
+            this.queue.dial_format = '';
+        },
+        setSlug(value){
+            this.queue.name_queue = value.trim();
+            this.queue.slug = this.kebabCaseFormatter(value.trim());
+        },
+        setQNumber(value){
+            let cleanValue = value.replace(/-|\+|\./g,'');
+            this.queue.queue_number = cleanValue;
+        },
+        setWrapuptime(value){
+            let cleanValue = value.replace(/-|\+|\./g,'');
+            this.queue.wrapuptime = cleanValue;
+        },
+        setMaxTimeCall(value){
+            let cleanValue = value.replace(/-|\+|\./g,'');
+            this.queue.max_time_call = parseInt(cleanValue);
+        },
+        setBinaNumber(value){
+            let cleanValue = value.replace(/-|\+|\./g,'');
+            this.queue.bina = cleanValue;
+        },
+        setMaxlen(value){
+            let cleanValue = value.replace(/-|\+|\./g,'');
+            this.queue.maxlen = parseInt(cleanValue);
+        },
+        setSelectedQType(value){
+            console.log("Queue Type @setSelectedQType():\n",value.code)
+            console.log("Queue.q_type @setSelectedQType():\n",this.queue.q_type)
+            this.queue.q_type = value.code;
+        },
+        resetSelectedQType(){
+            this.queue.q_type = '';
+        },
+        setSelectedRecFormat(value){
+            this.queue.rec_format = value.code;
+        },
+        resetSelectedRecFormat(){
+            this.queue.rec_format = '';
+        },
+        setSelectedRecType(value){
+            this.queue.rec_type = value.code;
+        },
+        resetSelectedRecType(){
+            this.queue.rec_type = '';
+        },
+        setSelectedBlacklists(value){
+            console.log("Blacklists @setSelectedBlacklists:\n",value)
+            let item = {};
+            item.blacklist_id = value.code;
+            item.blacklist_name = value.name;
+            this.queue.blacklists.push({...item});
+        },
+        resetSelectedBlacklists(value){
+            let old = [...this.queue.blacklists];
+            let newer = [];
+            console.log("Old Blacklists @resetSelectedBlacklists:\n",old);
+            for(let i in old){
+                if(old[i].blacklist_id !== value.code){
+                    let item = {};
+                    item.blacklist_id = old[i].blacklist_id;
+                    item.blacklist_name = old[i].blacklist_name;
+                    newer.push({...item});
+                }
+                else continue;
+            }
+            this.queue.blacklists = null;
+            this.queue.blacklists = [...newer];
+            console.log("New Blacklists @resetSelectedBlacklists:\n",this.queue.blacklists)
+        },
+        setSelectedWeight(value){
+            this.queue.weight = value.code;
+        },
+        resetSelectedWeight(){
+            this.queue.weight = null;
+        },
+        setSelectedMusicOnHold(value){
+            this.queue.musiconhold = value.code;
+        },
+        resetSelectedMusicOnHold(){
+            this.queue.musiconhold = null;
+        },
+        saveNewQueue(){
+            const blankQName = !(this.queue.name_queue.length>0)?true:false;
+            const blankQNumber = !(this.queue.queue_number.length>0)?true:false;
+            if(blankQName || blankQNumber){
+                let toast = {
+                    isValidated:false,
+                    title: "NÃO FOI POSSÍVEL SALVAR A NOVA FILA",
+                    message: "A Nova Fila não pôde ser criada. Não é permitido salvar uma Nova Fila com o Nome ou Número da Fila vazio ou apenas com espaços em branco.",
+                };
+                this.validateAndToast(toast);
+                return;
+            }
+            else {
+                let body = {};
+                body.name_queue = this.queue.name_queue;
+                body.name = this.queue.queue_number;
+                body.type = this.queue.type;
+                body.slug = this.queue.slug;
+                body.finalization_name = this.queue.finalization_name;
+                body.finalization_id = this.queue.finalization_id;
+                body.wrapuptime = this.queue.wrapuptime;
+                body.break_group_id = this.queue.break_group_id;
+                body.route_name = this.queue.route_name;
+                body.route_id = this.queue.route_id;
+                body.strategy = this.queue.strategy;
+                body.speedy = this.queue.speedy;
+                body.dial_format = this.queue.dial_format;
+                body.max_time_call = this.queue.max_time_call;
+                body.blacklists = [...this.queue.blacklists];
+                body.bina = this.queue.bina;
+                body.flag_bina = this.queue.flag_bina?1:0;
+                body.maxlen = this.queue.maxlen;
+                body.weight = this.queue.weight;
+                body.musiconhold = this.queue.musiconhold;
+                body.layout = this.queue.layout;
+                body.work_time = this.stringifyWorkTime();
+                this.postNewQueue(body);
+            }
+        },
+        stringifyWorkTime(){
+            let timetable = [];
+            let day = {in:'',out:''}
+            for(let i = 0;i<7;i++){
+                timetable.push({...day});
+            }
+            for(let j in this.queue.work_time){
+                timetable[this.queue.work_time[j].index].in = this.queue.work_time[j].start;
+                timetable[this.queue.work_time[j].index].out = this.queue.work_time[j].end;
+            }
+            return JSON.stringify(timetable);
+        },
+        postNewQueue(body){
+            console.log("Body @postNewQueue():\n",body)
+            axios.post(baseApiUrl+'/queues',body)
+            .then(res => {
+                console.log("Status:\t",res.status," - ",res.statusText)
+                let toast = {
+                    isValidated:true,
+                    title:'NOVA FILA ADICIONADA',
+                    message:'Nova Fila '+ body.queue_number +' - '+ body.name_queue.toUpperCase()+' adicionada com sucesso!',
+                }
+                this.validateAndToast(toast);
+            })
+            .catch(error => {
+                console.log("\n\tERROR RESPONSE:\n",error.response)
+                let toast = {
+                    isValidated:false,
+                    title:'NOVA FILA NÃO ADICIONADA',
+                    message:'Nova Fila '+ body.queue_number +' - '+ body.name.toUpperCase()+' não pôde ser adicionada. Motivo: '+error.message,
+                  }
+                this.validateAndToast(toast);
+            })
         }
     },
     created() {
@@ -643,12 +840,19 @@ export default {
             dataOK:false,
             pausasOK:false,
             queue:null,
+            pausa_loading_text:'Selecione um Grupo de Pausas para visualizar as Pausas pertencentes ao grupo.',
             start:'',
             end:'',
             timeMask:'##:##',
-            bina_number:false,
+            bina_flag:false,
+            bina_number:'',
             filtro_agentes:'',
             MSprops:vueMultiselectProps,
+            queue_number:'',
+            name_queue:'',
+            wrapuptime:'',
+            max_time_call:'',
+            maxlen:'',
             week_days:[
                 {
                     day:"Segunda-feira",
@@ -722,7 +926,8 @@ export default {
                 }
             ] */
             lista_de_grupos:null,
-            lista_de_agentes:[
+            lista_de_agentes:null,
+            /* [
                 {
                     selected:false,
                     agente:"Agente 1",
@@ -737,16 +942,17 @@ export default {
                     p1:false,
                     p2:false
                 }
-            ],
+            ] */
             tipo_fila:[],
             tipo_finish:[],
             tipo_recording:[],
-            tipo_tipo:[],
+            tipo_tipoSom:[],
             tipo_pausegroup:[],
             tipo_rota:[],
             tipo_strat:[],
             tipo_vel:[],
             tipo_modo:[],
+            tipo_blacklists:[],
             tipo_peso:[],
             tipo_humano:[],
             music_tipo:[],
@@ -765,7 +971,7 @@ export default {
                 {name:".wav", code:"2"},
                 {name:".flac", code:"3"}
             ],
-            tipo_tipos:[
+            tipoSom_tipos:[
                 {name:"Mono",  code:1},
                 {name:"Stereo", code:2}
             ],
@@ -776,12 +982,12 @@ export default {
             //     {name:"Recebe", code:"R"}
             // ],
             strat_tipos:[
-                {name:'rrmemory',  code:'rrmemory'},
-                {name:'random', code:'random'},
-                {name:'fewestcall', code:'fewestcall'},
-                {name:'leastrecent', code:'leastrecent'},
-                {name:'roundrobin', code:'roundrobin'},
-                {name:'ringall', code:'ringall'}
+                {name:'Ordem de Entrada no Sistema',  code:'rrmemory'},
+                {name:'Aleatório', code:'random'},
+                {name:'Menos Chamadas', code:'fewestcall'},
+                {name:'Mais Antigo', code:'leastrecent'},
+                {name:'Maior Número de Atendimentos', code:'roundrobin'},
+                {name:'Chamar Todos', code:'ringall'}
             ], 
             vel_tipos:[
                 {name:"1",  code:1},
@@ -806,14 +1012,14 @@ export default {
                 {name:"4", code:4}
             ],
             music_tipos:[
-                {name:"Beethoven", code:1},
-                {name:"Mozart", code:2},
-                {name:"Queen", code:3}
+                {name:"Beethoven", code:"beethoven"},
+                {name:"Mozart", code:"mozart"},
+                {name:"Queen", code:"queen"}
             ],
             blacklists_tipos:[
-                {name:"Lista Proibida 1", code:1},
-                {name:"Lista Proibida 2", code:2},
-                {name:"Lista Proibida 3", code:3}
+                {name:"Lista Proibida 1", code:'1'},
+                {name:"Lista Proibida 2", code:'2'},
+                {name:"Lista Proibida 3", code:'3'}
             ],
             humano_tipos:[
                 {name:"Humano", code:"human"},

@@ -25,9 +25,9 @@ export const defaultNewUserProfile = {
             name: 'Agentes',
             page_id: 3,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         },
@@ -35,9 +35,9 @@ export const defaultNewUserProfile = {
             name: 'Usuários',
             page_id: 1,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         },
@@ -45,9 +45,9 @@ export const defaultNewUserProfile = {
             name: 'Perfil',
             page_id: 2,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         },
@@ -55,9 +55,9 @@ export const defaultNewUserProfile = {
             name: 'Pausas',
             page_id: 4,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         },
@@ -65,9 +65,9 @@ export const defaultNewUserProfile = {
             name: 'Robôs',
             page_id: 5,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         },
@@ -75,9 +75,9 @@ export const defaultNewUserProfile = {
             name: 'Operadoras',
             page_id: 6,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         },
@@ -85,9 +85,9 @@ export const defaultNewUserProfile = {
             name: 'Rotas',
             page_id: 7,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         },
@@ -95,9 +95,9 @@ export const defaultNewUserProfile = {
             name: 'Filas',
             page_id: 8,
             modulo_name:'Discador',
-            add:true,
-            read:true,
-            edit:true,
+            add:false,
+            read:false,
+            edit:false,
             delete:false,
             browser:true
         }
@@ -142,18 +142,19 @@ export const defaultOperator = {
 }
 
 export const defaultQueue = {
-    name_queue:'',
-    queue_number:'',// Number.toString()
+    name_queue:'',// Correspondência: "name_queue"
+    queue_number:'',// Number.toString(); Correspondência: "name"
     type:'', // ['human','robot']
     q_type:[], // Ainda não troca dados com o backend (recebe 'journey')
-    slug:'', // Nome para FTP (sem maiúslculas, espaços viram dashes, sem acentos)
-    finalization_name:'', // Ainda não troca dados com o backend (falta endpoint)
+    slug:'', // Nome para FTP (kebab-case: sem maiúslculas, espaços viram dashes, sem acentos)
+    finalization_name:'', // Ainda não troca dados com o backend (falta endpoint)...UPDATE: endpoint recebendo e enviando
     finalization_id:null, // Number
-    rec_format:[], // Number; Ainda não está tabulado no backend nem trocando dados portanto
-    rec_type:[], // Number; Ainda não está tabulado no backend nem trocando dados portanto
-    wrapuptime:null, // Number; (tempo de pós atendimento)
+    rec_format:'', // Number; Ainda não está tabulado no backend nem trocando dados portanto
+    rec_type:'', // Number; Ainda não está tabulado no backend nem trocando dados portanto
+    wrapuptime:'', // Number.toString(); (tempo de pós atendimento)
     break_group_id:null, // Number; Dado de Grupo de Pausas
-/*     breakGroup_name:'', // Number; Dado de Grupo de Pausas
+/*     
+breakGroup_name:'', // Number; Dado de Grupo de Pausas
  */
     route_name:'',
     route_id:null, // Number
@@ -170,25 +171,71 @@ export const defaultQueue = {
             ]
  */    
     bina:'', // Number.toString()
-    bina_flag:false, // Number [0/1]; default:0
+    flag_bina:false, // Number [0/1]; default:0
     maxlen:null,// Number (segundos); (controle de tempo dechamada Manual)
 
     weight:null, // Number [1;4]
     musiconhold:'',
     
-    work_time:[], // Parsed Object from endpoint /queues
+    work_time:[
+        {
+            day:"Segunda-feira",
+            index:1,
+            start:'09:00',
+            end:'21:00'
+        },
+        {
+            day:"Terça-feira",
+            index:2,
+            start:'08:00',
+            end:'21:00'
+        },
+        {
+            day:"Quarta-feira",
+            index:3,
+            start:'08:00',
+            end:'21:00'
+        },
+        {
+            day:"Quinta-feira",
+            index:4,
+            start:'08:00',
+            end:'21:00'
+        },
+        {
+            day:"Sexta-feira",
+            index:5,
+            start:'08:00',
+            end:'21:00'
+        },
+        {
+            day:"Sábado",
+            index:6,
+            start:'08:00',
+            end:'21:00'
+        },
+        {
+            day:"Domingo",
+            index:0,
+            start:'',
+            end:''
+        },
+    ], // Parsed Object from endpoint /queues
 
 /*     pausas:null, // Dado do Grupo de Pausas (Array do grupo de pausas selecionado); Não retorna valores.
  */
-    agentes:[] // Dado de Agentes...UPDATE: passa árvore de objetos em um array. 
+    agentes:[], // Dado de Agentes...UPDATE: passa árvore de objetos em um array. 
 /*     Ex.: "agentes":[
                 {
                     "agent_id":"" // Number.toString()
                     "agent_name":""
                 }
             ]
- */    
+ */ 
+    layout: "{\"uf\": \"uf\", \"cep\": \"cep\", \"city\": \"city\", \"name\": \"name\", \"email\": \"email\", \"title\": \"title\", \"custom\": \"custom\", \"phone1\": \"phone1\", \"phone2\": \"phone2\", \"phone3\": \"phone3\", \"phone4\": \"phone4\", \"phone5\": \"phone5\", \"phone6\": \"phone6\", \"phone7\": \"phone7\", \"phone8\": \"phone8\", \"phone9\": \"phone9\", \"address\": \"address\", \"custom2\": \"custom2\", \"custom3\": \"custom3\", \"custom4\": \"custom4\", \"custom5\": \"custom5\", \"custom6\": \"custom6\", \"custom7\": \"custom7\", \"custom8\": \"custom8\", \"custom9\": \"custom9\", \"phone10\": \"phone10\", \"phone11\": \"phone11\", \"phone12\": \"phone12\", \"phone13\": \"phone13\", \"phone14\": \"phone14\", \"phone15\": \"phone15\", \"phone16\": \"phone16\", \"phone17\": \"phone17\", \"phone18\": \"phone18\", \"phone19\": \"phone19\", \"phone20\": \"phone20\", \"contract\": \"contract\", \"custom10\": \"custom10\", \"document\": \"document\", \"due_date\": \"due_date\", \"registry\": \"registry\", \"client_id\": \"client_id\", \"phone1_ddd\": \"phone1_ddd\", \"phone2_ddd\": \"phone2_ddd\", \"phone3_ddd\": \"phone3_ddd\", \"phone4_ddd\": \"phone4_ddd\", \"phone5_ddd\": \"phone5_ddd\", \"phone6_ddd\": \"phone6_ddd\", \"phone7_ddd\": \"phone7_ddd\", \"phone8_ddd\": \"phone8_ddd\", \"phone9_ddd\": \"phone9_ddd\", \"phone10_ddd\": \"phone10_ddd\", \"phone11_ddd\": \"phone11_ddd\", \"phone12_ddd\": \"phone12_ddd\", \"phone13_ddd\": \"phone13_ddd\", \"phone14_ddd\": \"phone14_ddd\", \"phone15_ddd\": \"phone15_ddd\", \"phone16_ddd\": \"phone16_ddd\", \"phone17_ddd\": \"phone17_ddd\", \"phone18_ddd\": \"phone18_ddd\", \"phone19_ddd\": \"phone19_ddd\", \"phone20_ddd\": \"phone20_ddd\", \"phones_count\": \"phones_count\", \"overdue_amount\": \"overdue_amount\"}"
 }
+
+export const weekDaysByIndex = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quitna-feira','Sexta-feira','Sábado'];
 
 export const vueMultiselectProps = {
         selectLabel:'Pressione Enter para selecionar',
@@ -198,4 +245,4 @@ export const vueMultiselectProps = {
         deselectGroupLabel:'Pressione Enter para remover o grupo'
     }
 
-export default { baseApiUrl, showError, userKey, defaultNewUserProfile, defaultOperator, defaultQueue, vueMultiselectProps }
+export default { baseApiUrl, showError, userKey, defaultNewUserProfile, defaultOperator, defaultQueue, weekDaysByIndex, vueMultiselectProps }
