@@ -51,7 +51,9 @@
       <template v-slot:cell(add)="slot">
         <!-- v-b-modal="(slot.item.name)+'_edit_modal'" 
         , email: '', name:'', -->
-        <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline" :to="{name:'RegistroUsuarios', params:{username: slot.item.username, name: slot.item.name, email: slot.item.email, perfilName: slot.item.perfilName, enable: slot.item.enable}}" v-html="editIcon"/>
+        <router-link :to="{name:'RegistroUsuarios', params:{username: slot.item.username, name: slot.item.name, email: slot.item.email, perfilName: slot.item.perfilName, enable: slot.item.enable, id: slot.item.id}}">
+          <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline"  v-html="editIcon"/>
+        </router-link>
         <b-btn :id="(slot.item.name)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.name + '_delete'"/>
       </template>
     </b-table>
@@ -128,7 +130,7 @@
           ok-variant="danger"
           cancel-title="MANTER"
           cancel-variant="success"
-          @ok="deleteRow(i.name)"
+          @ok="deleteRow(i.name, i.id)"
           @cancel="cancelDelete(i.name)">
         Tem certeza que deseja excluir a name <b>{{i.name}}</b>?
       </b-modal>
@@ -197,7 +199,10 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { baseApiUrl } from "@/config/global";
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+
 
 const defaultRow = {
   name:'',
@@ -219,7 +224,12 @@ export default {
     filter_fields:Array,
   },
   methods: {
-    deleteRow(ev){
+    async deleteUser(id) {
+      let s = await axios.delete(`${baseApiUrl}/users/${id}`);
+      console.clear();
+      console.log("Delete status:\n", s);
+    },
+    deleteRow(ev, id){
       const p = this.names.indexOf(ev);
       this.filas.splice(p,1);
       this.names.splice(p,1);
@@ -228,6 +238,7 @@ export default {
         title:'USUÁRIO EXCLUÍDO',
         message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
       }
+      this.deleteUser(id);
       this.validateAndToast(toast);
     },
     cancelDelete(p){
@@ -485,7 +496,8 @@ input::-webkit-inner-spin-button {
   width: 3%;
   text-align: center;
   justify-content: center;
-  display: table-cell;
+  /* display: table-cell; */
+  min-width: 100px;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="5"],[aria-colindex="4"], .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="5"],[aria-colindex="4"]{
   width: 6%;

@@ -95,7 +95,8 @@ export default {
         usuario.name = a[i].name;
         usuario.username = a[i].username;
         usuario.email = a[i].email;
-        usuario.profileName = '';// Não disponível ainda. futuramente: a[i].profileName;
+        usuario.id = a[i].id;
+        usuario.perfilName = a[i].perfilName;// Não disponível ainda. futuramente: a[i].profileName;
         usuario.enable = a[i].enable?true:false;
         items.push({...usuario});
       }

@@ -64,3 +64,4 @@ Vue.use(VeeValidate, {
 // head lista mailing
 // filas agentes only 0 (por enquanto)
 // icone ramal registroagentes
+// status -> b-formcheackbox

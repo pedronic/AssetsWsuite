@@ -6,183 +6,183 @@
         <div class="card-body" />
       </div>
     </PagesSubHeader>
-    {{ nomeEdit }}
-    <form @submit.prevent="carregar()" class="conteiner">
-      <div class="form-group">
-        <div class="d-inline">
-          <div class="row mb-2">
-            <div class="col-4">
-              <div class="profile-content user-name-line d-flex">
-                <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
-                <b-form-input
-                  v-model="name"
-                  id="profile-name-input"
-                  type="text"
-                  placeholder="Nome"
-                />
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="d-inline">
+    <div v-if="dataOK">
+      <form @submit.prevent="carregar()" class="conteiner">
+        <div class="form-group">
+          <div class="d-inline">
+            <div class="row mb-2">
+              <div class="col-4">
                 <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
                   <b-form-input
-                    v-model="email"
+                    v-model="name"
                     id="profile-name-input"
-                    type="email"
-                    placeholder="Email"
+                    type="text"
+                    placeholder="Nome"
                   />
                 </div>
               </div>
-            </div>
-            <div class="col-4">
-              <div class="profile-content user-name-line d-flex">
-                <i class="fal fa-user fa-2x" style="margin-left: 5px" />
-                <b-form-input
-                  v-model="username"
-                  id="profile-name-input"
-                  type="text"
-                  placeholder="Usuário"
-                />
+              <div class="col-4">
+                <div class="d-inline">
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      v-model="email"
+                      id="profile-name-input"
+                      type="email"
+                      placeholder="Email"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-user fa-2x" style="margin-left: 5px" />
+                  <b-form-input
+                    v-model="username"
+                    id="profile-name-input"
+                    type="text"
+                    placeholder="Usuário"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="d-inline">
-          <div class="row mb-2 justify-content-center">
-            <div class="col-4">
-              <div class="d-inline">
-                <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-key fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    v-model="password"
-                    id="profile-name-input"
-                    type="password"
-                    placeholder="Senha"
-                  />
+          <div class="d-inline">
+            <div class="row mb-2 justify-content-center">
+              <div class="col-4">
+                <div class="d-inline">
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-key fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      v-model="password"
+                      id="profile-name-input"
+                      type="password"
+                      placeholder="Senha"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-4">
-              <div class="profile-content user-name-line d-flex">
-                <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
-                <div id="multiselect-input">
-                  <multiselect
-                    v-model="perfil_id"
-                    :placeholder="'Perfil'"
-                    :label="'name'"
-                    :track-by="'id'"
-                    :options="perfis"
-                    :multiple="false"
-                  />
+              <div class="col-4">
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
+                  <div id="multiselect-input">
+                    <multiselect
+                      v-model="perfilName"
+                      :placeholder="'Perfil'"
+                      :label="'name'"
+                      :track-by="'id'"
+                      :options="perfis"
+                      :multiple="false"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-4">
-              <div class="d-inline">
-                <div class="profile-content user-name-line d-flex">
-                  <div class="input-group image-preview">
-                    <span class="input-group">
-                      <!-- image-preview-clear button -->
-                      <button
-                        type="button"
-                        class="btn btn-default image-preview-clear"
-                        style="display: none"
-                      >
-                        <span class="glyphicon glyphicon-remove"></span> Limpar
-                      </button>
-                      <!-- image-preview-input -->
-                      <div class="btn btn-default image-preview-input" id="butao">
-                          <i id="pic" class="fal fa-image fa-2x"></i
+              <div class="col-4">
+                <div class="d-inline">
+                  <div class="profile-content user-name-line d-flex">
+                    <div class="input-group image-preview">
+                      <span class="input-group">
+                        <!-- image-preview-clear button -->
+                        <button
+                          type="button"
+                          class="btn btn-default image-preview-clear"
+                          style="display: none"
                         >
-                        <span class="image-preview-input-title "> </span>
+                          <span class="glyphicon glyphicon-remove"></span>
+                          Limpar
+                        </button>
+                        <!-- image-preview-input -->
+                        <div
+                          class="btn btn-default image-preview-input"
+                          id="butao"
+                        >
+                          <i id="pic" class="fal fa-image fa-2x"></i>
+                          <span class="image-preview-input-title"> </span>
+                          <input
+                            type="file"
+                            accept="image/png, image/jpeg, image/gif"
+                            name="input-file-preview"
+                          />
+                          <!-- rename it -->
+                        </div>
                         <input
-                          type="file"
-                          accept="image/png, image/jpeg, image/gif"
-                          name="input-file-preview"
+                          type="text"
+                          placeholder="Foto"
+                          class="form-control image-preview-filename"
+                          id="input-pic"
+                          disabled="disabled"
                         />
-                        <!-- rename it -->
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Foto"
-                        class="form-control image-preview-filename"
-                        id="input-pic"
-                        disabled="disabled"
-                      />
-                      <!-- don't give a name === doesn't send on POST/GET -->
-                    </span>
+                        <!-- don't give a name === doesn't send on POST/GET -->
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="d-inline">
-          <div class="row mb-2">
-            <div class="col-4">
-              <div class="d-inline">
-                <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-key fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    v-model="confirmPassword"
-                    id="profile-name-input"
-                    type="password"
-                    placeholder="Confirmar Senha"
-                  />
+          <div class="d-inline">
+            <div class="row mb-2">
+              <div class="col-4">
+                <div class="d-inline">
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-key fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      v-model="confirmPassword"
+                      id="profile-name-input"
+                      type="password"
+                      placeholder="Confirmar Senha"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="col-8">
-              <div class="profile-content user-name-line d-flex">
-                <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                <div id="multiselect-input">
-                  <multiselect
-                    v-model="filas_finish"
-                    placeholder="Filas"
-                    :label="'queue_name'"
-                    :track-by="'queue_id'"
-                    :options="filas"
-                    :multiple="true"
-                  />
+              <div class="col-8">
+                <div class="profile-content user-name-line d-flex">
+                  <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                  <div id="multiselect-input">
+                    <multiselect
+                      v-model="filas_finish"
+                      placeholder="Filas"
+                      :label="'queue_name'"
+                      :track-by="'queue_id'"
+                      :options="filas"
+                      :multiple="true"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          {{ id }}
+          {{ name }}
+          {{ email }}
+          {{ username }}
+          {{ enable }}
+          {{ perfilName }}
+          <b-row>
+            <b-col class="mr-auto p-3" cols="auto">
+              <button class="btn btn-dark botao-salvar" type="submit">
+                Salvar
+              </button>
+            </b-col>
+            <b-col class="p-3" cols="auto">
+              <div class="custom-control custom-switch">
+                <input
+                  id="customSwitch1"
+                  v-model="enable"
+                  class="custom-control-input bg-dark"
+                  type="checkbox"
+                />
+                <label id="kkk" class="custom-control-label" for="customSwitch1"
+                  >Status</label
+                >
+              </div>
+            </b-col>
+          </b-row>
         </div>
-        {{ nameEdit }}
-        {{ emailEdit }}
-        {{ usernameEdit }}
-        {{ enableEdit }}
-        {{ perfilNameEdit }}
-        <b-row>
-          <b-col class="mr-auto p-3" cols="auto">
-            <button class="btn btn-dark botao-salvar" type="submit">
-              Salvar
-            </button>
-          </b-col>
-          <b-col class="p-3" cols="auto">
-            <div class="custom-control custom-switch">
-              <input
-                id="customSwitch1"
-                checked
-                class="custom-control-input bg-dark"
-                type="checkbox"
-              />
-              <input
-                id="customSwitch1"
-                class="custom-control-input bg-dark"
-                type="checkbox"
-              />
-              <label id="kkk" class="custom-control-label" for="customSwitch1"
-                >Status</label
-              >
-            </div>
-          </b-col>
-        </b-row>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -193,7 +193,7 @@ import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import "jquery";
 // import "select2";
 import axios from "axios";
-import {baseApiUrl} from "@/config/global";
+import { baseApiUrl } from "@/config/global";
 
 export default {
   components: {
@@ -202,42 +202,64 @@ export default {
   },
   name: "RegistroUsuarios",
   methods: {
-    testPerfilSelect(){
-      console.log("Filas Selecionadas:\n",this.filas_finish)
+    testPerfilSelect() {
+      console.log("Filas Selecionadas:\n", this.filas_finish);
     },
 
-    async getFilas(){
-      let f = await axios.get(baseApiUrl+"/queues");
-      console.log("f.data.data\n",f.data.data)
+    async getFilas() {
+      let f = await axios.get(baseApiUrl + "/queues");
+      console.log("f.data.data\n", f.data.data);
       this.filas = f.data.data;
     },
-    async getPerfil(){
-      let p = await axios.get(baseApiUrl+"/perfils");
-      console.log("p.data.data\n",p.data.data)
-      this.perfis =  p.data.data;
+      async getUsers() {
+        let users = await axios.get(baseApiUrl + "/users");
+        for (let u in users) {
+          this.userMails.push(users[u].email);
+          this.userNames.push(users[u].username);
+        }
+        this.dataOK = true;
+      },
+    async getPerfil() {
+      let p = await axios.get(baseApiUrl + "/perfils");
+      console.log("p.data.data\n", p.data.data);
+      this.perfis = p.data.data;
     },
-    async getUsers(){
-      let users = axios.get(baseApiUrl+"/users");
-      for(let u in users){
-        this.userMails.push(users[u].email);
-        this.userNames.push(users[u].username);
-      }
+    async postNewUser(nu) {
+      let s = await axios.post(`${baseApiUrl}/users/`, nu);
+      console.log("Post status:\n", s);
     },
-    async postNewUser(nu){
-      let s = await axios.post(`${baseApiUrl}/users`, nu);
-      console.log("Post status:\n",s)
+    async putUser(nu) {
+      // console.log(nu);
+      let s = await axios.put(`${baseApiUrl}/users/${this.id}`, nu);
+      console.log("Put status:\n", s);
     },
-    carregar() { // Refatorar para incluir avisos de toast após ação
+    carregar() {
+      console.clear();
+      console.log("ye");
+      // Refatorar para incluir avisos de toast após ação
       let passCheck = !(this.password === this.confirmPassword);
       let blankPass = !(this.password.trim().length > 0);
       let blankName = !(this.name.trim().length > 0);
       let blankMail = !(this.email.trim().length > 0);
       let blankUser = !(this.username.trim().length > 0);
-      let blankProfile = !(this.perfil_id.length > 0);
-      let validEmail = !(this.userMails.indexOf(this.email.trim()) > -1);
-      let validUsername = !(this.userNames.indexOf(this.username.trim()) > -1);
-      if (passCheck || blankPass || blankName || blankMail || blankUser || blankProfile || validEmail || validUsername) return;
-      else{
+      let blankProfile = !(this.perfilName.name.length > 0);
+      if (
+        passCheck ||
+        blankPass ||
+        blankName ||
+        blankMail ||
+        blankUser ||
+        blankProfile
+      ) {
+        console.log(passCheck);
+        console.log(blankPass);
+        console.log(blankName);
+        console.log(blankUser);
+        console.log(blankMail);
+        console.log(blankProfile);
+        // console.log(validEmail);
+        // console.log(validUsername);
+      } else {
         let postBody = {};
         postBody.username = this.username.trim();
         postBody.email = this.email.trim();
@@ -245,49 +267,59 @@ export default {
         postBody.password = this.password.trim();
         postBody.confirmPassword = this.confirmPassword.trim();
         postBody.perfil_id = this.perfil_id.id;
-        for (let f in this.filas_finish){
+        for (let f in this.filas_finish) {
           this.userQueue.push(this.filas_finish[f]);
         }
         postBody.userQueue = [...this.userQueue];
-
-        this.postNewUser(postBody);
+        let validEmail = !(this.userMails.indexOf(this.email.trim()) > -1);
+        let validUsername = !(
+          this.userNames.indexOf(this.username.trim()) > -1
+        );
+        if (validEmail || validUsername) {
+          if (this.id) {
+            this.putUser(postBody);
+          } else {
+            this.postNewUser(postBody);
+          }
+        }
       }
     },
   },
   data() {
     return {
+      // edition:
+      dataOK: false,
+      id: this.$route.params.id,
       nameEdit: this.$route.params.name,
-      usernameEdit: this.$route.params.username, 
-      emailEdit: this.$route.params.email, 
-      enableEdit: this.$route.params.enable,
-      perfilNameEdit: this.$route.params.perfilName,
+      usernameEdit: this.$route.params.username,
+      emailEdit: this.$route.params.email,
+      enable: this.$route.params.enable,
+      perfilName: this.$route.params.perfilName,
       userMails: [],
       userNames: [],
-      id: this.$route.params.id,
       msg: "",
       states: [],
-      filas:[],
+      filas: [],
       perfis: [],
       filas_finish: [],
-      name:'',
-      email:'',
-      username:'',
-      password:'',
-      confirmPassword:'',
-      perfil_id:[],
+      name: this.$route.params.name,
+      email: this.$route.params.email,
+      username: this.$route.params.username,
+      password: "",
+      confirmPassword: "",
+      perfil_id: [],
       userQueue: [],
       queueObject: {
-        queue_id:'',
-        queue_number:'',
-        queue_name:'',
-      }
-
+        queue_id: "",
+        queue_number: "",
+        queue_name: "",
+      },
     };
   },
   mounted() {
     this.getFilas();
-    this.getPerfil();
     this.getUsers();
+    this.getPerfil();
 
     $(document).on("click", "#close-preview", function () {
       $(".image-preview").popover("hide");
@@ -321,7 +353,6 @@ export default {
         reader.readAsDataURL(file);
       });
     });
-
   },
 };
 </script>
@@ -347,13 +378,13 @@ export default {
   padding-left: 0%;
   padding-right: 0%;
 }
-#profile-name-input{
+#profile-name-input {
   margin-left: 5px;
   margin-right: 0px;
   border-left-color: black;
   border-radius: 0px;
 }
-#profile-name-input2{
+#profile-name-input2 {
   margin-left: 5px;
   margin-right: 0px;
   border-left-color: black;
@@ -415,7 +446,6 @@ label#kkk {
 .botao-salvar:hover {
   background-color: #0d6d9d;
 }
-
 
 #multiselect-input {
   display: flex;

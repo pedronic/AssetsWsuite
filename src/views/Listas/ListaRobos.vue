@@ -69,11 +69,13 @@ export default {
       items.push({...first});
 
       for(let i in a){
+        robo.id = a[i].id;
         robo.name = a[i].name;
         robo.login_crm = a[i].login_crm;
         robo.email = a[i].email;
         robo.document = '';// Não disponível ainda. futuramente: a[i].document;
         robo.last_login = a[i].last_login;
+        robo.queue_default = a[i].queue_default;
         robo.flag = a[i].flag?true:false;
         items.push({...robo});
       }

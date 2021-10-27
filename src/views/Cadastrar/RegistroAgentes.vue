@@ -157,9 +157,12 @@
               </div>
             </div>
           </div>
-          {{ agent }}
-          {{ tipo_jornadas }}
-          {{ agents }}
+          {{ id }}
+          {{ name }}
+          {{ login_crm }}
+          {{ flag }}
+          {{ email }}
+          {{ document }}
           <!-- <div class="panel">
             <div class="panel-container show">
               <div class="panel-content">
@@ -180,11 +183,7 @@
                   checked
                   class="custom-control-input bg-dark"
                   type="checkbox"
-                />
-                <input
-                  id="customSwitch1"
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
+                  v-model="flag"
                 />
                 <label id="kkk" class="custom-control-label" for="customSwitch1"
                   >Status</label
@@ -225,6 +224,11 @@ export default {
       console.log("f.data.data\n", f.data.data);
       this.filas = f.data.data;
     },
+    async putAgent(nu) {
+      console.log(nu);
+      let s = await axios.put(`${baseApiUrl}/agents/${this.id}`, nu);
+      console.log("Put status:\n", s);
+    },
     async postNewAgent(nu) {
       let s = await axios.post(`${baseApiUrl}/agents`, nu);
       console.log("Post status:\n", s);
@@ -239,9 +243,7 @@ export default {
       let blankAgent = !(this.agent.trim().length > 0);
       let blankDocument = !(this.document.trim().length > 0);
       let blankJourney = !(this.tipo_jornadas.length = 1);
-      let validAgent = !(this.agents.indexOf(this.agent.trim()) < 0);
-      console.clear();
-      // console.log(this.agents.indexOf(this.agent.trim()));
+      // console.clear();
       if (
         passCheck ||
         blankPass ||
@@ -250,11 +252,17 @@ export default {
         blankMail ||
         blankLogin_crm ||
         blankAgent ||
-        blankDocument ||
-        validAgent
-      )
-        return;
-      else {
+        blankDocument
+      ) {
+        console.log(passCheck);
+        console.log(blankPass);
+        console.log(blankName);
+        console.log(blankLogin_crm);
+        console.log(blankMail);
+        console.log(blankAgent);
+        console.log(blankDocument);
+        console.log(blankJourney);
+      } else {
         let postBody = {};
         postBody.company_id = this.company_id;
         postBody.agent = this.agent.trim();
@@ -276,9 +284,19 @@ export default {
         //   this.queue_default.push(this.filas_finish[f]);
         // }
         postBody.queue_default = this.filas_finish.name;
-        console.clear();
+        let validAgent = !(this.agents.indexOf(this.agent.trim()) >-1);
         console.log(postBody);
-        this.postNewAgent(postBody);
+        if (validAgent) {
+          console.log('valido');
+          if (this.id) {
+            console.log("1");
+            this.putAgent(postBody);
+          } else {
+            console.log("0");
+            this.postNewAgent(postBody);
+          }
+            console.log("ye");
+        }
       }
     },
   },
@@ -288,12 +306,14 @@ export default {
       filas_finish: [],
       agents: [],
       filas: [],
-      name: "",
-      login_crm: "",
-      email: "",
+      id: this.$route.params.id,
+      name: this.$route.params.name,
+      login_crm: this.$route.params.login_crm,
+      flag: this.$route.params.flag,
+      email: this.$route.params.email,
       queue_default: [],
       password: "",
-      document: "",
+      document: this.$route.params.document,
       confirmPassword: "",
       agent: "",
       MSprops: vueMultiselectProps,
@@ -323,7 +343,6 @@ export default {
       type: "human",
       work_time:
         '[\r\n{"opText":"Segunda-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Terça-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Quarta-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Quinta-Feira","in":"08:00","out":"20:40"},\r\n{"opText":"Sexta-Feira","in":"08:00","out":""20:40"},\r\n{"opText":"Sábado","in":"08:00","out":"14:00"},\r\n{"opText":"Domingo","in":"","out":""}\r\n]',
-      flag: 1,
       last_login: null,
       created_at: "2021-10-21T09:58:30.000Z",
       updated_at: null,

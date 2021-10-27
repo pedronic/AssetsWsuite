@@ -52,14 +52,6 @@ export default {
       let first = {};
       let items = [];
       let agente = {};
-
-        // console.clear();
-        // console.log(u);
-      // for (let i in a) {
-      //   u[i].flag = new Boolean(u[i].flag);
-      //   this.items[0].names.push(u[i].name);
-      //   this.items.push(u[i]);
-      // }
       for(let i in a){
         agentes.push(a[i].name)
       }
@@ -72,6 +64,7 @@ export default {
         agente.email = a[i].email;
         agente.document = '';// Não disponível ainda. futuramente: a[i].document;
         agente.last_login = a[i].last_login;
+        agente.id = a[i].id;
         agente.flag = a[i].flag?true:false;
         items.push({...agente});
       }
