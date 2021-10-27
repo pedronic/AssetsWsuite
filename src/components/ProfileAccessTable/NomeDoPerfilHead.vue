@@ -59,7 +59,7 @@ export default {
     },
     methods: {
         showUsers(){
-            console.clear()
+            // console.clear()
             console.log("\nUsers recebidos",this.users)
         },
         showDetails(){

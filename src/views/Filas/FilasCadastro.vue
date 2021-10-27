@@ -773,17 +773,18 @@ export default {
                 body.name = this.queue.queue_number;
                 body.type = this.queue.type;
                 body.slug = this.queue.slug;
-                body.finalization_name = this.queue.finalization_name;
+                // body.finalization_name = this.queue.finalization_name;
                 body.finalization_id = this.queue.finalization_id;
                 body.wrapuptime = this.queue.wrapuptime;
                 body.break_group_id = this.queue.break_group_id;
-                body.route_name = this.queue.route_name;
+                // body.route_name = this.queue.route_name;
+                body.company_id = this.queue.company_id;
                 body.route_id = this.queue.route_id;
                 body.strategy = this.queue.strategy;
                 body.speedy = this.queue.speedy;
                 body.dial_format = this.queue.dial_format;
                 body.max_time_call = this.queue.max_time_call;
-                body.blacklists = [...this.queue.blacklists];
+                // body.blacklists = [...this.queue.blacklists];
                 body.bina = this.queue.bina;
                 body.flag_bina = this.queue.flag_bina?1:0;
                 body.maxlen = this.queue.maxlen;
@@ -955,7 +956,7 @@ export default {
             tipo_blacklists:[],
             tipo_peso:[],
             tipo_humano:[],
-            music_tipo:[],
+            tipo_music:[],
             filas_tipos:[
                 {name:"Ativa",  code:'active'},
                 {name:"Manual", code:'manual'},

@@ -82,7 +82,7 @@
 
 <script>
 import axios from "axios";
-import {baseApiUrl, userKey, showError} from "@/config/global";
+import {baseApiUrl, userKey, showError} from "../config/global";
 export default {
   name: "Login",
   data: function () {
@@ -92,11 +92,11 @@ export default {
   },
   methods:{
     setPagesIndexTable(res){
-      let o = {};
+      let p = {};
       for(let i in res){
-        o[res[i].name] = res[i].page_id;
+        p[res[i].name] = res[i].page_id;
       }
-      return JSON.stringify(o);
+      return JSON.stringify(p);
     },
 
     getDefaultAccessPages(){
@@ -107,19 +107,45 @@ export default {
         })
         .catch(err => console.log(err))
     },
-     signin() {
-            axios.post(`${baseApiUrl}/signin`, this.user)
-                .then(res => {
-                    this.$store.commit('setUser', res.data)
-                    localStorage.setItem(userKey, JSON.stringify(res.data))
-                    this.getDefaultAccessPages();
-                    this.$router.push({ name: 'Home' })
-                })
-                .catch(showError)
+    setUserPages(userID){
+      let pID, uID=userID.toString();
+      axios.get(baseApiUrl+"/users/"+uID)
+      .then(res => {
+        localStorage.setItem('__setUserPagesResponse', JSON.stringify(res));
+        pID = res.data[0].perfil_id;
+        this.getProfilePages(pID);
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE:\n",error.response)
+      })
+    },
+    getProfilePages(pID){
+      axios.get(baseApiUrl+"/perfilspages")
+      .then(res => {
+        localStorage.setItem('__getProfilePagesResponse', JSON.stringify(res.data.data));
+        let p = res.data.data;
+        // let userProfile = {};
+        for(let i in p){
+          if(p[i].perfil_id === pID) localStorage.setItem('__perfilEncontrado', JSON.stringify(p[i]));
+          else localStorage.setItem('__perfilEncontrado', "{'achou':'false'}");
         }
+      })
+    },
+    signin() {
+        axios.post(`${baseApiUrl}/signin`, this.user)
+        .then(res => {
+            this.$store.commit('setUser', res.data)
+            localStorage.setItem(userKey, JSON.stringify(res.data))
+            this.getDefaultAccessPages();
+            localStorage.setItem('__signinResponse', JSON.stringify(res));
+            this.setUserPages(res.data.id);
+            this.$router.push({ name: 'Home' })
+        })
+        .catch(showError)
+      }
   },
   beforeUnmount(){
-    this.getDefaultAccessPages();
+    // this.getDefaultAccessPages();
   }
 };
 </script>

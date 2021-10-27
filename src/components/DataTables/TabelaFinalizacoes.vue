@@ -549,20 +549,26 @@ input::-webkit-inner-spin-button {
   text-align: center;
   vertical-align: middle !important;
 }
-
-.tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="8"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="8"] {
-  width: 3.5%;
-  text-align: center;
+.tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="9"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="9"] {
+  /* display: flex; */
+  text-align: center !important;
+  width: 5%;
 }
 
-.tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="7"], [aria-colindex="6"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="7"], [aria-colindex="6"] {
+
+.tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="8"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="8"] {
+  text-align: center !important;
+  width: 2.5%;
+}
+
+.tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="7"], .tabela-finalizacoes > .table.b-table > tbody > tr >[aria-colindex="6"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="7"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="6"] .tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="5"], .tabela-finalizacoes > .table.b-table > tbody > tr >[aria-colindex="4"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="5"], .tabela-finalizacoes > .table.b-table > thead > tr >[aria-colindex="4"] {
   width: 3%;
   text-align: center;
   justify-content: center;
   display: table-cell;
 }
 
-.tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="5"], [aria-colindex="4"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="5"], [aria-colindex="4"] {
+.tabela-finalizacoes > .table.b-table > tbody > tr > [aria-colindex="5"], .tabela-finalizacoes > .table.b-table > tbody > tr >[aria-colindex="4"], .tabela-finalizacoes > .table.b-table > thead > tr > [aria-colindex="5"], .tabela-finalizacoes > .table.b-table > tbody > tr >[aria-colindex="4"] {
   width: 14%;
   text-align: center;
 }

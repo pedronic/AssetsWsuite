@@ -81,7 +81,7 @@ export default{
                 }
                 users.push({...user})
             }
-            // console.log("Users:\n",users)
+            console.log("Users @getUsers():\n",users)
             this.users = [...users];
         },
         getPages(){

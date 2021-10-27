@@ -34,6 +34,9 @@
 import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
 import TabelaFinalizacoes from '../../components/DataTables/TabelaFinalizacoes.vue'
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global.js';
+
 
 export default {
   components: {
@@ -77,12 +80,25 @@ export default {
     };
   },
   methods: {
+    getFinalizationData(){
+      axios.get(baseApiUrl+'/finalizations'+'/1')
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText);
+        let f = res.data.data;
+        let parsed = JSON.parse(f[0].columns);
+        console.log("Dados recebidos:\n",f,"\nColumns parsed:\n",parsed);
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE:\n",error.response)
+      })
+    },
     setFilter(filter,field){
       this.filter = filter.toString();
       this.filter_fields.splice(0,1,field);
     }
   },
   created() {
+    this.getFinalizationData();
     this.service = new UsuarioMetodos(this.$resource);
     this.service.list().then(
         (usuarios) => (this.usuarios = usuarios),

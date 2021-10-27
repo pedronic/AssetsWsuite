@@ -149,6 +149,7 @@ export const defaultQueue = {
     slug:'', // Nome para FTP (kebab-case: sem maiúslculas, espaços viram dashes, sem acentos)
     finalization_name:'', // Ainda não troca dados com o backend (falta endpoint)...UPDATE: endpoint recebendo e enviando
     finalization_id:null, // Number
+    company_id:2, // Number
     rec_format:'', // Number; Ainda não está tabulado no backend nem trocando dados portanto
     rec_type:'', // Number; Ainda não está tabulado no backend nem trocando dados portanto
     wrapuptime:'', // Number.toString(); (tempo de pós atendimento)
@@ -156,7 +157,7 @@ export const defaultQueue = {
 /*     
 breakGroup_name:'', // Number; Dado de Grupo de Pausas
  */
-    route_name:'',
+    route_name:'', // Não enviar para endpoint POST
     route_id:null, // Number
     strategy:'',
     speedy:null, // Number [1;10]

@@ -701,9 +701,6 @@ input::-webkit-inner-spin-button {
   text-align: center !important;
   width: 5%;
 }
-/* .tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="12"]{
-  display: flex;
-} */
 
 .tabela-operadoras > .table.b-table > tbody > tr > [aria-colindex="11"], .tabela-operadoras > .table.b-table > thead > tr > [aria-colindex="11"] {
   /* display: flex; */
