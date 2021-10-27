@@ -51,7 +51,7 @@
       <template v-slot:cell(add)="slot">
         <!-- v-b-modal="(slot.item.name)+'_edit_modal'" 
         , email: '', name:'', -->
-        <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline" :to="{name:'RegistroUsuarios', params:{username: slot.item.username, name: slot.item.name, email: slot.item.email, perfilName: slot.item.perfilName, enable: slot.item.username}}" v-html="editIcon"/>
+        <b-button :id="(slot.item.name)+'_edit'" class="edit-btn" variant="outline" :to="{name:'RegistroUsuarios', params:{username: slot.item.username, name: slot.item.name, email: slot.item.email, perfilName: slot.item.perfilName, enable: slot.item.enable}}" v-html="editIcon"/>
         <b-btn :id="(slot.item.name)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.name + '_delete'"/>
       </template>
     </b-table>
