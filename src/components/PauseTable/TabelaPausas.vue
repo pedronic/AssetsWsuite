@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table id="tabela-de-pausas" :ref="'tabela-de-pausas'" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header>
+        <b-table id="tabela-de-pausas" :ref="'tabela-de-pausas'" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header :per-page="10">
             <template v-slot:head(pausa)="data">
                 <span>{{data.label}}</span>
             </template>

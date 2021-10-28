@@ -2,7 +2,7 @@
   <div class="finalizacoes">
     <b-table id="tabela-de-finalizacoes" :ref="'tabela-de-finalizacoes'"
              :fields="fields"
-             :items="filas" :responsive="true" class="tabela-finalizacoes table-sm table-hover table-striped w-100 dt-responsive dtr-inline" sticky-header>
+             :items="filas" :responsive="true" class="tabela-finalizacoes table-sm table-hover table-striped w-100 dt-responsive dtr-inline" sticky-header :per-page="10">
       <template v-slot:head(finalizacao)="data">
         <span>{{ data.label }}</span>
       </template>

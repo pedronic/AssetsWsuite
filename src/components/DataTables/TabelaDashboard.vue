@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-sm-12 faturamento">
-           <b-table striped hover :items="items" :fields="fields" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline"></b-table>
+           <b-table striped hover :items="items" :fields="fields" class="table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :per-page="10"></b-table>
         </div>
     </div>
 </template>

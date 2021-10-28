@@ -1,6 +1,6 @@
 <template>
     <div class="tabela-acesso-usuario profile-content">
-        <b-table class="tabela-acesso-usuario table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="items" responsive="true" :fields="fields" sticky-header>
+        <b-table class="tabela-acesso-usuario table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="items" responsive="true" :fields="fields" sticky-header>
             <template v-slot:head(name)="data">
                 <span>{{data.label}}</span>
             </template>

@@ -4,7 +4,8 @@
              :filter="filter"
              filter-debounce="50"
              :filter-included-fields="filter_fields"
-             sticky-header>
+             sticky-header
+             :per-page="10">
       <template v-slot:head(login_crm)="data">
         <span>{{data.label}}</span>
       </template>

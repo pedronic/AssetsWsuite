@@ -236,6 +236,13 @@ breakGroup_name:'', // Number; Dado de Grupo de Pausas
     layout: "{\"uf\": \"uf\", \"cep\": \"cep\", \"city\": \"city\", \"name\": \"name\", \"email\": \"email\", \"title\": \"title\", \"custom\": \"custom\", \"phone1\": \"phone1\", \"phone2\": \"phone2\", \"phone3\": \"phone3\", \"phone4\": \"phone4\", \"phone5\": \"phone5\", \"phone6\": \"phone6\", \"phone7\": \"phone7\", \"phone8\": \"phone8\", \"phone9\": \"phone9\", \"address\": \"address\", \"custom2\": \"custom2\", \"custom3\": \"custom3\", \"custom4\": \"custom4\", \"custom5\": \"custom5\", \"custom6\": \"custom6\", \"custom7\": \"custom7\", \"custom8\": \"custom8\", \"custom9\": \"custom9\", \"phone10\": \"phone10\", \"phone11\": \"phone11\", \"phone12\": \"phone12\", \"phone13\": \"phone13\", \"phone14\": \"phone14\", \"phone15\": \"phone15\", \"phone16\": \"phone16\", \"phone17\": \"phone17\", \"phone18\": \"phone18\", \"phone19\": \"phone19\", \"phone20\": \"phone20\", \"contract\": \"contract\", \"custom10\": \"custom10\", \"document\": \"document\", \"due_date\": \"due_date\", \"registry\": \"registry\", \"client_id\": \"client_id\", \"phone1_ddd\": \"phone1_ddd\", \"phone2_ddd\": \"phone2_ddd\", \"phone3_ddd\": \"phone3_ddd\", \"phone4_ddd\": \"phone4_ddd\", \"phone5_ddd\": \"phone5_ddd\", \"phone6_ddd\": \"phone6_ddd\", \"phone7_ddd\": \"phone7_ddd\", \"phone8_ddd\": \"phone8_ddd\", \"phone9_ddd\": \"phone9_ddd\", \"phone10_ddd\": \"phone10_ddd\", \"phone11_ddd\": \"phone11_ddd\", \"phone12_ddd\": \"phone12_ddd\", \"phone13_ddd\": \"phone13_ddd\", \"phone14_ddd\": \"phone14_ddd\", \"phone15_ddd\": \"phone15_ddd\", \"phone16_ddd\": \"phone16_ddd\", \"phone17_ddd\": \"phone17_ddd\", \"phone18_ddd\": \"phone18_ddd\", \"phone19_ddd\": \"phone19_ddd\", \"phone20_ddd\": \"phone20_ddd\", \"phones_count\": \"phones_count\", \"overdue_amount\": \"overdue_amount\"}"
 }
 
+export const defaultScriptRow = {
+    script:'',
+    MCDU:'',
+    status:true,
+    description:''
+};
+
 export const weekDaysByIndex = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quitna-feira','Sexta-feira','Sábado'];
 
 export const vueMultiselectProps = {
@@ -246,4 +253,4 @@ export const vueMultiselectProps = {
         deselectGroupLabel:'Pressione Enter para remover o grupo'
     }
 
-export default { baseApiUrl, showError, userKey, defaultNewUserProfile, defaultOperator, defaultQueue, weekDaysByIndex, vueMultiselectProps }
+export default { baseApiUrl, showError, userKey, defaultNewUserProfile, defaultOperator, defaultQueue, defaultScriptRow, weekDaysByIndex, vueMultiselectProps }

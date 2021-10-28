@@ -1,9 +1,9 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-list" titulo="Lista de scripts">
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de Scripts">
       <div class="card">
         <div class="card-body d-flex">
-          <div class="d-flex" id="filtro-grupo-pausa">
+          <div class="d-flex" id="filtro-grupo-script">
             <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'script')"></b-form-input>
             <div class="card">
               <div class="card-body"/>
@@ -25,7 +25,7 @@
     <div class="panel ">
       <div class="panel-container show">
         <div class="panel-content">
-          <TabelaScripts :items="items" :filter="filter" :filter_fields="filter_fields"/>
+          <TabelaScripts :items="items" :filter="filter" :filter_fields="filter_fields" v-if="dataOK"/>
         </div>
       </div>
     </div>
@@ -35,6 +35,8 @@
 <script>
 import TabelaScripts from '../../components/DataTables/TabelaScripts.vue'
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
 
 export default {
   components: {
@@ -42,9 +44,61 @@ export default {
     TabelaScripts,
   },
   name: "ListaScripts",
+  methods: {
+    setFilter(filter,field){
+      this.filter = filter.toString();
+      this.filter_fields.splice(0,1,field);
+    },
+    getScripts(){
+      axios.get(baseApiUrl+"/scripts")
+      .then(res => {
+        let s = res.data.data;
+        let scripts = [];
+        let first = {};
+        let items = [];
+        
+        for(let i in s){
+            scripts.push(s[i].name);
+        }
+        first.scripts = [...scripts];
+        items.push({...first});
+
+        for(let i in s){
+            let script = {};
+            script.script = s[i].name;
+            console.log("Date:\n",s[i].created_at)
+            let date = new Date(s[i].created_at);
+            script.criado_em = date.toLocaleString('pt-BR');
+            script.created_at = s[i].created_at;
+            script.MCDU = s[i].mcdu;
+            script.status = s[i].status?true:false;
+            script.id = s[i].id;
+            items.push({...script});
+        }
+        console.log("Items:\n",items);
+        this.items = [...items];
+        this.dataOK = true;
+      })
+    }
+  },
+  created() {
+    this.getScripts();
+  },
+  computed: {
+    UsuarioFiltrado() {
+      if (this.filter) {
+        let exp = new RegExp(this.filter.trim(), "i");
+        return this.usuarios.filter((usuario) => exp.test(usuario.user));
+      } else {
+        return this.usuarios;
+      }
+    }
+  },
   data() {
     return {
-      items: [
+      dataOK:false,
+      items: null,
+      /* [
         {
           scripts: ["Exemplo", "Outro Exemplo"],
         },
@@ -62,7 +116,7 @@ export default {
           
           status:false
         },
-      ],
+      ], */
       scripts: [],
       msg: "",
       filter:'',
@@ -71,26 +125,7 @@ export default {
       status_filter: true,
     };
   },
-  methods: {
-    setFilter(filter,field){
-      this.filter = filter.toString();
-      this.filter_fields.splice(0,1,field);
-    }
-  },
-  created() {
-  },
-
-  computed: {
-    UsuarioFiltrado() {
-      if (this.filter) {
-        let exp = new RegExp(this.filter.trim(), "i");
-        return this.usuarios.filter((usuario) => exp.test(usuario.user));
-      } else {
-        return this.usuarios;
-      }
-    },
-  },
-};
+}
 </script>
 
 <style>
@@ -111,7 +146,7 @@ export default {
 .card > .card-body > .d-flex > button,input{
   height: 38px !important;
 }
-.d-flex#filtro-grupo-pausa{
+.d-flex#filtro-grupo-script{
   height: 38px !important;
 }
 

@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left :filter="filter" filter-debounce="50" :filter-included-fields="['grupo']">
+        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left :filter="filter" filter-debounce="50" :filter-included-fields="['grupo']" :per-page="10">
             <template v-slot:head(grupo)="data">
                 <span>{{data.label}}</span>
             </template>

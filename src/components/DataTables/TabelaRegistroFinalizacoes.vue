@@ -6,6 +6,7 @@
       :items="items"
       :fields="fields"
       class="table-sm table-hover table-striped w-100 dt-responsive dtr-inline"
+      :per-page="10"
     >
     <template #cell(descricao)>
       <div class="col-7 col-inputs">

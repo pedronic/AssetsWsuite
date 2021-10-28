@@ -397,9 +397,7 @@
                     </b-col>
                     <b-col cols='10'/>
                     <b-col cols='1'>
-                        <!-- <label> -->
                             <b-form-checkbox switch v-model="status" v-if="dataOK" id="status-button"><span>Status</span></b-form-checkbox>
-                        <!-- </label> -->
                     </b-col>
                 </b-row>
             </b-col>

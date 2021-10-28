@@ -2,7 +2,7 @@
   <div class="operadoras">
     <b-table id="tabela-de-operadoras" :ref="'tabela-de-operadoras'"
              :fields="fields" :items="filas"
-             :responsive="true" class="tabela-operadoras table-sm table-hover table-striped w-100 dt-responsive dtr-inline" sticky-header>
+             :responsive="true" class="tabela-operadoras table-sm table-hover table-striped w-100 dt-responsive dtr-inline" sticky-header :per-page="10">
       <template v-slot:head(nome)="data">
         <span>{{ data.label }}</span>
       </template>

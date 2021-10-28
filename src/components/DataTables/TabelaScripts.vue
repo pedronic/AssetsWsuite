@@ -4,7 +4,8 @@
              :filter="filter"
              filter-debounce="50"
              :filter-included-fields="filter_fields"
-             sticky-header>
+             sticky-header
+             :per-page="10">
       <template v-slot:head(script)="data">
         <span>{{data.label}}</span>
       </template>
@@ -26,23 +27,14 @@
       <template v-slot:cell(script)="slot">
         <span :id="(slot.item.script)+'_pausa'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(nome)="slot" >
-        <span :id="(slot.item.script)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(criado_em)="slot" >
+        <span :id="(slot.item.script)+'_criado_em'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(email)="slot">
-        <span :id="(slot.item.script)+'_alerta'">{{slot.value}}</span>
-      </template>
-      <template v-slot:cell(perfil)="slot">
-        <span :id="(slot.item.script)+'_alerta'">{{slot.value}}</span>
-      </template>
-      <template v-slot:cell(limite)="slot">
-        <span :id="(slot.item.script)+'_limite'">{{slot.value}}</span>
-      </template>
-      <template v-slot:cell(icone)="slot">
-        <span :id="(slot.item.script)+'_icone'" v-html="slot.value" />
+      <template v-slot:cell(MCDU)="slot">
+        <span :id="(slot.item.script)+'_MCDU'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(status)="slot">
-        <b-form-checkbox v-model="slot.value" :id="(slot.item.script)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+        <b-form-checkbox v-model="slot.item.status" :id="(slot.item.script)+'_status'" :value="true" :unchecked-value="false" switch disabled/>
       </template>
       <template v-slot:cell(add)="slot">
         <b-button :id="(slot.item.script)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.script)+'_edit_modal'"  v-html="editIcon"/>
@@ -50,8 +42,8 @@
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
-    <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
     <div v-for="(i, index) in filas" :key="i.script+'_edit'">
+      <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
       <b-modal
           :id="i.script+'_edit_modal'"
           :ref="i.script+'_edit_modal'"
@@ -84,13 +76,13 @@
             </b-row>
             <b-row>
               <b-col cols="6" class="script-body-container">
-                <b-form-input v-model="editRowInput.script" :presentState="i" :id="i.script+'_edit_row_pausa'" :ref="i.script+'_edit_row_pausa'" type="text" />
+                <b-form-input v-model="editRowInput.script" :id="i.script+'_edit_row_pausa'" :ref="i.script+'_edit_row_pausa'" type="text" />
               </b-col>
               <b-col cols="4" class="perfil-body-container">
-                <b-form-input v-model="editRowInput.MCDU" :presentState="i" :id="i.script+'_edit_row_alerta'" type="text"></b-form-input>
+                <b-form-input v-model="editRowInput.MCDU" :id="i.script+'_edit_row_alerta'" type="text"></b-form-input>
               </b-col>
               <b-col cols="2" class="status-body-container">
-                <b-form-checkbox v-model="editRowInput.status" :presentState="i" :id="i.script+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
+                <b-form-checkbox v-model="editRowInput.status" :id="i.script+'_edit_row_ativa'" :value="true" :unchecked-value="false" switch />
               </b-col>
             </b-row>
           </b-col>
@@ -138,13 +130,13 @@
         <b-col cols="12">
           <b-row>
            
-            <b-col cols="4" class="nome-head-container">
+            <b-col cols="6" class="nome-head-container">
               <span class="nome-head">Nome</span>
             </b-col>
-            <b-col cols="3" class="perfil-head-container">
+            <!-- <b-col cols="3" class="perfil-head-container">
               <span class="perfil-head">Criado em</span>
-            </b-col>
-            <b-col cols="3" class="perfil-head-container">
+            </b-col> -->
+            <b-col cols="4" class="perfil-head-container">
               <span class="perfil-head">MCDU</span>
             </b-col>
             <b-col cols="2" class="status-head-container">
@@ -152,13 +144,13 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="4" class="script-body-container">
+            <b-col cols="6" class="script-body-container">
               <b-form-input v-model="newRowInput.script" :id="'new_row_pausa'" type="text"></b-form-input>
             </b-col>
-            <b-col cols="3" class="script-body-container">
+            <!-- <b-col cols="3" class="script-body-container">
               <b-form-input v-model="newRowInput.criado_em" :id="'new_row_pausa'" type="text"></b-form-input>
-            </b-col>
-            <b-col cols="3" class="email-body-container" >
+            </b-col> -->
+            <b-col cols="4" class="email-body-container" >
               <b-form-input v-model="newRowInput.MCDU" :id="'new_row_obrigatoria'" type="text"/>
             </b-col>
             <b-col cols="2" class="status-body-container">
@@ -175,17 +167,19 @@
 
 <script>
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from 'axios';
+import {baseApiUrl, defaultScriptRow} from '../../config/global';
 
-const defaultRow = {
-  script:'',
-  nome: false,
-  email: false,
-  perfil:'',
-  limite: '',
-  icone: '',
-  status: true,
-  add: '<span class="fal fa-trash-alt"/>',
-};
+// const defaultScriptRow = {
+//   script:'',
+//   nome: false,
+//   email: false,
+//   perfil:'',
+//   limite: '',
+//   icone: '',
+//   status: true,
+//   add: '<span class="fal fa-trash-alt"/>',
+// };
 
 export default {
   name:'TabelaPausas',
@@ -198,14 +192,7 @@ export default {
   methods: {
     deleteRow(ev){
       const p = this.scripts.indexOf(ev);
-      this.filas.splice(p,1);
-      this.scripts.splice(p,1);
-      let toast = {
-        isValidated:true,
-        title:'USUÁRIO EXCLUÍDO',
-        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
-      }
-      this.validateAndToast(toast);
+      this.deleteScript(p);
     },
     cancelDelete(p){
       let toast = {
@@ -215,73 +202,147 @@ export default {
       };
       this.validateAndToast(toast);
     },
+    deleteScript(id){
+      let deleted = this.scripts[id];
+      let sID = id.toString()
+      axios.delete(baseApiUrl+'/scripts/'+sID)
+      .then(res => {
+        console.log("Status: " + res.status + " - " + res.statusText);
+        let toast = {
+          isValidated:true,
+          title:'SCRIPT EXCLUÍDO',
+          message:'Script '+deleted.toUpperCase()+' excluído com sucesso!',
+        }
+        this.validateAndToast(toast);
+        this.filas.splice(id,1);
+        this.scripts.splice(id,1);
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE DATA:\n",error.response.data,"\n\tERROR RESPONSE STATUS:\n",error.response.status,"\n\tERROR MESSAGE:\n",error.message)
+        let toast = {
+          isValidated:false,
+          title:'SCRIPT NÃO EXCLUÍDO',
+          message:'Script '+ deleted.toUpperCase()+' não pôde ser excluído. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
+      })
+    },
+    populateNewLine(){
+      this.newRowInput = {...this.newRowDefault};
+    },
     okayAdd(){
       let newPausa = this.newRowInput.script.trim();
-      if (newPausa.length>0){
+      let blankName = !(newPausa.length > 0)?true:false;
+      let newMCDU = this.newRowInput.MCDU.trim();
+      let blankMCDU = !(newMCDU.length > 0)?true:false;
+      if (!blankName && !blankMCDU){
         console.log("Filas ok:")
         console.log(this.filas)
         console.log("New Row Input:")
         console.log(this.newRowInput)
-        this.filas.push(Object.assign({},this.newRowInput));
-        this.pausas.push(newPausa);
-        let toast = {
-          isValidated:true,
-          title:'NOVO USUÁRIO ADICIONADA',
-          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
-        }
-        this.validateAndToast(toast);
+        let body = {};
+        body.name = this.newRowInput.script.trim();
+        body.mcdu = this.newRowInput.MCDU.trim();
+        body.status = this.newRowInput.status?1:0;
+        this.postNewScript(body);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO SCRIPT VAZIO NÃO ADICIONADO',
+          message:'Novo Script '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar Scripts sem nome, sem MCDU, ou com qualquer desses dois campos em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
-
+    },
+    postNewScript(body){
+      axios.post(baseApiUrl+'/scripts', body)
+      .then(res => {
+        console.log("Status: " + res.status + " - " + res.statusText);
+        let toast = {
+          isValidated:true,
+          title:'NOVO SCRIPT ADICIONADO',
+          message:'Novo Script '+body.name.toUpperCase()+' adicionado com sucesso!',
+        }
+        this.validateAndToast(toast);
+        this.filas.push(Object.assign({},this.newRowInput));
+        this.pausas.push(body.name);
+        this.newRowInput = {...this.newRowDefault};
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE DATA:\n",error.response.data,"\n\tERROR RESPONSE STATUS:\n",error.response.status,"\n\tERROR MESSAGE:\n",error.message)
+        let toast = {
+          isValidated:false,
+          title:'NOVO SCRIPT NÃO ADICIONADO',
+          message:'Script '+ body.name.toUpperCase()+' não pôde ser adicionado. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
+        this.newRowInput = {...this.newRowDefault};
+      })
     },
     cancelAdd(){
       let newPausa = this.newRowInput.script.trim();
       let toast = {
         isValidated:false,
-        title:'NOVA PAUSA NÃO ADICIONADA',
-        message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title:'NOVO SCRIPT NÃO ADICIONADO',
+        message:'Novo Script '+newPausa.toUpperCase()+' não foi adicionado. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
     populateEditLine(i){
       this.editRowInput = {...this.filas[i]};
     },
-    populateNewLine(){
-      this.newRowInput = {...this.newRowDefault}
-    },
     updateRow(row){
-      let p = this.editRowInput.script.trim();
+      let s = this.editRowInput.script.trim();
+      let blankName = !(s.length > 0)?true:false;
+      let m = this.editRowInput.MCDU.trim();
+      let blankMCDU = !(m.length > 0)?true:false;
 
-      if(p.length > 0){ // checando se o nome não está em branco
+      if(!blankName && !blankMCDU){ // checando se o nome não está em branco
         /* Atualizando Fila e Pausas com dados editados */
-        this.filas.splice(row,1,{...this.editRowInput});
-        this.pausas.splice(row,1, p);
-        this.editRowInput = {...this.newRowDefault};
-
-        let toast = {
-          isValidated:true,
-          title:'PAUSA EDITADA',
-          message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
-        }
-        this.validateAndToast(toast);
+        let body = {};
+        body.name = this.editRowInput.script.trim();
+        body.mcdu = this.editRowInput.MCDU.trim();
+        body.status = this.editRowInput.status?1:0;
+        let id = this.editRowInput.id;
+        this.putEditedScript(body,id,row);
       }
       else {
         this.editRowInput = {...this.newRowDefault};
 
         let toast = {
           isValidated:false,
-          title:'PAUSA NÃO EDITADA',
-          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title:'SCRIPT NÃO EDITADO',
+          message:'O Script '+s.toUpperCase()+' não foi modificado. Não é possível atualizar um Script apagando seu nome, seu MCDU, ou deixando apenas espaços em branco em qualquer um dos dois campos. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
+    },
+    putEditedScript(body,id,row){
+      let sID = id.toString();
+      axios.put(baseApiUrl+'/scripts/'+sID, body)
+      .then(res => {
+        console.log("Status: " + res.status + " - " + res.statusText);
+        let toast = {
+          isValidated:true,
+          title:'SCRIPT EDITADO',
+          message:'Script '+body.name.toUpperCase()+' editado com sucesso!',
+        }
+        this.validateAndToast(toast);
+        this.filas.splice(row,1,{...this.editRowInput});
+        this.pausas.splice(row,1, body.name);
+        this.editRowInput = {...this.newRowDefault};
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE DATA:\n",error.response.data,"\n\tERROR RESPONSE STATUS:\n",error.response.status,"\n\tERROR MESSAGE:\n",error.message)
+        let toast = {
+          isValidated:false,
+          title:'SCRIPT NÃO EDITADO',
+          message:'Script '+ body.name.toUpperCase()+' não pôde ser editado. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
+        this.editRowInput = {...this.newRowDefault};
+      })
     },
     cancelEdit(row){
       this.editRowInput = {...this.newRowDefault};
@@ -295,7 +356,7 @@ export default {
     }
   },
   created(){
-    this.newRowDefault = {...defaultRow};
+    this.newRowDefault = {...defaultScriptRow};
     // this.newRowInput = Object.assign({},this.newRowDefault);
     // this.editRowInput = Object.assign({},this.newRowDefault);
     localStorage.setItem('__pedro-dev', JSON.stringify(this.items.slice(1,this.items.length)));
