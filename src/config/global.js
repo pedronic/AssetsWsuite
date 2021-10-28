@@ -138,7 +138,7 @@ export const defaultOperator = {
     flag_vc1: true, // Number [0/1]
     flag_vc2: true, // Number [0/1]
     flag_vc3: true, // Number [0/1]
-    status:false // Number [0/1]
+    status:true // Number [0/1]
 }
 
 export const defaultQueue = {

@@ -482,7 +482,7 @@
     </div>
     <b-container fluid class="salvar-container">
       <b-button class="botao-salvar" @click="saveOperadora(oID)">SALVAR</b-button>
-      <div class="custom-control custom-switch" v-if="dataOK">
+      <!-- <div class="custom-control custom-switch" v-if="dataOK">
         <input
           id="customSwitch1"
           
@@ -491,7 +491,8 @@
           v-model="operadora.status"
         />
         <label id="kkk" class="custom-control-label" for="customSwitch1">Status</label>
-      </div>
+      </div> -->
+      <b-form-checkbox switch :checked="true" v-model="operadora.status" v-if="dataOK" id="status-button"><span>Status</span></b-form-checkbox>
     </b-container>
   </div>
 </template>

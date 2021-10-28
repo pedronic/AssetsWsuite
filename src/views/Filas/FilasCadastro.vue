@@ -397,7 +397,9 @@
                     </b-col>
                     <b-col cols='10'/>
                     <b-col cols='1'>
-                        <label><b-form-checkbox switch v-model="status" v-if="dataOK" id="status-button"><span>Status</span></b-form-checkbox></label>
+                        <!-- <label> -->
+                            <b-form-checkbox switch v-model="status" v-if="dataOK" id="status-button"><span>Status</span></b-form-checkbox>
+                        <!-- </label> -->
                     </b-col>
                 </b-row>
             </b-col>
@@ -437,15 +439,6 @@ export default {
             return String(d).substring(0,5);
         },
         getDataItems(){
-            /* axios.get(baseApiUrl+'/queues')
-            .then(res => {
-                console.log("Status:\t",res.status," - ",res.statusText)
-                let r = res.data.data
-                let q = r[0]
-                let w = JSON.parse(q.work_time)
-                console.log("Parsed Object work_time @getDataItems():\n",w);
-                this.checkForQID();
-            }) */
             this.getFinalizations();
             this.getRotas();
             this.getAgentsList()
@@ -630,7 +623,6 @@ export default {
         },
         emptyListaDePausas(){
             this.lista_de_pausas = null;
-            // this.lista_de_pausas = [...this.lista_de_pausas_default];
             this.pausasOK = false;
             this.pausa_loading_text = 'Selecione um Grupo de Pausas para visualizar as Pausas pertencentes ao grupo.';
         },

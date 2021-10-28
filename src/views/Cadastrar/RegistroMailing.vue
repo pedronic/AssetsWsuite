@@ -100,22 +100,23 @@
             <button class="btn btn-dark botao-salvar" type="submit"><i class="fal fa-upload mr-2"></i>Importar</button>
           </b-col>
           <b-col class="p-3" cols="auto">
-            <div class="custom-control custom-switch">
+            <!-- <div class="custom-control custom-switch">
               <input
-                  id="customSwitch1"
-                  checked
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
+                id="customSwitch1"
+                checked
+                class="custom-control-input bg-dark"
+                type="checkbox"
               />
               <input
-                  id="customSwitch1"
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
+                id="customSwitch1"
+                class="custom-control-input bg-dark"
+                type="checkbox"
               />
-              <label id="kkk" class="custom-control-label "
-                     for="customSwitch1">Status</label
+              <label id="kkk" class="custom-control-label" for="customSwitch1"
+                >Status</label
               >
-            </div>
+            </div> -->
+            <b-form-checkbox switch :checked="true" id="status-button"><span>Status</span></b-form-checkbox>
           </b-col>
         </b-row>
         </div>

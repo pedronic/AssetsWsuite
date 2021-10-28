@@ -72,6 +72,7 @@ export default {
     },
     async getUsers() {
       let res = await axios.get(baseApiUrl + "/users");
+      // console.log("Resposta de Usuários endpoint:\n",res);
       let a = res.data.data;
       let usuarios = [];
       let first = {};

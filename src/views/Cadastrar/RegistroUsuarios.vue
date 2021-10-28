@@ -159,7 +159,7 @@
             </button>
           </b-col>
           <b-col class="p-3" cols="auto">
-            <div class="custom-control custom-switch">
+            <!-- <div class="custom-control custom-switch">
               <input
                 id="customSwitch1"
                 checked
@@ -174,7 +174,8 @@
               <label id="kkk" class="custom-control-label" for="customSwitch1"
                 >Status</label
               >
-            </div>
+            </div> -->
+            <b-form-checkbox switch :checked="true" id="status-button"><span>Status</span></b-form-checkbox>
           </b-col>
         </b-row>
       </div>
