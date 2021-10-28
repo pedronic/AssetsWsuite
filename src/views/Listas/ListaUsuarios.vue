@@ -27,7 +27,7 @@
           <div class="d-flex" id="enable-filter">
             <b-form-checkbox
               v-model="status_filter"
-              id="enable-filter-button"
+              id="status-button"
               switch
               @change="setFilter(status_filter, 'enable')"
             />

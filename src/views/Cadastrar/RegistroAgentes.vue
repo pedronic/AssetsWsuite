@@ -136,6 +136,7 @@
                     v-model="document"
                     id="profile-name-input"
                     type="text"
+                    disabled
                     placeholder="Documento"
                   />
                 </div>
@@ -145,11 +146,11 @@
                   <i class="fal fa-road fa-2x" style="margin-left: 5px" />
                   <div id="multiselect-input">
                     <multiselect
-                      v-model="filas_finish"
+                      v-model="queue_default"
                       placeholder="Filas"
-                      :label="'queue_name'"
-                      :track-by="'queue_id'"
-                      :options="filas"
+                      :label="'name'"
+                      :track-by="'code'"
+                      :options="queues"
                       :multiple="false"
                     />
                   </div>
@@ -157,12 +158,14 @@
               </div>
             </div>
           </div>
-          {{ id }}
+          <!-- {{ id }}
           {{ name }}
           {{ login_crm }}
           {{ flag }}
           {{ email }}
-          {{ document }}
+          {{ jornadas_tipos }}
+          {{ agent }}
+          {{ queue_default.name }} -->
           <!-- <div class="panel">
             <div class="panel-container show">
               <div class="panel-content">
@@ -178,16 +181,7 @@
             </b-col>
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
-                <input
-                  id="customSwitch1"
-                  checked
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
-                  v-model="flag"
-                />
-                <label id="kkk" class="custom-control-label" for="customSwitch1"
-                  >Status</label
-                >
+               <b-form-checkbox id="status-button" v-model="flag" switch>Status</b-form-checkbox>
               </div>
             </b-col>
           </b-row>
@@ -219,10 +213,20 @@ export default {
         this.agents.push(data[u].agent);
       }
     },
-    async getFilas() {
-      let f = await axios.get(baseApiUrl + "/queues");
-      console.log("f.data.data\n", f.data.data);
-      this.filas = f.data.data;
+    getQueues() {
+      axios.get(baseApiUrl + "/queues").then((f) => {
+        let queue = f.data.data;
+        let queues = [];
+        console.log("f.data.data\n", f.data.data);
+        for (let u in queue) {
+          let fila = {};
+          fila.name = queue[u].name;
+          fila.code = queue[u].name;
+          queues.push({ ...fila });
+        }
+        this.queues = [...queues];
+        this.dataOK = true;
+      });
     },
     async putAgent(nu) {
       console.log(nu);
@@ -237,22 +241,19 @@ export default {
       // Refatorar para incluir avisos de toast após ação
       let passCheck = !(this.password === this.confirmPassword);
       let blankPass = !(this.password.trim().length > 0);
+      let blankAgent = !(this.agent > 0);
       let blankName = !(this.name.trim().length > 0);
-      let blankMail = !(this.email.trim().length > 0);
-      let blankLogin_crm = !(this.login_crm.trim().length > 0);
-      let blankAgent = !(this.agent.trim().length > 0);
-      let blankDocument = !(this.document.trim().length > 0);
-      let blankJourney = !(this.tipo_jornadas.length = 1);
       // console.clear();
       if (
         passCheck ||
         blankPass ||
         blankJourney ||
+        blankAgent ||
         blankName ||
         blankMail ||
         blankLogin_crm ||
-        blankAgent ||
-        blankDocument
+        blankAgent //||
+        // blankDocument
       ) {
         console.log(passCheck);
         console.log(blankPass);
@@ -260,17 +261,18 @@ export default {
         console.log(blankLogin_crm);
         console.log(blankMail);
         console.log(blankAgent);
-        console.log(blankDocument);
+        // console.log(blankDocument);
         console.log(blankJourney);
       } else {
         let postBody = {};
         postBody.company_id = this.company_id;
-        postBody.agent = this.agent.trim();
+        postBody.agent = this.agent;
         postBody.password = this.password.trim();
         postBody.confirmPassword = this.confirmPassword.trim();
         postBody.name = this.name.trim();
         postBody.cpf = this.cpf;
         postBody.login_crm = this.login_crm.trim();
+        postBody.queue_default = this.queue_default.name;
         // postBody.email = this.email.trim();
         // postBody.journey = this.tipo_jornadas.code;
         // postBody.type = this.type;
@@ -280,22 +282,21 @@ export default {
         // postBody.created_at = this.created_at;
         // postBody.updated_at = this.updated_at;
 
-        // for (let f in this.filas_finish) {
-        //   this.queue_default.push(this.filas_finish[f]);
+        // for (let f in this.queue_default) {
+        //   this.queue_default.push(this.queue_default[f]);
         // }
-        postBody.queue_default = this.filas_finish.name;
-        let validAgent = !(this.agents.indexOf(this.agent.trim()) >-1);
+        let validAgent = !(this.agents.indexOf(this.agent) < -1);
         console.log(postBody);
         if (validAgent) {
-          console.log('valido');
+          console.log("valido");
           if (this.id) {
-            console.log("1");
+            console.log(postBody.queue_default);
             this.putAgent(postBody);
           } else {
             console.log("0");
             this.postNewAgent(postBody);
           }
-            console.log("ye");
+          console.log("ye");
         }
       }
     },
@@ -303,19 +304,23 @@ export default {
   data() {
     return {
       tipo_jornadas: [],
-      filas_finish: [],
+      queue_default: [
+        {
+          name: this.$route.params.queue_default,
+          code: this.$route.params.queue_default,
+        },
+      ],
       agents: [],
-      filas: [],
+      queues: [],
       id: this.$route.params.id,
       name: this.$route.params.name,
       login_crm: this.$route.params.login_crm,
       flag: this.$route.params.flag,
       email: this.$route.params.email,
-      queue_default: [],
       password: "",
       document: this.$route.params.document,
       confirmPassword: "",
-      agent: "",
+      agent: this.$route.params.agent,
       MSprops: vueMultiselectProps,
       jornadas_tipos: [
         { name: "Ativa", code: "active" },
@@ -349,7 +354,7 @@ export default {
     };
   },
   mounted() {
-    this.getFilas();
+    this.getQueues();
     this.getAgents();
 
     $(document).on("click", "#close-preview", function () {

@@ -225,6 +225,8 @@ export default {
   },
   methods: {
     async deleteUser(id) {
+      console.log("delete");
+      console.log(id);
       let s = await axios.delete(`${baseApiUrl}/users/${id}`);
       console.clear();
       console.log("Delete status:\n", s);

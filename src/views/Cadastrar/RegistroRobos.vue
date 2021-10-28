@@ -48,6 +48,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Documento"
+                    disabled
                   />
                 </div>
               </div>
@@ -61,8 +62,8 @@
                   <multiselect
                     v-model="filas_finish"
                     placeholder="Filas"
-                    :label="'queue_name'"
-                    :track-by="'queue_id'"
+                    :label="'name'"
+                    :track-by="'code'"
                     :options="queues"
                     :multiple="false"
                   />
@@ -76,20 +77,13 @@
                 Salvar
               </button>
             </b-col>
+            <!-- {{ queues }}
             {{ queue_default }}
             {{ names }}
-            {{ id }}
+            {{ id }} -->
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
-                <input
-                  id="customSwitch1"
-                  v-model="flag"
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
-                />
-                <label id="kkk" class="custom-control-label" for="customSwitch1"
-                  >Status</label
-                >
+               <b-form-checkbox id="status-button" v-model="flag" switch>Status</b-form-checkbox>
               </div>
             </b-col>
           </b-row>
@@ -121,13 +115,20 @@ export default {
       console.log("Post status:\n", s);
     },
 
-    async getQueues() {
-      let f = await axios.get(baseApiUrl + "/queues");
-      let queue = f.data.data;
-      console.log("f.data.data\n", f.data.data);
-      for (let u in queue) {
-        this.queues.push(queue[u].name);
-      }
+    getQueues() {
+      axios.get(baseApiUrl + "/queues").then((f) => {
+        let queue = f.data.data;
+        let queues = [];
+        console.log("f.data.data\n", f.data.data);
+        for (let u in queue) {
+          let fila = {};
+          fila.name = queue[u].name;
+          fila.code = queue[u].name;
+          queues.push({ ...fila });
+        }
+        this.queues = [...queues];
+      this.dataOK = true;
+      });
     },
     async getRobots() {
       let robots = await axios.get(baseApiUrl + "/agents");
@@ -138,19 +139,17 @@ export default {
         this.names.push(iterator[u].name);
       }
       // console.log(this.names);
-      this.dataOK = true;
     },
 
     carregar() {
       // Refatorar para incluir avisos de toast após ação
       let blankName = !(this.name.trim().length > 0);
       let blankLogin_crm = !(this.login_crm.trim().length > 0);
-      let blankDocument = !(this.document.trim().length > 0);
+      // let blankDocument = !(this.document.trim().length > 0);
       // console.clear();
-      if (blankName || blankLogin_crm || blankDocument) {
+      if (blankName || blankLogin_crm) {
         console.log(blankName);
         console.log(blankLogin_crm);
-        console.log(blankDocument);
       } else {
         let postBody = {};
         postBody.id = this.id;
@@ -187,11 +186,11 @@ export default {
   },
   data() {
     return {
-      dataOK: true,
+      dataOK: false,
       names: [],
       queue_default: this.$route.params.queue_default,
       filas_finish: [],
-      queues: [],
+      queues: null,
       flag: this.$route.params.flag,
       id: this.$route.params.id,
       name: this.$route.params.name,
@@ -199,8 +198,8 @@ export default {
     };
   },
   created() {
-    this.getQueues();
     this.getRobots();
+    this.getQueues();
   },
 };
 </script>

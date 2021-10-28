@@ -16,7 +16,7 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="status-filter">
-            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+            <b-form-checkbox v-model="status_filter" id="status-button" class="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
           </div>
         </div>
       </div>

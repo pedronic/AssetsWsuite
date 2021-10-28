@@ -18,13 +18,13 @@
       :filter-included-fields="filter_fields"
       sticky-header
     >
-      <template v-slot:head(script)="data">
+      <template v-slot:head(nome)="data">
         <span>{{ data.label }}</span>
       </template>
-      <template v-slot:head(criado_em)="data">
+      <template v-slot:head(created_at)="data">
         <span>{{ data.label }}</span>
       </template>
-      <template v-slot:head(MCDU)="data">
+      <template v-slot:head(mcdu)="data">
         <span>{{ data.label }}</span>
       </template>
       <template v-slot:head(status)="data">
@@ -40,28 +40,28 @@
         </b-button>
       </template>
 
-      <template v-slot:cell(script)="slot">
-        <span :id="slot.item.script + '_pausa'">{{ slot.value }}</span>
+      <template v-slot:cell(nome)="slot">
+        <span :id="slot.item.nome + '_pausa'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(nome)="slot">
-        <span :id="slot.item.script + '_alerta'">{{ slot.value }}</span>
+        <span :id="slot.item.nome + '_alerta'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(email)="slot">
-        <span :id="slot.item.script + '_alerta'">{{ slot.value }}</span>
+        <span :id="slot.item.nome + '_alerta'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(perfil)="slot">
-        <span :id="slot.item.script + '_alerta'">{{ slot.value }}</span>
+        <span :id="slot.item.nome + '_alerta'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(limite)="slot">
-        <span :id="slot.item.script + '_limite'">{{ slot.value }}</span>
+        <span :id="slot.item.nome + '_limite'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(icone)="slot">
-        <span :id="slot.item.script + '_icone'" v-html="slot.value" />
+        <span :id="slot.item.nome + '_icone'" v-html="slot.value" />
       </template>
       <template v-slot:cell(status)="slot">
         <b-form-checkbox
           v-model="slot.value"
-          :id="slot.item.script + '_ativa'"
+          :id="slot.item.nome + '_ativa'"
           :value="true"
           :unchecked-value="false"
           switch
@@ -70,27 +70,27 @@
       </template>
       <template v-slot:cell(add)="slot">
         <b-button
-          :id="slot.item.script + '_edit'"
+          :id="slot.item.nome + '_edit'"
           class="edit-btn"
           variant="outline"
-          v-b-modal="slot.item.script + '_edit_modal'"
+          v-b-modal="slot.item.nome + '_edit_modal'"
           v-html="editIcon"
         />
         <b-btn
-          :id="slot.item.script + '_add'"
+          :id="slot.item.nome + '_add'"
           v-html="deleteIcon"
           class="add-btn"
           variant="outline"
-          v-b-modal="slot.item.script + '_delete'"
+          v-b-modal="slot.item.nome + '_delete'"
         />
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.script + '_edit'">
+    <div v-for="(i, index) in filas" :key="i.nome + '_edit'">
       <b-modal
-        :id="i.script + '_edit_modal'"
-        :ref="i.script + '_edit_modal'"
+        :id="i.nome + '_edit_modal'"
+        :ref="i.nome + '_edit_modal'"
         title="Editar Pausa"
         size="xl"
         :hide-header-close="true"
@@ -112,27 +112,27 @@
                 <span class="nome-head">Nome</span>
               </b-col>
               <b-col cols="4" class="perfil-head-container">
-                <span class="perfil-head">MCDU</span>
+                <span class="perfil-head">mcdu</span>
               </b-col>
               <b-col cols="2" class="status-head-container">
                 <span class="status-head">Status</span>
               </b-col>
             </b-row>
             <b-row>
-              <b-col cols="6" class="script-body-container">
+              <b-col cols="6" class="nome-body-container">
                 <b-form-input
-                  v-model="editRowInput.script"
+                  v-model="editRowInput.nome"
                   :presentState="i"
-                  :id="i.script + '_edit_row_pausa'"
-                  :ref="i.script + '_edit_row_pausa'"
+                  :id="i.nome + '_edit_row_pausa'"
+                  :ref="i.nome + '_edit_row_pausa'"
                   type="text"
                 />
               </b-col>
               <b-col cols="4" class="perfil-body-container">
                 <b-form-input
-                  v-model="editRowInput.MCDU"
+                  v-model="editRowInput.mcdu"
                   :presentState="i"
-                  :id="i.script + '_edit_row_alerta'"
+                  :id="i.nome + '_edit_row_alerta'"
                   type="text"
                 ></b-form-input>
               </b-col>
@@ -140,7 +140,7 @@
                 <b-form-checkbox
                   v-model="editRowInput.status"
                   :presentState="i"
-                  :id="i.script + '_edit_row_ativa'"
+                  :id="i.nome + '_edit_row_ativa'"
                   :value="true"
                   :unchecked-value="false"
                   switch
@@ -154,7 +154,7 @@
       <!-- ---------------------------------------------------- -->
       <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
       <b-modal
-        :id="i.script + '_delete'"
+        :id="i.nome + '_delete'"
         title="ATENÇÃO!!!"
         :hide-header-close="false"
         :no-close-on-backdrop="false"
@@ -164,10 +164,10 @@
         ok-variant="danger"
         cancel-title="MANTER"
         cancel-variant="success"
-        @ok="deleteRow(i.script, i.id)"
-        @cancel="cancelDelete(i.script)"
+        @ok="deleteRow(i.nome, i.id)"
+        @cancel="cancelDelete(i.nome)"
       >
-        Tem certeza que deseja excluir a script <b>{{ i.script }}</b
+        Tem certeza que deseja excluir a nome <b>{{ i.nome }}</b
         >?
       </b-modal>
     </div>
@@ -200,30 +200,30 @@
               <span class="perfil-head">Criado em</span>
             </b-col>
             <b-col cols="3" class="perfil-head-container">
-              <span class="perfil-head">MCDU</span>
+              <span class="perfil-head">mcdu</span>
             </b-col>
             <b-col cols="2" class="status-head-container">
               <span class="status-head">Status</span>
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="4" class="script-body-container">
+            <b-col cols="4" class="nome-body-container">
               <b-form-input
-                v-model="newRowInput.script"
+                v-model="newRowInput.nome"
                 :id="'new_row_pausa'"
                 type="text"
               ></b-form-input>
             </b-col>
-            <b-col cols="3" class="script-body-container">
+            <b-col cols="3" class="nome-body-container">
               <b-form-input
-                v-model="newRowInput.criado_em"
+                v-model="newRowInput.created_at"
                 :id="'new_row_pausa'"
                 type="text"
               ></b-form-input>
             </b-col>
             <b-col cols="3" class="email-body-container">
               <b-form-input
-                v-model="newRowInput.MCDU"
+                v-model="newRowInput.mcdu"
                 :id="'new_row_obrigatoria'"
                 type="text"
               />
@@ -253,8 +253,7 @@ import { baseApiUrl } from "@/config/global";
 
 
 const defaultRow = {
-  script:'',
-  nome: false,
+  nome:'',
   email: false,
   perfil:'',
   limite: '',
@@ -300,7 +299,7 @@ export default {
       this.validateAndToast(toast);
     },
     okayAdd(){
-      let newPausa = this.newRowInput.script.trim();
+      let newPausa = this.newRowInput.nome.trim();
       if (newPausa.length>0){
         console.log("Filas ok:")
         console.log(this.filas)
@@ -326,7 +325,7 @@ export default {
 
     },
     cancelAdd(){
-      let newPausa = this.newRowInput.script.trim();
+      let newPausa = this.newRowInput.nome.trim();
       let toast = {
         isValidated:false,
         title:'NOVA PAUSA NÃO ADICIONADA',
@@ -341,7 +340,7 @@ export default {
       this.newRowInput = {...this.newRowDefault}
     },
     updateRow(row){
-      let p = this.editRowInput.script.trim();
+      let p = this.editRowInput.nome.trim();
 
       if(p.length > 0){ // checando se o nome não está em branco
         /* Atualizando Fila e Pausas com dados editados */
@@ -369,7 +368,7 @@ export default {
     },
     cancelEdit(row){
       this.editRowInput = {...this.newRowDefault};
-      let p = this.filas[row].script;
+      let p = this.filas[row].nome;
       let toast = {
         isValidated:false,
         title:'PAUSA NÃO EDITADA',
@@ -408,15 +407,15 @@ export default {
         {value:'i4', html:'<span class="fal fa-abacus"/>'}],
       fields: [
         {
-          key:'script',
+          key:'nome',
           label: 'Nome',
         },
         {
-          key:'criado_em',
+          key:'created_at',
           label: 'Criado em:'
         },
         {
-          key:'MCDU',
+          key:'mcdu',
           label: 'MCDU'
         },
 
@@ -471,7 +470,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.script-head-container,
+.nome-head-container,
 .nome-head-container,
 .email-head-container,
 .perfil-head-container,
@@ -483,7 +482,7 @@ input::-webkit-inner-spin-button {
   padding-right: 2px !important;
 }
 
-.script-head {
+.nome-head {
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -509,7 +508,7 @@ input::-webkit-inner-spin-button {
   justify-content: center !important;
 }
 
-.script-body-container,
+.nome-body-container,
 .nome-body-container,
 .email-body-container,
 .perfil-body-container,

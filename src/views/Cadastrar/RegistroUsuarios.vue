@@ -144,9 +144,9 @@
                     <multiselect
                       v-model="filas_finish"
                       placeholder="Filas"
-                      :label="'queue_name'"
-                      :track-by="'queue_id'"
-                      :options="filas"
+                    :label="'name'"
+                    :track-by="'code'"
+                      :options="queues"
                       :multiple="true"
                     />
                   </div>
@@ -154,12 +154,13 @@
               </div>
             </div>
           </div>
-          {{ id }}
+          <!-- {{ id }}
           {{ name }}
           {{ email }}
           {{ username }}
           {{ enable }}
           {{ perfilName }}
+          {{ filas }} -->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
               <button class="btn btn-dark botao-salvar" type="submit">
@@ -168,15 +169,7 @@
             </b-col>
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
-                <input
-                  id="customSwitch1"
-                  v-model="enable"
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
-                />
-                <label id="kkk" class="custom-control-label" for="customSwitch1"
-                  >Status</label
-                >
+               <b-form-checkbox id="status-button" v-model="enable" switch>Status</b-form-checkbox>
               </div>
             </b-col>
           </b-row>
@@ -206,10 +199,20 @@ export default {
       console.log("Filas Selecionadas:\n", this.filas_finish);
     },
 
-    async getFilas() {
-      let f = await axios.get(baseApiUrl + "/queues");
-      console.log("f.data.data\n", f.data.data);
-      this.filas = f.data.data;
+     getQueues() {
+      axios.get(baseApiUrl + "/queues").then((f) => {
+        let queue = f.data.data;
+        let queues = [];
+        console.log("f.data.data\n", f.data.data);
+        for (let u in queue) {
+          let fila = {};
+          fila.name = queue[u].name;
+          fila.code = queue[u].name;
+          queues.push({ ...fila });
+        }
+        this.queues = [...queues];
+      this.dataOK = true;
+      });
     },
       async getUsers() {
         let users = await axios.get(baseApiUrl + "/users");
@@ -299,7 +302,7 @@ export default {
       userNames: [],
       msg: "",
       states: [],
-      filas: [],
+      queues: [],
       perfis: [],
       filas_finish: [],
       name: this.$route.params.name,
@@ -317,7 +320,7 @@ export default {
     };
   },
   mounted() {
-    this.getFilas();
+    this.getQueues();
     this.getUsers();
     this.getPerfil();
 

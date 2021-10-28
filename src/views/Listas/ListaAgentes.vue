@@ -65,7 +65,9 @@ export default {
         agente.document = '';// Não disponível ainda. futuramente: a[i].document;
         agente.last_login = a[i].last_login;
         agente.id = a[i].id;
+        agente.queue_default = a[i].queue_default;
         agente.flag = a[i].flag?true:false;
+        agente.agent = a[i].agent;
         items.push({...agente});
       }
       console.log("Items @getNames():\n",this.items);

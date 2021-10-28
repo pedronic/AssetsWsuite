@@ -86,6 +86,7 @@
               agent: slot.item.agent,
               name: slot.item.name,
               flag: slot.item.flag,
+              queue_default: slot.item.queue_default,
             },
           }">
           <b-button
