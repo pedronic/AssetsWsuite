@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left :filter="filter" filter-debounce="50" :filter-included-fields="['grupo']" :per-page="10">
+        <b-table id="tabela-grupo-pausas" :ref="'tabela-de-pausas'" class="tabela-grupo-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="grupos" :responsive="true" :fields="fields" sticky-header sort-icon-left :filter="filter" filter-debounce="50" :filter-included-fields="['grupo']" :per-page="10" :busy="busy">
             <template v-slot:head(grupo)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -154,6 +154,7 @@ export default {
         items: Array,
         filter: String,
         pausasList: Array,
+        isLoading:{type:Boolean, default:false}
     },
     methods: {
         deleteRow(nomeDoGrupo, id){ //recebe nome do grupo e apaga da lista de grupos de pausas local
@@ -350,11 +351,22 @@ export default {
         this.editRowInput = Object.assign({},this.newRowDefault);
     },
     watch:{
+        isLoading(newValue, oldValue){
+          console.log("WATCHING PROP 'isLoading'...\n","\tisLoading OLD:\t",oldValue,"\n\tisLoading NEW:\t",newValue);
+          this.busy = newValue;
+          console.log("Items PROP:\n",this.items);
+        },
+        items(newValue, oldValue){
+          console.log("WATCHING PROP 'items'...\n","\titems OLD:\t",oldValue,"\n\titems NEW:\t",newValue);
+          this.grupos = newValue.slice(1,newValue.length);
+          this.gruposNames = newValue[0].grupos;
+        }
     },
     mounted(){
     },
     data(){
         return {
+            busy:this.isLoading,
             grupos: this.items.slice(1,this.items.length),
             gruposNames: this.items[0].grupos,
             // thisAtivas: [],

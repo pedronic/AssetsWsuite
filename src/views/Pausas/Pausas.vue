@@ -5,8 +5,20 @@
                 <div class="card-body"/>
             </div>
         </pages-sub-header>
-        <tabela-pausas :items="items" v-if="buildTable"/>
+        <tabela-pausas :items="items" :isLoading="loadingPage" v-if="buildTable"/>
         <b-container fluid class="salvar-container">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="total_items"
+              :per-page="perPage"
+              aria-controls="my-table"
+              prev-class="single-arrow-button"
+              next-class="single-arrow-button"
+              ellipsis-text="···"
+              @change="showSelectedPage"
+            />
+        <!-- </b-container>
+        <b-container fluid class="salvar-container"> -->
             <router-link to='/grupo-de-pausas'>
                 <b-button class="botao-salvar">CRIAR GRUPO</b-button>
             </router-link>
@@ -21,6 +33,8 @@ import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mi
 import axios from 'axios';
 import {baseApiUrl} from '../../config/global';
 
+const perpage = 10;
+
 export default {
     name: 'Pausas',
     mixins: [ValidateToaster],
@@ -29,12 +43,21 @@ export default {
         TabelaPausas,
     },
     methods: {
-        async getPausas(){
-            let res = await axios.get(baseApiUrl+"/breaks");
+        showSelectedPage(page){
+            this.loadingPage = true;
+            this.getNames(page);
+            this.loadingPage = false;
+        },
+        async getPausas(page){
+            let pag = page.toString();
+            let res = await axios.get(baseApiUrl+"/breaks"+"?page="+pag);
             let p = res.data.data;
             let pausas = [];
             let first = {};
             let items = [];
+            this.total_items = res.data.count;
+            this.total_pages = Math.ceil(res.data.count / res.data.limit);
+            this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
             
             
             for(let i in p){
@@ -63,10 +86,15 @@ export default {
         }
     },
     created() {
-        this.getPausas();
+        this.getPausas(this.currentPage);
     },
     data(){
         return{
+            loadingPage:false,
+            total_items:0,
+            total_pages:0,
+            currentPage:1,
+            perPage:perpage,
             buildTable:false,
             items:null,
            /*

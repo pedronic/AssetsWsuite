@@ -25,7 +25,19 @@
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
 
-    <TabelaRobos :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable"/>        
+    <TabelaRobos :items="items" :filter="filter" :filter_fields="filter_fields" :isLoading="loadingPage" v-if="buildTable"/>
+    <b-container fluid class="salvar-container">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="total_items"
+        :per-page="perPage"
+        
+        prev-class="single-arrow-button"
+        next-class="single-arrow-button"
+        ellipsis-text="···"
+        @change="showSelectedPage"
+      />
+    </b-container>
   </div>
 </template>
 
@@ -36,6 +48,7 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
+const perpage = 10;
 
 export default {
   components: {
@@ -47,9 +60,19 @@ export default {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getAgentRobos() {
-      let res = await axios.get(baseApiUrl + "/agents");
+    showSelectedPage(page) {
+      console.log('Selected page:\t',page,'\nCurrent page:\t',this.currentPage);
+      this.loadingPage = true;
+      this.getAgentRobos(page);
+      this.loadingPage = false;
+    },
+    async getAgentRobos(page) {
+      let pag = page.toString();
+      let res = await axios.get(baseApiUrl + "/robos"+"?page="+pag);
       let a = res.data.data;
+      this.total_items = res.data.count;
+      this.total_pages = Math.ceil(res.data.count / res.data.limit);
+      this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
       let robos = [];
       let first = {};
       let items = [];
@@ -88,12 +111,17 @@ export default {
   // put
   // delete
   created() {
-    this.getAgentRobos();
+    this.getAgentRobos(this.currentPage);
     // this.getPages();
     // this.setDefaultUser();
   },
   data() {
     return {
+      loadingPage:false,
+      total_items:0,
+      total_pages:0,
+      currentPage:1,
+      perPage:perpage,
       msg: "",
       buildTable:false,
       items:null,

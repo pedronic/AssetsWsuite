@@ -24,7 +24,19 @@
 
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-    <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items" v-if="buildTable"/>
+    <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items" :isLoading="loadingPage" v-if="buildTable"/>
+    <b-container fluid class="salvar-container">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="total_items"
+        :per-page="perPage"
+        
+        prev-class="single-arrow-button"
+        next-class="single-arrow-button"
+        ellipsis-text="···"
+        @change="showSelectedPage"
+      />
+    </b-container>
   </div>
 </template>
 
@@ -34,6 +46,7 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
+const perpage = 10;
 
 export default {
   components: {
@@ -45,39 +58,53 @@ export default {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getNames() {
-      let res = await axios.get(baseApiUrl + "/agents");
-      let a = res.data.data;
-      let agentes = [];
-      let first = {};
-      let items = [];
-      let agente = {};
+    showSelectedPage(page) {
+      console.log('Selected page:\t',page,'\nCurrent page:\t',this.currentPage);
+      this.loadingPage = true;
+      this.getNames(page);
+      this.loadingPage = false;
+    },
+    getNames(page) {
+      let pag = page.toString();
+      axios.get(baseApiUrl + "/agents"+"?page="+pag)
+      .then(res => {
+        let a = res.data.data;
+        let agentes = [];
+        let first = {};
+        let items = [];
+        let agente = {};
 
-        // console.clear();
-        // console.log(u);
-      // for (let i in a) {
-      //   u[i].flag = new Boolean(u[i].flag);
-      //   this.items[0].names.push(u[i].name);
-      //   this.items.push(u[i]);
-      // }
-      for(let i in a){
-        agentes.push(a[i].name)
-      }
-      first.names = [...agentes];
-      items.push({...first});
+          // console.clear();
+          // console.log(u);
+        // for (let i in a) {
+        //   u[i].flag = new Boolean(u[i].flag);
+        //   this.items[0].names.push(u[i].name);
+        //   this.items.push(u[i]);
+        // }
+        for(let i in a){
+          agentes.push(a[i].name)
+        }
+        first.names = [...agentes];
+        items.push({...first});
 
-      for(let i in a){
-        agente.name = a[i].name;
-        agente.login_crm = a[i].login_crm;
-        agente.email = a[i].email;
-        agente.document = '';// Não disponível ainda. futuramente: a[i].document;
-        agente.last_login = a[i].last_login;
-        agente.flag = a[i].flag?true:false;
-        items.push({...agente});
-      }
-      console.log("Items @getNames():\n",this.items);
-      this.items = [...items];
-      this.buildTable = true;      
+        for(let i in a){
+          agente.name = a[i].name;
+          agente.login_crm = a[i].login_crm;
+          agente.email = a[i].email;
+          agente.document = '';// Não disponível ainda. futuramente: a[i].document;
+          agente.last_login = a[i].last_login;
+          agente.flag = a[i].flag?true:false;
+          items.push({...agente});
+        }
+        // console.log("Items @getNames():\n",items);
+        this.items = [...items];
+        this.buildTable = true;
+        this.total_items = res.data.count;
+        this.total_pages = Math.ceil(res.data.count / res.data.limit);
+        this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
+        console.log("Items @getNames():\n",this.items);
+        console.log("Total da tabela:\t",this.total_items,"\tTotal de Páginas:\t",this.total_pages)
+      })
     },
     
   },
@@ -86,14 +113,19 @@ export default {
   // put
   // delete
   created() {
-    this.getNames();
+    this.getNames(this.currentPage);
     // this.getPages();
     // this.setDefaultUser();
   },
   data() {
     return {
+      loadingPage:false,
       msg: "",
       buildTable:false,
+      total_items:0,
+      total_pages:0,
+      currentPage:1,
+      perPage:perpage,
       items:null,
       /* [
         {

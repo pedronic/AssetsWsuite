@@ -5,7 +5,8 @@
              filter-debounce="50"
              :filter-included-fields="filter_fields"
              sticky-header
-             :per-page="10">
+             :per-page="10"
+             :busy="busy">
       <template v-slot:head(login_crm)="data">
         <span>{{data.label}}</span>
       </template>
@@ -218,6 +219,7 @@ export default {
     items: Array,
     filter:String,
     filter_fields:Array,
+    isLoading:{type:Boolean, default:false}
   },
   methods: {
     deleteRow(ev){
@@ -330,12 +332,23 @@ export default {
     // filas(newValue){
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
     // }
+    isLoading(newValue, oldValue){
+      console.log("WATCHING PROP 'isLoading'...\n","\tisLoading OLD:\t",oldValue,"\n\tisLoading NEW:\t",newValue);
+      this.busy = newValue;
+      console.log("Items PROP:\n",this.items);
+    },
+    items(newValue, oldValue){
+      console.log("WATCHING PROP 'items'...\n","\titems OLD:\t",oldValue,"\n\titems NEW:\t",newValue);
+      this.filas = newValue.slice(1,newValue.length);
+      this.names = newValue[0].names;
+    }
   },
   mounted(){
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
   data(){
     return {
+      busy:this.isLoading,
       filas: this.items.slice(1,this.items.length),
       newRowInput: Object.assign({},this.newRowDefault),
       editRowInput: Object.assign({},this.newRowDefault),

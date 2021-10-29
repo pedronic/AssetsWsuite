@@ -19,3 +19,30 @@
 label[for="status-button"]{
     padding-top: 0.35ch !important;
 }
+.b-table-sticky-header{
+    max-height: 62.3vh;
+}
+
+.page-item>button.page-link{
+    &:not([aria-checked="true"]){
+        &:not(:hover){
+            background-color: white !important;
+            color: black;
+        }
+    }
+    &:not(:hover){
+        background-color: #0d6d9d8f !important;
+        color: white;
+    }
+    &:hover{
+        background-color: #0d6d9d !important;
+        color: white;
+    }
+  }
+
+  .page-item.disabled>span.page-link{
+    // border-width: 2px !important;
+    // border-color: #eeeeee !important;  
+    // background-color: #eeeeeed7 !important;
+    color: black;
+  }

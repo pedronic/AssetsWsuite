@@ -50,6 +50,18 @@
       :filter="filter"
       :filter_fields="filter_fields"
     />
+    <b-container fluid class="salvar-container">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="total_items"
+        :per-page="perPage"
+        
+        prev-class="single-arrow-button"
+        next-class="single-arrow-button"
+        ellipsis-text="···"
+        @change="showSelectedPage"
+      />
+    </b-container>
   </div>
 </template>
 
@@ -60,20 +72,31 @@ import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
+const perpage = 10;
+
 export default {
   components: {
     PagesSubHeader,
     TabelaUsuariosCadastrados,
   },
   methods: {
+    showSelectedPage(page) {
+      this.loadingPage = true;
+      this.getUsers(page);
+      this.loadingPage = false;
+    },
     setFilter(filter, field) {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getUsers() {
-      let res = await axios.get(baseApiUrl + "/users");
+    async getUsers(page) {
+      let pag = page.toString();
+      let res = await axios.get(baseApiUrl + "/users"+"?page="+pag);
       // console.log("Resposta de Usuários endpoint:\n",res);
       let a = res.data.data;
+      this.total_items = res.data.count;
+      this.total_pages = Math.ceil(res.data.count / res.data.limit);
+      this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
       let usuarios = [];
       let first = {};
       let items = [];
@@ -111,14 +134,19 @@ export default {
   // put
   // delete
   created() {
-    this.getUsers();
+    this.getUsers(this.currentPage);
     // this.getPages();
     // this.setDefaultUser();
   },
   data() {
     return {
+      loadingPage:false,
       msg: "",
       buildTable:false,
+      total_items:0,
+      total_pages:0,
+      currentPage:1,
+      perPage:perpage,
       items:null,
       /* [
         {

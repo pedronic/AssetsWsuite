@@ -1,6 +1,6 @@
 <template>
     <div class="pausas">
-        <b-table id="tabela-de-pausas" :ref="'tabela-de-pausas'" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header :per-page="10">
+        <b-table id="tabela-de-pausas" :ref="'tabela-de-pausas'" class="tabela-pausas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header :per-page="10" :busy="busy">
             <template v-slot:head(pausa)="data">
                 <span>{{data.label}}</span>
             </template>
@@ -251,7 +251,8 @@ export default {
         editable:{
             type:Boolean,
             default:true
-        }
+        },
+        isLoading:{type:Boolean, default:false}
     },
     methods: {
         deleteRow(nomeDaPausa, id){
@@ -428,12 +429,23 @@ export default {
         // filas(newValue){
         //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
         // }
+        isLoading(newValue, oldValue){
+          console.log("WATCHING PROP 'isLoading'...\n","\tisLoading OLD:\t",oldValue,"\n\tisLoading NEW:\t",newValue);
+          this.busy = newValue;
+          console.log("Items PROP:\n",this.items);
+        },
+        items(newValue, oldValue){
+          console.log("WATCHING PROP 'items'...\n","\titems OLD:\t",oldValue,"\n\titems NEW:\t",newValue);
+          this.filas = newValue.slice(1,newValue.length);
+          this.names = newValue[0].names;
+        }
     },
     // mounted(){     
     //     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
     // },
     data(){
         return {
+            busy:this.isLoading,
             isEditable:this.editable?null:'disabled',
             filas: this.items.slice(1,this.items.length),
             newRowInput: Object.assign({},this.newRowDefault),

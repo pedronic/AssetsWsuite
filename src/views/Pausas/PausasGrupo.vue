@@ -23,7 +23,19 @@
             </div>
 
         </pages-sub-header>
-        <tabela-grupo-pausas :filter='filter' :items="grupos" :pausasList="pausas" v-if="buildTable"/>
+        <tabela-grupo-pausas :filter='filter' :items="grupos" :pausasList="pausas" :isLoading="loadingPage" v-if="buildTable"/>
+        <b-container fluid class="salvar-container">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="total_items"
+              :per-page="perPage"
+              aria-controls="my-table"
+              prev-class="single-arrow-button"
+              next-class="single-arrow-button"
+              ellipsis-text="···"
+              @change="showSelectedPage"
+            />
+        </b-container>
     </div>
 </template>
 
@@ -34,6 +46,8 @@ import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mi
 import axios from 'axios';
 import {baseApiUrl} from '../../config/global';
 
+const perpage = 10;
+
 export default {
     name:'PausasGrupo',
     mixins: [ValidateToaster],
@@ -42,6 +56,11 @@ export default {
         TabelaGrupoPausas
     },
     methods: {
+        showSelectedPage(page){
+            this.loadingPage = true;
+            this.getGrupos(page);
+            this.loadingPage = false;
+        },
         async getPausas(){
             let res = await axios.get(baseApiUrl+"/breaks");
             let p = res.data.data;
@@ -64,9 +83,13 @@ export default {
             console.log("Lista de Pausas:\n",items);
             this.pausas = [...items];
         },
-        async getGrupos(){
-            let res = await axios.get(baseApiUrl+"/breaksGroups");
+        async getGrupos(page){
+            let pag = page.toString();
+            let res = await axios.get(baseApiUrl+"/breaksGroups"+"?page="+pag);
             let g = res.data.data;
+            this.total_items = res.data.count;
+            this.total_pages = Math.ceil(res.data.count / res.data.limit);
+            this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
             console.log("\tGrupos de Pausas @getGrupos():<PausasGrupos/>\n",g)
             let grupos = [];
             let lista_grupos = [];
@@ -107,10 +130,15 @@ export default {
     },
     created() {
         this.getPausas();
-        this.getGrupos();
+        this.getGrupos(this.currentPage);
     },
     data(){
         return{
+            loadingPage:false,
+            total_items:0,
+            total_pages:0,
+            currentPage:1,
+            perPage:perpage,
             filter:'',
             busca:'',
             pausas:null,
