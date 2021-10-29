@@ -72,13 +72,26 @@
         />
       </template>
       <template v-slot:cell(add)="slot">
+<router-link :to="{
+            name: 'RegistroServidores',
+            params: {
+              id: slot.item.id,
+              type: slot.item.type,
+              ip: slot.item.ip,
+              name: slot.item.name,
+              flag: slot.item.flag,
+              gateway_ext: slot.item.gateway_ext,
+              gateway_sip_user: slot.item.gateway_sip_user,
+              gateway_domain: slot.item.gateway_domain,
+            },
+          }">
         <b-button
           :id="slot.item.name + '_edit'"
           class="edit-btn"
           variant="outline"
-          v-b-modal="slot.item.name + '_edit_modal'"
           v-html="editIcon"
         />
+</router-link>
         <b-btn
           :id="slot.item.name + '_add'"
           v-html="deleteIcon"

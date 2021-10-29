@@ -40,14 +40,14 @@
               <div class="col-4">
                 <div class="profile-content user-name-line d-flex">
                   <i
-                    class="fal fa-address-card fa-2x"
+                    class="fal fa-user-secret fa-2x"
                     style="margin-left: 5px"
                   />
                   <b-form-input
-                    v-model="document"
+                    v-model="agent"
                     id="profile-name-input"
                     type="text"
-                    placeholder="Documento"
+                    placeholder="Ramal"
                     disabled
                   />
                 </div>
@@ -58,9 +58,20 @@
             <div class="col-12">
               <div class="profile-content user-name-line d-flex">
                 <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                <div id="multiselect-input">
+                <div id="multiselect-input" v-if="id">
                   <multiselect
-                    v-model="filas_finish"
+                    @change="choose(e)"
+                    v-model="queue_default"
+                    placeholder="Filas"
+                    :label="'name'"
+                    :track-by="'name'"
+                    :options="queues"
+                    :multiple="false"
+                  />
+                </div>
+                <div id="multiselect-input" v-else>
+                  <multiselect
+                    v-model="queue_def"
                     placeholder="Filas"
                     :label="'name'"
                     :track-by="'code'"
@@ -83,7 +94,9 @@
             {{ id }} -->
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
-               <b-form-checkbox id="status-button" v-model="flag" switch>Status</b-form-checkbox>
+                <b-form-checkbox id="status-button" v-model="flag" switch
+                  >Status</b-form-checkbox
+                >
               </div>
             </b-col>
           </b-row>
@@ -105,6 +118,10 @@ export default {
     PagesSubHeader,
   },
   methods: {
+    choose(e) {
+      console.log(e);
+    },
+
     async putRobot(nu) {
       console.log(nu);
       let s = await axios.put(`${baseApiUrl}/agents/${this.id}`, nu);
@@ -127,7 +144,7 @@ export default {
           queues.push({ ...fila });
         }
         this.queues = [...queues];
-      this.dataOK = true;
+        this.dataOK = true;
       });
     },
     async getRobots() {
@@ -145,11 +162,13 @@ export default {
       // Refatorar para incluir avisos de toast após ação
       let blankName = !(this.name.trim().length > 0);
       let blankLogin_crm = !(this.login_crm.trim().length > 0);
+      let blankAgent = !(this.agent > -1)
       // let blankDocument = !(this.document.trim().length > 0);
       // console.clear();
-      if (blankName || blankLogin_crm) {
+      if (blankName || blankLogin_crm || blankAgent) {
         console.log(blankName);
         console.log(blankLogin_crm);
+        console.log(blankAgent);
       } else {
         let postBody = {};
         postBody.id = this.id;
@@ -161,8 +180,8 @@ export default {
         postBody.cpf = null;
         postBody.password = "null";
         postBody.confirmPassword = "null";
-        postBody.flag = this.flag;
-
+        postBody.flag = this.flag == true ? 1 : 0;
+        postBody.agent = this.agent;
         // for (let f in this.filas_finish) {
         //   this.queue_default.push(this.filas_finish[f]);
         // }
@@ -172,12 +191,12 @@ export default {
         if (validRobot) {
           console.log("valido");
           if (this.id) {
-            console.log("1");
+            postBody.queue_default = parseInt(this.queue_default.name);
+            console.log(postBody.queue_default);
             this.putRobot(postBody);
           } else {
-            postBody.agent = 4372;
-
-            console.log("0");
+            this.queue_def.length > 0 ? postBody.queue_default = this.queue_def.name : postBody.queue_default = 0;
+            console.log(postBody.queue_default);
             this.postNewRobot(postBody);
           }
         }
@@ -188,13 +207,20 @@ export default {
     return {
       dataOK: false,
       names: [],
-      queue_default: this.$route.params.queue_default,
+      queue_default: [
+        {
+          name: parseInt(this.$route.params.queue_default),
+          code: this.$route.params.queue_default,
+        },
+      ],
+      queue_def: [],
       filas_finish: [],
       queues: null,
       flag: this.$route.params.flag,
       id: this.$route.params.id,
       name: this.$route.params.name,
       login_crm: this.$route.params.login_crm,
+      agent: this.$route.params.agent,
     };
   },
   created() {

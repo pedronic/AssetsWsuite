@@ -71,31 +71,34 @@ export default {
       let items = [];
       let server = {};
 
-        // console.clear();
-        // console.log(u);
+      // console.clear();
+      // console.log(u);
       // for (let i in a) {
       //   u[i].flag = new Boolean(u[i].flag);
       //   this.items[0].names.push(u[i].name);
       //   this.items.push(u[i]);
       // }
-      for(let i in a){
-        servers.push(a[i].name)
+      for (let i in a) {
+        servers.push(a[i].name);
       }
       first.names = [...servers];
-      items.push({...first});
+      items.push({ ...first });
 
-      for(let i in a){
+      for (let i in a) {
+        server.id = a[i].id;
         server.name = a[i].name;
         server.type = a[i].type;
         server.ip = a[i].ip;
-        server.flag = a[i].flag?true:false;
-        items.push({...server});
+        server.flag = a[i].flag ? true : false;
+        server.gateway_ext = a[i].gateway_ext;
+        server.gateway_sip_user = a[i].gateway_sip_user;
+        server.gateway_domain = a[i].gateway_domain;
+        items.push({ ...server });
       }
-      console.log("Items @getServers():\n",this.items);
+      console.log("Items @getServers():\n", this.items);
       this.items = [...items];
-      this.buildTable = true;      
+      this.buildTable = true;
     },
-    
   },
   // get
   // post
@@ -109,8 +112,8 @@ export default {
   data() {
     return {
       msg: "",
-      buildTable:false,
-      items:null,
+      buildTable: false,
+      items: null,
       /* [
         {
           names: ["Dickerson", "Larsen"],
@@ -119,12 +122,12 @@ export default {
         {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
       ], */
       names: [],
-      filter: '',
-      filter_fields: [''],
-      busca: '',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       flag_filter: true,
     };
-  }
+  },
 };
 </script>
 

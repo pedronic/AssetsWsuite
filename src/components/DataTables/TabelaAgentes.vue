@@ -93,7 +93,6 @@
             :id="slot.item.name + '_edit'"
             class="edit-btn"
             variant="outline"
-            v-b-modal="slot.item.name + '_edit_modal'"
             v-html="editIcon"
           />
         </router-link>

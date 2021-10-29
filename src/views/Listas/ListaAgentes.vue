@@ -5,11 +5,19 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="filtro-grupo-pausa">
-            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'name')"></b-form-input>
+            <b-form-input
+              v-model="busca"
+              @keydown.enter.native="setFilter(busca, 'name')"
+            ></b-form-input>
             <div class="card">
-              <div class="card-body"/>
+              <div class="card-body" />
             </div>
-            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'name')"/>
+            <b-btn
+              type="submit"
+              id="pesquisa_faturamento"
+              class="btn btn-info waves-effect waves-themed fal fa-search"
+              @click="setFilter(busca, 'name')"
+            />
           </div>
         </div>
       </div>
@@ -17,23 +25,31 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="status-filter">
-            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'flag')"/>
+            <b-form-checkbox
+              v-model="status_filter"
+              id="status-filter-button"
+              switch
+              @change="setFilter(status_filter, 'flag')"
+            />
           </div>
         </div>
       </div>
-
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-    <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items" v-if="buildTable"/>
+    <TabelaAgentes
+      :filter="filter"
+      :filter_fields="filter_fields"
+      :items="items"
+      v-if="buildTable"
+    />
   </div>
 </template>
 
 <script>
-import TabelaAgentes from '../../components/DataTables/TabelaAgentes.vue'
-import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import TabelaAgentes from "../../components/DataTables/TabelaAgentes.vue";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
-
 
 export default {
   components: {
@@ -46,35 +62,38 @@ export default {
       this.filter_fields.splice(0, 1, field);
     },
     async getNames() {
-      let res = await axios.get(baseApiUrl + "/agents");
+      let res = await axios.get(baseApiUrl + "/agents?page=29");
       let a = res.data.data;
       let agentes = [];
       let first = {};
       let items = [];
       let agente = {};
-      for(let i in a){
-        agentes.push(a[i].name)
+      for (let i in a) {
+        if (a[i].type == "human") {
+          agentes.push(a[i].name);
+        }
       }
       first.names = [...agentes];
-      items.push({...first});
+      items.push({ ...first });
 
-      for(let i in a){
-        agente.name = a[i].name;
-        agente.login_crm = a[i].login_crm;
-        agente.email = a[i].email;
-        agente.document = '';// Não disponível ainda. futuramente: a[i].document;
-        agente.last_login = a[i].last_login;
-        agente.id = a[i].id;
-        agente.queue_default = a[i].queue_default;
-        agente.flag = a[i].flag?true:false;
-        agente.agent = a[i].agent;
-        items.push({...agente});
+      for (let i in a) {
+        if (a[i].type == "human") {
+          agente.name = a[i].name;
+          agente.login_crm = a[i].login_crm;
+          agente.email = a[i].email;
+          agente.document = ""; // Não disponível ainda. futuramente: a[i].document;
+          agente.last_login = a[i].last_login;
+          agente.id = a[i].id;
+          agente.queue_default = a[i].queue_default;
+          agente.flag = a[i].flag ? true : false;
+          agente.agent = a[i].agent;
+          items.push({ ...agente });
+        }
       }
-      console.log("Items @getNames():\n",this.items);
+      console.log("Items @getNames():\n", this.items);
       this.items = [...items];
-      this.buildTable = true;      
+      this.buildTable = true;
     },
-    
   },
   // get
   // post
@@ -88,8 +107,8 @@ export default {
   data() {
     return {
       msg: "",
-      buildTable:false,
-      items:null,
+      buildTable: false,
+      items: null,
       /* [
         {
           names: ["Dickerson", "Larsen"],
@@ -98,12 +117,12 @@ export default {
         {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
       ], */
       names: [],
-      filter: '',
-      filter_fields: [''],
-      busca: '',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       flag_filter: true,
     };
-  }
+  },
 };
 </script>
 
@@ -126,7 +145,6 @@ export default {
   padding: 0;
 }
 
-
 .card-body {
   padding: 5px;
   /* height: 50px; */
@@ -139,7 +157,8 @@ export default {
   margin-right: 0.3rem !important;
 }
 
-.card > .card-body > .d-flex > button, input {
+.card > .card-body > .d-flex > button,
+input {
   height: 38px !important;
 }
 

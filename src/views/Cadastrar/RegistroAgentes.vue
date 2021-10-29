@@ -144,9 +144,20 @@
               <div class="col-4">
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                  <div id="multiselect-input">
+                  <div id="multiselect-input" v-if="id">
                     <multiselect
+                    @change="choose(e)"
                       v-model="queue_default"
+                      placeholder="Filas"
+                      :label="'name'"
+                      :track-by="'name'"
+                      :options="queues"
+                      :multiple="false"
+                    />
+                  </div>
+                  <div id="multiselect-input" v-else>
+                    <multiselect
+                      v-model="queue_def"
                       placeholder="Filas"
                       :label="'name'"
                       :track-by="'code'"
@@ -173,6 +184,10 @@
               </div>
             </div>
           </div> -->
+          {{ queue_def }}
+          {{ queues }}
+          {{ queue_default }}
+          <!-- {{ queue_default[0].name }} -->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
               <button class="btn btn-dark botao-salvar" type="submit">
@@ -181,7 +196,9 @@
             </b-col>
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
-               <b-form-checkbox id="status-button" v-model="flag" switch>Status</b-form-checkbox>
+                <b-form-checkbox id="status-button" v-model="flag" switch
+                  >Status</b-form-checkbox
+                >
               </div>
             </b-col>
           </b-row>
@@ -206,6 +223,10 @@ export default {
     Multiselect,
   },
   methods: {
+    choose(e) {
+      console.log(e);
+    },
+
     async getAgents() {
       let agents = await axios.get(baseApiUrl + "/agents");
       let data = agents.data.data;
@@ -220,7 +241,7 @@ export default {
         console.log("f.data.data\n", f.data.data);
         for (let u in queue) {
           let fila = {};
-          fila.name = queue[u].name;
+          fila.name = parseInt(queue[u].name);
           fila.code = queue[u].name;
           queues.push({ ...fila });
         }
@@ -247,22 +268,16 @@ export default {
       if (
         passCheck ||
         blankPass ||
-        blankJourney ||
         blankAgent ||
         blankName ||
-        blankMail ||
-        blankLogin_crm ||
         blankAgent //||
         // blankDocument
       ) {
         console.log(passCheck);
         console.log(blankPass);
         console.log(blankName);
-        console.log(blankLogin_crm);
-        console.log(blankMail);
         console.log(blankAgent);
         // console.log(blankDocument);
-        console.log(blankJourney);
       } else {
         let postBody = {};
         postBody.company_id = this.company_id;
@@ -272,9 +287,9 @@ export default {
         postBody.name = this.name.trim();
         postBody.cpf = this.cpf;
         postBody.login_crm = this.login_crm.trim();
-        postBody.queue_default = this.queue_default.name;
+        postBody.queue_default = this.queue_default[0].name;
+        postBody.journey = this.tipo_jornadas.name;
         // postBody.email = this.email.trim();
-        // postBody.journey = this.tipo_jornadas.code;
         // postBody.type = this.type;
         // postBody.work_time = this.work_time;
         // postBody.flag = this.flag;
@@ -286,17 +301,18 @@ export default {
         //   this.queue_default.push(this.queue_default[f]);
         // }
         let validAgent = !(this.agents.indexOf(this.agent) < -1);
-        console.log(postBody);
+        
         if (validAgent) {
           console.log("valido");
           if (this.id) {
+            postBody.queue_default = this.queue_default[0].name;
             console.log(postBody.queue_default);
             this.putAgent(postBody);
           } else {
-            console.log("0");
+            this.queue_def.length > 0 ? postBody.queue_default = this.queue_def.name : postBody.queue_default = 0;
+            console.log(postBody.queue_default);
             this.postNewAgent(postBody);
           }
-          console.log("ye");
         }
       }
     },
@@ -306,10 +322,11 @@ export default {
       tipo_jornadas: [],
       queue_default: [
         {
-          name: this.$route.params.queue_default,
+          name: parseInt(this.$route.params.queue_default),
           code: this.$route.params.queue_default,
         },
       ],
+      queue_def: [],
       agents: [],
       queues: [],
       id: this.$route.params.id,
