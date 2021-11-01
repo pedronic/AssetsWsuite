@@ -102,7 +102,7 @@
       </div>
     </router-link>
 
-    <router-link :to="{ name: ''}">
+    <router-link :to="{ name: 'ListaFilas'}">
       <div class="dropdown-item d-flex itens">
         <i class="fal fa-road iconDAM"></i>
         <span data-i18n="drpdwn.settings">Filas</span>

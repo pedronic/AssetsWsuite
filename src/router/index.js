@@ -110,6 +110,11 @@ const routes = [
     component: () => import( '../views/Listas/ListaScripts.vue')
   },
   {
+    path: '/lista-de-filas',
+    name: 'ListaFilas',
+    component: () => import( '../views/Listas/ListaFilas.vue')
+  },
+  {
     path:'/registro-scripts',
     name: 'RegistroScripts',
     component: () => import('../views/Cadastrar/RegistroScripts.vue')
