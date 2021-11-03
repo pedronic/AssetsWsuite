@@ -253,7 +253,7 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO AGENTE ADICIONADA',
+          title:'NOVO AGENTE ADICIONADO',
           message:'Novo name '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
@@ -261,8 +261,8 @@ export default {
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO AGENTE VAZIO NÃO ADICIONADo',
-          message:'Nova name '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar names sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO AGENTE VAZIO NÃO ADICIONADO',
+          message:'Novo Agente '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar Agentes sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -272,8 +272,8 @@ export default {
       let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated:false,
-        title:'NOVA PAUSA NÃO ADICIONADA',
-        message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title:'NOVO AGENTE NÃO ADICIONADO',
+        message:'Novo Agente '+newPausa.toUpperCase()+' não foi adicionado. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -294,8 +294,8 @@ export default {
 
         let toast = {
           isValidated:true,
-          title:'PAUSA EDITADA',
-          message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
+          title:'AGENTE EDITADO',
+          message:'Agente '+p.toUpperCase()+' editado com sucesso!',
         }
         this.validateAndToast(toast);
       }
@@ -304,8 +304,8 @@ export default {
 
         let toast = {
           isValidated:false,
-          title:'PAUSA NÃO EDITADA',
-          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title:'AGENTE NÃO EDITADO',
+          message:'Agente '+p.toUpperCase()+' não foi modificado. Não é possível atualizar um Agente apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -315,8 +315,8 @@ export default {
       let p = this.filas[row].name;
       let toast = {
         isValidated:false,
-        title:'PAUSA NÃO EDITADA',
-        message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+        title:'AGENTE NÃO EDITADO',
+        message:'Agente '+p.toUpperCase()+' não foi modificado. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }

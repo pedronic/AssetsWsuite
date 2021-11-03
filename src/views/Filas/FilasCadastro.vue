@@ -319,9 +319,9 @@
                                         <!-- Início -->
                                         <b-col cols="3" class="time-body-container">
                                             <b-input-group class="input-group-sm">
-                                                <b-form-input disabled :id="d.index+'_start'"  v-model="d.start" v-mask="timeMask" max='5'  placeholder="--:--"/>
+                                                <b-form-input disabled :id="d.index+'_start'"  v-model="d.start"  max='5'  placeholder="--:--"/>
                                                 <b-input-group-append id="timepicker-append">
-                                                    <b-form-timepicker button-only right style="border-width: 0px !important;" size="sm" :id="d.index+'_start_picker'"  v-model="start" v-mask="timeMask" :hour12='false' @shown="start = d.start" @hidden="d.start = start"/>
+                                                    <b-form-timepicker button-only right style="border-width: 0px !important;" size="sm" :id="d.index+'_start_picker'"  v-model="start"  :hour12='false' @shown="start = d.start" @hidden="d.start = start"/>
                                                 </b-input-group-append>
                                             </b-input-group>
                                         </b-col>
@@ -334,9 +334,9 @@
                                         <!-- Fim -->
                                         <b-col cols="3" class="time-body-container2">
                                             <b-input-group class="input-group-sm">
-                                                <b-form-input disabled :id="d.index+'_end'" v-model="d.end" v-mask="timeMask" max='5'    placeholder="--:--"/>
+                                                <b-form-input disabled :id="d.index+'_end'" v-model="d.end"  max='5'    placeholder="--:--"/>
                                                 <b-input-group-append id="timepicker-append">
-                                                    <b-form-timepicker button-only right size="sm" :id="d.index+'_end_picker'"  v-model="end" v-mask="timeMask" :hour12='false' @shown="end = d.end" @hidden="d.end = end"/>
+                                                    <b-form-timepicker button-only right size="sm" :id="d.index+'_end_picker'"  v-model="end"  :hour12='false' @shown="end = d.end" @hidden="d.end = end"/>
                                                 </b-input-group-append>
                                             </b-input-group>
                                         </b-col>
@@ -376,7 +376,19 @@
                             <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }} -->
                                 <b-row class="tab-top-section-row">
                                     <b-col cols='12'>
-                                          <tabela-agentes :items="lista_de_agentes" :filter="filtro_agentes"/>
+                                            <tabela-agentes :items="lista_de_agentes" :filter="filtro_agentes" :isLoading="loadingPage" @agents-selected="setSelectedAgents"/>
+                                            <b-container fluid class="salvar-container">
+                                                <b-pagination
+                                                  v-model="currentPage"
+                                                  :total-rows="total_items"
+                                                  :per-page="perPage"
+
+                                                  prev-class="single-arrow-button"
+                                                  next-class="single-arrow-button"
+                                                  ellipsis-text="···"
+                                                  @change="showSelectedPage"
+                                                />
+                                            </b-container>
                                     </b-col>
                                 </b-row>
                             <!-- Linha 2 {{ Tabela de Seleção de Agentes[12] }}: FIM -->
@@ -416,6 +428,8 @@ import KebabCaseFormatter from '../../plugins/kebabCaseFormatter.js'; //importan
 import {baseApiUrl, vueMultiselectProps, defaultQueue, weekDaysByIndex} from '../../config/global.js';
 import axios from 'axios'
 
+const perpage = 10;
+
 export default {
     name: "FilasCadastro",
     mixins: [ValidateToaster,KebabCaseFormatter],
@@ -429,17 +443,23 @@ export default {
         nome:String,
         qID:{
             type:Number,
-            default:-1
+            default:66
         }
     },
     methods: {
         formatTime(d){
             return String(d).substring(0,5);
         },
+        showSelectedPage(page) {
+            console.log('Selected page:\t',page,'\nCurrent page:\t',this.currentPage);
+            this.loadingPage = true;
+            this.getAgentsList(page);
+            this.loadingPage = false;
+        },
         getDataItems(){
             this.getFinalizations();
             this.getRotas();
-            this.getAgentsList()
+            this.getAgentsList(this.currentPage)
             this.checkForQID();
         },
         getFinalizations(){
@@ -448,13 +468,16 @@ export default {
                 console.log("Status:\t",res.status," - ",res.statusText)
                 let f = res.data.data;
                 let items = [];
+                let map = {};
                 for(let i in f){
                     let finaliz = {};
                     finaliz.name = f[i].name;
                     finaliz.code = f[i].id;
                     items.push({...finaliz});
+                    map[f[i].id] = f[i].name;
                 }
                 this.finish_tipos = [...items];
+                this.finish_tipos_map = {...map};
             })
             .catch(error => {
                 console.log("Status:\t",error.status," - ",error.message)
@@ -478,10 +501,12 @@ export default {
                 console.log("Status:\t",error.status," - ",error.message);
             })
         },
-        getAgentsList(){
-            axios.get(baseApiUrl+'/agents')
+        getAgentsList(page){
+            let pag = page.toString();
+            axios.get(baseApiUrl+'/agents'+'?page='+pag)
             .then(res => {
                 console.log("Status:\t",res.status," - ",res.statusText);
+                console.log("Response @getAgentsList():\n",res.data)
                 let a = res.data.data;
                 let lista_de_agentes = [];
                 for(let i in a){
@@ -492,8 +517,15 @@ export default {
                     agente.p0 = false;
                     agente.p1 = false;
                     agente.p2 = false;
+                    agente.id = a[i].id;
+                    agente.agent = a[i].agent;
+                    agente.agent_name = a[i].name;
+                    agente.index = i;
                     lista_de_agentes.push({...agente});
                 }
+                this.total_items = res.data.count;
+                this.total_pages = Math.ceil(res.data.count / res.data.limit);
+                this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
                 this.lista_de_agentes = [...lista_de_agentes];
             })
             .catch(error => {
@@ -508,7 +540,7 @@ export default {
             this.queue = {...defaultQueue};
             this.getBreakGroups();
         },
-/* */        getQDataByID(id){ //Não finalizado. Falta concluir o set do objeto padrão de dados.
+        getQDataByID(id){ //Não finalizado. Falta concluir o set do objeto padrão de dados.
             let qid = id.toString();
             axios.get(baseApiUrl+'/queues/'+qid)
             .then(res => {
@@ -517,15 +549,22 @@ export default {
                 let queue = {};
                 
                 queue.name_queue = q[0].name_queue;
+                this.name_queue = queue.name_queue;
                 queue.queue_number = q[0].queue_number;
+                this.queue_number = queue.queue_number;
                 queue.type = q[0].type;
+                this.tipo_humano.push({name:this.humano_tipos_map[queue.type], code:queue.type});
                 queue.q_type = [];// journey
+                // this.tipo_fila.push({name:this.fila_tipos_map[queue.q_type], code:queue.q_type});
                 queue.slug = q[0].slug;
                 queue.finalization_name = q[0].finalization_name;
                 queue.finalization_id = q[0].finalization_id;
+                this.tipo_finish.push({name:queue.finalization_name, code:queue.finalization_id});
+                queue.company_id = q[0].company_id;
                 queue.rec_format = [];
                 queue.rec_type = [];
                 queue.wrapuptime = q[0].wrapuptime;
+                this.wrapuptime = queue.wrapuptime;
                 queue.break_group_id = q[0].break_group_id;
                 
                 queue.route_name = q[0].route_name;
@@ -537,6 +576,8 @@ export default {
                 
                 queue.bina = q[0].bina;
                 queue.flag_bina = q[0].flag_bina?true:false;
+
+                queue.maxlen = q[0].maxlen;
 
                 queue.weight = q[0].weight;
                 queue.musiconhold = q[0].musiconhold;
@@ -553,7 +594,9 @@ export default {
                 }
 
                 // queue.pausas = this.getBreaksFromGroup(queue.break_group_id);
-                this.getBreakGroups(queue.break_group_id);
+                this.getBreakGroups();
+                this.getBreaksFromGroup(queue.break_group_id);
+                this.queue = {...queue};
                 // queue.agentes = this.getAgentsList();
             })
         },
@@ -578,8 +621,8 @@ export default {
             })
         },
         getBreaksFromGroup(id) {
-            let gID = id.toString();
-            axios.get(baseApiUrl+'/breaksGroups/'+gID)
+            let gID = id>0?"/"+id.toString():"/";
+            axios.get(baseApiUrl+'/breaksGroups'+gID)
             .then(res => {
                 let g = res.data.data;
                 let pausas = [];
@@ -692,6 +735,7 @@ export default {
         setSelectedQType(value){
             console.log("Queue Type @setSelectedQType():\n",value.code)
             console.log("Queue.q_type @setSelectedQType():\n",this.queue.q_type)
+            console.log("tipo_humano @setSelectedQType():\n",this.tipo_humano)
             this.queue.q_type = value.code;
         },
         resetSelectedQType(){
@@ -782,8 +826,27 @@ export default {
                 body.musiconhold = this.queue.musiconhold;
                 body.layout = this.queue.layout;
                 body.work_time = this.stringifyWorkTime();
+                // body.agents = this.setAgentsTree(); // Apenas na edição de filas, na criação o método é proibido.
                 this.postNewQueue(body);
             }
+        },
+        setSelectedAgents(value){
+            // console.log("Selected Agent @setSelectedAgents():\n",value);
+            this.selected_agents = [...value];
+            console.log("Selected Agent @setSelectedAgents():\n",this.selected_agents,"\nLength:\t",this.selected_agents.length);
+        },
+        setAgentsTree(){
+            let arr = [];
+            let agent = {};
+            if(this.selected_agents.length>0){
+                agent.id = this.selected_agents[0].id;
+                agent.agent = this.selected_agents[0].agent;
+                agent.agent_name = this.selected_agents[0].agent_name;
+                agent.queue_name = this.queue.name_queue;
+                agent.queue_master = parseInt(this.queue.queue_number);
+                arr.push({...agent})
+            }
+            return [...arr];
         },
         stringifyWorkTime(){
             let timetable = [];
@@ -827,6 +890,12 @@ export default {
     },
     data() {
         return {
+            selected_agents:null,
+            total_items:0,
+            total_pages:0,
+            currentPage:1,
+            perPage:perpage,
+            loadingPage:false,
             status: true,
             dataOK:false,
             pausasOK:false,
@@ -952,11 +1021,13 @@ export default {
                 {name:"Manual", code:'manual'},
                 {name:"Receptiva", code:'receptive'}
             ],
+            filas_tipos_map:{A:"Ativa",M:"Manual",R:"Receptiva"},
             finish_tipos:[
                 {name:"Ativa",  code:"A"},
                 {name:"Manual", code:"M"},
-                {name:"Recebe", code:"R"}
+                {name:"Receptiva", code:"R"}
             ],
+            finish_tipos_map:{A:"Ativa",M:"Manual",R:"Receptiva"},
             recording_tipos:[
                 {name:".mp3",  code:"1"},
                 {name:".wav", code:"2"},
@@ -1016,6 +1087,10 @@ export default {
                 {name:"Humano", code:"human"},
                 {name:"Robô", code:"robot"}
             ],
+            humano_tipos_map:{
+                human:"Humano",
+                robot:"Robô"
+            }
         }
     }
 };

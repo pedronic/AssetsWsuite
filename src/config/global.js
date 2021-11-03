@@ -173,7 +173,7 @@ breakGroup_name:'', // Number; Dado de Grupo de Pausas
  */    
     bina:'', // Number.toString()
     flag_bina:false, // Number [0/1]; default:0
-    maxlen:null,// Number (segundos); (controle de tempo dechamada Manual)
+    maxlen:null,// Number (segundos); (controle de tempo de Chamada Manual)
 
     weight:null, // Number [1;4]
     musiconhold:'',

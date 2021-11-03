@@ -1,5 +1,5 @@
 <template>
-    <b-table id="tabela-de-filas" :ref="'tabela-de-filas'" class="tabela-filas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header selectable @row-clicked="rowSelect" :filter="filter" filter-debounce="150" :filter-included-fields="['agente']">
+    <b-table id="tabela-de-filas" :ref="'tabela-de-filas'" class="tabela-filas table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="filas" :responsive="true" :fields="fields" sticky-header :selectable="isNotSelected"  @row-clicked="rowSelect" @row-selected="rowsSelected" :filter="filter" filter-debounce="150" :filter-included-fields="['agente']" :per-page="10" :busy="busy">
         <template v-slot:head(selected)='data'>
             <span v-html="data.label"/>
         </template>
@@ -17,7 +17,7 @@
         </template>
 
         <template v-slot:cell(selected)='slot'>
-            <b-form-checkbox v-model="slot.value" :id="slot.item.agente + '_selected'" :value='true' :unchecked-value="false" disabled/>
+            <b-form-checkbox v-model="slot.item.selected" :id="slot.item.agente + '_selected'" :value='true' :unchecked-value="false" disabled/>
         </template>
         <template v-slot:cell(agente)='slot'>
             <span :id="slot.item.agente + '_agente'">{{slot.value}}</span>
@@ -35,15 +35,32 @@
 </template>
 
 <script>
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+
 export default {
     name:'TabelaAgentes',
+    mixins: [ValidateToaster],
     props:{
         items: Array,
         filter: String,
+        isLoading:{type:Boolean, default:false}
+    },
+    watch:{
+        isLoading(newValue, oldValue){
+            console.log("WATCHING PROP 'isLoading'...\n","\tisLoading OLD:\t",oldValue,"\n\tisLoading NEW:\t",newValue);
+            this.busy = newValue;
+            console.log("Items PROP:\n",this.items);
+        },
+        items(newValue, oldValue){
+            console.log("WATCHING PROP 'items'...\n","\titems OLD:\t",oldValue,"\n\titems NEW:\t",newValue);
+            this.filas = newValue.slice(0,newValue.length);
+            // this.names = newValue[0].names;
+        },
+        // isNotSelected(newValue){
+        //     this.isNotSelected = newValue;
+        // }
     },
     created(){
-        
-
         this.prioridades = function(){
             let item = [];
             let p = [];
@@ -60,7 +77,7 @@ export default {
     },
     methods: {
         checkLine(i,p,ev){
-            console.clear();
+            // console.clear();
             console.log("Checando Item ",i," da Fila:\n",this.filas[i])
             console.log("ck:\n",ev)
             let ck = !this.filas[i][p];
@@ -108,17 +125,52 @@ export default {
             console.log('p2.checked:\n',this.$refs[this.filas[i].agente+'_p2'].checked)
         },
         rowSelect(item,index){
-            console.clear()
+            // console.clear()
             console.log(this.filas[index].selected)
-            // console.log("Item:\n",item,"\n\nIndex:\n",index)
+            console.log("Item:\n",item,"\n\nIndex:\n",index)
 
-            this.filas[index].selected = !this.filas[index].selected;
-
+            // this.filas[index].selected = !this.filas[index].selected;
+            if(this.selected.length===0){
+                this.filas[index].selected = !this.filas[index].selected;
+                this.selected.push({...this.filas[index]});
+                this.isNotSelected = false;
+                console.log("Selecionou uma linha de agente:\n",item);
+                let value = [...this.selected];
+                this.$emit('agents-selected',value);
+            }
+            else if(this.selected.length===1){
+                if(this.filas[index].selected){
+                    console.log("Desmarcou uma linha");
+                    this.filas[index].selected = !this.filas[index].selected;
+                    this.selected.pop();
+                    this.isNotSelected = true;
+                    let value = [...this.selected];
+                    this.$emit('agents-selected',value);
+                }
+                else {
+                    console.log("Selecionou uma segunda linha");
+                    let toast = {
+                        isValidated:false,
+                        title: "APENAS UM AGENTE POR FILA",
+                        message: "ATENÇÃO! Só é possível associar um agente por fila. Desmarque o Agente "+ this.selected[0].agente.toUpperCase() + " selecionado para reabilitar a seleção.",
+                    };
+                    this.validateAndToast(toast);
+                }
+            }
+            
+        },
+        rowsSelected(rows){
+            console.log("Selected Rows:\n",rows);
+            // this.rowSelect(rows[0], rows[0].index);
+            // this.isNotSelected = rows.length === 1?false:true;
         }
     },
     data(){
         return{
+            busy:this.isLoading,
             filas: [...this.items],
+            selected:[],
+            isNotSelected:true,
             fields: [
                 {
                     key:'selected',
