@@ -37,16 +37,18 @@
         <span>{{ data.label }}</span>
       </template>
       <template v-slot:head(add)="data">
-        <router-link :to="{
+        <router-link
+          :to="{
             name: 'RegistroRobos',
-          }">
-        <b-button
-          class="head-add-button btn-success"
-          v-b-modal="'new_line'"
-          variant="outline-dark"
+          }"
         >
-          <span v-html="data.label" class="head-add-button" />
-        </b-button>
+          <b-button
+            class="head-add-button btn-success"
+            v-b-modal="'new_line'"
+            variant="outline-dark"
+          >
+            <span v-html="data.label" class="head-add-button" />
+          </b-button>
         </router-link>
       </template>
 
@@ -79,7 +81,8 @@
         />
       </template>
       <template v-slot:cell(add)="slot">
-<router-link :to="{
+        <router-link
+          :to="{
             name: 'RegistroRobos',
             params: {
               id: slot.item.id,
@@ -90,16 +93,16 @@
               queue_default: slot.item.queue_default,
               agent: slot.item.agent,
             },
-          }">
-        <b-button
-          :id="slot.item.name + '_edit'"
-          class="edit-btn"
-          variant="outline"
-          v-b-modal="slot.item.name + '_edit_modal'"
-          v-html="editIcon"
-
-        />
-                </router-link>
+          }"
+        >
+          <b-button
+            :id="slot.item.name + '_edit'"
+            class="edit-btn"
+            variant="outline"
+            v-b-modal="slot.item.name + '_edit_modal'"
+            v-html="editIcon"
+          />
+        </router-link>
         <b-btn
           :id="slot.item.name + '_add'"
           v-html="deleteIcon"
@@ -115,7 +118,7 @@
       <b-modal
         :id="i.name + '_edit_modal'"
         :ref="i.name + '_edit_modal'"
-        title="Editar Agente"
+        title="Editar Robô"
         size="xl"
         :hide-header-close="true"
         :no-close-on-backdrop="true"
@@ -213,7 +216,7 @@
         @ok="deleteRow(i.name, i.id)"
         @cancel="cancelDelete(i.name)"
       >
-        Tem certeza que deseja excluir o name <b>{{ i.name }}</b
+        Tem certeza que deseja excluir o robô <b>{{ i.name }}</b
         >?
       </b-modal>
     </div>
@@ -223,7 +226,7 @@
     <b-modal
       id="new_line"
       refs="new_line"
-      title="Adicionar Nova Pausa"
+      title="Adicionar Nova Robô"
       size="xl"
       :hide-header-close="false"
       :no-close-on-backdrop="false"
@@ -304,9 +307,8 @@
 
 <script>
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
-import axios from 'axios';
+import axios from "axios";
 import { baseApiUrl } from "@/config/global";
-
 
 const defaultRow = {
   name: "",
@@ -320,7 +322,7 @@ const defaultRow = {
 };
 
 export default {
-  name: "TabelaPausas",
+  name: "TabelaRobos",
   mixins: [ValidateToaster],
   props: {
     items: Array,
@@ -339,8 +341,8 @@ export default {
       this.names.splice(p, 1);
       let toast = {
         isValidated: true,
-        title: "AGENTE EXCLUÍDO",
-        message: "Agente " + ev.toUpperCase() + " excluído com sucesso!",
+        title: "ROBÔ EXCLUÍDO",
+        message: "Robô " + ev.toUpperCase() + " excluído com sucesso!",
       };
       this.deleteRobot(id);
       this.validateAndToast(toast);
@@ -348,18 +350,16 @@ export default {
     cancelDelete(p) {
       let toast = {
         isValidated: false,
-        title: "AGENTE MANTIDO",
+        title: "ROBÔ MANTIDO",
         message:
-          "Agente " +
-          p.toUpperCase() +
-          " foi mantido. A exclusão foi cancelada.",
+          "Robô " + p.toUpperCase() + " foi mantido. A exclusão foi cancelada.",
       };
       this.validateAndToast(toast);
     },
     okayAdd() {
       let newPausa = this.newRowInput.name.trim();
       if (newPausa.length > 0) {
-        console.log("Filas ok:");
+        console.log("Robos ok:");
         console.log(this.filas);
         console.log("New Row Input:");
         console.log(this.newRowInput);
@@ -367,19 +367,19 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated: true,
-          title: "NOVO AGENTE ADICIONADA",
+          title: "NOVO ROBÔ ADICIONADO",
           message:
-            "Novo name " + newPausa.toUpperCase() + " adicionado com sucesso!",
+            "Novo robô " + newPausa.toUpperCase() + " adicionado com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
         let toast = {
           isValidated: false,
-          title: "NOVO AGENTE VAZIO NÃO ADICIONADo",
+          title: "NOVO ROBÔ VAZIO NÃO ADICIONADO",
           message:
-            "Nova name " +
+            "Novo robô " +
             newPausa.toUpperCase() +
-            " não foi adicionado. Não é possível adicionar names sem nome ou com o nome em branco. A operação foi cancelada.",
+            " não foi adicionado. Não é possível adicionar robos sem ramal ou com o ramal em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
@@ -388,11 +388,11 @@ export default {
       let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated: false,
-        title: "NOVA PAUSA NÃO ADICIONADA",
+        title: "NOVO ROUBO NÃO ADICIONADA",
         message:
-          "Nova Pausa " +
+          "Nova Robô " +
           newPausa.toUpperCase() +
-          " não foi adicionada. A operação de adicionar foi cancelada pelo usuário.",
+          " não foi adicionado. A operação de adicionar foi cancelada pelo usuário.",
       };
       this.validateAndToast(toast);
     },
@@ -414,8 +414,8 @@ export default {
 
         let toast = {
           isValidated: true,
-          title: "PAUSA EDITADA",
-          message: "Pausa " + p.toUpperCase() + " editada com sucesso!",
+          title: "ROBÔ EDITADO",
+          message: "Robô " + p.toUpperCase() + " editado com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
@@ -423,11 +423,11 @@ export default {
 
         let toast = {
           isValidated: false,
-          title: "PAUSA NÃO EDITADA",
+          title: "ROBÔ NÃO EDITADO",
           message:
-            "Pausa " +
+            "Robô " +
             p.toUpperCase() +
-            " não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.",
+            " não foi modificado. Não é possível atualizar um Robô apagando seu número ou deixando apenas espaços em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
@@ -437,11 +437,11 @@ export default {
       let p = this.filas[row].name;
       let toast = {
         isValidated: false,
-        title: "PAUSA NÃO EDITADA",
+        title: "ROBÔ NÃO EDITADO",
         message:
-          "Pausa " +
+          "Robô " +
           p.toUpperCase() +
-          " não foi modificada. A edição foi cancelada pelo usuário.",
+          " não foi modificado. A edição foi cancelada pelo usuário.",
       };
       this.validateAndToast(toast);
     },
@@ -483,19 +483,23 @@ export default {
         {
           key: "login_crm",
           label: "Login",
+          sortable: true,
         },
         {
           key: "name",
           label: "Nome",
+          sortable: true,
         },
 
         {
           key: "document",
           label: "Documento",
+          sortable: true,
         },
         {
           key: "last_login",
           label: "Login em",
+          sortable: true,
         },
         {
           key: "flag",

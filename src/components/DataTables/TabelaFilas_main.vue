@@ -102,7 +102,7 @@
         , email: '', queue_number:'', -->
         <router-link
           :to="{
-            name: 'RegistroUsuarios',
+            name: 'FilasCadastro',
             params: {
               username: slot.item.username,
               queue_number: slot.item.queue_number,
@@ -135,7 +135,7 @@
       <b-modal
         :id="i.queue_number + '_edit_modal'"
         :ref="i.queue_number + '_edit_modal'"
-        title="Editar Pausa"
+        title="Editar Fila"
         size="xl"
         :hide-header-close="true"
         :no-close-on-backdrop="true"
@@ -233,7 +233,7 @@
         @ok="deleteRow(i.queue_number, i.id)"
         @cancel="cancelDelete(i.queue_number)"
       >
-        Tem certeza que deseja excluir a fila número <b>{{ i.queue_number }}</b
+        Tem certeza que deseja excluir a pausa número <b>{{ i.queue_number }}</b
         >?
       </b-modal>
     </div>
@@ -243,7 +243,7 @@
     <b-modal
       id="new_line"
       refs="new_line"
-      title="Adicionar Nova Pausa"
+      title="Adicionar Nova Fila"
       size="xl"
       :hide-header-close="false"
       :no-close-on-backdrop="false"
@@ -339,7 +339,7 @@ const defaultRow = {
 };
 
 export default {
-  name: "TabelaPausas",
+  name: "TabelaFilas_main",
   mixins: [ValidateToaster],
   props: {
     items: Array,
@@ -360,8 +360,8 @@ export default {
       this.queues_number.splice(p, 1);
       let toast = {
         isValidated: true,
-        title: "USUÁRIO EXCLUÍDO",
-        message: "Usuário " + ev.toUpperCase() + " excluído com sucesso!",
+        title: "FILA EXCLUÍDA",
+        message: "Fila " + ev.toUpperCase() + " excluída com sucesso!",
       };
       this.deleteUser(id);
       this.validateAndToast(toast);
@@ -369,11 +369,11 @@ export default {
     cancelDelete(p) {
       let toast = {
         isValidated: false,
-        title: "USUÁRIO MANTIDO",
+        title: "FILA MANTIDO",
         message:
-          "Usuário " +
+          "Fila " +
           p.toUpperCase() +
-          " foi mantido. A exclusão foi cancelada.",
+          " foi mantida. A exclusão foi cancelada.",
       };
       this.validateAndToast(toast);
     },
@@ -388,21 +388,21 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated: true,
-          title: "NOVO USUÁRIO ADICIONADA",
+          title: "NOVO FILA ADICIONADA",
           message:
-            "Novo usuário " +
+            "Novo fila " +
             newPausa.toUpperCase() +
-            " adicionado com sucesso!",
+            " adicionada com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
         let toast = {
           isValidated: false,
-          title: "NOVO USUÁRIO VAZIO NÃO ADICIONADA",
+          title: "NOVA FILA VAZIA NÃO ADICIONADA",
           message:
-            "Nova Pausa " +
+            "Nova Fila " +
             newPausa.toUpperCase() +
-            " não foi adicionada. Não é possível adicionar Pausas sem username ou com o username em branco. A operação foi cancelada.",
+            " não foi adicionada. Não é possível adicionar Filas sem rota ou com o rota em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
@@ -411,9 +411,9 @@ export default {
       let newPausa = this.newRowInput.queue_number.trim();
       let toast = {
         isValidated: false,
-        title: "NOVA PAUSA NÃO ADICIONADA",
+        title: "NOVA FILA NÃO ADICIONADA",
         message:
-          "Nova Pausa " +
+          "Nova Fila " +
           newPausa.toUpperCase() +
           " não foi adicionada. A operação de adicionar foi cancelada pelo usuário.",
       };
@@ -437,8 +437,8 @@ export default {
 
         let toast = {
           isValidated: true,
-          title: "PAUSA EDITADA",
-          message: "Pausa " + p.toUpperCase() + " editada com sucesso!",
+          title: "FILA EDITADA",
+          message: "Fila " + p.toUpperCase() + " editada com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
@@ -446,11 +446,11 @@ export default {
 
         let toast = {
           isValidated: false,
-          title: "PAUSA NÃO EDITADA",
+          title: "FILA NÃO EDITADA",
           message:
-            "Pausa " +
+            "Fila " +
             p.toUpperCase() +
-            " não foi modificada. Não é possível atualizar uma Pausa apagando seu username ou deixando apenas espaços em branco. A operação foi cancelada.",
+            " não foi modificada. Não é possível atualizar uma Fila apagando sua rota ou deixando apenas espaços em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
@@ -460,9 +460,9 @@ export default {
       let p = this.filas[row].queue_number;
       let toast = {
         isValidated: false,
-        title: "PAUSA NÃO EDITADA",
+        title: "FILA NÃO EDITADA",
         message:
-          "Pausa " +
+          "Fila " +
           p.toUpperCase() +
           " não foi modificada. A edição foi cancelada pelo usuário.",
       };

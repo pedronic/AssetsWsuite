@@ -121,7 +121,7 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO MAILING ADICIONADA',
+          title:'NOVO MAILING ADICIONADO',
           message:'Novo mailing '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
@@ -130,7 +130,7 @@ export default {
         let toast = {
           isValidated:false,
           title:'NOVO MAILING VAZIO NÃO ADICIONADA',
-          message:'Nova Mailing '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          message:'Nova Mailing '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Mailings sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -140,8 +140,8 @@ export default {
       let newPausa = this.newRowInput.mailing.trim();
       let toast = {
         isValidated:false,
-        title:'NOVA MAILING NÃO ADICIONADA',
-        message:'Nova Mailing '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title:'NOVO MAILING NÃO ADICIONADA',
+        message:'Novo Mailing '+newPausa.toUpperCase()+' não foi adicionado. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -162,8 +162,8 @@ export default {
 
         let toast = {
           isValidated:true,
-          title:'MAILING EDITADA',
-          message:'Mailing '+p.toUpperCase()+' editada com sucesso!',
+          title:'MAILING EDITADO',
+          message:'Mailing '+p.toUpperCase()+' editado com sucesso!',
         }
         this.validateAndToast(toast);
       }
@@ -172,8 +172,8 @@ export default {
 
         let toast = {
           isValidated:false,
-          title:'MAILING NÃO EDITADA',
-          message:'Mailing '+p.toUpperCase()+' não foi modificada. Não é possível atualizar um mailing apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title:'MAILING NÃO EDITADO',
+          message:'Mailing '+p.toUpperCase()+' não foi modificado. Não é possível atualizar um mailing apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -183,8 +183,8 @@ export default {
       let p = this.filas[row].mailing;
       let toast = {
         isValidated:false,
-        title:'MAILNG NÃO EDITADA',
-        message:'Mailing '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+        title:'MAILNG NÃO EDITADO',
+        message:'Mailing '+p.toUpperCase()+' não foi modificado. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }
@@ -221,31 +221,39 @@ export default {
         {
           key:'mailing',
           label: 'Nome Mailing',
+          sortable: true,
         },
         {
           key:'ID',
-          label: 'ID'
+          label: 'ID',
+          sortable: true,
         },
         {
           key:'data_importacao',
-          label: 'Data Importação'
+          label: 'Data Importação',
+          sortable: true,
         },
         {
           key:'data_agendamento',
-          label: 'data_agendamento'
+          label: 'Data Agendamento',
+          sortable: true,
         },
         {
           key:'fila',
-          label: 'Fila'
+          label: 'Fila',
+          sortable: true,
         },{
           key:'usuario',
-          label: 'Usuário'
+          label: 'Usuário',
+          sortable: true,
         },{
           key:'registros_carregados',
-          label: 'Registros Carregados'
+          label: 'Registros Carregados',
+          sortable: true,
         },{
           key:'telefones_carregados',
-          label: 'Telefones Carregados'
+          label: 'Telefones Carregados',
+          sortable: true,
         },
 
         {

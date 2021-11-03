@@ -107,7 +107,7 @@
       <b-modal
         :id="i.name + '_edit_modal'"
         :ref="i.name + '_edit_modal'"
-        title="Editar Pausa"
+        title="Editar Servidor"
         size="xl"
         :hide-header-close="true"
         :no-close-on-backdrop="true"
@@ -194,7 +194,7 @@
         @ok="deleteRow(i.name, i.id)"
         @cancel="cancelDelete(i.name)"
       >
-        Tem certeza que deseja excluir a name <b>{{ i.name }}</b
+        Tem certeza que deseja excluir o servidor <b>{{ i.name }}</b
         >?
       </b-modal>
     </div>
@@ -204,7 +204,7 @@
     <b-modal
       id="new_line"
       refs="new_line"
-      title="Adicionar Nova Pausa"
+      title="Adicionar Novo Servidor"
       size="xl"
       :hide-header-close="false"
       :no-close-on-backdrop="false"
@@ -291,7 +291,7 @@ const defaultRow = {
 };
 
 export default {
-  name: "TabelaPausas",
+  name: "TabelaServidores",
   mixins: [ValidateToaster],
   props: {
     items: Array,
@@ -310,8 +310,8 @@ export default {
       this.names.splice(p, 1);
       let toast = {
         isValidated: true,
-        title: "USUÁRIO EXCLUÍDO",
-        message: "Usuário " + ev.toUpperCase() + " excluído com sucesso!",
+        title: "SERVIDOR EXCLUÍDO",
+        message: "Servidor " + ev.toUpperCase() + " excluído com sucesso!",
       };
       this.deleteServer(id);
 
@@ -320,9 +320,9 @@ export default {
     cancelDelete(p) {
       let toast = {
         isValidated: false,
-        title: "USUÁRIO MANTIDO",
+        title: "SERVIDOR MANTIDO",
         message:
-          "Usuário " +
+          "Servidor " +
           p.toUpperCase() +
           " foi mantido. A exclusão foi cancelada.",
       };
@@ -339,9 +339,9 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated: true,
-          title: "NOVO USUÁRIO ADICIONADA",
+          title: "NOVO SERVIDOR ADICIONADO",
           message:
-            "Novo usuário " +
+            "Novo servidor " +
             newPausa.toUpperCase() +
             " adicionado com sucesso!",
         };
@@ -349,11 +349,11 @@ export default {
       } else {
         let toast = {
           isValidated: false,
-          title: "NOVO USUÁRIO VAZIO NÃO ADICIONADA",
+          title: "NOVO SERVIDOR VAZIO NÃO ADICIONADA",
           message:
-            "Nova Pausa " +
+            "Nova Servidor " +
             newPausa.toUpperCase() +
-            " não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.",
+            " não foi adicionado. Não é possível adicionar Servidores sem nome ou com o nome em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
@@ -362,11 +362,11 @@ export default {
       let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated: false,
-        title: "NOVA PAUSA NÃO ADICIONADA",
+        title: "NOVO SERVIDOR NÃO ADICIONADO",
         message:
-          "Nova Pausa " +
+          "Novo Servidor " +
           newPausa.toUpperCase() +
-          " não foi adicionada. A operação de adicionar foi cancelada pelo usuário.",
+          " não foi adicionado. A operação de adicionar foi cancelada pelo usuário.",
       };
       this.validateAndToast(toast);
     },
@@ -388,8 +388,8 @@ export default {
 
         let toast = {
           isValidated: true,
-          title: "PAUSA EDITADA",
-          message: "Pausa " + p.toUpperCase() + " editada com sucesso!",
+          title: "Servidor EDITADO",
+          message: "Servidor " + p.toUpperCase() + " editado com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
@@ -397,11 +397,11 @@ export default {
 
         let toast = {
           isValidated: false,
-          title: "PAUSA NÃO EDITADA",
+          title: "SERVIDOR NÃO EDITADA",
           message:
-            "Pausa " +
+            "Servidor " +
             p.toUpperCase() +
-            " não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.",
+            " não foi modificado. Não é possível atualizar um Servidor apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
@@ -411,11 +411,11 @@ export default {
       let p = this.filas[row].name;
       let toast = {
         isValidated: false,
-        title: "PAUSA NÃO EDITADA",
+        title: "SERVIDOR NÃO EDITADO",
         message:
-          "Pausa " +
+          "Servidor " +
           p.toUpperCase() +
-          " não foi modificada. A edição foi cancelada pelo usuário.",
+          " não foi modificado. A edição foi cancelada pelo usuário.",
       };
       this.validateAndToast(toast);
     },
@@ -457,14 +457,17 @@ export default {
         {
           key: "name",
           label: "Nome",
+          sortable: true,
         },
         {
           key: "type",
           label: "Tipo",
+          sortable: true,
         },
         {
           key: "ip",
           label: "IP",
+          sortable: true,
         },
 
         {

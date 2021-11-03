@@ -43,7 +43,7 @@ Vue.use(VeeValidate, {
 // validar todos os inputs 
 // definir ícones
 // arrumar primeiro telefone (feito)
-// importar -> toast "sucesso" -> lista 
+// importar -> toast "sucesso" -> lista (feito)
 // mexer nas dimenoes dos inputes registro operadroras (feito)
 // textarea max 15 linhas (feito)
 // 2o formato discagem = dtmf (DONE)
@@ -55,13 +55,14 @@ Vue.use(VeeValidate, {
 //barra de pesquisa lista (DONE)
 // tabela registro finalizações > cadastrar alterável (feito)
 //responsividade
-// VC3
 // Subtrair linhas
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
-// rever sorteables
+// rever sorteables (feito)
 // rever fields
 // bug parametro booleano passado para as tabelas 
 // head lista mailing
-// filas agentes only 0 (por enquanto)
-// icone ramal registroagentes
-// status -> b-formcheackbox
+// filas agentes only 0 (por enquanto) (feito)
+// status -> b-formcheackbox (feito)
+// tabelas em panel 
+// tabela operadora [Local], [LDN], [LDI], [...] -> (classes)
+// paginação em tabelas

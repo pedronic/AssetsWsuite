@@ -76,7 +76,8 @@
         />
       </template>
       <template v-slot:cell(add)="slot">
-        <router-link :to="{
+        <router-link
+          :to="{
             name: 'RegistroAgentes',
             params: {
               id: slot.item.id,
@@ -88,7 +89,8 @@
               flag: slot.item.flag,
               queue_default: slot.item.queue_default,
             },
-          }">
+          }"
+        >
           <b-button
             :id="slot.item.name + '_edit'"
             class="edit-btn"
@@ -300,9 +302,9 @@
 
 <script>
 import ValidateToaster from "../../plugins/validateToaster.js";
-import axios from 'axios';
+import axios from "axios";
 import { baseApiUrl } from "@/config/global";
- //importando "mixin" (no caso está na pasta plugin)
+//importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
   name: "",
@@ -324,7 +326,7 @@ export default {
     filter_fields: Array,
   },
   methods: {
-   async deleteUser(id) {
+    async deleteUser(id) {
       let s = await axios.delete(`${baseApiUrl}/agents/${id}`);
       console.clear();
       console.log("Delete status:\n", s);
@@ -482,22 +484,27 @@ export default {
         {
           key: "login_crm",
           label: "Login",
+          sortable: true,
         },
         {
           key: "name",
           label: "Nome",
+          sortable: true,
         },
         {
           key: "email",
           label: "Email",
+          sortable: true,
         },
         {
           key: "document",
           label: "Documento",
+          sortable: true,
         },
         {
           key: "last_login",
           label: "Login em",
+          sortable: true,
         },
         {
           key: "flag",

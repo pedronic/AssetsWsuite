@@ -40,7 +40,7 @@
               <div class="col-4">
                 <div class="profile-content user-name-line d-flex">
                   <i
-                    class="fal fa-user-secret fa-2x"
+                    class="fal fa-phone-office fa-2x"
                     style="margin-left: 5px"
                   />
                   <b-form-input
@@ -48,7 +48,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Ramal"
-                    disabled
+                    
                   />
                 </div>
               </div>

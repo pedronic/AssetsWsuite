@@ -286,7 +286,7 @@ export default {
       let p = this.filas[row].subido;
       let toast = {
         isValidated:false,
-        title:'ARQUIVO NÃO EDITADA',
+        title:'ARQUIVO NÃO EDITADO',
         message:'Arquivo '+p.toUpperCase()+' não foi modificado. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
@@ -324,14 +324,17 @@ export default {
         {
           key:'subido',
           label: 'Arquivo',
+          sortable: true,
         },
         {
           key:'data_importacao',
-          label: 'Data de importação'
+          label: 'Data de importação',
+          sortable: true,
         },
         {
           key:'usuario',
-          label: 'Usuário'
+          label: 'Usuário',
+          sortable: true,
         },
         {
           key:'add',

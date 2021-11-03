@@ -28,7 +28,7 @@
                     <b-form-input
                       id="profile-name-input"
                       v-model="email"
-                      type="text"
+                      type="email"
                       placeholder="E-mail"
                     />
                   </div>
@@ -82,7 +82,7 @@
               <div class="col-4">
                 <div class="profile-content user-name-line d-flex">
                   <i
-                    class="fal fa-user-secret fa-2x"
+                    class="fal fa-phone-office fa-2x"
                     style="margin-left: 5px"
                   />
                   <b-form-input
@@ -169,6 +169,8 @@
               </div>
             </div>
           </div>
+          <!-- ----------------------------------- -->
+          <!-- DEPURAÇÃO [INÍCIO] -->
           <!-- {{ id }}
           {{ name }}
           {{ login_crm }}
@@ -177,6 +179,11 @@
           {{ jornadas_tipos }}
           {{ agent }}
           {{ queue_default.name }} -->
+          <!-- {{ queue_def }}
+          {{ queues }}
+          {{ queue_default }} -->
+          <!-- DEPURAÇÃO [FIM] -->
+          <!-- ------------------------------ -->
           <!-- <div class="panel">
             <div class="panel-container show">
               <div class="panel-content">
@@ -184,9 +191,6 @@
               </div>
             </div>
           </div> -->
-          {{ queue_def }}
-          {{ queues }}
-          {{ queue_default }}
           <!-- {{ queue_default[0].name }} -->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">

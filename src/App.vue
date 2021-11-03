@@ -98,6 +98,6 @@ export default {
     }
   }
 }
-</style>
-// agentes [jornadas] recebe??
+// responsividade
 // validacao fields
+</style>

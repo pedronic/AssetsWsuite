@@ -569,30 +569,37 @@ export default {
         {
           key: "finalizacao",
           label: "Finalização",
+          sortable: true,
         },
         {
           key: "ID",
           label: "ID",
+          sortable: true,
         },
         {
           key: "descricao",
           label: "Descrição",
+          sortable: true,
         },
         {
           key: "CPC",
           label: "CPC",
+          sortable: true,
         },
         {
           key: "CPCA",
           label: "CPCA",
+          sortable: true,
         },
         {
           key: "alega_pgto",
           label: "Alega Pagamento",
+          sortable: true,
         },
         {
           key: "promessasv",
           label: "Promessas/Vendas",
+          sortable: true,
         },
         {
           key: "status",

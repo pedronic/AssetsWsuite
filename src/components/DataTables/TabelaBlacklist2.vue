@@ -345,22 +345,26 @@ export default {
         {
           key:'DDD',
           label: 'DDD',
+          sortable: true,
         },
         {
           key:'cadastrado',
-          label: 'Telefone'
+          label: 'Telefone',
+          sortable: true,
         },
         {
           key:'data_inclusao',
-          label: 'Data Inclusão'
+          label: 'Data Inclusão',
+          sortable: true,
         },
         {
           key:'usuario',
-          label: 'Usuário'
+          label: 'Usuário',
+          sortable: true,
         },
         {
           key:'status',
-          label: 'Status'
+          label: 'Status',
         },
         {
           key:'add',

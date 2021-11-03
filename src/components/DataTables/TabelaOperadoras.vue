@@ -235,7 +235,7 @@
         ok-variant="success"
         refs="new_line"
         size="xl"
-        title="Adicionar Nova Pausa"
+        title="Adicionar Nova Operadora"
         @cancel="cancelAdd()"
         @ok="okayAdd()"
         @show="populateNewLine()">
@@ -386,8 +386,8 @@ export default {
     cancelDelete(p) {
       let toast = {
         isValidated: false,
-        title: 'PAUSA MANTIDA',
-        message: 'Pausa ' + p.toUpperCase() + ' foi mantida. A exclusão foi cancelada pelo usuário.',
+        title: 'OPERADORA MANTIDA',
+        message: 'Operadora ' + p.toUpperCase() + ' foi mantida. A exclusão foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -402,8 +402,8 @@ export default {
       } else {
         let toast = {
           isValidated: false,
-          title: 'NOVA PAUSA VAZIA NÃO ADICIONADA',
-          message: 'Nova Pausa ' + newPausa.toUpperCase() + ' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title: 'NOVA OPERADORA VAZIA NÃO ADICIONADA',
+          message: 'Nova Operadora ' + newPausa.toUpperCase() + ' não foi adicionada. Não é possível adicionar Operadoras sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -413,8 +413,8 @@ export default {
       let newPausa = this.newRowInput.operadora.trim();
       let toast = {
         isValidated: false,
-        title: 'NOVA PAUSA NÃO ADICIONADA',
-        message: 'Nova Pausa ' + newPausa.toUpperCase() + ' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title: 'NOVA OPERADORA NÃO ADICIONADA',
+        message: 'Nova Operadora ' + newPausa.toUpperCase() + ' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -458,8 +458,8 @@ export default {
 
         let toast = {
           isValidated: true,
-          title: 'PAUSA EDITADA',
-          message: 'Pausa ' + p.toUpperCase() + ' editada com sucesso!',
+          title: 'OPERADORA EDITADA',
+          message: 'Operadora ' + p.toUpperCase() + ' editada com sucesso!',
         }
         this.validateAndToast(toast);
       } else {
@@ -467,8 +467,8 @@ export default {
 
         let toast = {
           isValidated: false,
-          title: 'PAUSA NÃO EDITADA',
-          message: 'Pausa ' + p.toUpperCase() + ' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title: 'OPERADORA NÃO EDITADA',
+          message: 'Operadora ' + p.toUpperCase() + ' não foi modificada. Não é possível atualizar uma Operadora apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -478,8 +478,8 @@ export default {
       let p = this.filas[row].operadora;
       let toast = {
         isValidated: false,
-        title: 'PAUSA NÃO EDITADA',
-        message: 'Pausa ' + p.toUpperCase() + ' não foi modificada. A edição foi cancelada pelo usuário.',
+        title: 'OPERADORA NÃO EDITADA',
+        message: 'Operadora ' + p.toUpperCase() + ' não foi modificada. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }
