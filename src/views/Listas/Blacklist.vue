@@ -19,7 +19,7 @@
               data-toggle="tab"
               href="#subir"
               role="tab"
-              >Subir Arquivo</a
+              >Subidos em Arquivos</a
             >
           </li>
           <li class="nav-item">
@@ -31,7 +31,7 @@
               data-toggle="tab"
               href="#cadastrar"
               role="tab"
-              >Cadastro Manual</a
+              >Cadastros Manuais</a
             >
           </li>
         </ul>
@@ -65,7 +65,19 @@
             </div>
           </div>
 
-          <TabelaBlacklist :items="items" :filter="filter" :filter_fields="filter_fields" />
+          <TabelaBlacklist :items="items" :filter="filter" :filter_fields="filter_fields" v-if="dataOK" />
+          <b-container fluid class="salvar-container">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="total_items"
+              :per-page="perPage"
+
+              prev-class="single-arrow-button"
+              next-class="single-arrow-button"
+              ellipsis-text="···"
+              @change="showSelectedPage"
+            />
+          </b-container>
         </div>
         <div
           id="cadastrar"
@@ -110,27 +122,111 @@
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 import TabelaBlacklist from "../../components/DataTables/TabelaBlacklist";
 import TabelaBlacklist2 from "../../components/DataTables/TabelaBlacklist2";
+import { baseApiUrl} from "../../config/global.js"
+import axios from 'axios'
+
+const perpage = 10;
 
 export default {
+  name: "BlacklistMailing",
   components: {
     PagesSubHeader,
     TabelaBlacklist,
     TabelaBlacklist2,
   },
+  methods: {
+    setFilter(filter,field){
+      this.filter = filter.toString();
+      this.filter_fields.splice(0,1,field);
+    },
+    setFilter2(filter,field){
+      this.filter2 = filter.toString();
+      this.filter_fields2.splice(0,1,field);
+    },
+    showSelectedPage(page) {
+      console.log('Selected page:\t',page,'\nCurrent page:\t',this.currentPage);
+      this.loadingPage = true;
+      this.getArquivosBlacklists(page);
+      this.loadingPage = false;
+    },
+    getArquivosBlacklists(page){
+      let pag = page.toString();
+      axios.get(baseApiUrl+'/blacklists'+'?page='+pag)
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText)
+        let a = res.data.data;
+        let subidos = [];
+        let first = {};
+        let items = [];
+        let subido = {};
+
+        for(let i in a){
+          subidos.push(a[i].name)
+        }
+        first.subidos = [...subidos];
+        items.push({...first});
+
+        for(let i in a){
+          let fn = a[i].filename.split('/');
+          subido.subido = fn.at(-1);
+          let d = new Date(a[i].created_at);
+          subido.data_importacao = d.toLocaleString('pt-BR');
+          if (a[i].queue_id > 0) subido.fila = this.getQNameByID(a[i].queue_id);
+          else subido.fila = 'sem fila associada';
+          if (a[i].user_id > 0) subido.usuario = this.getUserNameByID(a[i].user_id);
+          else subido.usuario = 'sem usuário associado';
+          subido.id = a[i].id;
+          items.push({...subido});
+        }
+        // console.log("Items @getNames():\n",items);
+        this.items = [...items]; 
+        this.dataOK = true;
+        this.total_items = res.data.count;
+        this.total_pages = Math.ceil(res.data.count / res.data.limit);
+        this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
+      })
+    },
+    getQNameByID(id){
+      let qID = id.toString();
+      axios.get(baseApiUrl+'/queues/'+qID)
+      .then(res => {
+        let qn = res.data.data;
+        return (qn.name+' - '+qn.name_queue);
+      })
+    },
+    getUserNameByID(id){
+      let uID = id.toString();
+      axios.get(baseApiUrl+'/users/'+uID)
+      .then(res => {
+        let un = res.data.data;
+        return un.name;
+      })
+    }
+  },
+  created() {
+    this.getArquivosBlacklists(this.currentPage);
+  },  
   data() {
       return {
-      items: [
-    {
-         subidos: ["Exemplo","Outro Exemplo"],
-         },
+        dataOK:false,
+        total_items:0,
+        total_pages:0,
+        currentPage:1,
+        perPage:perpage,
+        items: [
+        {
+            subidos: ["Exemplo","Outro Exemplo"],
+        },
         { 
             subido: 'exemplo.csv',
+            fila:'',
             data_importacao: '',
             usuario: '',
             
         },
         { 
             subido: 'outro_exemplo.txt',
+            fila: '',
             data_importacao: '',
             usuario: '',
         },
@@ -141,10 +237,10 @@ export default {
       filter_fields:[''],
       busca:'',
       status_filter: true,
-       items2: [
-    {
-         cadastrados: ["Exemplo","Outro Exemplo"],
-         },
+      items2: [
+        {
+          cadastrados: ["Exemplo","Outro Exemplo"],
+        },
         { 
             DDD: '11',
             cadastrado: '90543-4401',
@@ -165,21 +261,8 @@ export default {
       busca2:'',
       status_filter2: true,
       }
-    
-  },
-  methods: {
-    setFilter(filter,field){
-      this.filter = filter.toString();
-      this.filter_fields.splice(0,1,field);
-    },
-    setFilter2(filter,field){
-      this.filter2 = filter.toString();
-      this.filter_fields2.splice(0,1,field);
-    }
-  },
-  mounted() {},
-  name: "BlacklistMailing",
-};
+  }
+}
 </script>
 
 <style scoped>

@@ -47,12 +47,14 @@
                   :label="'name'"
                   :track-by="'code'"
                   :options="finish_filas"
-                  :multiple="true"
+                  :multiple="false"
+                  v-if="dataOK"
                 />
               </div>
             </div>
           </div>
         </div>
+      <!-- TAB 1 -->
         <div
           id="subir"
           aria-labelledby="one-tab"
@@ -70,7 +72,7 @@
                           class="btn btn-default image-preview-clear"
                           style="display: none"
                       >
-                        <span class="glyphicon glyphicon-remove"></span> Limpar
+                        <span class="glyphicon glyphicon-remove">Limpar</span> 
                       </button>
                       <!-- image-preview-input -->
                       <div class="btn btn-default image-preview-input" id="butao">
@@ -106,6 +108,9 @@
             <b-col class="p-3" cols="auto"> </b-col>
           </b-row>
         </div>
+      <!-- TAB 1: FIM -->
+
+      <!-- TAB 2 -->
         <div
           id="cadastrar"
           aria-labelledby="two-tab"
@@ -127,13 +132,13 @@
                       mr-2
                       flex-shrink-0
                     "
-                    @click="putins++"
+                    @click="addPhoneLine"
                     ><i class="fal fa-plus"></i
                   ></a>
                   <a
                     href="#"
                     class="btn btn-outline-danger btn-sm flex-shrink-0"
-                    @click="putins > 1 ? putins-- : putins"
+                    @click="removePhoneLine"
                     ><i class="fal fa-minus"></i
                   ></a>
                 </div>
@@ -159,8 +164,9 @@
                               />
                               <b-form-input
                                 id="profile-name-input"
-                                type="text"
+                                type="tel"
                                 placeholder="DDD"
+                                v-model="phones[i].ddd"
                               />
                             </div>
                           </div>
@@ -175,8 +181,9 @@
                                 />
                                 <b-form-input
                                   id="profile-name-input"
-                                  type="text"
+                                  type="tel"
                                   placeholder="Número"
+                                  v-model="phones[i].number"
                                 />
                               </div>
                             </div>
@@ -189,13 +196,14 @@
           </div>
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
-              <button class="btn btn-dark botao-salvar" type="submit">
+              <b-button class="btn btn-dark botao-salvar" @click="importManual(putins)">
                 <i class="fal fa-upload mr-2"></i>Importar
-              </button>
+              </b-button>
             </b-col>
             <b-col class="p-3" cols="auto"> </b-col>
           </b-row>
         </div>
+      <!-- TAB 2: FIM -->
       </div>
     </div>
   </div>
@@ -204,23 +212,99 @@
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 import Multiselect from "vue-multiselect";
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
+// import Vuex from 'vuex'
+
+const perpage = 10;
 
 export default {
+  name: "RegistroBlacklist",
   components: {
     PagesSubHeader,
     Multiselect,
   },
-  data() {
-    return {
-      putins: 1,
-      filas_finish: [],
-      finish_filas: [
-        { name: "Fila 1000", code: "1000" },
-        { name: "Fila 2000", code: "2000" },
-      ],
-    };
+  props: {
+    bID:{
+      type: Number,
+      default:-1
+    }
   },
-
+  methods: {
+    importManual(){
+      let body = {};
+      body.user_id = this.getUser();
+    },
+    addPhoneLine(){
+      this.putins++;
+      let phone = {ddd:null, number:null};
+      this.phones.push({...phone});
+    },
+    removePhoneLine(){
+      //  this.putins;
+      if(this.putins > 1){
+        this.putins--;
+        this.phones.pop();
+      }
+    },
+    getFilasData(){
+      axios.get(baseApiUrl+'/queues')
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText)
+        this.total_items = res.data.count;
+        this.total_pages = Math.ceil(res.data.count / res.data.limit);
+        this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
+        console.log("Total Items:\t",this.total_items,"\nTotal Pages:\t",this.total_pages,"\nPer Pages:\t",this.perPage)
+        this.getFilas(this.currentPage);
+      })
+    },
+    getFilas(page){
+      let pag = page.toString();
+      let t_items = this.total_items>0?true:false;
+      let t_pages = this.total_pages>0?true:false;
+      console.log("Total Items:\t",t_items,"\tTotal Pages:\t",t_pages)
+      
+      axios.get(baseApiUrl+'/queues'+'?page='+pag)
+      .then(res => {
+        console.log("Status @getFilas():\t",res.status," - ",res.statusText)
+        let q = res.data.data;
+        let finish_filas = [];
+        for(let i in q){
+          let fila = {}
+          fila.name = (q[i].name + ' - ' + q[i].name_queue);
+          fila.code = q[i].queue_id;
+          finish_filas.push(fila);
+        }
+        if(page===1){
+          this.finish_filas = [...finish_filas];
+          this.currentPage++;
+          this.getFilas(this.currentPage);
+        }
+        else if (page<this.total_pages){
+          for(let j in finish_filas){
+            this.finish_filas.push({...finish_filas[j]})
+          }
+          this.currentPage++;
+          this.getFilas(this.currentPage);
+        }
+        else if (page==this.total_pages){
+          for(let j in finish_filas){
+            this.finish_filas.push({...finish_filas[j]})
+            this.dataOK = true;
+          }
+        }
+      })
+    },
+    getUser(){
+      let ud = this.$store.state.user.id;
+      console.log("user:\n",ud);
+      return ud;
+    }
+  },
+  created() {
+    this.getFilasData();
+    this.getUser();
+  },
   mounted() {
     $(document).on("click", "#close-preview", function () {
       $(".image-preview").popover("hide");
@@ -255,7 +339,27 @@ export default {
       });
     });
   },
-  name: "BlacklistPhone",
+  data() {
+    return {
+      user:null,
+      total_items:0,
+      total_pages:0,
+      currentPage:1,
+      perPage:perpage,
+      dataOK:false,
+      putins: 1,
+      phones:[
+        {ddd:{type: String, default:'00'}, number:{type: String, default:'00000000'}},
+        {ddd:null, number:null}
+      ],
+      filas_finish: [],
+      finish_filas: null,
+      // [
+      //   { name: "Fila 1000", code: "1000" },
+      //   { name: "Fila 2000", code: "2000" },
+      // ],
+    };
+  }
 };
 </script>
 

@@ -443,7 +443,7 @@ export default {
         nome:String,
         qID:{
             type:Number,
-            default:66
+            default:-1
         }
     },
     methods: {

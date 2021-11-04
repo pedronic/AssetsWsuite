@@ -9,6 +9,9 @@
       <template v-slot:head(subido)="data">
         <span>{{data.label}}</span>
       </template>
+      <template v-slot:head(fila)="data">
+        <span>{{data.label}}</span>
+      </template>
       <template v-slot:head(data_importacao)="data">
         <span>{{data.label}}</span>
       </template>
@@ -16,24 +19,27 @@
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(add)="data">
-        <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
-          <span v-html="data.label" class="head-add-button"/>
-        </b-button>
+        <!-- <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark"> -->
+        <router-link  :to="{name:'RegistroBlacklist',params:{bID:0}}">
+          <b-button class="head-add-button btn-success" variant="outline-dark">
+            <span v-html="data.label" class="head-add-button"/>
+          </b-button>
+        </router-link>
       </template>
 
       <template v-slot:cell(subido)="slot">
-        <span :id="(slot.item.subido)+'_pausa'">{{slot.value}}</span>
+        <span :id="(slot.item.subido)+'_subido'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(nome)="slot" >
+      <template v-slot:cell(fila)="slot" >
+        <span :id="(slot.item.subido)+'_fila'">{{slot.value}}</span>
+      </template>
+      <template v-slot:cell(data_importacao)="slot">
         <span :id="(slot.item.subido)+'_alerta'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(email)="slot">
+      <template v-slot:cell(usuario)="slot">
         <span :id="(slot.item.subido)+'_alerta'">{{slot.value}}</span>
       </template>
-      <template v-slot:cell(documento)="slot">
-        <span :id="(slot.item.subido)+'_alerta'">{{slot.value}}</span>
-      </template>
-      <template v-slot:cell(limite)="slot">
+      <!-- <template v-slot:cell(limite)="slot">
         <span :id="(slot.item.subido)+'_limite'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(icone)="slot">
@@ -41,9 +47,11 @@
       </template>
       <template v-slot:cell(status)="slot">
         <b-form-checkbox v-model="slot.value" :id="(slot.item.subido)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
-      </template>
+      </template> -->
       <template v-slot:cell(add)="slot">
-        <b-button :id="(slot.item.subido)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.subido)+'_edit_modal'"  v-html="editIcon"/>
+        <!-- <router-link  :to="{name:'RegistroBlacklist',params:{bID:slot.item.id}}">
+          <b-button :id="(slot.item.subido)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.subido)+'_edit_modal'"  v-html="editIcon"/>
+        </router-link> -->
         <b-btn :id="(slot.item.subido)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.subido + '_delete'"/>
       </template>
     </b-table>
@@ -327,8 +335,12 @@ export default {
           label: 'Arquivo',
         },
         {
+          key:'fila',
+          label:'Fila'
+        },
+        {
           key:'data_importacao',
-          label: 'Data de importação'
+          label: 'Data de Importação'
         },
         {
           key:'usuario',
