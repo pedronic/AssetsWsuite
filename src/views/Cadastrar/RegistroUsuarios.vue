@@ -144,10 +144,10 @@
                     <multiselect
                       v-model="filas_finish"
                       placeholder="Filas"
-                    :label="'name'"
-                    :track-by="'code'"
+                      :label="'name'"
+                      :track-by="'code'"
                       :options="queues"
-                      :multiple="true"
+                      :multiple="false"
                     />
                   </div>
                 </div>
