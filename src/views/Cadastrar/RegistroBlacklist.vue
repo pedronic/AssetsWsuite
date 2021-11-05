@@ -47,8 +47,10 @@
                   :label="'name'"
                   :track-by="'code'"
                   :options="finish_filas"
-                  :multiple="false"
+                  :multiple="true"
                   v-if="dataOK"
+                  @select="setSelectedQueue"
+                  @remove="removeDeselectedQueue"
                 />
               </div>
             </div>
@@ -164,8 +166,11 @@
                               />
                               <b-form-input
                                 id="profile-name-input"
-                                type="tel"
+                                type="number"
+                                min="11"
+                                max="99"
                                 placeholder="DDD"
+                                :disabled='phones[i].disabled'
                                 v-model="phones[i].ddd"
                               />
                             </div>
@@ -181,9 +186,15 @@
                                 />
                                 <b-form-input
                                   id="profile-name-input"
-                                  type="tel"
+                                  type="number"
+                                  min="11111111"
+                                  max="999999999"
+                                  :no-wheel='true'
                                   placeholder="Número"
+                                  :disabled='phones[i].disabled'
                                   v-model="phones[i].number"
+                                  @keydown.up.prevent
+                                  @keydown.down.prevent
                                 />
                               </div>
                             </div>
@@ -196,7 +207,7 @@
           </div>
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
-              <b-button class="btn btn-dark botao-salvar" @click="importManual(putins)">
+              <b-button class="btn btn-dark botao-salvar" @click="importManual(total_phones,total_queues)">
                 <i class="fal fa-upload mr-2"></i>Importar
               </b-button>
             </b-col>
@@ -212,6 +223,7 @@
 <script>
 import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 import Multiselect from "vue-multiselect";
+import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 import axios from 'axios';
 import {baseApiUrl} from '../../config/global';
 // import Vuex from 'vuex'
@@ -220,6 +232,7 @@ const perpage = 10;
 
 export default {
   name: "RegistroBlacklist",
+  mixins: [ValidateToaster],
   components: {
     PagesSubHeader,
     Multiselect,
@@ -231,21 +244,128 @@ export default {
     }
   },
   methods: {
-    importManual(){
-      let body = {};
-      body.user_id = this.getUser();
+    importManual(phone,queue){
+      if(phone>0){
+        this.currentPhone = phone;
+        this.currentQueue = queue;
+        let blankDDD = !(this.phones[phone].ddd.length > 0) ? true:false;
+        let shortDDD = !(this.phones[phone].ddd.length == 2) ? true:false;
+        let blankNumber = !(this.phones[phone].number.length > 0) ? true:false;
+        let shortNumber = (this.phones[phone].number[0] == 9) ? false: (this.phones[phone].number.length < 8) ? true: (this.phones[phone].number.length > 8) ? true:false;
+        let shortCellPhone = !(this.phones[phone].number[0] == 9) ? false: (this.phones[phone].number.length < 9) ? true: (this.phones[phone].number.length > 9) ? true:false ;
+        if(blankNumber || blankDDD){
+          console.log("blankNumber = ",blankNumber,"blankDDD = ",blankDDD);
+          let toast = {
+              isValidated:false,
+              title: "NÃO FOI POSSÍVEL IMPORTAR OS NÚMEROS",
+              message: "Um ou mais números de telefone não puderam ser importados. Não é permitido adicionar à lista de Blacklists um número vazio ou apenas com espaços em branco tanto no DDD quanto no Número.",
+          };
+          this.validateAndToast(toast);
+          return;
+        }
+        else if(shortDDD || shortNumber || shortCellPhone){
+          console.log("shortNumber = ",shortNumber,"shortDDD = ",shortDDD,"shortCellPhone = ",shortCellPhone);
+          let toast = {
+              isValidated:false,
+              title: "NÃO FOI POSSÍVEL IMPORTAR OS NÚMEROS",
+              message: "Um ou mais números de telefone não puderam ser importados. Não é permitido adicionar à lista de Blacklists um número de DDD com menos ou mais de 2 dígitos, nem um Número com menos ou mais de 8 dígitos ou um celular com menos ou mais de 9 dígitos.",
+          };
+          this.validateAndToast(toast);
+          return;
+        }
+        else{
+          let body = {};
+          body.user_id = this.getUser();
+          body.queue_id = this.filas_finish[queue].code;
+          console.log("Filas:\n",this.filas_finish,"Queue:\t",queue);
+          // body.ddd = this.cleanNumber(this.phones[phone].ddd);
+          body.name = this.cleanNumber(this.phones[phone].ddd);
+          // body.number = this.cleanNumber(this.phones[phone].number);
+          body.phone = this.cleanNumber(this.phones[phone].number);
+          this.postManual(body);
+        }
+      }
+      else{
+        let toast = {
+              isValidated:false,
+              title: "NÃO HÁ NÚMEROS PARA SEREM IMPORTADOS",
+              message: "Para realizar a importação manual é necessário que haja números preenchidos.",
+          };
+          this.validateAndToast(toast);
+          return;        
+      }
+    },
+    postManual(body){
+      axios.post(baseApiUrl+'/blacklistFones',body)
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText)
+        if(this.currentQueue > 0){
+          let toast = {
+            isValidated:true,
+            title:'NÚMERO ADICIONADO MANUALMENTE COM SUCESSO',
+            message:'Número ('+body.ddd+') '+body.number +' Cadastrado Manualmente adicionado com sucesso à Fila: '+body.queue_id+' !',
+          }
+          this.validateAndToast(toast);
+          this.currentQueue--;
+          this.importManual(this.currentPhone, this.currentQueue);
+        }
+        else if(this.currentPhone > 0){
+          let toast = {
+            isValidated:true,
+            title:'NÚMERO ADICIONADO MANUALMENTE COM SUCESSO',
+            message:'Número ('+body.ddd+') '+body.number +' Cadastrado Manualmente adicionado com sucesso à Fila: '+body.queue_id+' !',
+          }
+          this.validateAndToast(toast);
+          this.phones[this.currentPhone].disabled = true;
+          this.currentQueue = this.total_queues;
+          this.currentPhone--;
+          this.importManual(this.currentPhone, this.currentQueue);
+        }
+        else{
+          let toast = {
+            isValidated:true,
+            title:'NÚMEROS ADICIONADOS MANUALMENTE COM SUCESSO',
+            message:'Números Cadastrados Manualmente adicionados com sucesso!',
+          }
+          this.validateAndToast(toast);
+        }
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE:\n",error.response)
+        let eBody = JSON.parse(error.response.config.data);
+        console.log("eBody:\n",eBody)
+        let toast = {
+          isValidated:false,
+          title:'NÚMERO NÃO IMPORTADO',
+          message:'Número ('+eBody.name+') '+eBody.phone +' Cadastrado Manualmente não pôde ser importado. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
+      })
+    },
+    cleanNumber(value){
+      let cleanValue = value.replace(/-|\+|\./g,'');
+      return cleanValue;
     },
     addPhoneLine(){
-      this.putins++;
-      let phone = {ddd:null, number:null};
+      let phone = {ddd:'new', number:null, disabled:false};
       this.phones.push({...phone});
+      this.putins++;
+      this.total_phones++;
     },
     removePhoneLine(){
       //  this.putins;
-      if(this.putins > 1){
-        this.putins--;
+      if(this.putins > 0){
         this.phones.pop();
+        this.putins--;
+        this.total_phones--;
       }
+    },
+    setSelectedQueue(){
+      // console.log("Selected Queue:\n" + value.code)
+      this.total_queues++;
+    },
+    removeDeselectedQueue(){
+      this.total_queues--;
     },
     getFilasData(){
       axios.get(baseApiUrl+'/queues')
@@ -256,6 +376,15 @@ export default {
         this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
         console.log("Total Items:\t",this.total_items,"\nTotal Pages:\t",this.total_pages,"\nPer Pages:\t",this.perPage)
         this.getFilas(this.currentPage);
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE:\n",error.response)
+        let toast = {
+          isValidated:false,
+          title:'FILAS NÃO RETORNARAM',
+          message:'Não foi possível completar a lista de filas a partir do endpoint. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
       })
     },
     getFilas(page){
@@ -347,10 +476,14 @@ export default {
       currentPage:1,
       perPage:perpage,
       dataOK:false,
-      putins: 1,
+      putins: 0,
+      total_phones: 0,
+      total_queues: -1,
+      currentQueue: 0,
+      currentPhone: 0,
       phones:[
-        {ddd:{type: String, default:'00'}, number:{type: String, default:'00000000'}},
-        {ddd:null, number:null}
+        // {ddd:{type: String, default:'00'}, number:{type: String, default:'00000000'}},
+        {ddd:null, number:null, disabled:false}
       ],
       filas_finish: [],
       finish_filas: null,
