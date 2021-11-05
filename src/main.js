@@ -55,7 +55,7 @@ Vue.use(VeeValidate, {
 //barra de pesquisa lista (DONE)
 // tabela registro finalizações > cadastrar alterável (feito)
 //responsividade
-// Subtrair linhas
+// Subtrair linhas {métodos post}
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables (feito)
 // rever fields

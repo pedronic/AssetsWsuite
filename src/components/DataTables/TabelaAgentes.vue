@@ -457,6 +457,7 @@ export default {
     );
     // this.editRowInput = this.filas;
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
+    console.log(this.items);
   },
   watch: {
     // filas(newValue){

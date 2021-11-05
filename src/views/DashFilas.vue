@@ -22,12 +22,14 @@
     <div v-if="BuildTab" class="card tab-card">
       <b-card no-body>
         <b-tabs card>
-          <b-tab :title="'Fila ' + firstQueue" active>
-            <b-card-text>Tab contents 1</b-card-text>
+          <b-tab :title="'Fila ' + firstQueue.code" active>
+             <!-- :number="firstQueue.name" -->
+            <b-card-text><TabelaFila :queue_name="firstQueue.name" /></b-card-text>
           </b-tab>
           <div v-for="d in selectedQueues" :key="d.name">
-            <b-tab :title="'Fila ' + d.name">
-              <b-card-text> </b-card-text>
+            <b-tab :title="'Fila ' + d.code">
+               <!-- :queue_number="d.name" -->
+              <b-card-text><TabelaFila :queue_name="d.name" /></b-card-text>
             </b-tab>
           </div>
         </b-tabs>
@@ -90,11 +92,13 @@ import Multiselect from "vue-multiselect";
 import { vueMultiselectProps } from "../config/global";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
+import TabelaFila from "../components/DataTables/TabelaFila.vue"
 
 export default {
   components: {
     PagesSubHeader,
     Multiselect,
+    TabelaFila,
     //   QueueAdder,
     //   TabelaRelatorioFaturamento
   },
@@ -123,8 +127,8 @@ export default {
             console.log("f.data.data\n", response);
             for (let u in response) {
               let fila = {};
-              fila.name = response[u].name;
               fila.code = response[u].name;
+              fila.name = response[u].name_queue;
               queues.push({ ...fila });
             }
             this.uploadedQueues = [...queues];
@@ -139,8 +143,8 @@ export default {
 
     configTable() {
       let first = {};
-      first.name = this.firstQueue;
-      first.code = this.firstQueue;
+      first.name = this.firstQueue.name;
+      first.code = this.firstQueue.code;
       this.selectedQueues.unshift(first);
       this.BuildTab = false;
       this.modalShow = !this.modalShow;
@@ -155,7 +159,9 @@ export default {
     },
 
     refresh() {
-      this.firstQueue = this.selectedQueues[0].name;
+      this.firstQueue = {};
+      this.firstQueue.name = this.selectedQueues[0].name;
+      this.firstQueue.code = this.selectedQueues[0].code;
       this.selectedQueues.shift();
       this.BuildTab = true;
       this.modalShow = !this.modalShow;
