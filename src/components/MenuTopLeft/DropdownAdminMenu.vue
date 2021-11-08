@@ -107,7 +107,7 @@
         <i class="fal fa-road iconDAM"></i>
         <span data-i18n="drpdwn.settings">Filas</span>
         <a class="ml-auto" href="#">
-          <router-link to='/cadastrar-filas'>
+          <router-link :to="{name:'FilasCadastro', params: {qID:-1}}">
             <i class="fal fa-plus-circle"></i>
           </router-link>
         </a>
@@ -178,7 +178,7 @@ export default {
   },
   created(){
     // this.setDefaultUser();
-    // this.getPages();
+    this.getPages();
     
   }
 };

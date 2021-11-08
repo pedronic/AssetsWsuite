@@ -171,6 +171,7 @@
                                 max="99"
                                 placeholder="DDD"
                                 :disabled='phones[i].disabled'
+                                :style="phones[i].disabled?disabled_enforcement:enabled_enforcement"
                                 v-model="phones[i].ddd"
                               />
                             </div>
@@ -192,6 +193,7 @@
                                   :no-wheel='true'
                                   placeholder="Número"
                                   :disabled='phones[i].disabled'
+                                  :style="phones[i].disabled?disabled_enforcement:enabled_enforcement"
                                   v-model="phones[i].number"
                                   @keydown.up.prevent
                                   @keydown.down.prevent
@@ -278,10 +280,10 @@ export default {
           body.user_id = this.getUser();
           body.queue_id = this.filas_finish[queue].code;
           console.log("Filas:\n",this.filas_finish,"Queue:\t",queue);
-          // body.ddd = this.cleanNumber(this.phones[phone].ddd);
-          body.name = this.cleanNumber(this.phones[phone].ddd);
-          // body.number = this.cleanNumber(this.phones[phone].number);
-          body.phone = this.cleanNumber(this.phones[phone].number);
+          body.ddd = this.cleanNumber(this.phones[phone].ddd);
+          // body.name = this.cleanNumber(this.phones[phone].ddd);
+          body.number = this.cleanNumber(this.phones[phone].number);
+          // body.phone = this.cleanNumber(this.phones[phone].number);
           this.postManual(body);
         }
       }
@@ -309,7 +311,7 @@ export default {
           this.currentQueue--;
           this.importManual(this.currentPhone, this.currentQueue);
         }
-        else if(this.currentPhone > 0){
+        else if(this.currentPhone > 1){
           let toast = {
             isValidated:true,
             title:'NÚMERO ADICIONADO MANUALMENTE COM SUCESSO',
@@ -317,9 +319,23 @@ export default {
           }
           this.validateAndToast(toast);
           this.phones[this.currentPhone].disabled = true;
+          // console.log("Desabilitado por último:\n",this.phones[this.currentPhone])
           this.currentQueue = this.total_queues;
           this.currentPhone--;
           this.importManual(this.currentPhone, this.currentQueue);
+        }
+        else if(this.currentPhone == 1){
+          let toast = {
+            isValidated:true,
+            title:'NÚMERO ADICIONADO MANUALMENTE COM SUCESSO',
+            message:'Número ('+body.ddd+') '+body.number +' Cadastrado Manualmente adicionado com sucesso à Fila: '+body.queue_id+' !',
+          }
+          this.validateAndToast(toast);
+          this.phones[this.currentPhone].disabled = true;
+          // console.log("Desabilitado por último:\n",this.phones[this.currentPhone])
+          this.currentQueue = this.total_queues;
+          // this.currentPhone--;
+          // this.importManual(this.currentPhone, this.currentQueue);
         }
         else{
           let toast = {
@@ -468,9 +484,14 @@ export default {
       });
     });
   },
+  watch:{
+
+  },
   data() {
     return {
       user:null,
+      disabled_enforcement:'background-color: #f3f3f3 !important; color: #495057 !important;',
+      enabled_enforcement:'',
       total_items:0,
       total_pages:0,
       currentPage:1,

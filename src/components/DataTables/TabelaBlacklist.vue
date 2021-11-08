@@ -195,7 +195,7 @@ const defaultRow = {
 };
 
 export default {
-  name:'TabelaPausas',
+  name:'TabelaBlacklist',
   mixins: [ValidateToaster],
   props:{
     items: Array,

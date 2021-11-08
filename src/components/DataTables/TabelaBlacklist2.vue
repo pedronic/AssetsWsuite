@@ -5,7 +5,8 @@
              filter-debounce="50"
              :filter-included-fields="filter_fields"
              sticky-header
-             :per-page="10">
+             :per-page="10"
+             :busy="busy">
       <template v-slot:head(DDD)="data">
         <span>{{data.label}}</span>
       </template>
@@ -18,7 +19,7 @@
       <template v-slot:head(usuario)="data">
         <span>{{data.label}}</span>
       </template>
-      <template v-slot:head(status)="data">
+      <template v-slot:head(fila)="data">
         <span>{{data.label}}</span>
       </template>
       <template v-slot:head(add)="data">
@@ -27,34 +28,37 @@
         </b-button>
       </template>
 
+      <template v-slot:cell(DDD)="slot">
+        <span :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_ddd'">{{slot.item.DDD}}</span>
+      </template>
       <template v-slot:cell(cadastrado)="slot">
-        <span :id="(slot.item.cadastrado)+'_pausa'">{{slot.value}}</span>
+        <span :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_cadastrado'">{{slot.item.cadastrado}}</span>
       </template>
-      <template v-slot:cell(nome)="slot" >
-        <span :id="(slot.item.cadastrado)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(data_inclusao)="slot" >
+        <span :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_created'">{{slot.item.data_inclusao}}</span>
       </template>
-      <template v-slot:cell(email)="slot">
-        <span :id="(slot.item.cadastrado)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(usuario)="slot">
+        <span :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_user'">{{slot.item.usuario}}</span>
       </template>
-      <template v-slot:cell(documento)="slot">
-        <span :id="(slot.item.cadastrado)+'_alerta'">{{slot.value}}</span>
+      <template v-slot:cell(fila)="slot">
+        <span :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_fila'">{{slot.item.fila}}</span>
       </template>
-      <template v-slot:cell(limite)="slot">
+      <!-- <template v-slot:cell(limite)="slot">
         <span :id="(slot.item.cadastrado)+'_limite'">{{slot.value}}</span>
       </template>
       <template v-slot:cell(icone)="slot">
         <span :id="(slot.item.cadastrado)+'_icone'" v-html="slot.value" />
       </template>
-      <template v-slot:cell(status)="slot">
-        <b-form-checkbox v-model="slot.value" :id="(slot.item.cadastrado)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
-      </template>
+      <template v-slot:cell(fila)="slot">
+        <b-form-checkbox v-model="slot.item.fila" :id="(slot.item.cadastrado)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
+      </template> -->
       <template v-slot:cell(add)="slot">
-        <b-btn :id="(slot.item.cadastrado)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.cadastrado + '_delete'"/>
+        <b-btn :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.cadastrado + '_delete'"/>
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.cadastrado+'_edit'">
+    <div v-for="(i, index) in filas" :key="i.cadastrado+'_'+(i.id)+'_edit'">
       <b-modal
           :id="i.cadastrado+'_edit_modal'"
           :ref="i.cadastrado+'_edit_modal'"
@@ -208,12 +212,13 @@ const defaultRow = {
 };
 
 export default {
-  name:'TabelaPausas',
+  name:'TabelaBlacklist2',
   mixins: [ValidateToaster],
   props:{
     items: Array,
     filter:String,
     filter_fields:Array,
+    isLoading:{type:Boolean, default:false}
   },
   methods: {
     deleteRow(ev){
@@ -326,12 +331,23 @@ export default {
     // filas(newValue){
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
     // }
+    isLoading(newValue, oldValue){
+      console.log("WATCHING PROP 'isLoading'...\n","\tisLoading OLD:\t",oldValue,"\n\tisLoading NEW:\t",newValue);
+      this.busy = newValue;
+      console.log("Items PROP:\n",this.items);
+    },
+    items(newValue, oldValue){
+      console.log("WATCHING PROP 'items'...\n","\titems OLD:\t",oldValue,"\n\titems NEW:\t",newValue);
+      this.filas = newValue.slice(1,newValue.length);
+      this.cadastrados = newValue[0].cadastrados;
+    }
   },
   mounted(){
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
   data(){
     return {
+      busy:this.isLoading,
       filas: this.items.slice(1,this.items.length),
       newRowInput: Object.assign({},this.newRowDefault),
       editRowInput: Object.assign({},this.newRowDefault),
@@ -360,8 +376,8 @@ export default {
           label: 'Usuário'
         },
         {
-          key:'status',
-          label: 'Status'
+          key:'fila',
+          label: 'Fila'
         },
         {
           key:'add',

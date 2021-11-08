@@ -111,7 +111,19 @@
               </div>
             </div>
           </div>
-          <TabelaBlacklist2 :items="items2" :filter="filter2" :filter_fields="filter_fields2"/>
+          <TabelaBlacklist2 :items="items2" :filter="filter2" :filter_fields="filter_fields2" v-if="dataOK2" :isLoading="loadingPage"/>
+          <b-container fluid class="salvar-container">
+            <b-pagination
+              v-model="currentPage2"
+              :total-rows="total_items2"
+              :per-page="perPage"
+
+              prev-class="single-arrow-button"
+              next-class="single-arrow-button"
+              ellipsis-text="···"
+              @change="showSelectedPage2"
+            />
+          </b-container>
         </div>
       </div>
     </div>
@@ -143,10 +155,10 @@ export default {
       this.filter2 = filter.toString();
       this.filter_fields2.splice(0,1,field);
     },
-    showSelectedPage(page) {
+    showSelectedPage2(page) {
       console.log('Selected page:\t',page,'\nCurrent page:\t',this.currentPage);
       this.loadingPage = true;
-      this.getArquivosBlacklists(page);
+      this.getNumerosBlacklists(page);
       this.loadingPage = false;
     },
     getArquivosBlacklists(page){
@@ -186,6 +198,44 @@ export default {
         this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
       })
     },
+    getNumerosBlacklists(page){
+      let pag = page.toString();
+      axios.get(baseApiUrl+'/blacklistFones'+'?page='+pag)
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText)
+        let a = res.data.data;
+        let subidos = [];
+        let first = {};
+        let items = [];
+        let subido = {};
+
+        for(let i in a){
+          subidos.push(a[i].name)
+        }
+        first.cadastrados = [...subidos];
+        items.push({...first});
+
+        for(let i in a){
+          subido.DDD = a[i].ddd;
+          subido.cadastrado = a[i].number;
+          let d = new Date(a[i].created_at);
+          subido.data_inclusao = d.toLocaleString('pt-BR');
+          if (a[i].queue_id > 0) subido.fila = this.getQNameByID(a[i].queue_id);
+          else subido.fila = 'sem fila associada';
+          if (a[i].user_id > 0) subido.usuario = this.getUserNameByID(a[i].user_id);
+          else subido.usuario = 'sem usuário associado';
+          subido.id = a[i].id;
+          subido.status = true;
+          items.push({...subido});
+        }
+        console.log("Blacklist Numbers @getNumerosBlacklists():\n",items);
+        this.items2 = [...items]; 
+        this.dataOK2 = true;
+        this.total_items2 = res.data.count;
+        this.total_pages2 = Math.ceil(res.data.count / res.data.limit);
+        this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
+      })
+    },
     getQNameByID(id){
       let qID = id.toString();
       axios.get(baseApiUrl+'/queues/'+qID)
@@ -205,6 +255,7 @@ export default {
   },
   created() {
     this.getArquivosBlacklists(this.currentPage);
+    this.getNumerosBlacklists(this.currentPage);
   },  
   data() {
       return {
@@ -212,6 +263,10 @@ export default {
         total_items:0,
         total_pages:0,
         currentPage:1,
+        dataOK2:false,
+        total_items2:0,
+        total_pages2:0,
+        currentPage2:1,
         perPage:perpage,
         items: [
         {
