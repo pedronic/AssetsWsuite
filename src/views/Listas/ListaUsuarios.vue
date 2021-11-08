@@ -44,12 +44,20 @@
       </div> -->
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
+        <!-- Cabeçalho: FIM -->
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
+
     <TabelaUsuariosCadastrados
     v-if="buildTable"
       :items="items"
       :filter="filter"
       :filter_fields="filter_fields"
     />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

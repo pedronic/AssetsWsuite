@@ -36,12 +36,18 @@
       </div>
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-    <TabelaAgentes
-      :filter="filter"
-      :filter_fields="filter_fields"
-      :items="items"
-      v-if="buildTable"
-    />
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
+          <TabelaAgentes
+            :filter="filter"
+            :filter_fields="filter_fields"
+            :items="items"
+            v-if="buildTable"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -130,6 +136,13 @@ export default {
 .col-botoes {
   padding-left: 3px !important;
   padding-right: 3px !important;
+}
+
+.panel-content {
+  overflow: auto;
+}
+.panel .panel-container .panel-content {
+  padding: 0;
 }
 
 .col-inputs {

@@ -44,12 +44,19 @@
       </div> -->
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
+        <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
+
     <TabelaFilas_main
     v-if="buildTable"
       :items="items"
       :filter="filter"
       :filter_fields="filter_fields"
     />
+        </div>
+      </div>
+        </div>
   </div>
 </template>
 
@@ -144,6 +151,7 @@ export default {
 </script>
 
 <style scoped>
+
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }

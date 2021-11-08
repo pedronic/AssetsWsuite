@@ -49,20 +49,20 @@ Vue.use(VeeValidate, {
 // 2o formato discagem = dtmf (DONE)
 // plugin senha (feito)
 // mudar os labels para o do Pedro (feito)
-// recuo de tela (FEITO)
+// recuo de tela (DONE)
 // mudar tabela filas (feito)
 // input photo (feito)
 //barra de pesquisa lista (DONE)
 // tabela registro finalizações > cadastrar alterável (feito)
 //responsividade
-// Subtrair linhas {métodos post}
+// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets}
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables (feito)
 // rever fields
-// bug parametro booleano passado para as tabelas 
-// head lista mailing
+// bug parametro booleano passado para as tabelas (feito)
+// head lista mailing 
 // filas agentes only 0 (por enquanto) (feito)
 // status -> b-formcheackbox (feito)
-// tabelas em panel 
+// tabelas em panel (feitos)
 // tabela operadora [Local], [LDN], [LDI], [...] -> (classes)
 // paginação em tabelas

@@ -18,27 +18,34 @@
       </div>
     </pages-sub-header>
     {{ selectedQueues }}
-    <!-- TAB ITERÁVEL [INÍCIO] -->
-    <div v-if="BuildTab" class="card tab-card">
-      <b-card no-body>
-        <b-tabs card>
-          <b-tab :title="'Fila ' + firstQueue.code" active>
-             <!-- :number="firstQueue.name" -->
-            <b-card-text><TabelaFila :queue_name="firstQueue.name" /></b-card-text>
-          </b-tab>
-          <div v-for="d in selectedQueues" :key="d.name">
-            <b-tab :title="'Fila ' + d.code">
-               <!-- :queue_number="d.name" -->
-              <b-card-text><TabelaFila :queue_name="d.name" /></b-card-text>
-            </b-tab>
-          </div>
-        </b-tabs>
-      </b-card>
-    </div>
-    <!-- FIM TAB ITERÁVEL -->
-    <div class="panel">
+    <div v-if="BuildTab" class="panel">
       <div class="panel-container show">
-        <div class="panel-content"></div>
+        <div class="panel-content">
+          <!-- TAB ITERÁVEL [INÍCIO] -->
+          <div class="card tab-card">
+            <b-card no-body>
+              <b-tabs card>
+                <b-tab :title="'Fila ' + firstQueue.code" active>
+                  <!-- :number="firstQueue.name" -->
+                  <b-card-text
+                    ><TabelaFila
+                      :id="firstQueue.code"
+                      :queue_name="firstQueue.name"
+                  /></b-card-text>
+                </b-tab>
+                <div v-for="d in selectedQueues" :key="d.name">
+                  <b-tab :title="'Fila ' + d.code">
+                    <!-- :queue_number="d.name" -->
+                    <b-card-text
+                      ><TabelaFila :id="d.code" :queue_name="d.name"
+                    /></b-card-text>
+                  </b-tab>
+                </div>
+              </b-tabs>
+            </b-card>
+          </div>
+          <!-- FIM TAB ITERÁVEL -->
+        </div>
       </div>
     </div>
     <!-- Modal de adição [Início] -->
@@ -92,7 +99,7 @@ import Multiselect from "vue-multiselect";
 import { vueMultiselectProps } from "../config/global";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
-import TabelaFila from "../components/DataTables/TabelaFila.vue"
+import TabelaFila from "../components/DataTables/TabelaFila.vue";
 
 export default {
   components: {
@@ -104,41 +111,82 @@ export default {
   },
   name: "DashFilas",
   methods: {
-    getQueues() {
-      let one = "/queues";
-      let two = "/queues?page=2";
-      let three = "/queues?page=3";
+    async getQueues() {
+      let res = await axios.get(baseApiUrl + "/queues");
+      let count = res.data.count;
+      let limit = res.data.limit;
+      var requests = null;
+      var pages = [];
 
-      const requestOne = axios.get(baseApiUrl + one);
-      const requestTwo = axios.get(baseApiUrl + two);
-      const requestThree = axios.get(baseApiUrl + three);
+      // CONTAGEM DE PÁGINAS
+      if (count % limit > 0) {
+        requests = parseInt(count / limit + 1);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
+        }
+        console.clear();
+        console.log(pages);
+      } else {
+        requests = parseInt(count / limit);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
+        }
+        console.clear();
+        console.log(pages);
+      }
 
-      axios
-        .all([requestOne, requestTwo, requestThree])
-        .then(
-          axios.spread((...responses) => {
-            let responseOne = responses[0].data.data;
-            let responseTwo = responses[1].data.data;
-            let responesThree = responses[2].data.data;
+      // CRIAÇÃO REQUEST DE CADA PÁGINA
+      var queues = [];
+      for (let u in pages) {
+        let responses = [];
+        let res = await axios.get(baseApiUrl + pages[u]);
+        for (let id in res.data.data) {
+          responses.push(res.data.data[id]);
+        }
+        queues = [...responses];
+      }
+      console.log(queues);
 
-            let response = responseOne.concat(responseTwo, responesThree);
+      // let a = res.data.data;
 
-            let queues = [];
-            console.log("f.data.data\n", response);
-            for (let u in response) {
-              let fila = {};
-              fila.code = response[u].name;
-              fila.name = response[u].name_queue;
-              queues.push({ ...fila });
-            }
-            this.uploadedQueues = [...queues];
-            // acessar os resultados
-          })
-        )
-        .catch((errors) => {
-          console.log(errors);
-          // erros.
-        });
+      // let one = "/queues";
+      // let two = "/queues?page=2";
+      // let three = "/queues?page=3";
+
+      // const requestOne = axios.get(baseApiUrl + one);
+      // const requestTwo = axios.get(baseApiUrl + two);
+      // const requestThree = axios.get(baseApiUrl + three);
+
+      // axios
+      //   .all([requestOne, requestTwo, requestThree])
+      //   .then(
+      //     axios.spread((...responses) => {
+      //       let responseOne = responses[0].data.data;
+      //       let responseTwo = responses[1].data.data;
+      //       let responesThree = responses[2].data.data;
+
+      //       let response = responseOne.concat(responseTwo, responesThree);
+
+      //       let queues = [];
+      //       console.log("f.data.data\n", response);
+      //       for (let u in response) {
+      //         let fila = {};
+      //         fila.code = response[u].name;
+      //         fila.name = response[u].name_queue;
+      //         queues.push({ ...fila });
+      //       }
+      //       this.uploadedQueues = [...queues];
+      //       // acessar os resultados
+      //     })
+      //   )
+      //   .catch((errors) => {
+      //     console.log(errors);
+      //     // erros.
+      //   });
     },
 
     configTable() {

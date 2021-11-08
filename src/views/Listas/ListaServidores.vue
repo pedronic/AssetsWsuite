@@ -37,6 +37,9 @@
       </div>
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
 
     <TabelaServidores
       :items="items"
@@ -44,6 +47,9 @@
       :filter_fields="filter_fields"
       v-if="buildTable"
     />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

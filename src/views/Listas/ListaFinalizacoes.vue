@@ -4,11 +4,19 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="filtro-grupo-pausa">
-            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'finalizacao')"></b-form-input>
+            <b-form-input
+              v-model="busca"
+              @keydown.enter.native="setFilter(busca, 'finalizacao')"
+            ></b-form-input>
             <div class="card">
-              <div class="card-body"/>
+              <div class="card-body" />
             </div>
-            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'finalizacao')"/>
+            <b-btn
+              type="submit"
+              id="pesquisa_faturamento"
+              class="btn btn-info waves-effect waves-themed fal fa-search"
+              @click="setFilter(busca, 'finalizacao')"
+            />
           </div>
         </div>
       </div>
@@ -16,24 +24,36 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="status-filter">
-            <b-form-checkbox v-model="status_filter" id="status-button" class="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+            <b-form-checkbox
+              v-model="status_filter"
+              id="status-button"
+              class="status-filter-button"
+              switch
+              @change="setFilter(status_filter, 'status')"
+            />
           </div>
         </div>
       </div>
-
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-
-    <TabelaFinalizacoes :items="items" :filter="filter" :filter_fields="filter_fields"/>
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
+          <TabelaFinalizacoes
+            :items="items"
+            :filter="filter"
+            :filter_fields="filter_fields"
+          />
         </div>
-      
-    
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
-import TabelaFinalizacoes from '../../components/DataTables/TabelaFinalizacoes.vue'
-import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import TabelaFinalizacoes from "../../components/DataTables/TabelaFinalizacoes.vue";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 
 export default {
   components: {
@@ -45,51 +65,51 @@ export default {
     return {
       items: [
         {
-          finalizacoes: ["Exemplo","Outro Exemplo"],
+          finalizacoes: ["Exemplo", "Outro Exemplo"],
         },
         {
-          finalizacao: 'Exemplo',
-          ID: 'Ex',
-          descricao: 'ex@dom.com.br',
+          finalizacao: "Exemplo",
+          ID: "Ex",
+          descricao: "ex@dom.com.br",
           CPC: true,
           CPCA: true,
           alega_pgto: false,
           promessav: true,
-          status:true
+          status: true,
         },
         {
-          finalizacao: 'Outro Exemplo',
-          ID: 'Ox',
-          descricao: 'ox@dom.com.br',
+          finalizacao: "Outro Exemplo",
+          ID: "Ox",
+          descricao: "ox@dom.com.br",
           CPC: false,
           CPCA: true,
           alega_pgto: false,
           promessav: false,
-          status:true
+          status: true,
         },
       ],
       finalizacoes: [],
       msg: "",
-      filter:'',
-      filter_fields:[''],
-      busca:'',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       status_filter: true,
     };
   },
   methods: {
-    setFilter(filter,field){
+    setFilter(filter, field) {
       this.filter = filter.toString();
-      this.filter_fields.splice(0,1,field);
-    }
+      this.filter_fields.splice(0, 1, field);
+    },
   },
   created() {
     this.service = new UsuarioMetodos(this.$resource);
     this.service.list().then(
-        (usuarios) => (this.usuarios = usuarios),
-        (err) => {
-          console.log(err);
-          this.msg = err.message;
-        }
+      (usuarios) => (this.usuarios = usuarios),
+      (err) => {
+        console.log(err);
+        this.msg = err.message;
+      }
     );
   },
   computed: {
@@ -128,20 +148,21 @@ export default {
   padding: 0;
 }
 
-.card-body{
+.card-body {
   padding: 5px;
   /* height: 50px; */
   /* width: 0;
   border: 0px;
   color: #ffffff transparent; */
 }
-.card > .card-body > .d-flex > button#pesquisa_faturamento{
+.card > .card-body > .d-flex > button#pesquisa_faturamento {
   margin-right: 0.3rem !important;
 }
-.card > .card-body > .d-flex > button,input{
+.card > .card-body > .d-flex > button,
+input {
   height: 38px !important;
 }
-.d-flex#filtro-grupo-pausa{
+.d-flex#filtro-grupo-pausa {
   height: 38px !important;
 }
 

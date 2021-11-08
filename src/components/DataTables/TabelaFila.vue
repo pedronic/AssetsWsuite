@@ -13,11 +13,11 @@
       :items="filas"
       :responsive="true"
       :fields="fields"
-      :filter="filter"
-      filter-debounce="50"
-      :filter-included-fields="filter_fields"
       sticky-header
     >
+      <!-- :filter="filter"
+      filter-debounce="50"
+      :filter-included-fields="filter_fields" -->
       <template v-slot:thead-top>
         <b-tr>
           <b-th class="bg-primary" colspan="7">{{ queue_name }}</b-th>
@@ -75,7 +75,7 @@
 <script>
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
-import { jsonPath } from "jsonpath";
+import JSONpath  from "jsonpath";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
@@ -94,15 +94,128 @@ export default {
   mixins: [ValidateToaster],
   props: {
     queue_name: String,
-    number: String,
+    id: String,
   },
+    data() {
+    return {
+      newRowInput: Object.assign({}, this.newRowDefault),
+      editRowInput: Object.assign({}, this.newRowDefault),
+      editIcon: '<span class="fal fa-pencil"/>',
+      deleteIcon: '<span class="fal fa-trash-alt"/>',
+      msg: '',
+      items: [
+        {
+          agents: ["3001", "3002"],
+        },
+        {
+          status: "available",
+          duration: "00:00:42",
+          agent: 3001,
+          name: "3001",
+          queue_number: 5001,
+          answered_count: 221,
+          answered_receptive_count: 0,
+          bina: "3234628481",
+        },
+        {
+          status: "available",
+          duration: "00:01:30",
+          agent: 3002,
+          name: "3002",
+          queue_number: 5001,
+          answered_count: 224,
+          answered_receptive_count: 0,
+          bina: "6132256844",
+        },
+      ],
+      // this.items.slice(1, this.items.length)
+      filas: [
+        {
+          status: "available",
+          duration: "00:00:42",
+          agent: 3001,
+          name: "3001",
+          queue_number: 5001,
+          answered_count: 221,
+          answered_receptive_count: 0,
+          bina: "3234628481",
+        },
+        {
+          status: "available",
+          duration: "00:01:30",
+          agent: 3002,
+          name: "3002",
+          queue_number: 5001,
+          answered_count: 224,
+          answered_receptive_count: 0,
+          bina: "6132256844",
+        },
+      ],
+      agents: [
+        {
+          agents: ["3001", "3002"],
+        },
+      ],
+      // this.items[0].agents
+      icons: [
+        { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
+        { value: "i2", html: '<span class="fal fa-plus"/>' },
+        { value: "i3", html: '<span class="fal fa-air-conditioner"/>' },
+        { value: "i4", html: '<span class="fal fa-abacus"/>' },
+      ],
+      fields: [
+        // {
+        //   key: "queue_name",
+        //   label: this.queue_name,
+        //   sortable: true,
+        // },
+
+        {
+          key: "status",
+          label: "Status",
+          sortable: true,
+        },
+        {
+          key: "duration",
+          label: "Duração",
+          sortable: true,
+        },
+        {
+          key: "agent",
+          label: "Agente",
+          sortable: true,
+        },
+        {
+          key: "queue_number",
+          label: "Fila",
+        },
+        {
+          key: "answered_count",
+          label: '<span class="fal fa-phone-volume fa-1x head-add-button"/>',
+        },
+        {
+          key: "answered_receptive_count",
+          label: '<span class="fal fa-phone-slash fa-1x head-add-button"/>',
+        },
+        {
+          key: "bina",
+          label: "Falando com: ",
+          // Boolean,
+        },
+      ],
+    };
+  },
+
   methods: {
     async getFields(id) {
-      let res = await axios.get(baseApiUrl + "/monitorarFilas", JSON);
-      let sorted = jsonPath(
-        res,
-        `$.data[?(@.queue_number = ${id})].`
-      ).toJSONString();
+      let res = await axios.get(baseApiUrl + "/monitorarFilas");
+      let param = res.data;
+      console.log(param);
+      console.log(id);
+      let sorted = JSONpath.query(
+        param,
+        `$..data[?(@.queue_number==${id})]`
+      );
       console.log(sorted);
     },
 
@@ -223,6 +336,8 @@ export default {
   },
   created() {
     this.newRowDefault = { ...defaultRow };
+        this.getFields(parseInt(this.id));
+// parseInt(this.id)
     // this.newRowInput = Object.assign({},this.newRowDefault);
     // this.editRowInput = Object.assign({},this.newRowDefault);
     // localStorage.setItem(
@@ -232,9 +347,8 @@ export default {
     // this.editRowInput = this.filas;
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
-  updated() {
-    this.getFields(parseInt(this.number));
-  },
+  // created() {
+  // },
   watch: {
     // filas(newValue){
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
@@ -245,115 +359,6 @@ export default {
   //   },
   mounted() {
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
-  },
-  data() {
-    return {
-      newRowInput: Object.assign({}, this.newRowDefault),
-      editRowInput: Object.assign({}, this.newRowDefault),
-      editIcon: '<span class="fal fa-pencil"/>',
-      deleteIcon: '<span class="fal fa-trash-alt"/>',
-      items: [
-        {
-          agents: ["3001", "3002"],
-        },
-        {
-          status: "available",
-          duration: "00:00:42",
-          agent: 3001,
-          name: "3001",
-          queue_number: 5001,
-          answered_count: 221,
-          answered_receptive_count: 0,
-          bina: "3234628481",
-        },
-        {
-          status: "available",
-          duration: "00:01:30",
-          agent: 3002,
-          name: "3002",
-          queue_number: 5001,
-          answered_count: 224,
-          answered_receptive_count: 0,
-          bina: "6132256844",
-        },
-      ],
-      // this.items.slice(1, this.items.length)
-      filas: [
-        {
-          status: "available",
-          duration: "00:00:42",
-          agent: 3001,
-          name: "3001",
-          queue_number: 5001,
-          answered_count: 221,
-          answered_receptive_count: 0,
-          bina: "3234628481",
-        },
-        {
-          status: "available",
-          duration: "00:01:30",
-          agent: 3002,
-          name: "3002",
-          queue_number: 5001,
-          answered_count: 224,
-          answered_receptive_count: 0,
-          bina: "6132256844",
-        },
-      ],
-      agents: [
-        {
-          agents: ["3001", "3002"],
-        },
-      ],
-      // this.items[0].agents
-      icons: [
-        { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
-        { value: "i2", html: '<span class="fal fa-plus"/>' },
-        { value: "i3", html: '<span class="fal fa-air-conditioner"/>' },
-        { value: "i4", html: '<span class="fal fa-abacus"/>' },
-      ],
-      fields: [
-        // {
-        //   key: "queue_name",
-        //   label: this.queue_name,
-        //   sortable: true,
-        // },
-
-        {
-          key: "status",
-          label: "Status",
-          sortable: true,
-        },
-        {
-          key: "duration",
-          label: "Duração",
-          sortable: true,
-        },
-        {
-          key: "agent",
-          label: "Agente",
-          sortable: true,
-        },
-        {
-          key: "queue_number",
-          label: "Fila",
-          sortable: true,
-        },
-        {
-          key: "answered_count",
-          label: '<span class="fal fa-phone-volume fa-1x head-add-button"/>',
-        },
-        {
-          key: "answered_receptive_count",
-          label: '<span class="fal fa-phone-slash fa-1x head-add-button"/>',
-        },
-        {
-          key: "bina",
-          label: "Falando com: ",
-          // Boolean,
-        },
-      ],
-    };
   },
 };
 </script>

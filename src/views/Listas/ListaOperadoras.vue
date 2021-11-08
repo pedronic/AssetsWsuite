@@ -2,100 +2,121 @@
   <div class="relatorios">
     <!-- Cabeçalho -->
     <PagesSubHeader icon="fal fa-list" titulo="Lista de Operadoras">
-
       <div class="card">
         <div class="card-body d-flex">
-            <div class="d-flex" id="filtro-grupo-operadora">
-                <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'operadora')"></b-form-input>
-                <div class="card">
-                  <div class="card-body"/>
-                </div>
-                <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'operadora')"/>
+          <div class="d-flex" id="filtro-grupo-operadora">
+            <b-form-input
+              v-model="busca"
+              @keydown.enter.native="setFilter(busca, 'operadora')"
+            ></b-form-input>
+            <div class="card">
+              <div class="card-body" />
             </div>
+            <b-btn
+              type="submit"
+              id="pesquisa_faturamento"
+              class="btn btn-info waves-effect waves-themed fal fa-search"
+              @click="setFilter(busca, 'operadora')"
+            />
+          </div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body d-flex">
-            <div class="d-flex" id="status-filter">
-                <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
-            </div>
+          <div class="d-flex" id="status-filter">
+            <b-form-checkbox
+              v-model="status_filter"
+              id="status-filter-button"
+              switch
+              @change="setFilter(status_filter, 'status')"
+            />
+          </div>
         </div>
       </div>
-
     </PagesSubHeader>
-  <!-- Cabeçalho: FIM -->
-    <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable"/>
+    <!-- Cabeçalho: FIM -->
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
+          <TabelaOperadoras
+            :items="items"
+            :filter="filter"
+            :filter_fields="filter_fields"
+            v-if="buildTable"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
-import TabelaOperadoras from '../../components/DataTables/TabelaOperadoras.vue'
-import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
-import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
-import axios from 'axios';
-import {baseApiUrl} from '../../config/global';
+import TabelaOperadoras from "../../components/DataTables/TabelaOperadoras.vue";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
+import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
+import axios from "axios";
+import { baseApiUrl } from "../../config/global";
 
 export default {
-  name:'ListaOperadoras',
+  name: "ListaOperadoras",
   mixins: [ValidateToaster],
   components: {
     PagesSubHeader,
     TabelaOperadoras,
   },
   methods: {
-    async getOperadoras(){
-      let res = await axios.get(baseApiUrl+"/operators");
+    async getOperadoras() {
+      let res = await axios.get(baseApiUrl + "/operators");
       let p = res.data.data;
       let operadoras = [];
       let first = {};
       let items = [];
       let operadora = {};
-      
-      for(let i in p){
-          operadoras.push(p[i].name);
+
+      for (let i in p) {
+        operadoras.push(p[i].name);
       }
       first.operadoras = [...operadoras];
-      items.push({...first});
+      items.push({ ...first });
 
-      for(let i in p){
-          operadora.operadora = p[i].name;
-          operadora.IP = p[i].host;
-          operadora.porta = p[i].port;
-          operadora.contexto = p[i].context;
-          operadora.id = p[i].id;
-          operadora.local = p[i].flag_local?true:false;
-          operadora.LDN = p[i].flag_ldn?true:false;
-          operadora.VC1 = p[i].flag_vc1?true:false;
-          operadora.VC2 = p[i].flag_vc2?true:false;
-          operadora.VC3 = p[i].flag_vc3?true:false;
-          operadora.LDI = p[i].flag_ldi?true:false;
-          operadora.status = p[i].status?true:false;
-          operadora.secret = p[i].secret;
-          operadora.dial_format = p[i].dial_format;
-          items.push({...operadora});
+      for (let i in p) {
+        operadora.operadora = p[i].name;
+        operadora.IP = p[i].host;
+        operadora.porta = p[i].port;
+        operadora.contexto = p[i].context;
+        operadora.id = p[i].id;
+        operadora.local = p[i].flag_local ? true : false;
+        operadora.LDN = p[i].flag_ldn ? true : false;
+        operadora.VC1 = p[i].flag_vc1 ? true : false;
+        operadora.VC2 = p[i].flag_vc2 ? true : false;
+        operadora.VC3 = p[i].flag_vc3 ? true : false;
+        operadora.LDI = p[i].flag_ldi ? true : false;
+        operadora.status = p[i].status ? true : false;
+        operadora.secret = p[i].secret;
+        operadora.dial_format = p[i].dial_format;
+        items.push({ ...operadora });
       }
-      console.log("Items:\n",items);
+      console.log("Items:\n", items);
       this.items = [...items];
       this.buildTable = true;
     },
-    setFilter(filter,field){
+    setFilter(filter, field) {
       this.filter = filter.toString();
-      this.filter_fields.splice(0,1,field);
-    }
+      this.filter_fields.splice(0, 1, field);
+    },
   },
   created() {
     this.getOperadoras();
     this.service = new UsuarioMetodos(this.$resource);
     this.service.list().then(
-        (usuarios) => (this.usuarios = usuarios),
-        (err) => {
-          console.log(err);
-          this.msg = err.message;
-        }
+      (usuarios) => (this.usuarios = usuarios),
+      (err) => {
+        console.log(err);
+        this.msg = err.message;
+      }
     );
-    
   },
   computed: {
     UsuarioFiltrado() {
@@ -109,7 +130,7 @@ export default {
   },
   data() {
     return {
-      items:null,
+      items: null,
       /* [
         {
           operadoras: ["Exemplo","Outro Exemplo"],
@@ -145,58 +166,58 @@ export default {
       ], */
       operadoras: [],
       msg: "",
-      filter:'',
-      filter_fields:[''],
-      busca:'',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       status_filter: true,
-      buildTable:false,
+      buildTable: false,
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
-
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }
 
-.col-botoes{
+.col-botoes {
   padding-left: 3px !important;
   padding-right: 3px !important;
 }
-.col-inputs{
+.col-inputs {
   padding-left: 3px !important;
   padding-right: 10px !important;
 }
-.panel-content{
+.panel-content {
   overflow: auto;
 }
 .panel .panel-container .panel-content {
   padding: 0;
 }
-.card-body{
-    padding: 5px;
-    /* height: 50px; */
-    /* width: 0;
+.card-body {
+  padding: 5px;
+  /* height: 50px; */
+  /* width: 0;
     border: 0px;
     color: #ffffff transparent; */
 }
-.card > .card-body > .d-flex > button#pesquisa_faturamento{
-    margin-right: 0.3rem !important;
+.card > .card-body > .d-flex > button#pesquisa_faturamento {
+  margin-right: 0.3rem !important;
 }
-.card > .card-body > .d-flex > button,input{
-    height: 38px !important;
+.card > .card-body > .d-flex > button,
+input {
+  height: 38px !important;
 }
-.d-flex#filtro-grupo-operadora{
-    height: 38px !important;
+.d-flex#filtro-grupo-operadora {
+  height: 38px !important;
 }
 
 .card {
   box-shadow: none;
   border: none;
 }
-.dow-color{
+.dow-color {
   background-color: #1a7f37 !important;
 }
 </style>

@@ -64,8 +64,14 @@
               </div>
             </div>
           </div>
-
+          <!-- v-if="BuildTab" -->
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
           <TabelaBlacklist :items="items" :filter="filter" :filter_fields="filter_fields" />
+        </div>
+      </div>
+    </div>
         </div>
         <div
           id="cadastrar"
@@ -183,6 +189,13 @@ export default {
 </script>
 
 <style scoped>
+.panel-content {
+  overflow: auto;
+}
+.panel .panel-container .panel-content {
+  padding: 0;
+}
+
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }

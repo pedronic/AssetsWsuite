@@ -37,13 +37,18 @@
       </div>
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-
-    <TabelaRobos
-      :items="items"
-      :filter="filter"
-      :filter_fields="filter_fields"
-      v-if="buildTable"
-    />
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
+          <TabelaRobos
+            :items="items"
+            :filter="filter"
+            :filter_fields="filter_fields"
+            v-if="buildTable"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
