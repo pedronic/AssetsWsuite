@@ -66,3 +66,4 @@ Vue.use(VeeValidate, {
 // tabelas em panel (feitos)
 // tabela operadora [Local], [LDN], [LDI], [...] -> (classes)
 // paginação em tabelas
+// campo filas nos métodos PUT de agent, usuario e robo

@@ -64,6 +64,19 @@
                 </div>
               </div>
               <div class="col-4">
+                <div class="d-inline">
+                  <div class="profile-content user-name-line d-flex">
+                    <i class="fal fa-key fa-2x" style="margin-left: 5px" />
+                    <b-form-input
+                      v-model="confirmPassword"
+                      id="profile-name-input"
+                      type="password"
+                      placeholder="Confirmar Senha"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
                   <div id="multiselect-input">
@@ -78,12 +91,12 @@
                   </div>
                 </div>
               </div>
-              <div class="col-4">
+              <!-- <div class="col-4">
                 <div class="d-inline">
                   <div class="profile-content user-name-line d-flex">
                     <div class="input-group image-preview">
                       <span class="input-group">
-                        <!-- image-preview-clear button -->
+                        botão de limpar foto selecionada
                         <button
                           type="button"
                           class="btn btn-default image-preview-clear"
@@ -92,7 +105,7 @@
                           <span class="glyphicon glyphicon-remove"></span>
                           Limpar
                         </button>
-                        <!-- image-preview-input -->
+                        campo de pré-visualização da imagem 
                         <div
                           class="btn btn-default image-preview-input"
                           id="butao"
@@ -104,7 +117,7 @@
                             accept="image/png, image/jpeg, image/gif"
                             name="input-file-preview"
                           />
-                          <!-- rename it -->
+                          renomear aqui 
                         </div>
                         <input
                           type="text"
@@ -113,54 +126,44 @@
                           id="input-pic"
                           disabled="disabled"
                         />
-                        <!-- don't give a name === doesn't send on POST/GET -->
+                        não nomear, não usar com PHP 
                       </span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="d-inline">
             <div class="row mb-2">
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                    <i class="fal fa-key fa-2x" style="margin-left: 5px" />
-                    <b-form-input
-                      v-model="confirmPassword"
-                      id="profile-name-input"
-                      type="password"
-                      placeholder="Confirmar Senha"
-                    />
-                  </div>
-                </div>
-              </div>
 
-              <div class="col-8">
+              <div class="col-12">
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-road fa-2x" style="margin-left: 5px" />
                   <div id="multiselect-input">
                     <multiselect
                       v-model="filas_finish"
                       placeholder="Filas"
-                      :label="'name'"
-                      :track-by="'code'"
+                      :label="'code'"
+                      :track-by="'name'"
                       :options="queues"
-                      :multiple="false"
+                      :multiple="true"
                     />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- {{ id }}
+          <!-- 
           {{ name }}
           {{ email }}
           {{ username }}
           {{ enable }}
           {{ perfilName }}
+          {{ queues }}
+          {{ filas_finish }}
           {{ filas }} -->
+          {{ id }}
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
               <button class="btn btn-dark botao-salvar" type="submit">
@@ -169,7 +172,9 @@
             </b-col>
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
-               <b-form-checkbox id="status-button" v-model="enable" switch>Status</b-form-checkbox>
+                <b-form-checkbox id="status-button" v-model="enable" switch
+                  >Status</b-form-checkbox
+                >
               </div>
             </b-col>
           </b-row>
@@ -198,46 +203,100 @@ export default {
     testPerfilSelect() {
       console.log("Filas Selecionadas:\n", this.filas_finish);
     },
-
-     getQueues() {
-      axios.get(baseApiUrl + "/queues").then((f) => {
-        let queue = f.data.data;
-        let queues = [];
-        console.log("f.data.data\n", f.data.data);
-        for (let u in queue) {
-          let fila = {};
-          fila.name = queue[u].name;
-          fila.code = queue[u].name;
-          queues.push({ ...fila });
+    async getUserQueues() {
+      console.clear();
+      var res = await axios.get(baseApiUrl + "/users/queues/");
+      var response = res.data;
+      console.log(response);
+      for (let u in response) {
+        if (response[u].user_id == this.id) {
+          let selectedQueue = {};
+          selectedQueue.id = response[u].queue_id;
+          selectedQueue.name = response[u].queue_name;
+          selectedQueue.code = response[u].queue_number;
+          this.filas_finish.push(selectedQueue);
         }
-        this.queues = [...queues];
+      }
       this.dataOK = true;
-      });
     },
-      async getUsers() {
-        let users = await axios.get(baseApiUrl + "/users");
-        for (let u in users) {
-          this.userMails.push(users[u].email);
-          this.userNames.push(users[u].username);
+    async getQueues() {
+      let res = await axios.get(baseApiUrl + "/queues");
+      let count = res.data.count;
+      let limit = res.data.limit;
+      var requests = null;
+      var pages = [];
+
+      // CONTAGEM DE PÁGINAS
+      if (count % limit > 0) {
+        requests = parseInt(count / limit + 1);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
         }
-        this.dataOK = true;
-      },
+        console.log(pages);
+      } else {
+        requests = parseInt(count / limit);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
+        }
+        console.log(pages);
+      }
+
+      // CRIAÇÃO REQUEST DE CADA PÁGINA
+      var responses = [];
+      for (let u in pages) {
+        let res = await axios.get(baseApiUrl + pages[u]);
+        responses.push(res.data.data);
+      }
+      var testConcat = responses[0].concat(responses[1], responses[2]);
+
+      //CRIAÇÃO DAS FILAS COM CADA REQUEST
+
+      let queues = [];
+      console.log("f.data.data\n", testConcat);
+      for (let u in testConcat) {
+        let fila = {};
+        fila.id = testConcat[u].id;
+        fila.code = testConcat[u].name;
+        fila.name = testConcat[u].name_queue;
+        queues.push({ ...fila });
+      }
+      this.queues = [...queues];
+      this.dataOK = true;
+    },
+    async getUsers() {
+      let users = await axios.get(baseApiUrl + "/users");
+      for (let u in users) {
+        this.userMails.push(users[u].email);
+        this.userNames.push(users[u].username);
+      }
+    },
     async getPerfil() {
       let p = await axios.get(baseApiUrl + "/perfils");
       console.log("p.data.data\n", p.data.data);
       this.perfis = p.data.data;
+      if (this.id) {
+        for (let u in this.perfis) {
+          if (this.perfis[u].name == this.$route.params.perfilName) {
+            this.perfilName.push(this.perfis[u]);
+          }
+        }
+      }
     },
     async postNewUser(nu) {
+      console.log(nu);
       let s = await axios.post(`${baseApiUrl}/users/`, nu);
       console.log("Post status:\n", s);
     },
     async putUser(nu) {
-      // console.log(nu);
+      console.log(nu);
       let s = await axios.put(`${baseApiUrl}/users/${this.id}`, nu);
       console.log("Put status:\n", s);
     },
     carregar() {
-      console.clear();
       console.log("ye");
       // Refatorar para incluir avisos de toast após ação
       let passCheck = !(this.password === this.confirmPassword);
@@ -269,10 +328,16 @@ export default {
         postBody.name = this.name.trim();
         postBody.password = this.password.trim();
         postBody.confirmPassword = this.confirmPassword.trim();
-        postBody.perfil_id = this.perfil_id.id;
-        
+        postBody.perfil_id = this.perfilName.id;
+        postBody.type = "user";
+        postBody.enable = this.enable == true ? 1 : 0;
+
         for (let f in this.filas_finish) {
-          this.userQueue.push(this.filas_finish[f]);
+          let line = {};
+          line.queue_id = this.filas_finish[f].id;
+          line.queue_number = this.filas_finish[f].code;
+          line.queue_name = this.filas_finish[f].name;
+          this.userQueue.push(line);
         }
         postBody.userQueue = [...this.userQueue];
         let validEmail = !(this.userMails.indexOf(this.email.trim()) > -1);
@@ -292,20 +357,20 @@ export default {
   data() {
     return {
       // edition:
+      filas_finish: [],
       dataOK: false,
       id: this.$route.params.id,
       nameEdit: this.$route.params.name,
       usernameEdit: this.$route.params.username,
       emailEdit: this.$route.params.email,
       enable: this.$route.params.enable,
-      perfilName: this.$route.params.perfilName,
+      perfilName: [],
       userMails: [],
       userNames: [],
       msg: "",
       states: [],
       queues: [],
       perfis: [],
-      filas_finish: [],
       name: this.$route.params.name,
       email: this.$route.params.email,
       username: this.$route.params.username,
@@ -321,25 +386,32 @@ export default {
     };
   },
   mounted() {
-    this.getQueues();
-    this.getUsers();
     this.getPerfil();
+    this.getUsers();
+    this.getQueues();
+    if (this.id) {
+      this.dataOK = false;
 
-    $(document).on("click", "#close-preview", function () {
+      this.getUserQueues();
+    }
+
+    $(document).on("click", "#close-preview", function() {
       $(".image-preview").popover("hide");
     });
 
-    $(function () {
+    $(function() {
       // Clear event
-      $(".image-preview-clear").click(function () {
-        $(".image-preview").attr("data-content", "").popover("hide");
+      $(".image-preview-clear").click(function() {
+        $(".image-preview")
+          .attr("data-content", "")
+          .popover("hide");
         $(".image-preview-filename").val("");
         $(".image-preview-clear").hide();
         $(".image-preview-input input:file").val("");
         $(".image-preview-input-title").text(" ");
       });
       // Create the preview image
-      $(".image-preview-input input:file").change(function () {
+      $(".image-preview-input input:file").change(function() {
         var img = $("<img/>", {
           id: "dynamic",
           width: 50,
@@ -348,7 +420,7 @@ export default {
         var file = this.files[0];
         var reader = new FileReader();
         // Set preview image into the popover data-content
-        reader.onload = function (e) {
+        reader.onload = function(e) {
           $(".image-preview-input-title").text(".  Trocar");
           $(".image-preview-clear").show();
           $(".image-preview-filename").val(file.name);

@@ -158,6 +158,7 @@
                   <div id="multiselect-input" v-else>
                     <multiselect
                       v-model="queue_def"
+                      :preselect-first="true"
                       placeholder="Filas"
                       :label="'name'"
                       :track-by="'code'"
@@ -178,10 +179,10 @@
           {{ email }}
           {{ jornadas_tipos }}
           {{ agent }}
-          {{ queue_default.name }} -->
-          <!-- {{ queue_def }}
           {{ queues }}
-          {{ queue_default }} -->
+          {{ queue_default.name }} -->
+          {{ queue_def.length }}
+          {{ queue_default }}
           <!-- DEPURAÇÃO [FIM] -->
           <!-- ------------------------------ -->
           <!-- <div class="panel">
@@ -238,20 +239,55 @@ export default {
         this.agents.push(data[u].agent);
       }
     },
-    getQueues() {
-      axios.get(baseApiUrl + "/queues").then((f) => {
-        let queue = f.data.data;
-        let queues = [];
-        console.log("f.data.data\n", f.data.data);
-        for (let u in queue) {
-          let fila = {};
-          fila.name = parseInt(queue[u].name);
-          fila.code = queue[u].name;
-          queues.push({ ...fila });
+    async getQueues() {
+      let res = await axios.get(baseApiUrl + "/queues");
+      let count = res.data.count;
+      let limit = res.data.limit;
+      var requests = null;
+      var pages = [];
+
+      // CONTAGEM DE PÁGINAS
+      if (count % limit > 0) {
+        requests = parseInt(count / limit + 1);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
         }
-        this.queues = [...queues];
-        this.dataOK = true;
-      });
+        console.clear();
+        console.log(pages);
+      } else {
+        requests = parseInt(count / limit);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
+        }
+        console.clear();
+        console.log(pages);
+      }
+
+      // CRIAÇÃO REQUEST DE CADA PÁGINA
+      var responses = [];
+      for (let u in pages) {
+        let res = await axios.get(baseApiUrl + pages[u]);
+        responses.push(res.data.data);
+      }
+      var testConcat = responses[0].concat(responses[1], responses[2])
+
+      //CRIAÇÃO DAS FILAS COM CADA REQUEST
+
+            let queues = [];
+            console.log("f.data.data\n", testConcat);
+            for (let u in testConcat) {
+              let fila = {};
+              fila.code = testConcat[u].name;
+              fila.name = testConcat[u].name_queue;
+              queues.push({ ...fila });
+            }
+            this.queues = [...queues];
+
+
     },
     async putAgent(nu) {
       console.log(nu);
@@ -259,6 +295,7 @@ export default {
       console.log("Put status:\n", s);
     },
     async postNewAgent(nu) {
+      console.log(nu);
       let s = await axios.post(`${baseApiUrl}/agents`, nu);
       console.log("Post status:\n", s);
     },
@@ -310,11 +347,11 @@ export default {
         if (validAgent) {
           console.log("valido");
           if (this.id) {
-            postBody.queue_default = this.queue_default[0].name;
+            postBody.queue_default = this.queue_default[0].code;
             console.log(postBody.queue_default);
             this.putAgent(postBody);
           } else {
-            this.queue_def.length > 0 ? postBody.queue_default = this.queue_def.name : postBody.queue_default = 0;
+            this.queue_def.length > 0 ? /*postBody.queue_default = this.queue_def[0].code */ console.log("fila preencida") : /*postBody.queue_default = 0*/ console.log("fila vazia");
             console.log(postBody.queue_default);
             this.postNewAgent(postBody);
           }

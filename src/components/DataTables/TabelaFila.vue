@@ -207,10 +207,11 @@ export default {
 
   methods: {
     async getFields(id) {
-      let res = await axios.get(baseApiUrl + "/monitorarFilas");
+      let res = await axios.get(baseApiUrl + `/monitorarFilas?queue_number=${id}`);
       let param = res.data;
       console.log(param);
       console.log(id);
+
       // let sorted = JSONpath.query(
       //   param,
       //   `$..data[?(@.queue_number==${id})]`

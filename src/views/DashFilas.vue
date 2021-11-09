@@ -156,33 +156,6 @@ export default {
             this.uploadedQueues = [...queues];
 
 
-      // let a = res.data.data;
-
-      // let one = "/queues";
-      // let two = "/queues?page=2";
-      // let three = "/queues?page=3";
-
-      // const requestOne = axios.get(baseApiUrl + one);
-      // const requestTwo = axios.get(baseApiUrl + two);
-      // const requestThree = axios.get(baseApiUrl + three);
-
-      // axios
-      //   .all([requestOne, requestTwo, requestThree])
-      //   .then(
-      //     axios.spread((...responses) => {
-      //       let responseOne = responses[0].data.data;
-      //       let responseTwo = responses[1].data.data;
-      //       let responesThree = responses[2].data.data;
-
-      //       let response = responseOne.concat(responseTwo, responesThree);
-
-      //       // acessar os resultados
-      //     })
-      //   )
-      //   .catch((errors) => {
-      //     console.log(errors);
-      //     // erros.
-      //   });
     },
 
     configTable() {
