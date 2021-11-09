@@ -11,7 +11,6 @@
                 @click="configTable"
                 ><i class="fal fa-plus"></i
               ></b-button>
-              <!-- @click="" -->
             </div>
           </div>
         </div>
@@ -93,7 +92,6 @@
 </template>
 
 <script>
-// import QueueAdder from './QueueAdder.vue'
 import PagesSubHeader from "../components/subheader/PagesSubHeader.vue";
 import Multiselect from "vue-multiselect";
 import { vueMultiselectProps } from "../config/global";
@@ -106,8 +104,6 @@ export default {
     PagesSubHeader,
     Multiselect,
     TabelaFila,
-    //   QueueAdder,
-    //   TabelaRelatorioFaturamento
   },
   name: "DashFilas",
   methods: {
@@ -140,16 +136,25 @@ export default {
       }
 
       // CRIAÇÃO REQUEST DE CADA PÁGINA
-      var queues = [];
+      var responses = [];
       for (let u in pages) {
-        let responses = [];
         let res = await axios.get(baseApiUrl + pages[u]);
-        for (let id in res.data.data) {
-          responses.push(res.data.data[id]);
-        }
-        queues = [...responses];
+        responses.push(res.data.data);
       }
-      console.log(queues);
+      var testConcat = responses[0].concat(responses[1], responses[2])
+
+      //CRIAÇÃO DAS FILAS COM CADA REQUEST
+
+            let queues = [];
+            console.log("f.data.data\n", testConcat);
+            for (let u in testConcat) {
+              let fila = {};
+              fila.code = testConcat[u].name;
+              fila.name = testConcat[u].name_queue;
+              queues.push({ ...fila });
+            }
+            this.uploadedQueues = [...queues];
+
 
       // let a = res.data.data;
 
@@ -171,15 +176,6 @@ export default {
 
       //       let response = responseOne.concat(responseTwo, responesThree);
 
-      //       let queues = [];
-      //       console.log("f.data.data\n", response);
-      //       for (let u in response) {
-      //         let fila = {};
-      //         fila.code = response[u].name;
-      //         fila.name = response[u].name_queue;
-      //         queues.push({ ...fila });
-      //       }
-      //       this.uploadedQueues = [...queues];
       //       // acessar os resultados
       //     })
       //   )

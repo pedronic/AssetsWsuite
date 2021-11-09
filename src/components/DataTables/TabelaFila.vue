@@ -75,7 +75,6 @@
 <script>
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
-import JSONpath  from "jsonpath";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
@@ -212,11 +211,11 @@ export default {
       let param = res.data;
       console.log(param);
       console.log(id);
-      let sorted = JSONpath.query(
-        param,
-        `$..data[?(@.queue_number==${id})]`
-      );
-      console.log(sorted);
+      // let sorted = JSONpath.query(
+      //   param,
+      //   `$..data[?(@.queue_number==${id})]`
+      // );
+      // console.log(sorted);
     },
 
     deleteRow(ev, id) {

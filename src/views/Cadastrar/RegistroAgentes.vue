@@ -293,6 +293,7 @@ export default {
         postBody.login_crm = this.login_crm.trim();
         postBody.queue_default = this.queue_default[0].name;
         postBody.journey = this.tipo_jornadas.name;
+        postBody
         // postBody.email = this.email.trim();
         // postBody.type = this.type;
         // postBody.work_time = this.work_time;

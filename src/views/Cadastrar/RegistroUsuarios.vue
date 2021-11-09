@@ -270,6 +270,7 @@ export default {
         postBody.password = this.password.trim();
         postBody.confirmPassword = this.confirmPassword.trim();
         postBody.perfil_id = this.perfil_id.id;
+        
         for (let f in this.filas_finish) {
           this.userQueue.push(this.filas_finish[f]);
         }

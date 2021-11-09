@@ -54,11 +54,11 @@ Vue.use(VeeValidate, {
 // input photo (feito)
 //barra de pesquisa lista (DONE)
 // tabela registro finalizações > cadastrar alterável (feito)
-//responsividade
-// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets}
+//responsividade ~mobile~
+// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} 
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables (feito)
-// rever fields
+// rever fields 
 // bug parametro booleano passado para as tabelas (feito)
 // head lista mailing 
 // filas agentes only 0 (por enquanto) (feito)
