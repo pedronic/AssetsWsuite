@@ -220,8 +220,8 @@ export default {
           subido.cadastrado = a[i].number;
           let d = new Date(a[i].created_at);
           subido.data_inclusao = d.toLocaleString('pt-BR');
-          if (a[i].queue_id > 0) subido.fila = this.getQNameByID(a[i].queue_id);
-          else subido.fila = 'sem fila associada';
+          subido.fila = this.getQNameByID(a[i].queue_id);
+          
           if (a[i].user_id > 0) subido.usuario = this.getUserNameByID(a[i].user_id);
           else subido.usuario = 'sem usuário associado';
           subido.id = a[i].id;
@@ -236,13 +236,16 @@ export default {
         this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
       })
     },
-    getQNameByID(id){
-      let qID = id.toString();
-      axios.get(baseApiUrl+'/queues/'+qID)
-      .then(res => {
-        let qn = res.data.data;
-        return (qn.name+' - '+qn.name_queue);
-      })
+    async getQNameByID(id){
+      if (id > 0){
+        let qID = id.toString();
+        return axios.get(baseApiUrl+'/queues/'+qID)
+        .then(res => {
+          let qn = res.data.data;
+          return (qn.name+' - '+qn.name_queue);
+        })
+      }
+      else return 'sem fila associada';
     },
     getUserNameByID(id){
       let uID = id.toString();

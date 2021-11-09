@@ -247,7 +247,16 @@ export default {
   },
   methods: {
     importManual(phone,queue){
-      if(phone>0){
+      if(this.phones[phone].disabled){
+        let toast = {
+              isValidated:false,
+              title: "NÚMEROS JÁ IMPORTADO",
+              message: "O Número ("+this.phones[phone].ddd+") "+this.phones[phone].number+"já foi importado nesta sessão."
+          };
+          this.validateAndToast(toast);
+          return;        
+      }
+      else if(phone>0){
         this.currentPhone = phone;
         this.currentQueue = queue;
         let blankDDD = !(this.phones[phone].ddd.length > 0) ? true:false;
@@ -353,9 +362,10 @@ export default {
         let toast = {
           isValidated:false,
           title:'NÚMERO NÃO IMPORTADO',
-          message:'Número ('+eBody.name+') '+eBody.phone +' Cadastrado Manualmente não pôde ser importado. Motivo: '+error.message,
+          message:'Número ('+eBody.ddd+') '+eBody.number +' Cadastrado Manualmente não pôde ser importado. Motivo: '+error.message,
         }
         this.validateAndToast(toast);
+
       })
     },
     cleanNumber(value){
@@ -490,7 +500,7 @@ export default {
   data() {
     return {
       user:null,
-      disabled_enforcement:'background-color: #f3f3f3 !important; color: #495057 !important;',
+      disabled_enforcement:'background-color: #f3f3f3 !important; color: #495057 !important; border-color: #0d9d29cc',
       enabled_enforcement:'',
       total_items:0,
       total_pages:0,
@@ -504,7 +514,7 @@ export default {
       currentPhone: 0,
       phones:[
         // {ddd:{type: String, default:'00'}, number:{type: String, default:'00000000'}},
-        {ddd:null, number:null, disabled:false}
+        {ddd:null, number:null, disabled:true}
       ],
       filas_finish: [],
       finish_filas: null,
