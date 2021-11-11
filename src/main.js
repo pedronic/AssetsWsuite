@@ -55,7 +55,7 @@ Vue.use(VeeValidate, {
 //barra de pesquisa lista (DONE)
 // tabela registro finalizações > cadastrar alterável (feito)
 //responsividade ~mobile~
-// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} 
+// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} {método BrowserData em DashFilas}
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables (feito)
 // rever fields 
@@ -67,3 +67,4 @@ Vue.use(VeeValidate, {
 // tabela operadora [Local], [LDN], [LDI], [...] -> (classes)
 // paginação em tabelas
 // campo filas nos métodos PUT de agent, usuario e robo
+// ajustes multiselect-vue

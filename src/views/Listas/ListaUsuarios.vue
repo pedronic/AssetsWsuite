@@ -79,7 +79,7 @@ export default {
       this.filter_fields.splice(0, 1, field);
     },
     async getUsers() {
-      let res = await axios.get(baseApiUrl + "/users");
+      let res = await axios.get(baseApiUrl + "/users?page=2");
       let a = res.data.data;
       let usuarios = [];
       let first = {};

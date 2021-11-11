@@ -66,8 +66,9 @@
           <multiselect
             v-model="selectedQueues"
             :placeholder="'Filas'"
-            :label="'name'"
-            :track-by="'code'"
+            :label="'code'"
+            :close-on-select="false"
+            :track-by="'name'"
             :options="uploadedQueues"
             :multiple="true"
             :selectLabel="MSprops.selectLabel"

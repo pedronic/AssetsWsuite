@@ -1,5 +1,5 @@
 <template>
-  <div class="pausas">
+  <div class="pausas" v-show="buildTable">
     <b-table
       id="tabela-de-pausas"
       :ref="'tabela-de-pausas'"
@@ -10,7 +10,7 @@
         dt-responsive
         dtr-inline
       "
-      :items="filas"
+      :items="items"
       :responsive="true"
       :fields="fields"
       sticky-header
@@ -74,6 +74,7 @@
 
 <script>
 import axios from "axios";
+// import moment from "moment";
 import { baseApiUrl } from "@/config/global";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
@@ -95,38 +96,15 @@ export default {
     queue_name: String,
     id: String,
   },
-    data() {
+  data() {
     return {
+      buildTable: false,
       newRowInput: Object.assign({}, this.newRowDefault),
       editRowInput: Object.assign({}, this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
-      msg: '',
-      items: [
-        {
-          agents: ["3001", "3002"],
-        },
-        {
-          status: "available",
-          duration: "00:00:42",
-          agent: 3001,
-          name: "3001",
-          queue_number: 5001,
-          answered_count: 221,
-          answered_receptive_count: 0,
-          bina: "3234628481",
-        },
-        {
-          status: "available",
-          duration: "00:01:30",
-          agent: 3002,
-          name: "3002",
-          queue_number: 5001,
-          answered_count: 224,
-          answered_receptive_count: 0,
-          bina: "6132256844",
-        },
-      ],
+      msg: "",
+      items: [],
       // this.items.slice(1, this.items.length)
       filas: [
         {
@@ -150,11 +128,7 @@ export default {
           bina: "6132256844",
         },
       ],
-      agents: [
-        {
-          agents: ["3001", "3002"],
-        },
-      ],
+      agents: [],
       // this.items[0].agents
       icons: [
         { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
@@ -206,17 +180,91 @@ export default {
   },
 
   methods: {
-    async getFields(id) {
-      let res = await axios.get(baseApiUrl + `/monitorarFilas?queue_number=${id}`);
-      let param = res.data;
-      console.log(param);
-      console.log(id);
+    setBrowserData(items) {
+      sessionStorage.setItem(this.id, JSON.stringify(items));
+      var cache = JSON.parse(sessionStorage.getItem(`${this.id}`));
+      this.items = [...cache];
+      console.log(cache);
+      setInterval(() => {
+        // this.buildTable = false;
+        for (let u in cache) {
+          let hour = parseInt(cache[u].duration.slice(0, 2));
+          let minute = parseInt(cache[u].duration.slice(3, 5));
+          let second = parseInt(cache[u].duration.slice(6, 8));
 
-      // let sorted = JSONpath.query(
-      //   param,
-      //   `$..data[?(@.queue_number==${id})]`
-      // );
-      // console.log(sorted);
+          const date = new Date();
+          date.setHours(hour);
+          date.setMinutes(minute);
+          date.setSeconds(second);
+          let x = date.valueOf();
+          let c = x + 1000
+          const realtime = new Date(c);
+          cache[u].duration = realtime;
+
+          // var newhour = "";
+          // if (minute == 59 && second == 59) {
+          //   newhour = (hour + 1).toString()
+          // } else {
+          //   newhour = hour.toString();
+          // }
+          // var newminute = "";
+          // switch (second) {
+          //   case 59:
+          //     if (minute <= 8) {
+          //       newminute = "0" + (minute + 1).toString();
+          //     } else {
+          //       (minute + 1).toString();
+          //     }
+          //     break;
+
+          //   default:
+          //     if (minute <= 8) {
+          //       newminute = "0" + minute.toString();
+          //     } else {
+          //       newminute = minute.toString();
+          //     }
+          //     break;
+          // }
+          // let newsecond = second === 59 ? "00" : second <= 8 ? "0" + (second + 1).toString() : (second + 1).toString();
+        }
+        this.items = [...cache];
+        this.buildTable = true;
+      }, 4000);
+    },
+
+    async getFields(id) {
+      let res = await axios.get(
+        baseApiUrl + `/monitorarFilas?queue_number=${id}`
+      );
+      let param = res.data.data;
+      let agents = [];
+      var first = {};
+      let item = {};
+      let items = [];
+
+      this.items.splice(0, this.items.length);
+
+      // CRIANDO O PRIMEIRO ARRAY (O DE CHAVES) PARA QUE O B-TABLE POSSO RECONHECER CADA ITEM
+      for (let i in param) {
+        agents.push(param[i].agent);
+      }
+      first.agents = [...agents];
+      this.agents.push({ ...first });
+
+      // AGORA AQUI É ADICIONADO CADA ITEM DE CADA REQUISIÇÃO
+      for (let u in param) {
+        item.status = param[u].status;
+        item.duration = param[u].duration;
+        item.agent = param[u].agent;
+        item.queue_number = param[u].queue_number;
+        item.answered_count = param[u].answered_count;
+        item.answered_receptive_count = param[u].answered_receptive_count;
+        item.bina = param[u].bina;
+        items.push({ ...item });
+      }
+      this.setBrowserData(items);
+      // this.items = [...items];
+      // this.buildTable = true;
     },
 
     deleteRow(ev, id) {
@@ -336,8 +384,8 @@ export default {
   },
   created() {
     this.newRowDefault = { ...defaultRow };
-        this.getFields(parseInt(this.id));
-// parseInt(this.id)
+    this.getFields(parseInt(this.id));
+    // parseInt(this.id)
     // this.newRowInput = Object.assign({},this.newRowDefault);
     // this.editRowInput = Object.assign({},this.newRowDefault);
     // localStorage.setItem(
