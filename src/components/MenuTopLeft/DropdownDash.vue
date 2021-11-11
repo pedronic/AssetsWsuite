@@ -15,7 +15,7 @@
         </div> -->
     <div class="dropdown-divider m-0"></div>
     <div class="dropdown-item d-flex itens">
-      <router-link to="" class="mr-auto">
+      <router-link to="/dash-filas" class="mr-auto">
         <i class="fal fa-eye iconDAM"></i>
         <span data-i18n="drpdwn.settings"> Painel de Supervisão</span>
       </router-link>
@@ -26,12 +26,12 @@
         <span data-i18n="drpdwn.settings"> Dashboard Analítico</span>
       </router-link>
     </div>
-    <div class="dropdown-item d-flex itens">
+    <!--<div class="dropdown-item d-flex itens">
       <router-link to="/dash-filas" class="mr-auto">
         <i class="fal fa-road iconDAM"></i>
         <span data-i18n="drpdwn.settings"> Dash Filas</span>
       </router-link>
-    </div>
+    </div> -->
   </div>
 </template>
 

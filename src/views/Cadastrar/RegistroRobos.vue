@@ -118,9 +118,6 @@ export default {
     PagesSubHeader,
   },
   methods: {
-    choose(e) {
-      console.log(e);
-    },
 
     async putRobot(nu) {
       console.log(nu);

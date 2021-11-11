@@ -37,24 +37,9 @@ Vue.use(VeeValidate, {
 
 
 
-// selec2 (feito)
-// botão de remoção com box de confirmação (feito)
-// blacklist inserir uma barra de pesquisa em cada card (feito)
 // validar todos os inputs 
 // definir ícones
-// arrumar primeiro telefone (feito)
-// importar -> toast "sucesso" -> lista (feito)
-// mexer nas dimenoes dos inputes registro operadroras (feito)
-// textarea max 15 linhas (feito)
-// 2o formato discagem = dtmf (DONE)
-// plugin senha (feito)
-// mudar os labels para o do Pedro (feito)
-// recuo de tela (DONE)
-// mudar tabela filas (feito)
-// input photo (feito)
-//barra de pesquisa lista (DONE)
-// tabela registro finalizações > cadastrar alterável (feito)
-//responsividade ~mobile~
+//responsividade ~mobile~ 
 // Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} {método BrowserData em DashFilas}
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables (feito)
@@ -68,3 +53,4 @@ Vue.use(VeeValidate, {
 // paginação em tabelas
 // campo filas nos métodos PUT de agent, usuario e robo
 // ajustes multiselect-vue
+// Refazer get agente com query type 

@@ -136,13 +136,13 @@
           </div>
           <div class="d-inline">
             <div class="row mb-2">
-
               <div class="col-12">
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-road fa-2x" style="margin-left: 5px" />
                   <div id="multiselect-input">
                     <multiselect
                       v-model="filas_finish"
+                      :close-on-select="false"
                       placeholder="Filas"
                       :label="'code'"
                       :track-by="'name'"
@@ -281,7 +281,7 @@ export default {
       if (this.id) {
         for (let u in this.perfis) {
           if (this.perfis[u].name == this.$route.params.perfilName) {
-            this.perfilName.push(this.perfis[u]);
+            this.perfilName = this.perfis[u];
           }
         }
       }

@@ -18,55 +18,20 @@
       <!-- :filter="filter"
       filter-debounce="50"
       :filter-included-fields="filter_fields" -->
-      <template v-slot:thead-top>
-        <b-tr>
-          <b-th class="bg-primary" colspan="7">{{ queue_name }}</b-th>
-        </b-tr>
-      </template>
-      <template v-slot:head(status)="data">
+      <template v-slot:head(item)="data">
         <span>{{ data.label }}</span>
       </template>
-      <template v-slot:head(duration)="data">
-        <span>{{ data.label }}</span>
-      </template>
-      <template v-slot:head(agent)="data">
-        <span>{{ data.label }}</span>
-      </template>
-      <template v-slot:head(queue_number)="data">
-        <span>{{ data.label }}</span>
-      </template>
-      <template v-slot:head(answered_count)="data">
-        <span v-html="data.label" class="head-add-button" />
-      </template>
-      <template v-slot:head(answered_receptive_count)="data">
-        <span v-html="data.label" class="head-add-button" />
-      </template>
-      <template v-slot:head(bina)="data">
+      <template v-slot:head(quantity)="data">
         <span>{{ data.label }}</span>
       </template>
 
-      <template v-slot:cell(status)="slot">
-        <span :id="slot.item.agent + '_pausa'">{{ slot.value }}</span>
+      <template v-slot:cell(item)="slot">
+        <span :id="slot.item.item + '_pausa'">{{ slot.value }}</span>
       </template>
-      <template v-slot:cell(duration)="slot">
-        <span :id="slot.item.agent + '_alerta'">{{ slot.value }}</span>
-      </template>
-      <template v-slot:cell(agent)="slot">
-        <span :id="slot.item.agent + '_alerta'">{{ slot.value }}</span>
-      </template>
-      <template v-slot:cell(queue_number)="slot">
-        <span :id="slot.item.agent + '_alerta'">{{ slot.value }}</span>
-      </template>
-      <template v-slot:cell(answered_count)="slot">
-        <span :id="slot.item.agent + '_limite'">{{ slot.value }}</span>
-      </template>
-      <template v-slot:cell(answered_receptive_count)="slot">
-        <span :id="slot.item.agent + '_icone'" v-html="slot.value" />
+      <template v-slot:cell(quantity)="slot">
+        <span :id="slot.item.item + '_alerta'">{{ slot.value }}</span>
       </template>
 
-      <template v-slot:cell(bina)="slot">
-        <span :id="slot.item.agent + '_icone'" v-html="slot.value" />
-      </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
   </div>
@@ -79,7 +44,7 @@ import { baseApiUrl } from "@/config/global";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
-  agent: "",
+  item: "",
   username: false,
   email: false,
   perfilName: "",
@@ -111,7 +76,7 @@ export default {
         {
           status: "available",
           duration: "00:00:42",
-          agent: 3001,
+          item: 3001,
           name: "3001",
           queue_number: 5001,
           answered_count: 221,
@@ -121,7 +86,7 @@ export default {
         {
           status: "available",
           duration: "00:01:30",
-          agent: 3002,
+          item: 3002,
           name: "3002",
           queue_number: 5001,
           answered_count: 224,
@@ -138,11 +103,6 @@ export default {
         { value: "i4", html: '<span class="fal fa-abacus"/>' },
       ],
       fields: [
-        // {
-        //   key: "queue_name",
-        //   label: this.queue_name,
-        //   sortable: true,
-        // },
 
         {
           key: "status",
@@ -155,7 +115,7 @@ export default {
           sortable: true,
         },
         {
-          key: "agent",
+          key: "item",
           label: "Agente",
           sortable: true,
         },
@@ -251,7 +211,7 @@ export default {
 
       // CRIANDO O PRIMEIRO ARRAY (O DE CHAVES) PARA QUE O B-TABLE POSSO RECONHECER CADA ITEM
       for (let i in param) {
-        agents.push(param[i].agent);
+        agents.push(param[i].item);
       }
       first.agents = [...agents];
       this.agents.push({ ...first });
@@ -260,7 +220,7 @@ export default {
       for (let u in param) {
         item.status = param[u].status;
         item.duration = param[u].duration;
-        item.agent = param[u].agent;
+        item.item = param[u].item;
         item.queue_number = param[u].queue_number;
         item.answered_count = param[u].answered_count;
         item.answered_receptive_count = param[u].answered_receptive_count;
@@ -296,7 +256,7 @@ export default {
       this.validateAndToast(toast);
     },
     okayAdd() {
-      let newPausa = this.newRowInput.agent.trim();
+      let newPausa = this.newRowInput.item.trim();
       if (newPausa.length > 0) {
         console.log("Filas ok:");
         console.log(this.filas);
@@ -326,7 +286,7 @@ export default {
       }
     },
     cancelAdd() {
-      let newPausa = this.newRowInput.agent.trim();
+      let newPausa = this.newRowInput.item.trim();
       let toast = {
         isValidated: false,
         title: "NOVA PAUSA NÃO ADICIONADA",
@@ -344,7 +304,7 @@ export default {
       this.newRowInput = { ...this.newRowDefault };
     },
     updateRow(row) {
-      let p = this.editRowInput.agent.trim();
+      let p = this.editRowInput.item.trim();
 
       if (p.length > 0) {
         // checando se o username não está em branco
@@ -375,7 +335,7 @@ export default {
     },
     cancelEdit(row) {
       this.editRowInput = { ...this.newRowDefault };
-      let p = this.filas[row].agent;
+      let p = this.filas[row].item;
       let toast = {
         isValidated: false,
         title: "PAUSA NÃO EDITADA",
@@ -453,7 +413,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.agent-head-container,
+.item-head-container,
 .username-head-container,
 .email-head-container,
 .perfilName-head-container,
@@ -465,7 +425,7 @@ input::-webkit-inner-spin-button {
   padding-right: 2px !important;
 }
 
-.agent-head {
+.item-head {
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -491,7 +451,7 @@ input::-webkit-inner-spin-button {
   justify-content: center !important;
 }
 
-.agent-body-container,
+.item-body-container,
 .username-body-container,
 .email-body-container,
 .perfilName-body-container,

@@ -36,8 +36,10 @@
                   <b-tab :title="'Fila ' + d.code">
                     <!-- :queue_number="d.name" -->
                     <b-card-text
-                      ><TabelaFila :id="d.code" :queue_name="d.name"
-                    /></b-card-text>
+                      ><TabelaFila :id="d.code" :queue_name="d.name" 
+                    />
+                    <TabelaMCDU />
+                    </b-card-text>
                   </b-tab>
                 </div>
               </b-tabs>
@@ -99,12 +101,14 @@ import { vueMultiselectProps } from "../config/global";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 import TabelaFila from "../components/DataTables/TabelaFila.vue";
+import TabelaMCDU from '../components/DataTables/TabelaMCDU.vue';
 
 export default {
   components: {
     PagesSubHeader,
     Multiselect,
     TabelaFila,
+    TabelaMCDU,
   },
   name: "DashFilas",
   methods: {
