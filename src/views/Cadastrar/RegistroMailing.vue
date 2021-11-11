@@ -65,7 +65,7 @@
                           :multiple="true"
                           v-if="dataOK"
                           @select="total_queues++"
-                          @rmove="total_queues--"
+                          @remove="total_queues--"
                         />
                       </div>
                     </div>
@@ -151,6 +151,8 @@ import Multiselect from "vue-multiselect";
 import ValidateToaster from '../../plugins/validateToaster.js';
 import axios from 'axios';
 import {baseApiUrl} from '../../config/global';
+import csv from 'csv';
+
 
 const perpage = 10;
 
@@ -163,22 +165,74 @@ export default {
   mixins: [ValidateToaster],
   methods: {
     checkInputFile(file){
-      let formData = new FormData();
-      // let fil = {...file};
-      formData.append('file',file);
-      console.log("Input File:\n",file.name,file);
-      console.log("FormData:\n",...formData);
-      console.log("Files:\n",this.files)
+      if(this.files){
+        // let formData = new FormData();
+        // let fil = {...file};
+        // formData.append('file',file);
+        console.log("Input File:\n",file.name,file);
+        // console.log("FormData:\n",...formData);
+        console.log("Files:\n",this.files)
+
+        const reader = new FileReader();
+        reader.onloadend = (res) => {
+          let result = res.target.result;//.replace('\n',';');
+          console.log('@reader.onload(). Res:\n',res, "Result:\n",result);
+          const parser = csv.parse(result,{
+                          delimiter: [',',';'],
+                          trim:true,
+                          from_line:1,
+                          to_line:2
+          });
+          this.read = [...parser.read(res.total)];
+          // console.log("this.read @checkInputFile():\n",this.read,"\nthis.layout @checkInputFile():\n",this.layout);
+          if(JSON.stringify(this.read)===JSON.stringify(this.layout)) this.mailing_ok = true;
+          else this.mailing_ok = false;
+          // console.log("Mailing OK?\t",this.mailing_ok);
+        };
+        reader.onerror = (err) => {
+          console.log("Erro:\n",err)
+        };
+        reader.readAsText(file);
+        console.log("res after::@checkInputFile():\n",this.read)
+      }
+      else{
+        this.mailing_ok = false;
+        console.log("No File:\n",this.files)
+      }
     },
     importMailing(queue){
       let name = this.mailing_name.trim();
       let blankName = !(name.length > 0)?true:false;
       let data = this.mailing_date.split("-");
       let blankDate = !(data.length > 1)?true:false;
-      let noQ = !(queue >= 0)?true:false;
+      let noQ = !(this.filas_finish.length > 0)?true:false;
+      let noMailing = !(this.files)?true:false;
+      let errorMailing = !this.mailing_ok;
+
       // console.log("Form Data @importMailing():\n",formData);
-      console.log("Name:\t",name,"\tblankName:\t",blankName,"\tData:\t",data,"\tblankDate:\t",blankDate,"\tfilas_finish:\t",this.filas_finish,"\tfilas_finish.length:\t",this.filas_finish.length,"\tnoQ:\t",noQ)
-      if(blankName && blankDate && noQ){
+      console.log("Name:\t",name,"\tblankName:\t",blankName,"\tData:\t",data,"\tblankDate:\t",blankDate,"\tfilas_finish:\t",this.filas_finish,"\tfilas_finish.length:\t",this.filas_finish.length,"\tnoQ:\t",noQ,"\terrorMailing:\t",errorMailing,"\tnoMailing:\t",noMailing);
+      console.log("\n\tthis.filas_finish[queue]:\n",this.filas_finish[queue])
+      
+      if(noMailing){
+        let toast = {
+            isValidated:false,
+            title: "NÃO HÁ ARQUIVO PARA SER IMPORTADO",
+            message: "Para importar uma Lista de Mailing é necessário primeiro carregar um arquivo no campo 'Arquivo'. SUGESTÃO: Baixe o Template Padrão e preencha o arquivo com os dados da sua lista.",
+        };
+        this.validateAndToast(toast);
+        return;
+      }
+      else if(errorMailing){
+        let toast = {
+            isValidated:false,
+            title: "NÃO FOI POSSÍVEL IMPORTAR O MAILING",
+            message: "O arquivo de mailing não está de acordo com o template padrão. Não é permitido adicionar uma Lista de Mailing com cabeçalhos não idênticos ao padrão do sistema. Favor clicar no botão 'BAIXAR TEMPLATE' e preencher o arquivo baixado para subir.",
+            
+        };
+        this.validateAndToast(toast);
+        return;
+      }
+      else if(blankName && blankDate && noQ){
         let toast = {
             isValidated:false,
             title: "NÃO FOI POSSÍVEL IMPORTAR O MAILING",
@@ -220,24 +274,77 @@ export default {
         body.mailing_date = this.mailing_date;
         body.user_id = this.getUser();
         body.queue_id = this.filas_finish[queue].code;
+        this.currentQName = this.filas_finish[queue].name;
         this.postMailing(body);
       }
     },
     postMailing(body){
+      let formData = new FormData();
+      formData.append('mailing',this.files);
+      formData.append('body',body);
       if(this.currentQueue>0){
-        console.log("Body @postMailing():\n",body);
-        this.currentQueue--;
-        this.importMailing(this.currentQueue)
+        console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
+        axios.post(baseApiUrl+'/mailing',formData, {
+          headers:{
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          console.log("Status:\t",res.status," - ",res.statusText);
+          let toast = {
+              isValidated:true,
+              title: "MAILING IMPORTADO COM SUCESSO",
+              message: "O arquivo de mailing foi importado com sucesso para a fila "+this.currentQName+"!",
+          };
+          this.validateAndToast(toast);
+          this.currentQueue--;
+          this.importMailing(this.currentQueue)
+        })
+        .catch(error => {
+          console.log("\n\tERROR RESPONSE:\n",error.response)
+          let toast = {
+              isValidated:false,
+              title:'MAILING NÃO IMPORTADO',
+              message:'O Arquivo de Mailing não pôde ser adicionado à fila '+this.currentQName+'Motivo: '+error.message,
+            }
+          this.validateAndToast(toast);
+          return;
+        });
       }
       else{
-        console.log("Body @postMailing():\n",body);
-        let toast = {
-            isValidated:true,
-            title: "MAILING IMPORTADO COM SUCESSO",
-            message: "O arquivo de mailing foi importado com sucesso para o sistema!",
-        };
-        this.validateAndToast(toast);
-        return;
+        console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
+        axios.post(baseApiUrl+'/mailing',formData, {
+          headers:{
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          console.log("Status:\t",res.status," - ",res.statusText);
+          let toast = {
+              isValidated:true,
+              title: "MAILING IMPORTADO COM SUCESSO",
+              message: "O arquivo de mailing foi importado com sucesso para a fila "+this.currentQName+"!",
+          };
+          this.validateAndToast(toast);
+          // this.currentQueue--;
+          // this.importMailing(this.currentQueue)
+          let toast2 = {
+              isValidated:true,
+              title: "MAILING IMPORTADO COM SUCESSO",
+              message: "O arquivo de mailing foi importado com sucesso para o sistema!",
+          };
+          this.validateAndToast(toast2);
+        })
+        .catch(error => {
+          console.log("\n\tERROR RESPONSE:\n",error.response)
+          let toast = {
+              isValidated:false,
+              title:'MAILING NÃO IMPORTADO',
+              message:'O Arquivo de Mailing não pôde ser adicionado à fila '+this.currentQName+'Motivo: '+error.message,
+            }
+          this.validateAndToast(toast);
+          return;
+        });
       }
     },
     getFilasData(){
@@ -292,8 +399,8 @@ export default {
         else if (page==this.total_pages){
           for(let j in finish_filas){
             this.finish_filas.push({...finish_filas[j]})
-            this.layout = q[0].layout;
-            console.log("Layout:\n",this.layout.keys())
+            this.layout = Object.keys(JSON.parse(q[0].layout));
+            console.log("Layout:\n",this.layout)
             this.dataOK = true;
           }
         }
@@ -319,6 +426,8 @@ export default {
   },
   data() {
     return {
+      mailing_ok:false,
+      read:[],
       files:null,
       mailing_name:'',
       today: new Date(),
@@ -331,6 +440,7 @@ export default {
       dataOK:false,
       total_queues:-1,
       currentQueue:0,
+      currentQName:'',
       layout:null,
       filas_finish: [],
         finish_filas: [
