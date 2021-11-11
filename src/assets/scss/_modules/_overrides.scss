@@ -46,3 +46,10 @@ label[for="status-button"]{
     // background-color: #eeeeeed7 !important;
     color: black;
   }
+
+  div.custom-file.b-form-file>label.custom-file-label{
+    border-radius: 0px !important;
+    border-left-color: black;
+    font-size: 16px;
+    color: #495057da;
+  }

@@ -1,134 +1,158 @@
 <template>
-  <div>
+  <div class="relatorios">
     <PagesSubHeader icon="fal fa-list-ol" titulo="Mailing">
       <div class="card">
         <div class="card-body"/>
       </div>
     </PagesSubHeader>
-    <div>
-      <form>
-        <div class="form-group">
-
-          <div class="d-inline">
-            <div class="row mb-2 justify-content-center ">
-
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    id="profile-name-input"
-                    type="text"
-                    placeholder="Nome"
-                  />
-                </div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-at fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    id="profile-name-input"
-                    type="text"
-                    placeholder="Data do mailing"
-                  />
-                </div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                <div id="multiselect-input">
-                  <multiselect
-                    v-model="filas_finish"
-                    :placeholder="'Filas'"
-                    :label="'name'"
-                    :track-by="'code'"
-                    :options="finish_filas"
-                    :multiple="true"
-                  />
-                </div>
-              </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="d-inline">
-            <div class="row mb-2 justify-content-left">
-            <div class="col-4">
-              <div class="profile-content user-name-line d-flex">
-                <div class="input-group image-preview">
-                    <span class="input-group">
-                      <!-- image-preview-clear button -->
-                      <button
-                          type="button"
-                          class="btn btn-default image-preview-clear"
-                          style="display: none"
-                      >
-                        <span class="glyphicon glyphicon-remove"></span> Limpar
-                      </button>
-                      <!-- image-preview-input -->
-                      <div class="btn btn-default image-preview-input" id="butao">
-                          <i id="pic" class="fal fa-at fa-2x"></i
-                          >
-                        <span class="image-preview-input-title "> </span>
-                        <input
-                            type="file"
-                            accept="txt, csv"
-                            name="input-file-preview"
-                        />
-                        <!-- rename it -->
-                      </div>
-                      <input
-                          type="text"
-                          placeholder="Arquivo"
-                          class="form-control image-preview-filename"
-                          id="input-pic"
-                          disabled="disabled"
+  <!-- <div> -->
+      <b-container fluid >
+        <div fluid class="container col-12" v-if="dataOK">
+          <div class="form-group">
+            <!-- LINHA 1 -->
+            <div class="d-inline">
+              <div class="row mb-2 justify-content-center ">
+                <!-- Nome -->
+                <div class="col-4">
+                  <div class="d-inline">
+                    <div class="profile-content user-name-line d-flex">
+                      <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                      <b-form-input
+                        id="profile-name-input"
+                        type="text"
+                        placeholder="Nome"
+                        v-model="mailing_name"
                       />
-                      <!-- don't give a name === doesn't send on POST/GET -->
-                    </span>
+                    </div>
+                  </div>
                 </div>
+                <!-- Nome - FIM -->
+
+                <!-- Data de Agendamento | v-model="scheduling_date"-->
+                <b-col cols="4">
+                  <div class="d-inline">
+                    <div class="profile-content user-name-line d-flex">
+                      <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                      <!-- <b-form-input
+                        id="profile-name-input"
+                        type="text"
+                        placeholder="Data do mailing"
+                      /> -->
+                      <b-input-group class="input-group">
+                        <b-form-input disabled id="profile-name-input" v-model="scheduling_date"  max='5'  placeholder="__/__/____"/>
+                        <b-input-group-append id="timepicker-append">
+                            <b-form-datepicker button-only right style="border-width: 0px !important;" size="sm" id="_scheduling_picker" v-model="mailing_date" :min="today" :reset-button="true"/>
+                             <!-- @shown="mailing_date = d.mailing_date" @hidden="d.mailing_date = mailing_date"/> -->
+                        </b-input-group-append>
+                      </b-input-group>
+                    </div>
+                  </div>
+                </b-col>
+                <!-- Data de Agendamento - FIM -->
+
+                <!-- Filas -->
+                <div class="col-4">
+                  <div class="d-inline">
+                    <div class="profile-content user-name-line d-flex">
+                      <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                      <div id="multiselect-input">
+                        <multiselect
+                          v-model="filas_finish"
+                          :placeholder="'Filas'"
+                          :label="'name'"
+                          :track-by="'code'"
+                          :options="finish_filas"
+                          :multiple="true"
+                          v-if="dataOK"
+                          @select="total_queues++"
+                          @rmove="total_queues--"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Filas - FIM -->
               </div>
             </div>
+            <!-- LINHA 1 - FIM -->
+            
+            <!-- LINHA 2: File Upload -->
+            <!-- <b-form id="file-upload"> -->
+              <div class="d-inline">
+                <div class="row mb-2 justify-content-left">
+                  <div class="col-4">
+                    <div class="profile-content user-name-line d-flex">
+                      <!-- <div class="input-group image-preview"> -->
+                        <!-- <span class="input-group">
+                          <button
+                              type="button"
+                              class="btn btn-default image-preview-clear"
+                              style="display: none"
+                          >
+                            <span class="glyphicon glyphicon-remove"></span> Limpar
+                          </button>
+                          <div class="btn btn-default image-preview-input" id="butao">
+                              <i id="pic" class="fal fa-at fa-2x"></i
+                              >
+                            <span class="image-preview-input-title "> </span> -->
+                            <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                            <b-form-file
+                                id="profile-name-input2"
+                                accept=".csv"
+                                name="input-file-preview"
+                                placeholder="Arquivo"
+                                form="file-upload"
+                                @input="checkInputFile"
+                                v-model="files"
+                            />
+                            <!-- rename it -->
+                          <!-- </div> -->
+                          <!-- <input
+                              type="text"
+                              placeholder="Arquivo"
+                              class="form-control image-preview-filename"
+                              id="input-pic"
+                              disabled="disabled"
+                          /> -->
+                          <!-- don't give a name === doesn't send on POST/GET -->
+                        <!-- </span> -->
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- </b-form> -->
+            <!-- LINHA 2: File Upload - FIM-->
           </div>
-          </div>
-        <b-row>
-          <b-col class="mr-auto p-3" cols="auto">
-            <button class="btn btn-dark botao-salvar" type="submit"><i class="fal fa-upload mr-2"></i>Importar</button>
-          </b-col>
-          <b-col class="p-3" cols="auto">
-            <!-- <div class="custom-control custom-switch">
-              <input
-                id="customSwitch1"
-                checked
-                class="custom-control-input bg-dark"
-                type="checkbox"
-              />
-              <input
-                id="customSwitch1"
-                class="custom-control-input bg-dark"
-                type="checkbox"
-              />
-              <label id="kkk" class="custom-control-label" for="customSwitch1"
-                >Status</label
-              >
-            </div> -->
-            <b-form-checkbox switch :checked="true" id="status-button"><span>Status</span></b-form-checkbox>
-          </b-col>
-        </b-row>
         </div>
-      </form>
-    </div>
+      </b-container>
+
+      <b-container fluid class="salvar-container">
+        <b-col cols='12'>
+          <b-row>
+            <b-col class="mr-auto p-3" cols="auto">
+              <b-button class="btn btn-dark botao-salvar" @click="importMailing(total_queues)" ><i class="fal fa-upload mr-2"></i>Importar</b-button>
+            </b-col>
+
+            <b-col class="p-3" cols="auto">
+              <b-form-checkbox switch :checked="true" id="status-button"><span>Status</span></b-form-checkbox>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-container>
+          
+    <!-- </div> -->
   </div>
 </template>
 
 <script>
 import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 import Multiselect from "vue-multiselect";
+import ValidateToaster from '../../plugins/validateToaster.js';
+import axios from 'axios';
+import {baseApiUrl} from '../../config/global';
 
+const perpage = 10;
 
 export default {
   components: {
@@ -136,19 +160,178 @@ export default {
     Multiselect,
   },
   name: 'RegistroMailing',
+  mixins: [ValidateToaster],
   methods: {
-    // carregar() {
-    //   this.service.register(this.usuario).then(
-    //     () => {
-    //       if (this.id) this.$router.push({ name: "Home" });
-    //       this.usuario = new Usuario();
-    //     },
-    //     (err) => console.log(err)
-    //   );
-    // },
+    checkInputFile(file){
+      let formData = new FormData();
+      // let fil = {...file};
+      formData.append('file',file);
+      console.log("Input File:\n",file.name,file);
+      console.log("FormData:\n",...formData);
+      console.log("Files:\n",this.files)
+    },
+    importMailing(queue){
+      let name = this.mailing_name.trim();
+      let blankName = !(name.length > 0)?true:false;
+      let data = this.mailing_date.split("-");
+      let blankDate = !(data.length > 1)?true:false;
+      let noQ = !(queue >= 0)?true:false;
+      // console.log("Form Data @importMailing():\n",formData);
+      console.log("Name:\t",name,"\tblankName:\t",blankName,"\tData:\t",data,"\tblankDate:\t",blankDate,"\tfilas_finish:\t",this.filas_finish,"\tfilas_finish.length:\t",this.filas_finish.length,"\tnoQ:\t",noQ)
+      if(blankName && blankDate && noQ){
+        let toast = {
+            isValidated:false,
+            title: "NÃO FOI POSSÍVEL IMPORTAR O MAILING",
+            message: "O arquivo de mailing não pôde ser importado. Não é permitido adicionar uma Lista de Mailing sem preencher todos os campos do formulário abaixo.",
+        };
+        this.validateAndToast(toast);
+        return;
+      }
+      else if(blankName){
+        let toast = {
+            isValidated:false,
+            title: "NÃO FOI POSSÍVEL IMPORTAR O MAILING",
+            message: "O arquivo de mailing não pôde ser importado. Não é permitido adicionar uma Lista de Mailing sem dar um Nome para ela ou deixando apenas espaços em branco no campo Nome.",
+        };
+        this.validateAndToast(toast);
+      }
+      else if(blankDate){
+        let toast = {
+            isValidated:false,
+            title: "NÃO FOI POSSÍVEL IMPORTAR O MAILING",
+            message: "O arquivo de mailing não pôde ser importado. Não é permitido adicionar uma Lista de Mailing sem selecionar/agendar uma Data para ser consumido pela(s) fila(s) selecionada(s).",
+        };
+        this.validateAndToast(toast);
+        return;
+      }
+      else if(noQ){
+        let toast = {
+            isValidated:false,
+            title: "NÃO FOI POSSÍVEL IMPORTAR O MAILING",
+            message: "O arquivo de mailing não pôde ser importado. Não é permitido adicionar uma Lista de Mailing sem selecionar uma ou mais filas para ser os dados serem consumidos.",
+        };
+        this.validateAndToast(toast);
+        return;
+      }
+      else{
+        this.currentQueue = queue;
+        let body = {};
+        body.name = name;
+        body.mailing_date = this.mailing_date;
+        body.user_id = this.getUser();
+        body.queue_id = this.filas_finish[queue].code;
+        this.postMailing(body);
+      }
+    },
+    postMailing(body){
+      if(this.currentQueue>0){
+        console.log("Body @postMailing():\n",body);
+        this.currentQueue--;
+        this.importMailing(this.currentQueue)
+      }
+      else{
+        console.log("Body @postMailing():\n",body);
+        let toast = {
+            isValidated:true,
+            title: "MAILING IMPORTADO COM SUCESSO",
+            message: "O arquivo de mailing foi importado com sucesso para o sistema!",
+        };
+        this.validateAndToast(toast);
+        return;
+      }
+    },
+    getFilasData(){
+      axios.get(baseApiUrl+'/queues')
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText)
+        this.total_items = res.data.count;
+        this.total_pages = Math.ceil(res.data.count / res.data.limit);
+        this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
+        console.log("Total Items:\t",this.total_items,"\nTotal Pages:\t",this.total_pages,"\nPer Pages:\t",this.perPage)
+        this.getFilas(this.currentPage);
+      })
+      .catch(error => {
+        console.log("\n\tERROR RESPONSE:\n",error.response)
+        let toast = {
+          isValidated:false,
+          title:'FILAS NÃO RETORNARAM',
+          message:'Não foi possível completar a lista de filas a partir do endpoint. Motivo: '+error.message,
+        }
+        this.validateAndToast(toast);
+      })
+    },
+    getFilas(page){
+      let pag = page.toString();
+      let t_items = this.total_items>0?true:false;
+      let t_pages = this.total_pages>0?true:false;
+      console.log("Total Items:\t",t_items,"\tTotal Pages:\t",t_pages)
+      
+      axios.get(baseApiUrl+'/queues'+'?page='+pag)
+      .then(res => {
+        console.log("Status @getFilas():\t",res.status," - ",res.statusText)
+        let q = res.data.data;
+        let finish_filas = [];
+        for(let i in q){
+          let fila = {}
+          fila.name = (q[i].name + ' - ' + q[i].name_queue);
+          fila.code = q[i].queue_id;
+          finish_filas.push(fila);
+        }
+        if(page===1){
+          this.finish_filas = [...finish_filas];
+          this.currentPage++;
+          this.getFilas(this.currentPage);
+        }
+        else if (page<this.total_pages){
+          for(let j in finish_filas){
+            this.finish_filas.push({...finish_filas[j]})
+          }
+          this.currentPage++;
+          this.getFilas(this.currentPage);
+        }
+        else if (page==this.total_pages){
+          for(let j in finish_filas){
+            this.finish_filas.push({...finish_filas[j]})
+            this.layout = q[0].layout;
+            console.log("Layout:\n",this.layout.keys())
+            this.dataOK = true;
+          }
+        }
+      })
+    },
+    getUser(){
+      let ud = this.$store.state.user.id;
+      console.log("user:\n",ud);
+      return ud;
+    }
+  },
+  created() {
+    this.getFilasData();
+  },
+  watch:{
+    mailing_date(newValue){
+      let data = newValue.split("-");
+      console.log("Data:\n",data.length);
+      if (data.length > 1) this.scheduling_date = data[2] + '/' + data[1] + '/' + data[0];
+      else this.scheduling_date = '__/__/____';
+      
+    }
   },
   data() {
     return {
+      files:null,
+      mailing_name:'',
+      today: new Date(),
+      mailing_date:'',
+      scheduling_date:'',
+      total_items:0,
+      total_pages:0,
+      currentPage:1,
+      perPage:perpage,
+      dataOK:false,
+      total_queues:-1,
+      currentQueue:0,
+      layout:null,
       filas_finish: [],
         finish_filas: [
           { name: "Fila 1000", code: "1000" },
@@ -195,6 +378,8 @@ export default {
   },
 };
 </script>
+
+
 <style scoped>
 .btn#butao {
   padding: 2px 4px 0px 2px !important;
@@ -279,7 +464,7 @@ label#kkk {
   border-radius: 0px;
 }
 #profile-name-input2 {
-  margin-left: 5px;
+  margin-left: 8px;
   margin-right: 0px;
   border-left-color: black;
   border-radius: 0px;
@@ -287,6 +472,11 @@ label#kkk {
   border-top-width: 0px;
   border-bottom-width: 0px;
 }
+
+div.custom-file.b-form-file{
+  margin-left: 5px;
+}
+
 #multiselect-input {
   display: flex;
   width: 100%;
@@ -323,4 +513,8 @@ i.fal.fa-2x {
   border: none;
 }
 
+.salvar-container{
+    margin-top: 5px;
+    bottom: 0;
+}
 </style>
