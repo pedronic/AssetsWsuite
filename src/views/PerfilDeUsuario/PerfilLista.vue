@@ -9,7 +9,9 @@
                 </div>
             </div>
         </pages-sub-header>
-        <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id"/>
+        <b-container fluid v-if="dataOK">
+            <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id"/>
+        </b-container>
     </div>
 </template>
 
@@ -29,12 +31,14 @@ export default{
     },
     methods: {
         async getUsers(){
-            let res = await axios.get(baseApiUrl+"/perfils-pages");
+            let res = await axios.get(baseApiUrl+"/perfilspages");
             let u = res.data.data;
             let users = [];
             let metaUsers = [];
             let metaData = {};
             let metaID = {};
+            let keys = Object.keys(this.pagesIndexTable);
+            let hasPage = false;
             let user = {};
                 // {
                 //     name: '',
@@ -62,32 +66,55 @@ export default{
                     metaData[u[i].perfil_name].push(i);
                 }
             }
-            // console.log("Meta Users:\n",metaUsers,"\nMeta Data:\n",metaData);
-            for(let i in metaUsers){
-                user.name = metaUsers[i];
-                user.id = metaID[metaUsers[i]];
+            console.log("Meta Users:\n",metaUsers,"\nMeta Data:\n",metaData);
+            for(let i in u){
+                user.name = u[i].perfil_name;
+                user.id = u[i].perfil_id;
                 user.data = [];
 
-                for(let j in metaData[metaUsers[i]]){
-                    data.name = u[metaData[metaUsers[i]][j]].page_name;
-                    data.page_id = u[metaData[metaUsers[i]][j]].page_id;
-                    data.modulo_name = u[metaData[metaUsers[i]][j]].modulo_name;
-                    data.add = u[metaData[metaUsers[i]][j]].add?true:false;
-                    data.read = u[metaData[metaUsers[i]][j]].read?true:false;
-                    data.edit = u[metaData[metaUsers[i]][j]].edit?true:false;
-                    data.delete = u[metaData[metaUsers[i]][j]].delete?true:false;
-                    data.browser = u[metaData[metaUsers[i]][j]].browser?true:false;
+                for(let j in keys){
+                    data.name = keys[j];
+                    data.page_id = this.pagesIndexTable[keys[j]];
+                    hasPage = false;
+                    let thisPage = 0;
+                    for (let k in u[i].pages){
+                        if(u[i].pages[k].page_id !== data.page_id) continue;
+                        else {
+                            hasPage = true;
+                            thisPage = k;
+                            break;
+                        }
+                    }
+                    if(hasPage){
+                        data.modulo_name = u[i].pages[thisPage].modulo_name;
+                        data.add = u[i].pages[thisPage].add?true:false;
+                        data.read = u[i].pages[thisPage].read?true:false;
+                        data.edit = u[i].pages[thisPage].edit?true:false;
+                        data.delete = u[i].pages[thisPage].delete?true:false;
+                        data.browser = u[i].pages[thisPage].browser?true:false;
+                    }
+                    else{
+                        data.modulo_name = "Discador";
+                        data.add = false;
+                        data.read = false;
+                        data.edit = false;
+                        data.delete = false;
+                        data.browser = false;
+                    }
                     user.data.push({...data})
                 }
                 users.push({...user})
             }
             console.log("Users @getUsers():\n",users)
             this.users = [...users];
+            this.dataOK = true;
         },
         getPages(){
             this.defaultAccessPages = JSON.parse(localStorage.getItem('__defaultAccessPages'));
             this.pagesIndexTable = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+            console.log("Pages Index Table:\n",{...this.pagesIndexTable});
             // console.log("Default Access Pages:\n",this.defaultAccessPages);
+            this.getUsers();
         },
         setDefaultUser(){
             this.defaultUserData = {...defaultNewUserProfile};
@@ -123,12 +150,13 @@ export default{
             ],
             defaultUserData:[],
             defaultAccessPages:[],
+            dataOK:false,
             pagesIndexTable:{}
         }
     },
     mounted() {
-        this.getUsers();
         this.getPages();
+        // this.getUsers();
         this.setDefaultUser();
     }
 }

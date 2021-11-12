@@ -17,7 +17,7 @@
     <div class="dropdown-divider m-0"></div>
 
       
-    <router-link :to="{ name: 'ListaUsuarios' }" class="mr-auto">
+    <router-link v-if="usuarios" :to="{ name: 'ListaUsuarios' }" class="mr-auto">
       <div class="dropdown-item d-flex itens">
         <i class="fal fa-user-friends iconDAM"></i>
         <span data-i18n="drpdwn.settings">Usuários</span>
@@ -152,20 +152,23 @@
 </template>
 
 <script>
-import {baseApiUrl, defaultNewUserProfile} from "../../config/global";
-import axios from "axios";
+// import {baseApiUrl, defaultNewUserProfile} from "../../config/global";
+// import axios from "axios";
 
 export default {
   name: "DropdownAdminMenu",
+  props:{
+    accessPages:Array
+  },
   methods:{
     setDefaultUser(){
       // console.log("Default New User Profile:\n",defaultNewUserProfile)
-      this.defaultUserData = [{...defaultNewUserProfile}];
+      // this.defaultUserData = [{...defaultNewUserProfile}];
       console.log("Default User Data:\n",this.defaultUserData);
     },
-    async getPages(){
-      let pp = await axios.get(baseApiUrl+"/pages");
-      this.defaultAccessPages = [...pp.data.data];
+    getPages(){
+      // let pp = await axios.get(baseApiUrl+"/pages");
+      // this.defaultAccessPages = [...pp.data.data];
       console.clear()
       console.log("Default Access Pages from <DropdownAdminMenu/>:\n",this.defaultAccessPages);
     },
@@ -173,7 +176,8 @@ export default {
   data(){
     return {
       defaultUserData:[],
-      defaultAccessPages:[]
+      defaultAccessPages:[],
+      usuarios:false,
     }
   },
   created(){

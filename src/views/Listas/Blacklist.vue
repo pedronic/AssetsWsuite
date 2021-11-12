@@ -239,7 +239,7 @@ export default {
     async getQNameByID(id){
       if (id > 0){
         let qID = id.toString();
-        return axios.get(baseApiUrl+'/queues/'+qID)
+        await axios.get(baseApiUrl+'/queues/'+qID)
         .then(res => {
           let qn = res.data.data;
           return (qn.name+' - '+qn.name_queue);

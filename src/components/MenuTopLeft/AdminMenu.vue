@@ -13,7 +13,15 @@
 import DropdownAdminMenu from './DropdownAdminMenu.vue'
 export default {
   components: { DropdownAdminMenu },
-    name: "AdminManu"
+  name: "AdminMenu",
+  methods:{
+    
+  },
+  data(){
+    return{
+      dropdownAccessPages:{}
+    }
+  }
 
 }
 </script>

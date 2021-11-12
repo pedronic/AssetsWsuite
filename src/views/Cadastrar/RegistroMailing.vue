@@ -63,6 +63,7 @@
                           :track-by="'code'"
                           :options="finish_filas"
                           :multiple="true"
+                          :max-height="500"
                           v-if="dataOK"
                           @select="total_queues++"
                           @remove="total_queues--"
@@ -82,19 +83,6 @@
                 <div class="row mb-2 justify-content-left">
                   <div class="col-4">
                     <div class="profile-content user-name-line d-flex" style="height:38px;">
-                      <!-- <div class="input-group image-preview"> -->
-                        <!-- <span class="input-group">
-                          <button
-                              type="button"
-                              class="btn btn-default image-preview-clear"
-                              style="display: none"
-                          >
-                            <span class="glyphicon glyphicon-remove"></span> Limpar
-                          </button>
-                          <div class="btn btn-default image-preview-input" id="butao">
-                              <i id="pic" class="fal fa-at fa-2x"></i
-                              >
-                            <span class="image-preview-input-title "> </span> -->
                             <i class="fal fa-at fa-2x" style="margin-left: 5px" />
                             <b-form-file
                                 id="profile-name-input2"
@@ -105,18 +93,6 @@
                                 @input="checkInputFile"
                                 v-model="files"
                             />
-                            <!-- rename it -->
-                          <!-- </div> -->
-                          <!-- <input
-                              type="text"
-                              placeholder="Arquivo"
-                              class="form-control image-preview-filename"
-                              id="input-pic"
-                              disabled="disabled"
-                          /> -->
-                          <!-- don't give a name === doesn't send on POST/GET -->
-                        <!-- </span> -->
-                      <!-- </div> -->
                     </div>
                   </div>
                 </div>
@@ -619,6 +595,7 @@ div.custom-file.b-form-file{
   display: flex;
   width: 100%;
   margin-left: 6px;
+  height: auto;
 }
 
 i.fal.fa-2x {

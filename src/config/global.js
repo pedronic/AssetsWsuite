@@ -102,6 +102,96 @@ export const defaultNewUserProfile = {
             edit:false,
             delete:false,
             browser:true
+        },
+        {
+            name: 'Finalizações',
+            page_id: 9,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Servidores',
+            page_id: 10,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Scripts',
+            page_id: 11,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Mailing',
+            page_id: 12,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Blacklist',
+            page_id: 13,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Relatorio de Gravações',
+            page_id: 14,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Relatorio de Faturamento',
+            page_id: 15,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Painel de Supervisão',
+            page_id: 16,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
+        },
+        {
+            name: 'Dashboard Analítico',
+            page_id: 17,
+            modulo_name:'Discador',
+            add:false,
+            read:false,
+            edit:false,
+            delete:false,
+            browser:true
         }
     ]
 }
