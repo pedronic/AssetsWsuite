@@ -81,7 +81,7 @@
               <div class="d-inline">
                 <div class="row mb-2 justify-content-left">
                   <div class="col-4">
-                    <div class="profile-content user-name-line d-flex">
+                    <div class="profile-content user-name-line d-flex" style="height:38px;">
                       <!-- <div class="input-group image-preview"> -->
                         <!-- <span class="input-group">
                           <button
@@ -134,6 +134,10 @@
               <b-button class="btn btn-dark botao-salvar" @click="importMailing(total_queues)" ><i class="fal fa-upload mr-2"></i>Importar</b-button>
             </b-col>
 
+            <b-col class="mr-auto p-3" cols="auto">
+              <b-button class="btn " variant="success" @click="downloadTemplate" ><i class="fal fa-download mr-2"></i>Baixar Template</b-button>
+            </b-col>
+
             <b-col class="p-3" cols="auto">
               <b-form-checkbox switch :checked="true" id="status-button"><span>Status</span></b-form-checkbox>
             </b-col>
@@ -150,7 +154,7 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 import Multiselect from "vue-multiselect";
 import ValidateToaster from '../../plugins/validateToaster.js';
 import axios from 'axios';
-import {baseApiUrl} from '../../config/global';
+import {baseApiUrl, mailingApiUrl, mailingTestToken} from '../../config/global';
 import csv from 'csv';
 
 
@@ -164,19 +168,36 @@ export default {
   name: 'RegistroMailing',
   mixins: [ValidateToaster],
   methods: {
+    downloadTemplate(){
+      let filename = 'mailing_template.csv';
+      let element = document.createElement('a');
+      element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(this.layout_template));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+      document.body.removeChild(element);
+    },
     checkInputFile(file){
       if(this.files){
-        // let formData = new FormData();
-        // let fil = {...file};
-        // formData.append('file',file);
         console.log("Input File:\n",file.name,file);
-        // console.log("FormData:\n",...formData);
         console.log("Files:\n",this.files)
 
         const reader = new FileReader();
         reader.onloadend = (res) => {
-          let result = res.target.result;//.replace('\n',';');
-          console.log('@reader.onload(). Res:\n',res, "Result:\n",result);
+          let result = res.target.result;
+          let rows = res.target.result.split("\n");
+          this.total_rows = rows.length;
+          this.empty_rows = 0;
+          for(let i = 0; i < rows.length; i++){
+            let line = rows[i].replace(/,|;/g,"");
+            if(!line.length) this.empty_rows++;
+            else continue;
+          }
+          // console.log("Total Rows:\t",this.total_rows,"\tEmpty Rows:\t",this.empty_rows);
+          // console.log('@reader.onload(). Res:\n',res, "Result:\n",result,"\nRows:\n",rows);
           const parser = csv.parse(result,{
                           delimiter: [',',';'],
                           trim:true,
@@ -210,8 +231,8 @@ export default {
       let errorMailing = !this.mailing_ok;
 
       // console.log("Form Data @importMailing():\n",formData);
-      console.log("Name:\t",name,"\tblankName:\t",blankName,"\tData:\t",data,"\tblankDate:\t",blankDate,"\tfilas_finish:\t",this.filas_finish,"\tfilas_finish.length:\t",this.filas_finish.length,"\tnoQ:\t",noQ,"\terrorMailing:\t",errorMailing,"\tnoMailing:\t",noMailing);
-      console.log("\n\tthis.filas_finish[queue]:\n",this.filas_finish[queue])
+      // console.log("Name:\t",name,"\tblankName:\t",blankName,"\tData:\t",data,"\tblankDate:\t",blankDate,"\tfilas_finish:\t",this.filas_finish,"\tfilas_finish.length:\t",this.filas_finish.length,"\tnoQ:\t",noQ,"\terrorMailing:\t",errorMailing,"\tnoMailing:\t",noMailing);
+      // console.log("\n\tthis.filas_finish[queue]:\n",this.filas_finish[queue])
       
       if(noMailing){
         let toast = {
@@ -274,19 +295,21 @@ export default {
         body.mailing_date = this.mailing_date;
         body.user_id = this.getUser();
         body.queue_id = this.filas_finish[queue].code;
+        body.filename = this.files.name;
         this.currentQName = this.filas_finish[queue].name;
         this.postMailing(body);
       }
     },
     postMailing(body){
       let formData = new FormData();
-      formData.append('mailing',this.files);
+      formData.append('file',this.files);
       formData.append('body',body);
       if(this.currentQueue>0){
-        console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
-        axios.post(baseApiUrl+'/mailing',formData, {
+        // console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
+        axios.post(mailingApiUrl,formData, {
           headers:{
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${mailingTestToken}`
           }
         })
         .then(res => {
@@ -312,10 +335,11 @@ export default {
         });
       }
       else{
-        console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
-        axios.post(baseApiUrl+'/mailing',formData, {
+        // console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
+        axios.post(mailingApiUrl,formData, {
           headers:{
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${mailingTestToken}`
           }
         })
         .then(res => {
@@ -400,7 +424,8 @@ export default {
           for(let j in finish_filas){
             this.finish_filas.push({...finish_filas[j]})
             this.layout = Object.keys(JSON.parse(q[0].layout));
-            console.log("Layout:\n",this.layout)
+            this.layout_template = this.layout.join(';');
+            console.log("Layout:\n",this.layout,"Layout Template:\n",this.layout_template)
             this.dataOK = true;
           }
         }
@@ -408,7 +433,7 @@ export default {
     },
     getUser(){
       let ud = this.$store.state.user.id;
-      console.log("user:\n",ud);
+      // console.log("user:\n",ud);
       return ud;
     }
   },
@@ -426,6 +451,8 @@ export default {
   },
   data() {
     return {
+      total_rows:0,
+      empty_rows:0,
       mailing_ok:false,
       read:[],
       files:null,
@@ -442,6 +469,7 @@ export default {
       currentQueue:0,
       currentQName:'',
       layout:null,
+      layout_template:null,
       filas_finish: [],
         finish_filas: [
           { name: "Fila 1000", code: "1000" },
