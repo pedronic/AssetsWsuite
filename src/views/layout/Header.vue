@@ -35,7 +35,7 @@
           <i class="ni ni-menu"></i>
       </a>
     </div>
-    <menu-top-left />
+    <menu-top-left v-if="loggedIn"/>
     <!-- <div class="search">
       <form class="app-forms hidden-xs-down" role="search" action="page_search.html" autocomplete="off">
         <input type="text" id="search-field" placeholder="Pesquisar" class="form-control" tabindex="1">
@@ -219,13 +219,14 @@
 
 <script>
 import PageLogo from '@/components/page-logo/PageLogo.vue';
-import UserHeader from '@/components/user/UserHeader.vue';
+import UserHeader from '../../components/user/UserHeader.vue';
 import NotifyHeader from '../../components/notify/NotifyHeader.vue';
 import EditButtonHeader from '../../components/editHeader/EditButtonHeader.vue';
 import MenuTopLeft from '../../components/MenuTopLeft/MenuTopLeft.vue';
 import ModulesHeader from '../../components/ModulesHeader/ModulesHeader.vue';
 import PesquisaHeader from '../../components/pesquisa/PesquisaHeader.vue';
 //import PesquisaHeader from '../../components/pesquisa/PesquisaHeader.vue';
+import {mapState} from 'vuex';
 export default {
   components: { 
     PageLogo, 
@@ -238,6 +239,17 @@ export default {
   //PesquisaHeader 
   },
   name: "Header",
+  watch: mapState(['login']),
+  computed:{
+    loggedIn(){
+      return this.$store.state.login
+    }
+  },
+  data(){
+    return{
+      // loggedIn: false,
+    }
+  }
 };
 </script>
 

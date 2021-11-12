@@ -191,6 +191,7 @@ export default {
         }
       console.log("Users @getUsers():\n",users)
       localStorage.setItem('__userAccessPages', JSON.stringify(users));
+      this.$store.commit('setAccessPages', true);
       // this.users = [...users];
       // this.dataOK = true;
     },
