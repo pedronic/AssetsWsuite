@@ -6,7 +6,7 @@
       class="
         tabela-pausas
         table-sm table-hover table-striped
-        w-50
+        w-100
         dt-responsive
         dtr-inline
       "
@@ -417,6 +417,10 @@ export default {
 </script>
 
 <style> 
+.pausas {
+  display: inline !important;
+}
+
 span.fal {
   pointer-events: none;
 }

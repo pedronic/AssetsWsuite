@@ -40,7 +40,7 @@ Vue.use(VeeValidate, {
 // validar todos os inputs 
 // definir ícones
 //responsividade ~mobile~ 
-// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} {método BrowserData em DashFilas}
+// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} {métodos GET em DashFilas}
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables (feito)
 // rever fields 
@@ -54,3 +54,5 @@ Vue.use(VeeValidate, {
 // campo filas nos métodos PUT de agent, usuario e robo
 // ajustes multiselect-vue
 // Refazer get agente com query type 
+// Padronizar tabs
+//ajustes na ativação e estlização do tab de DashFilas

@@ -1,6 +1,6 @@
 <template>
-  <div class="frame-wrap p-0 border-0 m-0">
-    <table class="table m-0 table-sm table-light table-hover table-striped w-100" id="table-example">
+  <div class="frame-wrap p-0 border-0 m-0 d-inline" inline>
+    <table class="table m-0 table-sm table-light table-hover table-striped w-50 d-inline" id="table-example">
       <thead>
       <tr>
         <th scope="col" id="principal"><i class="fal fa-road mr-2"></i
@@ -31,15 +31,13 @@
 </template>
 
 <script>
+import axios from "axios";
+import { baseApiUrl } from "@/config/global";
+
 export default {
     name: "TabelaMCDU",
   
   // filas
-  methods: {
-    selecionado() {
-
-    }
-  },
   data() {
     return {
       MCDUs: ['1000', '2000'],
@@ -48,7 +46,52 @@ export default {
       
     };
   },
-  mounted() {
+  methods: {
+    async getFields() {
+      let res = await axios.get(
+        baseApiUrl + `/monitorarFilas?queue_number=${this.id}`
+      );
+      let res2 = await axios.get(
+        baseApiUrl + `/dashboardAnalytics/?queue_number=${this.id}`
+      );
+      let param = res.data.data;
+      let param2 = res2.data.data[0];
+      let agents = [];
+      var first = {};
+      let item = {};
+      let items = [];
+
+      this.items.splice(0, this.items.length);
+
+      // CRIANDO O PRIMEIRO ARRAY (O DE CHAVES) PARA QUE O B-TABLE POSSO RECONHECER CADA ITEM
+      for (let i in param) {
+        agents.push(param[i].agent);
+      }
+      first.agents = [...agents];
+      this.agents.push({ ...first });
+
+      // AGORA AQUI É ADICIONADO CADA ITEM DE CADA REQUISIÇÃO
+
+      for (let u in param) {
+        item.status = param[u].status;
+        item.duration = param[u].duration;
+        item.agent = param[u].agent;
+        item.queue_number = param[u].queue_number;
+        item.answered_count = param[u].answered_count;
+        item.answered_receptive_count = param[u].answered_receptive_count;
+        item.bina = param[u].bina;
+        items.push({ ...item });
+      }
+
+      // Fazendo request e inserindo da outra API
+        Object.keys(param2).map(function(key, value) {
+            item.iten = key;
+            item.quantity = value;
+            items.push({ ...item });
+        });
+
+      this.setBrowserData(items);
+    },
 
   }
 };

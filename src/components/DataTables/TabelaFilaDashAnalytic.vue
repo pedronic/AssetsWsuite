@@ -6,32 +6,27 @@
       class="
         tabela-pausas
         table-sm table-hover table-striped
-        w-50
-        dt-responsive
         dtr-inline
+        w-100
       "
       :items="items"
       :responsive="true"
       :fields="fields"
       sticky-header
     >
-      <!-- :filter="filter"
-      filter-debounce="50"
-      :filter-included-fields="filter_fields" -->
-      <template v-slot:head(item)="data">
+      <template v-slot:head(iten)="data">
         <span>{{ data.label }}</span>
       </template>
       <template v-slot:head(quantity)="data">
         <span>{{ data.label }}</span>
       </template>
 
-      <template v-slot:cell(item)="slot">
-        <span :id="slot.item.item + '_pausa'">{{ slot.value }}</span>
+      <template v-slot:cell(iten)="slot">
+        <span :id="slot.item.iten + '_pausa'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(quantity)="slot">
-        <span :id="slot.item.item + '_alerta'">{{ slot.value }}</span>
+        <span :id="slot.item.iten + '_alerta'">{{ slot.value }}</span>
       </template>
-
     </b-table>
     <!-- ---------------------------------------------------- -->
   </div>
@@ -39,12 +34,11 @@
 
 <script>
 import axios from "axios";
-// import moment from "moment";
 import { baseApiUrl } from "@/config/global";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
-  item: "",
+  iten: "",
   username: false,
   email: false,
   perfilName: "",
@@ -55,10 +49,9 @@ const defaultRow = {
 };
 
 export default {
-  name: "TabelaFila",
+  name: "TabelaFilaDashAnalytic",
   mixins: [ValidateToaster],
   props: {
-    queue_name: String,
     id: String,
   },
   data() {
@@ -76,7 +69,7 @@ export default {
         {
           status: "available",
           duration: "00:00:42",
-          item: 3001,
+          iten: 3001,
           name: "3001",
           queue_number: 5001,
           answered_count: 221,
@@ -86,7 +79,7 @@ export default {
         {
           status: "available",
           duration: "00:01:30",
-          item: 3002,
+          iten: 3002,
           name: "3002",
           queue_number: 5001,
           answered_count: 224,
@@ -94,8 +87,8 @@ export default {
           bina: "6132256844",
         },
       ],
-      agents: [],
-      // this.items[0].agents
+      itens: [],
+      // this.items[0].itens
       icons: [
         { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
         { value: "i2", html: '<span class="fal fa-plus"/>' },
@@ -103,38 +96,16 @@ export default {
         { value: "i4", html: '<span class="fal fa-abacus"/>' },
       ],
       fields: [
-
         {
-          key: "status",
-          label: "Status",
+          key: "iten",
+          label: "Item",
           sortable: true,
+          thStyle: "width: 10%",
         },
         {
-          key: "duration",
-          label: "Duração",
-          sortable: true,
-        },
-        {
-          key: "item",
-          label: "Agente",
-          sortable: true,
-        },
-        {
-          key: "queue_number",
-          label: "Fila",
-        },
-        {
-          key: "answered_count",
-          label: '<span class="fal fa-phone-volume fa-1x head-add-button"/>',
-        },
-        {
-          key: "answered_receptive_count",
-          label: '<span class="fal fa-phone-slash fa-1x head-add-button"/>',
-        },
-        {
-          key: "bina",
-          label: "Falando com: ",
-          // Boolean,
+          key: "quantity",
+          label: "Quantidade",
+          thStyle: "text-align: center",
         },
       ],
     };
@@ -142,100 +113,47 @@ export default {
 
   methods: {
     setBrowserData(items) {
-      sessionStorage.setItem(this.id, JSON.stringify(items));
-      var cache = JSON.parse(sessionStorage.getItem(`${this.id}`));
+      sessionStorage.setItem(`monitorando ${this.id}`, JSON.stringify(items));
+      var cache = JSON.parse(sessionStorage.getItem(`monitorando ${this.id}`));
       this.items = [...cache];
       this.buildTable = true;
 
-      const cronos = setInterval(() => {
-        for (let u in cache) {
-          let hour = parseInt(cache[u].duration.slice(0, 2));
-          let minute = parseInt(cache[u].duration.slice(3, 5));
-          let second = parseInt(cache[u].duration.slice(6, 8));
-
-          const date = new Date();
-          date.setHours(hour);
-          date.setMinutes(minute);
-          date.setSeconds(second);
-          var predata = date.valueOf();
-          let c = predata + 1000;
-          const time = new Date(c);
-          var newhour = "";
-          var newminute = "";
-          var newsecond = "";
-
-          if (time.getHours() <= 9) {
-            newhour = "0" + time.getHours();
-          } else {
-            newhour = time.getHours().toString();
-          }
-          if (time.getMinutes() <= 9) {
-            newminute = "0" + time.getMinutes();
-          } else {
-            newminute = time.getMinutes().toString();
-          }
-          if (time.getSeconds() <= 9) {
-            newsecond = "0" + time.getSeconds();
-          } else {
-            newsecond = time.getSeconds().toString();
-          }
-          cache[u].duration = newhour + ":" + newminute + ":" + newsecond;
-        }
-        sessionStorage.setItem(this.id, JSON.stringify(cache));
-        var cache2 = JSON.parse(sessionStorage.getItem(`${this.id}`));
-        this.items = [...cache2];
-        this.buildTable = true;
-        this.referential++;
-
-        if (this.referential > 10) {
-          clearInterval(cronos);
-          this.referential = 0;
-          console.log(this.items);
-          this.getFields();
-        }
-
+      setTimeout(() => {
+        this.getFields();
       }, 1000);
     },
 
     async getFields() {
       let res = await axios.get(
-        baseApiUrl + `/monitorarFilas?queue_number=${this.id}`
+        baseApiUrl + `/dashboardAnalytics/?queue_number=${this.id}`
       );
-      let param = res.data.data;
-      let agents = [];
-      var first = {};
-      let item = {};
+      let param = res.data.data[0];
       let items = [];
+      var item = {};
+      var itens = [];
+      var quantities = [];
 
-      this.items.splice(0, this.items.length);
+      Object.keys(param).map(function(key) {
+        itens.push(key);
+      });
+      Object.values(param).map(function(key) {
+        quantities.push(key);
+      });
 
-      // CRIANDO O PRIMEIRO ARRAY (O DE CHAVES) PARA QUE O B-TABLE POSSO RECONHECER CADA ITEM
-      for (let i in param) {
-        agents.push(param[i].item);
-      }
-      first.agents = [...agents];
-      this.agents.push({ ...first });
-
-      // AGORA AQUI É ADICIONADO CADA ITEM DE CADA REQUISIÇÃO
-      for (let u in param) {
-        item.status = param[u].status;
-        item.duration = param[u].duration;
-        item.item = param[u].item;
-        item.queue_number = param[u].queue_number;
-        item.answered_count = param[u].answered_count;
-        item.answered_receptive_count = param[u].answered_receptive_count;
-        item.bina = param[u].bina;
+      for (let u in itens) {
+        item.iten = itens[u];
+        item.quantity = quantities[u];
         items.push({ ...item });
       }
-      this.setBrowserData(items);
-      // this.items = [...items];
+      // this.items = items;
       // this.buildTable = true;
+      this.setBrowserData(items);
     },
 
     deleteRow(ev, id) {
-      const p = this.agents.indexOf(ev);
+      const p = this.itens.indexOf(ev);
       this.filas.splice(p, 1);
-      this.agents.splice(p, 1);
+      this.itens.splice(p, 1);
       let toast = {
         isValidated: true,
         title: "USUÁRIO EXCLUÍDO",
@@ -256,7 +174,7 @@ export default {
       this.validateAndToast(toast);
     },
     okayAdd() {
-      let newPausa = this.newRowInput.item.trim();
+      let newPausa = this.newRowInput.iten.trim();
       if (newPausa.length > 0) {
         console.log("Filas ok:");
         console.log(this.filas);
@@ -286,7 +204,7 @@ export default {
       }
     },
     cancelAdd() {
-      let newPausa = this.newRowInput.item.trim();
+      let newPausa = this.newRowInput.iten.trim();
       let toast = {
         isValidated: false,
         title: "NOVA PAUSA NÃO ADICIONADA",
@@ -304,7 +222,7 @@ export default {
       this.newRowInput = { ...this.newRowDefault };
     },
     updateRow(row) {
-      let p = this.editRowInput.item.trim();
+      let p = this.editRowInput.iten.trim();
 
       if (p.length > 0) {
         // checando se o username não está em branco
@@ -335,7 +253,7 @@ export default {
     },
     cancelEdit(row) {
       this.editRowInput = { ...this.newRowDefault };
-      let p = this.filas[row].item;
+      let p = this.filas[row].iten;
       let toast = {
         isValidated: false,
         title: "PAUSA NÃO EDITADA",
@@ -376,7 +294,11 @@ export default {
 };
 </script>
 
-<style> 
+<style>
+.pausas {
+  display: inline !important;
+}
+
 span.fal {
   pointer-events: none;
 }
@@ -413,7 +335,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.item-head-container,
+.iten-head-container,
 .username-head-container,
 .email-head-container,
 .perfilName-head-container,
@@ -425,7 +347,7 @@ input::-webkit-inner-spin-button {
   padding-right: 2px !important;
 }
 
-.item-head {
+.iten-head {
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -451,7 +373,7 @@ input::-webkit-inner-spin-button {
   justify-content: center !important;
 }
 
-.item-body-container,
+.iten-body-container,
 .username-body-container,
 .email-body-container,
 .perfilName-body-container,
@@ -532,11 +454,11 @@ input::-webkit-inner-spin-button {
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="1"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
-  width: 10%;
-}
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="1"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
   text-align: left !important;
+}
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="2"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="2"] {
+  text-align: right !important;
 }
 
 #editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],

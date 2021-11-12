@@ -144,8 +144,8 @@
                       v-model="filas_finish"
                       :close-on-select="false"
                       placeholder="Filas"
-                      :label="'code'"
-                      :track-by="'name'"
+                      :label="'name'"
+                      :track-by="'id'"
                       :options="queues"
                       :multiple="true"
                     />

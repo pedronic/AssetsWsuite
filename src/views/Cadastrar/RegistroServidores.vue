@@ -174,7 +174,6 @@ export default {
       let blankIP = !(this.ip.trim().length > 0);
       let blankType = !(this.type.length > 0);
       let blankName = !(this.name.trim().length > 0);
-      let blankFlag = !(this.flag);
       // console.clear();
       if (
         blankDomain ||
@@ -182,15 +181,13 @@ export default {
         blankType ||
         blankName ||
         blankExt ||
-        blankSip ||
-        blankFlag
+        blankSip
         // blankDocument
       ) {
         console.log(blankDomain);
         console.log(blankIP);
         console.log(blankName);
         console.log(blankType);
-        console.log(blankFlag);
       } else {
         let postBody = {};
         postBody.ip = this.ip;
@@ -199,7 +196,7 @@ export default {
         postBody.name = this.name.trim();
         postBody.gateway_sip_user = this.gateway_sip_user.trim();
         postBody.type = this.tipo.name;
-        postBody.flag = this.flag;
+        postBody.flag = this.flag == true ? 1 : 0;
         // postBody.email = this.email.trim();
         // postBody.type = this.type;
         // postBody.work_time = this.work_time;

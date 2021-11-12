@@ -16,7 +16,7 @@
         </div>
       </div>
     </pages-sub-header>
-    {{ selectedQueues }}
+    <!--{{ selectedQueues }}-->
     <div v-if="BuildTab" class="panel">
       <div class="panel-container show">
         <div class="panel-content">
@@ -26,19 +26,43 @@
               <b-tabs card>
                 <b-tab :title="'Fila ' + firstQueue.code" active>
                   <!-- :number="firstQueue.name" -->
-                  <b-card-text
-                    ><TabelaFila
-                      :id="firstQueue.code"
-                      :queue_name="firstQueue.name"
-                  /></b-card-text>
+                  <b-card-text class="d-inline">
+                    <b-container fluid class="bv-example-row">
+                      <b-row>
+                        <b-col cols="8">
+                          <TabelaFila
+                            :id="firstQueue.code"
+                            :queue_name="firstQueue.name"
+                          />
+                        </b-col>
+                        <b-col cols="4">
+                          <TabelaFilaDashAnalytic :id="firstQueue.code" />
+                        </b-col>
+                      </b-row>
+                    </b-container>
+                  </b-card-text>
                 </b-tab>
                 <div v-for="d in selectedQueues" :key="d.name">
-                  <b-tab :title="'Fila ' + d.code">
+                  <b-tab content-class="mt-5" :title="'Fila ' + d.code">
                     <!-- :queue_number="d.name" -->
-                    <b-card-text
-                      ><TabelaFila :id="d.code" :queue_name="d.name" 
-                    />
-                    <TabelaMCDU />
+                    <b-card-text>
+                      <b-container fluid class="bv-example-row">
+                        <b-row>
+                          <b-col cols="8">
+                            <TabelaFila
+                              class="d-inline"
+                              :id="d.code"
+                              :queue_name="d.name"
+                            />
+                          </b-col>
+                          <b-col cols="4">
+                            <TabelaFilaDashAnalytic
+                              class="d-inline"
+                              :id="d.code"
+                            />
+                          </b-col>
+                        </b-row>
+                      </b-container>
                     </b-card-text>
                   </b-tab>
                 </div>
@@ -70,7 +94,7 @@
             :placeholder="'Filas'"
             :label="'code'"
             :close-on-select="false"
-            :track-by="'name'"
+            :track-by="'id'"
             :options="uploadedQueues"
             :multiple="true"
             :selectLabel="MSprops.selectLabel"
@@ -101,14 +125,14 @@ import { vueMultiselectProps } from "../config/global";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 import TabelaFila from "../components/DataTables/TabelaFila.vue";
-import TabelaMCDU from '../components/DataTables/TabelaMCDU.vue';
+import TabelaFilaDashAnalytic from "../components/DataTables/TabelaFilaDashAnalytic.vue";
 
 export default {
   components: {
     PagesSubHeader,
     Multiselect,
     TabelaFila,
-    TabelaMCDU,
+    TabelaFilaDashAnalytic,
   },
   name: "DashFilas",
   methods: {
@@ -146,21 +170,20 @@ export default {
         let res = await axios.get(baseApiUrl + pages[u]);
         responses.push(res.data.data);
       }
-      var testConcat = responses[0].concat(responses[1], responses[2])
+      var testConcat = responses[0].concat(responses[1], responses[2]);
 
       //CRIAÇÃO DAS FILAS COM CADA REQUEST
 
-            let queues = [];
-            console.log("f.data.data\n", testConcat);
-            for (let u in testConcat) {
-              let fila = {};
-              fila.code = testConcat[u].name;
-              fila.name = testConcat[u].name_queue;
-              queues.push({ ...fila });
-            }
-            this.uploadedQueues = [...queues];
-
-
+      let queues = [];
+      console.log("f.data.data\n", testConcat);
+      for (let u in testConcat) {
+        let fila = {};
+        fila.code = testConcat[u].name;
+        fila.name = testConcat[u].name_queue;
+        fila.id = testConcat[u].id;
+        queues.push({ ...fila });
+      }
+      this.uploadedQueues = [...queues];
     },
 
     configTable() {
