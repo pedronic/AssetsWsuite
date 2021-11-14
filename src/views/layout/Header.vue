@@ -35,7 +35,8 @@
           <i class="ni ni-menu"></i>
       </a>
     </div>
-    <menu-top-left v-if="loggedIn"/>
+    <!-- <menu-top-left v-if="loggedIn"/> -->
+    <menu-top-left />
     <!-- <div class="search">
       <form class="app-forms hidden-xs-down" role="search" action="page_search.html" autocomplete="off">
         <input type="text" id="search-field" placeholder="Pesquisar" class="form-control" tabindex="1">
@@ -225,8 +226,8 @@ import EditButtonHeader from '../../components/editHeader/EditButtonHeader.vue';
 import MenuTopLeft from '../../components/MenuTopLeft/MenuTopLeft.vue';
 import ModulesHeader from '../../components/ModulesHeader/ModulesHeader.vue';
 import PesquisaHeader from '../../components/pesquisa/PesquisaHeader.vue';
-//import PesquisaHeader from '../../components/pesquisa/PesquisaHeader.vue';
 import {mapState} from 'vuex';
+
 export default {
   components: { 
     PageLogo, 

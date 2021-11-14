@@ -343,6 +343,14 @@ export const vueMultiselectProps = {
         selectedLabel:'Selecionado',
         deselectLabel:'Pressione Enter para remover',
         deselectGroupLabel:'Pressione Enter para remover o grupo'
-    }
+}
 
-export default { baseApiUrl, showError, userKey, mailingApiUrl, mailingTestToken, defaultNewUserProfile, defaultOperator, defaultQueue, defaultScriptRow, weekDaysByIndex, vueMultiselectProps }
+export const dropdownAdminPages = [1,2,3,4,5,6,7,8,9,10,11];
+
+export const dropdownActionPages = [12,13];
+
+export const dropdownRelatoriosPages = [14,15];
+
+export const dropdownDashPages = [16,17];
+
+export default { baseApiUrl, showError, userKey, mailingApiUrl, mailingTestToken, defaultNewUserProfile, defaultOperator, defaultQueue, defaultScriptRow, weekDaysByIndex, vueMultiselectProps, dropdownAdminPages, dropdownActionPages, dropdownRelatoriosPages, dropdownDashPages }

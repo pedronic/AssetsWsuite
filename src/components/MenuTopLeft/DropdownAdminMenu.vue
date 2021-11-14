@@ -153,10 +153,10 @@
 </template>
 
 <script>
-// import {baseApiUrl, defaultNewUserProfile} from "../../config/global";
+import {defaultNewUserProfile, dropdownAdminPages} from "../../config/global";
 // import axios from "axios";
 
-const dropdownAdminPages = [1,2,3,4,5,6,7,8,9,10,11];
+// const dropdownAdminPages = [1,2,3,4,5,6,7,8,9,10,11];
 
 export default {
   name: "DropdownAdminMenu",
@@ -166,7 +166,7 @@ export default {
   methods:{
     setDefaultUser(){
       // console.log("Default New User Profile:\n",defaultNewUserProfile)
-      // this.defaultUserData = [{...defaultNewUserProfile}];
+      this.defaultUserData = [{...defaultNewUserProfile}];
       console.log("Default User Data:\n",this.defaultUserData);
     },
     getPages(){
@@ -186,11 +186,11 @@ export default {
       defaultUserData:[],
       defaultAccessPages:[],
       userAccessPages:[],
-      usuarios:false,
+      // usuarios:false,
     }
   },
   created(){
-    // this.setDefaultUser();
+    this.setDefaultUser();
     this.getPages();
     
   }

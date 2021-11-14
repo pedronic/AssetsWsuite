@@ -16,13 +16,13 @@
         <div class="dropdown-divider m-0"></div>
         
         <div class="dropdown-item d-flex itens">
-            <router-link to="" class="mr-auto" >
+            <router-link v-if="userAccessPages[0].browser && userAccessPages[0].read" to="" class="mr-auto" >
                 <i class="fal fa-file-audio iconDAM"></i>
                 <span data-i18n="drpdwn.settings"> Relatório de Gravações</span>
             </router-link>
         </div>
         <div class="dropdown-item d-flex itens" >
-            <router-link to="/relatorios-faturamento" class="mr-auto">
+            <router-link v-if="userAccessPages[1].browser && userAccessPages[1].read" to="/relatorios-faturamento" class="mr-auto">
                 <i class="fal fa-file-invoice-dollar iconDAM"></i>
                 <span data-i18n="drpdwn.settings"> Relatório de Faturamento</span>
             </router-link>
@@ -35,8 +35,32 @@
 </template>
 
 <script>
+import {dropdownRelatoriosPages} from "../../config/global";
+
 export default {
-    name:"DropdownRelatorios"
+    name:"DropdownRelatorios",
+    methods: {
+        getPages(){
+          // let pp = await axios.get(baseApiUrl+"/pages");
+          // this.defaultAccessPages = [...pp.data.data];
+          // console.clear()
+          this.defaultAccessPages = JSON.parse(localStorage.getItem('__userAccessPages'));
+          console.log("Default Access Pages from <DropdownActionMenu/>:\n",this.defaultAccessPages);
+          for(let i in dropdownRelatoriosPages){
+            this.userAccessPages.push({...this.defaultAccessPages[dropdownRelatoriosPages[i]-1]});
+          }
+          console.log("User Access Pages from <DropdownAdminMenu/>:\n",this.userAccessPages);
+        },
+    },
+    created(){
+        this.getPages();
+    },
+    data(){
+        return{
+            defaultAccessPages:[],
+            userAccessPages:[],
+        }
+    }
 }
 </script>
 
