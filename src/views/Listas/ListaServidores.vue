@@ -40,13 +40,23 @@
     <div class="panel">
       <div class="panel-container show">
         <div class="panel-content">
-
-    <TabelaServidores
-      :items="items"
-      :filter="filter"
-      :filter_fields="filter_fields"
-      v-if="buildTable"
-    />
+          <TabelaServidores
+            :items="items"
+            :filter="filter"
+            :filter_fields="filter_fields"
+            v-if="buildTable"
+          />
+          <b-container fluid class="salvar-container">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="total_items"
+              :per-page="perPage"
+              prev-class="single-arrow-button"
+              next-class="single-arrow-button"
+              ellipsis-text="···"
+              @change="showSelectedPage"
+            />
+          </b-container>
         </div>
       </div>
     </div>
@@ -59,19 +69,31 @@ import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
+const perpage = 10;
+
 export default {
   components: {
     PagesSubHeader,
     TabelaServidores,
   },
   methods: {
+    showSelectedPage(page) {
+      this.loadingPage = true;
+      this.getServers(page);
+      this.loadingPage = false;
+    },
+
     setFilter(filter, field) {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getServers() {
-      let res = await axios.get(baseApiUrl + "/servers");
+    async getServers(page) {
+      let pag = page.toString();
+      let res = await axios.get(baseApiUrl + "/servers" + "?page=" + pag);
       let a = res.data.data;
+      this.total_items = res.data.count;
+      this.total_pages = Math.ceil(res.data.count / res.data.limit);
+      this.perPage = res.data.limit > perpage ? res.data.limit : perpage;
       let servers = [];
       let first = {};
       let items = [];
@@ -111,7 +133,7 @@ export default {
   // put
   // delete
   created() {
-    this.getServers();
+    this.getServers(this.currentPage);
     // this.getPages();
     // this.setDefaultUser();
   },
@@ -120,6 +142,13 @@ export default {
       msg: "",
       buildTable: false,
       items: null,
+      // PAGINAÇÃO
+      currentPage: 1,
+      perPage: perpage,
+      loadingPage: false,
+      total_pages: 0,
+      total_items: 0,
+      //FIM DADOS PAGINAÇÃO
       /* [
         {
           names: ["Dickerson", "Larsen"],

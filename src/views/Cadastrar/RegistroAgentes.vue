@@ -150,7 +150,7 @@
                       v-model="queue_default"
                       placeholder="Filas"
                       :label="'name'"
-                      :track-by="'name'"
+                      :track-by="'id'"
                       :options="queues"
                       :multiple="false"
                     />
@@ -161,7 +161,7 @@
                       :preselect-first="true"
                       placeholder="Filas"
                       :label="'name'"
-                      :track-by="'code'"
+                      :track-by="'id'"
                       :options="queues"
                       :multiple="false"
                     />
@@ -181,7 +181,7 @@
           {{ agent }}
           {{ queues }}
           {{ queue_default.name }} -->
-          {{ queue_def.length }}
+          {{ queue_def }}
           {{ queue_default }}
           <!-- DEPURAÇÃO [FIM] -->
           <!-- ------------------------------ -->
@@ -281,6 +281,7 @@ export default {
             console.log("f.data.data\n", testConcat);
             for (let u in testConcat) {
               let fila = {};
+              fila.id = testConcat[u].id;
               fila.code = testConcat[u].name;
               fila.name = testConcat[u].name_queue;
               queues.push({ ...fila });
@@ -328,9 +329,8 @@ export default {
         postBody.name = this.name.trim();
         postBody.cpf = this.cpf;
         postBody.login_crm = this.login_crm.trim();
-        postBody.queue_default = this.queue_default[0].name;
         postBody.journey = this.tipo_jornadas.name;
-        postBody
+        // postBody
         // postBody.email = this.email.trim();
         // postBody.type = this.type;
         // postBody.work_time = this.work_time;
@@ -347,11 +347,11 @@ export default {
         if (validAgent) {
           console.log("valido");
           if (this.id) {
-            postBody.queue_default = this.queue_default[0].code;
+            postBody.queue_default = this.queue_default.code;
             console.log(postBody.queue_default);
             this.putAgent(postBody);
           } else {
-            this.queue_def.length > 0 ? /*postBody.queue_default = this.queue_def[0].code */ console.log("fila preencida") : /*postBody.queue_default = 0*/ console.log("fila vazia");
+            this.queue_def.length == 0 ? postBody.queue_default = 0 :  postBody.queue_default = this.queue_def.code ;
             console.log(postBody.queue_default);
             this.postNewAgent(postBody);
           }
@@ -362,12 +362,11 @@ export default {
   data() {
     return {
       tipo_jornadas: [],
-      queue_default: [
+      queue_default: 
         {
-          name: parseInt(this.$route.params.queue_default),
+          name: this.$route.params.queue_default,
           code: this.$route.params.queue_default,
         },
-      ],
       queue_def: [],
       agents: [],
       queues: [],

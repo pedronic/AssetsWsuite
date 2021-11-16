@@ -44,19 +44,29 @@
       </div> -->
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-        <div class="panel">
+    <div class="panel">
       <div class="panel-container show">
         <div class="panel-content">
-
-    <TabelaFilas_main
-    v-if="buildTable"
-      :items="items"
-      :filter="filter"
-      :filter_fields="filter_fields"
-    />
+          <TabelaFilas_main
+            v-if="buildTable"
+            :items="items"
+            :filter="filter"
+            :filter_fields="filter_fields"
+          />
         </div>
       </div>
-        </div>
+    </div>
+    <b-container fluid class="salvar-container">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="total_items"
+        :per-page="perPage"
+        prev-class="single-arrow-button"
+        next-class="single-arrow-button"
+        ellipsis-text="···"
+        @change="showSelectedPage"
+      />
+    </b-container>
   </div>
 </template>
 
@@ -67,72 +77,88 @@ import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
+const perpage = 10;
+
 export default {
   components: {
     PagesSubHeader,
     TabelaFilas_main,
   },
   methods: {
+    showSelectedPage(page) {
+      this.loadingPage = true;
+      this.getQueues(page);
+      this.loadingPage = false;
+    },
     setFilter(filter, field) {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getQueues() {
-        // ?page=3
-      let res = await axios.get(baseApiUrl + "/queues");
+    async getQueues(page) {
+      let pag = page.toString();
+      let res = await axios.get(baseApiUrl + "/queues" + "?page="+pag);
       let a = res.data.data;
+      this.total_items = res.data.count;
+      this.total_pages = Math.ceil(res.data.count / res.data.limit);
+      this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
       let queues = [];
       let first = {};
       let items = [];
       let queue = {};
 
-        // console.clear();
-        // console.log(u);
+      // console.clear();
+      // console.log(u);
       // for (let i in a) {
       //   u[i].enable = new Boolean(u[i].enable);
       //   this.items[0].queues_number.push(u[i].name);
       //   this.items.push(u[i]);
       // }
-      for(let i in a){
-        queues.push(a[i].queue_number)
+      for (let i in a) {
+        queues.push(a[i].queue_number);
       }
       first.queues_number = [...queues];
-      items.push({...first});
+      items.push({ ...first });
 
-      for(let i in a){
+      for (let i in a) {
         queue.name_queue = a[i].name_queue;
         queue.queue_number = a[i].queue_number;
         queue.type = a[i].type;
         queue.queue_type = a[i].queue_type;
         queue.queue_id = a[i].queue_id;
-        queue.finalization_name = a[i].finalization_name;// Não disponível ainda. futuramente: a[i].profileName;
+        queue.finalization_name = a[i].finalization_name; // Não disponível ainda. futuramente: a[i].profileName;
         queue.break_group_id = a[i].break_group_id;
         queue.route_name = a[i].route_name;
         queue.dial_format = a[i].dial_format;
         queue.speedy = a[i].speedy;
-        queue.flag = a[i].flag?true:false;
-        items.push({...queue});
+        queue.flag = a[i].flag ? true : false;
+        items.push({ ...queue });
       }
-      console.log("Items @getQueues():\n",this.items);
+      console.log("Items @getQueues():\n", this.items);
       this.items = [...items];
-      this.buildTable = true;      
+      this.buildTable = true;
     },
-    
   },
   // get
   // post
   // put
   // delete
   created() {
-    this.getQueues();
+    this.getQueues(this.currentPage);
     // this.getPages();
     // this.setDefaultUser();
   },
   data() {
     return {
       msg: "",
-      buildTable:false,
-      items:null,
+      buildTable: false,
+      items: null,
+      // PAGINAÇÃO
+      currentPage: 1,
+      perPage: perpage,
+      loadingPage: false,
+      total_pages: 0,
+      total_items: 0,
+      //FIM DADOS PAGINAÇÃO
       /* [
         {
           queues_number: ["Dickerson", "Larsen"],
@@ -141,17 +167,16 @@ export default {
         {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', enable: false},
       ], */
       queues_number: [],
-      filter: '',
-      filter_fields: [''],
-      busca: '',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       flag_filter: true,
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
-
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }
@@ -200,4 +225,4 @@ input {
 .dow-color {
   background-color: #1a7f37 !important;
 }
-</style> 
+</style>

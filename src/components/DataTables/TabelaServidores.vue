@@ -17,6 +17,8 @@
       filter-debounce="50"
       :filter-included-fields="filter_fields"
       sticky-header
+      :per-page="10"
+      :busy="busy"
     >
       <template v-slot:head(name)="data">
         <span>{{ data.label }}</span>
@@ -72,7 +74,8 @@
         />
       </template>
       <template v-slot:cell(add)="slot">
-<router-link :to="{
+        <router-link
+          :to="{
             name: 'RegistroServidores',
             params: {
               id: slot.item.id,
@@ -84,14 +87,15 @@
               gateway_sip_user: slot.item.gateway_sip_user,
               gateway_domain: slot.item.gateway_domain,
             },
-          }">
-        <b-button
-          :id="slot.item.name + '_edit'"
-          class="edit-btn"
-          variant="outline"
-          v-html="editIcon"
-        />
-</router-link>
+          }"
+        >
+          <b-button
+            :id="slot.item.name + '_edit'"
+            class="edit-btn"
+            variant="outline"
+            v-html="editIcon"
+          />
+        </router-link>
         <b-btn
           :id="slot.item.name + '_add'"
           v-html="deleteIcon"
@@ -435,6 +439,28 @@ export default {
     // filas(newValue){
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
     // }
+    isLoading(newValue, oldValue) {
+      console.log(
+        "WATCHING PROP 'isLoading'...\n",
+        "\tisLoading OLD:\t",
+        oldValue,
+        "\n\tisLoading NEW:\t",
+        newValue
+      );
+      this.busy = newValue;
+      console.log("Items PROP:\n", this.items);
+    },
+    items(newValue, oldValue) {
+      console.log(
+        "WATCHING PROP 'items'...\n",
+        "\titems OLD:\t",
+        oldValue,
+        "\n\titems NEW:\t",
+        newValue
+      );
+      this.filas = newValue.slice(1, newValue.length);
+      this.names = newValue[0].names;
+    },
   },
   mounted() {
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
@@ -446,6 +472,7 @@ export default {
       editRowInput: Object.assign({}, this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
+      busy: this.isLoading,
       names: this.items[0].names,
       icons: [
         { value: "i1", html: '<span class="fal fa-trash-alt"/>' },

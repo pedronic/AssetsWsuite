@@ -101,3 +101,6 @@ export default {
 // responsividade
 // validacao fields
 </style>
+/* Não era para filas de agentes aceitarem um corpo vazio?
+Robô tem senhas editáveis?
+Padronizar tabs onde?

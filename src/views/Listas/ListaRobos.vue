@@ -77,13 +77,6 @@ export default {
       let items = [];
       let robo = {};
 
-      // console.clear();
-      // console.log(u);
-      // for (let i in a) {
-      //   u[i].flag = new Boolean(u[i].flag);
-      //   this.items[0].names.push(u[i].name);
-      //   this.items.push(u[i]);
-      // }
       for (let i in a) {
         if (a[i].type == "robot") {
           robos.push(a[i].name);

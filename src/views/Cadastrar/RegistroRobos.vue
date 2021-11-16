@@ -48,7 +48,6 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Ramal"
-                    
                   />
                 </div>
               </div>
@@ -60,11 +59,10 @@
                 <i class="fal fa-road fa-2x" style="margin-left: 5px" />
                 <div id="multiselect-input" v-if="id">
                   <multiselect
-                    @change="choose(e)"
                     v-model="queue_default"
                     placeholder="Filas"
                     :label="'name'"
-                    :track-by="'name'"
+                    :track-by="'id'"
                     :options="queues"
                     :multiple="false"
                   />
@@ -74,7 +72,7 @@
                     v-model="queue_def"
                     placeholder="Filas"
                     :label="'name'"
-                    :track-by="'code'"
+                    :track-by="'id'"
                     :options="queues"
                     :multiple="false"
                   />
@@ -118,7 +116,6 @@ export default {
     PagesSubHeader,
   },
   methods: {
-
     async putRobot(nu) {
       console.log(nu);
       let s = await axios.put(`${baseApiUrl}/agents/${this.id}`, nu);
@@ -129,37 +126,62 @@ export default {
       console.log("Post status:\n", s);
     },
 
-    getQueues() {
-      axios.get(baseApiUrl + "/queues").then((f) => {
-        let queue = f.data.data;
-        let queues = [];
-        console.log("f.data.data\n", f.data.data);
-        for (let u in queue) {
-          let fila = {};
-          fila.name = queue[u].name;
-          fila.code = queue[u].name;
-          queues.push({ ...fila });
-        }
-        this.queues = [...queues];
-        this.dataOK = true;
-      });
-    },
     async getRobots() {
-      let robots = await axios.get(baseApiUrl + "/agents");
-      let iterator = robots.data;
-      console.clear();
-      console.log(iterator);
-      for (let u in iterator) {
-        this.names.push(iterator[u].name);
+      let res = await axios.get(baseApiUrl + "/queues");
+      let count = res.data.count;
+      let limit = res.data.limit;
+      var requests = null;
+      var pages = [];
+
+      // CONTAGEM DE PÁGINAS
+      if (count % limit > 0) {
+        requests = parseInt(count / limit + 1);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
+        }
+        console.clear();
+        console.log(pages);
+      } else {
+        requests = parseInt(count / limit);
+        while (requests > 0) {
+          // console.log(requests);
+          pages.push(`/queues?page=${requests}`);
+          requests--;
+        }
+        console.clear();
+        console.log(pages);
       }
-      // console.log(this.names);
+
+      // CRIAÇÃO REQUEST DE CADA PÁGINA
+      var responses = [];
+      for (let u in pages) {
+        let res = await axios.get(baseApiUrl + pages[u]);
+        responses.push(res.data.data);
+      }
+      var testConcat = responses[0].concat(responses[1], responses[2]);
+
+      //CRIAÇÃO DAS FILAS COM CADA REQUEST
+
+      let queues = [];
+      console.log("f.data.data\n", testConcat);
+      for (let u in testConcat) {
+        let fila = {};
+        fila.id = testConcat[u].id;
+        fila.code = testConcat[u].name;
+        fila.name = testConcat[u].name_queue;
+        queues.push({ ...fila });
+      }
+      this.queues = [...queues];
+      this.dataOK = true;
     },
 
     carregar() {
       // Refatorar para incluir avisos de toast após ação
       let blankName = !(this.name.trim().length > 0);
       let blankLogin_crm = !(this.login_crm.trim().length > 0);
-      let blankAgent = !(this.agent > -1)
+      let blankAgent = !(this.agent > -1);
       // let blankDocument = !(this.document.trim().length > 0);
       // console.clear();
       if (blankName || blankLogin_crm || blankAgent) {
@@ -188,11 +210,11 @@ export default {
         if (validRobot) {
           console.log("valido");
           if (this.id) {
-            postBody.queue_default = parseInt(this.queue_default.name);
+            postBody.queue_default = this.queue_default.code;
             console.log(postBody.queue_default);
             this.putRobot(postBody);
           } else {
-            this.queue_def.length > 0 ? postBody.queue_default = this.queue_def.name : postBody.queue_default = 0;
+            this.queue_def.length == 0 ? postBody.queue_default = 0 :  postBody.queue_default = this.queue_def.code ;
             console.log(postBody.queue_default);
             this.postNewRobot(postBody);
           }
@@ -206,7 +228,7 @@ export default {
       names: [],
       queue_default: [
         {
-          name: parseInt(this.$route.params.queue_default),
+          name: this.$route.params.queue_default,
           code: this.$route.params.queue_default,
         },
       ],
@@ -355,4 +377,4 @@ i.fal.fa-2x {
   box-shadow: none;
   border: none;
 }
-</style> 
+</style>

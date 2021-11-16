@@ -34,25 +34,23 @@ Vue.use(VeeValidate, {
     }
   }
 });
-
-
-
 // validar todos os inputs 
 // definir ícones
 //responsividade ~mobile~ 
 // Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} {métodos GET em DashFilas}
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
 // rever sorteables (feito)
-// rever fields 
+// rever fields (feito)
 // bug parametro booleano passado para as tabelas (feito)
-// head lista mailing 
+// head lista mailing  (feito)
 // filas agentes only 0 (por enquanto) (feito)
 // status -> b-formcheackbox (feito)
 // tabelas em panel (feitos)
 // tabela operadora [Local], [LDN], [LDI], [...] -> (classes)
 // paginação em tabelas
-// campo filas nos métodos PUT de agent, usuario e robo
-// ajustes multiselect-vue
-// Refazer get agente com query type 
+// campo filas nos métodos PUT de agent, usuario e robo (feito)
+// ajustes multiselect-vue (feito)
 // Padronizar tabs
 //ajustes na ativação e estlização do tab de DashFilas
+//efeito estranho de transição de tabela em DashFilas
+//bug click em qualquer opção da avelã

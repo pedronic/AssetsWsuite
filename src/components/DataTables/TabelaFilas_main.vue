@@ -17,6 +17,8 @@
       filter-debounce="50"
       :filter-included-fields="filter_fields"
       sticky-header
+      :per-page="10"
+      :busy="busy"
     >
       <template v-slot:head(queue_number)="data">
         <span>{{ data.label }}</span>
@@ -371,9 +373,7 @@ export default {
         isValidated: false,
         title: "FILA MANTIDO",
         message:
-          "Fila " +
-          p.toUpperCase() +
-          " foi mantida. A exclusão foi cancelada.",
+          "Fila " + p.toUpperCase() + " foi mantida. A exclusão foi cancelada.",
       };
       this.validateAndToast(toast);
     },
@@ -390,9 +390,7 @@ export default {
           isValidated: true,
           title: "NOVO FILA ADICIONADA",
           message:
-            "Novo fila " +
-            newPausa.toUpperCase() +
-            " adicionada com sucesso!",
+            "Novo fila " + newPausa.toUpperCase() + " adicionada com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
@@ -484,6 +482,28 @@ export default {
     // filas(newValue){
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
     // }
+    isLoading(newValue, oldValue) {
+      console.log(
+        "WATCHING PROP 'isLoading'...\n",
+        "\tisLoading OLD:\t",
+        oldValue,
+        "\n\tisLoading NEW:\t",
+        newValue
+      );
+      this.busy = newValue;
+      console.log("Items PROP:\n", this.items);
+    },
+    items(newValue, oldValue) {
+      console.log(
+        "WATCHING PROP 'items'...\n",
+        "\titems OLD:\t",
+        oldValue,
+        "\n\titems NEW:\t",
+        newValue
+      );
+      this.filas = newValue.slice(1, newValue.length);
+      this.queues_number = newValue[0].queues_number;
+    },
   },
   // computed() {
   //   Boolean(this.item.enable);
@@ -497,6 +517,7 @@ export default {
       newRowInput: Object.assign({}, this.newRowDefault),
       editRowInput: Object.assign({}, this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
+      busy: this.isLoading,
       deleteIcon: '<span class="fal fa-trash-alt"/>',
       queues_number: this.items[0].queues_number,
       icons: [
@@ -550,7 +571,7 @@ export default {
           key: "speedy",
           label: "Velocidade",
           sortable: true,
-        //   tdStyle: "text-align: center",
+          //   tdStyle: "text-align: center",
         },
         {
           key: "flag",

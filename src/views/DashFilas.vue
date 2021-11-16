@@ -43,7 +43,7 @@
                   </b-card-text>
                 </b-tab>
                 <div v-for="d in selectedQueues" :key="d.name">
-                  <b-tab content-class="mt-5" :title="'Fila ' + d.code">
+                  <b-tab content-class="mt-5" :title="'Fila ' + d.code" lazy>
                     <!-- :queue_number="d.name" -->
                     <b-card-text>
                       <b-container fluid class="bv-example-row">
@@ -92,7 +92,7 @@
           <multiselect
             v-model="selectedQueues"
             :placeholder="'Filas'"
-            :label="'code'"
+            :label="'name'"
             :close-on-select="false"
             :track-by="'id'"
             :options="uploadedQueues"
