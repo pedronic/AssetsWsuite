@@ -35,8 +35,8 @@
           <i class="ni ni-menu"></i>
       </a>
     </div>
-    <!-- <menu-top-left v-if="loggedIn"/> -->
-    <menu-top-left />
+    <menu-top-left v-if="loggedIn"/>
+    <!-- <menu-top-left /> -->
     <!-- <div class="search">
       <form class="app-forms hidden-xs-down" role="search" action="page_search.html" autocomplete="off">
         <input type="text" id="search-field" placeholder="Pesquisar" class="form-control" tabindex="1">
