@@ -456,10 +456,10 @@ input::-webkit-inner-spin-button {
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
   text-align: left !important;
 }
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="2"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="2"] {
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="2"]{
   text-align: right !important;
 }
+
 
 #editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
 #editar-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {

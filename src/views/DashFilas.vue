@@ -16,18 +16,19 @@
         </div>
       </div>
     </pages-sub-header>
-    <!--{{ selectedQueues }}-->
+    <!--{{ firstQueue }}
+    {{ selectedQueues }}-->
     <div v-if="BuildTab" class="panel">
       <div class="panel-container show">
         <div class="panel-content">
           <!-- TAB ITERÁVEL [INÍCIO] -->
           <div class="card tab-card">
             <b-card no-body>
-              <b-tabs card>
-                <b-tab :title="'Fila ' + firstQueue.code" active>
+              <b-tabs justified no-fade>
+                <b-tab :title="firstQueue.code ?  'Fila ' + firstQueue.code : 'Fila'" active lazy>
                   <!-- :number="firstQueue.name" -->
-                  <b-card-text class="d-inline">
-                    <b-container fluid class="bv-example-row">
+                  <b-card-text>
+                    <b-container fluid>
                       <b-row>
                         <b-col cols="8">
                           <TabelaFila
@@ -42,24 +43,17 @@
                     </b-container>
                   </b-card-text>
                 </b-tab>
-                <div v-for="d in selectedQueues" :key="d.name">
+                <div v-for="d in queuesShowing" :key="d.name">
                   <b-tab content-class="mt-5" :title="'Fila ' + d.code" lazy>
                     <!-- :queue_number="d.name" -->
                     <b-card-text>
-                      <b-container fluid class="bv-example-row">
+                      <b-container fluid>
                         <b-row>
                           <b-col cols="8">
-                            <TabelaFila
-                              class="d-inline"
-                              :id="d.code"
-                              :queue_name="d.name"
-                            />
+                            <TabelaFila :id="d.code" :queue_name="d.name" />
                           </b-col>
                           <b-col cols="4">
-                            <TabelaFilaDashAnalytic
-                              class="d-inline"
-                              :id="d.code"
-                            />
+                            <TabelaFilaDashAnalytic :id="d.code" />
                           </b-col>
                         </b-row>
                       </b-container>
@@ -111,7 +105,6 @@
       <label class="mt-2 text-danger" v-show="isInvalid"
         >Você só pode selecionar até 10 filas para visualização!</label
       >
-      <!-- <QueueAdder /> -->
       <!-- {{ operadoras_criadas }} -->
     </b-modal>
     <!-- Modal de edição [Fim] -->
@@ -187,12 +180,15 @@ export default {
     },
 
     configTable() {
-      let first = {};
-      first.name = this.firstQueue.name;
-      first.code = this.firstQueue.code;
-      this.selectedQueues.unshift(first);
-      this.BuildTab = false;
-      this.modalShow = !this.modalShow;
+      if (this.firstQueue.name) {
+        let first = {};
+        first.name = this.firstQueue.name;
+        first.code = this.firstQueue.code;
+        this.selectedQueues.unshift(first);
+        this.modalShow = !this.modalShow;
+      } else {
+        this.modalShow = !this.modalShow;
+      }
     },
 
     onSelect() {
@@ -205,10 +201,11 @@ export default {
 
     refresh() {
       this.firstQueue = {};
+      this.BuildTab = true;
       this.firstQueue.name = this.selectedQueues[0].name;
       this.firstQueue.code = this.selectedQueues[0].code;
       this.selectedQueues.shift();
-      this.BuildTab = true;
+      this.queuesShowing = this.selectedQueues
       this.modalShow = !this.modalShow;
     },
   },
@@ -223,6 +220,7 @@ export default {
       modalShow: true,
       MSprops: vueMultiselectProps,
       isInvalid: false,
+      queuesShowing: []
     };
   },
   mounted() {
@@ -234,6 +232,9 @@ export default {
 </script>
 
 <style>
+.tab-content {
+  margin: 0px auto !important;
+}
 .user-name-line {
   align-items: center !important;
   border-style: solid;

@@ -50,7 +50,12 @@ Vue.use(VeeValidate, {
 // paginação em tabelas
 // campo filas nos métodos PUT de agent, usuario e robo (feito)
 // ajustes multiselect-vue (feito)
-// Padronizar tabs
-//ajustes na ativação e estlização do tab de DashFilas
-//efeito estranho de transição de tabela em DashFilas
-//bug click em qualquer opção da avelã
+// Padronizar tabs (feito)
+//ajustes na ativação e estlização do tab de DashFilas (feito)
+//efeito estranho de transição de tabela em DashFilas (feito)
+//bug click em qualquer opção da avelã (feito)
+//verificadores de erros de preenchimento forms
+// alinhamento colunas dashFilaAnalytic (feito)
+// items que serão exibidos em DashFilaAnal (hAlLaL)
+//min-width botoes da tabela (feito)
+// bug do sidebar que fica abrindo ao se aproximar (feito)

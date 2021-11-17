@@ -657,6 +657,7 @@ input::-webkit-inner-spin-button {
 [aria-colindex="4"] {
   width: 6%;
   text-align: center;
+  min-width: 100px;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="3"],
 [aria-colindex="2"],

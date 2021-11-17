@@ -647,10 +647,8 @@ input::-webkit-inner-spin-button {
   width: 3.5%;
   text-align: center;
 }
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="7"],
-[aria-colindex="6"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="7"],
-[aria-colindex="6"] {
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="6"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="6"] {
   width: 3%;
   text-align: center;
   justify-content: center;
