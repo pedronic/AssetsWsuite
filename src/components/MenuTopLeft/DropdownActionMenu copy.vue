@@ -7,7 +7,7 @@
     :class="{'show':isExpanded}" :style="isExpanded ? 'position: absolute; top: 66px; left: 347px; will-change: top, left;':''" :x-placement="isExpanded ? 'bottom-start':''"
   >
     <div class="dropdown-divider m-0"></div>
-    <router-link v-if="userAccessPages[0].browser" :to="{ name: 'ListaMailing' }" @click.native.prevent="tellToColapse">
+      <router-link v-if="userAccessPages[0].browser" :to="{ name: 'ListaMailing' }" @click.native.prevent="tellToColapse">
     <div class="dropdown-item d-flex itens">
           <i class="fal fa-list-ol iconDAM"></i>
           <span data-i18n="drpdwn.settings"> Mailing</span>
