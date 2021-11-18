@@ -25,7 +25,21 @@
 
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-    <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable"/>
+    <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable" :isLoading="loadingPage"/>
+    <b-container fluid class="salvar-container">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="total_items"
+              :per-page="perPage"
+              aria-controls="my-table"
+              prev-class="single-arrow-button"
+              next-class="single-arrow-button"
+              ellipsis-text="···"
+              @change="showSelectedPage"
+            />
+        <!-- </b-container>
+        <b-container fluid class="salvar-container"> -->
+        </b-container>
   </div>
 </template>
 

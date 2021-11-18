@@ -2,7 +2,7 @@
   <div class="operadoras">
     <b-table id="tabela-de-operadoras" :ref="'tabela-de-operadoras'"
              :fields="fields" :items="filas"
-             :responsive="true" class="tabela-operadoras table-sm table-hover table-striped w-100 dt-responsive dtr-inline" sticky-header :per-page="10">
+             :responsive="true" class="tabela-operadoras table-sm table-hover table-striped w-100 dt-responsive dtr-inline" sticky-header :per-page="10" :busy="busy">
       <template v-slot:head(nome)="data">
         <span>{{ data.label }}</span>
       </template>
@@ -355,6 +355,7 @@ export default {
   mixins: [ValidateToaster],
   props: {
     items: Array,
+    isLoading:{type:Boolean, default:false}
   },
   methods: {
     deleteRow(op,id) {
@@ -488,11 +489,22 @@ export default {
     localStorage.setItem('__pedro-dev', JSON.stringify(this.items.slice(1, this.items.length)));
   },
   watch: {
+    isLoading(newValue, oldValue){
+      console.log("WATCHING PROP 'isLoading'...\n","\tisLoading OLD:\t",oldValue,"\n\tisLoading NEW:\t",newValue);
+      this.busy = newValue;
+      console.log("Items PROP:\n",this.items);
+    },
+    items(newValue, oldValue){
+      console.log("WATCHING PROP 'items'...\n","\titems OLD:\t",oldValue,"\n\titems NEW:\t",newValue);
+      this.filas = newValue.slice(1,newValue.length);
+      this.operadoras = newValue[0].operadoras;
+    }
   },
   mounted() {
   },
   data() {
     return {
+      busy:this.isLoading,
       filas: this.items.slice(1, this.items.length),
       newRowInput: Object.assign({}, this.newRowDefault),
       editRowInput: Object.assign({}, this.newRowDefault),
