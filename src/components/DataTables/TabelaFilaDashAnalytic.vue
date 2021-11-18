@@ -120,7 +120,7 @@ export default {
 
       setTimeout(() => {
         this.getFields();
-      }, 1000);
+      }, 10000);
     },
 
     async getFields() {
@@ -145,9 +145,9 @@ export default {
         item.quantity = quantities[u];
         items.push({ ...item });
       }
-      // this.items = items;
-      // this.buildTable = true;
-      this.setBrowserData(items);
+      console.log(items);
+      const onViewItems = items.slice(6)
+      this.setBrowserData(onViewItems);
     },
 
     deleteRow(ev, id) {

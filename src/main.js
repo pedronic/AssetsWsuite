@@ -56,6 +56,6 @@ Vue.use(VeeValidate, {
 //bug click em qualquer opção da avelã (feito)
 //verificadores de erros de preenchimento forms
 // alinhamento colunas dashFilaAnalytic (feito)
-// items que serão exibidos em DashFilaAnal (hAlLaL)
+// items que serão exibidos em DashFilaAnal (feito)
 //min-width botoes da tabela (feito)
 // bug do sidebar que fica abrindo ao se aproximar (feito)
