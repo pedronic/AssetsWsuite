@@ -229,6 +229,7 @@ import PesquisaHeader from '../../components/pesquisa/PesquisaHeader.vue';
 import {mapState} from 'vuex';
 
 export default {
+  name: "Header",
   components: { 
     PageLogo, 
     UserHeader, 
@@ -239,11 +240,10 @@ export default {
     PesquisaHeader, 
   //PesquisaHeader 
   },
-  name: "Header",
   watch: mapState(['login']),
   computed:{
     loggedIn(){
-      return this.$store.state.login
+      return this.$store.state.login;
     }
   },
   data(){

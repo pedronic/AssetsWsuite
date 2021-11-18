@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown-menu dropdown-menu-animated dropdown-lg w-app-drop-dash">
+    <div class="dropdown-menu dropdown-menu-animated dropdown-lg w-app-drop-dash" :class="{'show':isExpanded}" :style="isExpanded ? 'position: absolute; top: 66px; left: 347px; will-change: top, left;':''" :x-placement="isExpanded ? 'bottom-start':''">
         <!-- <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
             <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                     <span class="mr-2">
@@ -35,6 +35,15 @@ import {dropdownDashPages} from "../../config/global";
 
 export default {
     name: "DropdownDash",
+    props:{
+        expandedDash:{type: Boolean, default: false}
+    },
+    watch:{
+      expandedDash(newValue, oldValue){
+        console.log("WATCHING PROP 'expanded'...\n",oldValue)
+        this.isExpanded = newValue;
+      }
+    },
     methods: {
         getPages(){
           // let pp = await axios.get(baseApiUrl+"/pages");
@@ -55,6 +64,7 @@ export default {
         return{
             defaultAccessPages:[],
             userAccessPages:[],
+            isExpanded:this.expandedDash,
         }
     }
 }

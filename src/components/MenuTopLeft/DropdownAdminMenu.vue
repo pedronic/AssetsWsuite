@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown-menu dropdown-menu-animated dropdown-lg w-app-drop-admin">
+  <div class="dropdown-menu dropdown-menu-animated dropdown-lg w-app-drop-admin" :class="{'show':isExpanded}" :style="isExpanded ? 'position: absolute; top: 66px; left: 347px; will-change: top, left;':''" :x-placement="isExpanded ? 'bottom-start':''">
     <!-- <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
             <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                     <span class="mr-2">
@@ -161,7 +161,14 @@ import {defaultNewUserProfile, dropdownAdminPages} from "../../config/global";
 export default {
   name: "DropdownAdminMenu",
   props:{
-    accessPages:Array
+    accessPages:Array,
+    expandedAdm:{type: Boolean, default: false}
+  },
+  watch:{
+    expandedAdm(newValue, oldValue){
+      console.log("WATCHING PROP 'expanded'...\n",oldValue)
+      this.isExpanded = newValue;
+    }
   },
   methods:{
     setDefaultUser(){
@@ -186,6 +193,7 @@ export default {
       defaultUserData:[],
       defaultAccessPages:[],
       userAccessPages:[],
+      isExpanded:this.expandedAdm,
       // usuarios:false,
     }
   },
