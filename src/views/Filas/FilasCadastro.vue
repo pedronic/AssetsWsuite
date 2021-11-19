@@ -41,7 +41,7 @@
                             <div class="profile-content user-name-line d-flex">
                                 <i class="fal fa-user fa-2x" style="margin-left: 5px;" />
                                 <div id="multiselect-input">
-                                    <multiselect v-model="tipo_fila" :placeholder="'Tipo da Fila'" :label="'name'" :track-by="'code'" :options="filas_tipos" :multiple="true" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" />
+                                    <multiselect class="multiple-true" v-model="tipo_fila" :placeholder="'Tipo da Fila'" :label="'name'" :track-by="'code'" :options="filas_tipos" :multiple="true" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" />
                                 </div>
                             </div>
                         </b-col>
@@ -182,7 +182,7 @@
                                                 <i class="fal fa-ad fa-2x" style="margin-left: 5px;" />
                                                 <!-- <b-form-input id="profile-name-input"  type="text" placeholder="Black Lists"/> -->
                                                 <div id="multiselect-input">
-                                                    <multiselect v-model="tipo_blacklists" :placeholder="'Blacklists'" :label="'name'" :track-by="'code'" :options="blacklists_tipos" :multiple="true" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedBlacklists" @remove="resetSelectedBlacklists"/>
+                                                    <multiselect class="multiple-true" v-model="tipo_blacklists" :placeholder="'Blacklists'" :label="'name'" :track-by="'code'" :options="blacklists_tipos" :multiple="true" :selectLabel="MSprops.selectLabel" :selectGroupLabel="MSprops.selectGroupLabel" :selectedLabel="MSprops.selectedLabel" :deselectLabel="MSprops.deselectLabel" :deselectGroupLabel="MSprops.deselectGroupLabel" @select="setSelectedBlacklists" @remove="resetSelectedBlacklists"/>
                                                 </div>
                                             </div>
                                         </b-col>
