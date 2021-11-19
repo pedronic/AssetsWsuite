@@ -19,6 +19,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Nome"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -31,6 +32,7 @@
                       id="profile-name-input"
                       type="email"
                       placeholder="Email"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -43,6 +45,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Usuário"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -59,6 +62,7 @@
                       id="profile-name-input"
                       type="password"
                       placeholder="Senha"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -72,6 +76,7 @@
                       id="profile-name-input"
                       type="password"
                       placeholder="Confirmar Senha"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -147,6 +152,7 @@
                       :label="'name'"
                       :track-by="'id'"
                       :options="queues"
+                      :required="true"
                       :multiple="true"
                     />
                   </div>
@@ -288,8 +294,10 @@ export default {
     },
     async postNewUser(nu) {
       console.log(nu);
-      let s = await axios.post(`${baseApiUrl}/users/`, nu);
+      let s = await axios.post(`${baseApiUrl}/users/`, nu)
+      .catch();
       console.log("Post status:\n", s);
+
     },
     async putUser(nu) {
       console.log(nu);

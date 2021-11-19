@@ -18,6 +18,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Nome"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -33,6 +34,7 @@
                       id="profile-name-input"
                       type="text"
                       placeholder="Login"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -48,6 +50,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Ramal"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -65,6 +68,7 @@
                     :track-by="'id'"
                     :options="queues"
                     :multiple="false"
+                    :required="true"
                   />
                 </div>
                 <div id="multiselect-input" v-else>
@@ -75,6 +79,7 @@
                     :track-by="'id'"
                     :options="queues"
                     :multiple="false"
+                    :required="true"
                   />
                 </div>
               </div>

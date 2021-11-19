@@ -591,6 +591,11 @@ input::-webkit-inner-spin-button {
   vertical-align: middle !important;
   justify-content: center !important;
 }
+.b-table-sticky-header > .table.b-table > thead > tr > th {
+    position: sticky I !important;
+    top: -1px !important;
+    z-index: 2 !important;
+}
 
 .name-body-container,
 .username-body-container,

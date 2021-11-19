@@ -20,6 +20,7 @@
                       id="profile-name-input"
                       type="text"
                       placeholder="Nome"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -36,6 +37,7 @@
                         :track-by="'code'"
                         :options="types"
                         :multiple="false"
+                        :required="true"
                       />
                     </div>
                     <div id="multiselect-input" v-else>
@@ -47,6 +49,7 @@
                         :options="types"
                         :multiple="false"
                         :preselect-first="true"
+                        :required="true"
                       />
                     </div>
                   </div>
@@ -61,6 +64,7 @@
                       id="profile-name-input"
                       type="text"
                       placeholder="IP"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -81,6 +85,7 @@
                       id="profile-name-input"
                       type="text"
                       placeholder="gateway_domain"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -93,6 +98,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="gateway_ext"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -104,6 +110,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="gateway_sip_user"
+                    :required="true"
                   />
                 </div>
               </div>

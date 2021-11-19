@@ -18,6 +18,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Nome"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -30,6 +31,7 @@
                       v-model="email"
                       type="email"
                       placeholder="E-mail"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -45,6 +47,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Login"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -61,6 +64,7 @@
                       id="profile-name-input"
                       type="password"
                       placeholder="Senha"
+                      :required="true"
                     />
                   </div>
                 </div>
@@ -76,6 +80,7 @@
                     id="profile-name-input"
                     type="password"
                     placeholder="Confirmar senha"
+                    :required="true"
                   />
                 </div>
               </div>
@@ -90,6 +95,7 @@
                     id="profile-name-input"
                     type="text"
                     placeholder="Ramal"
+                    :required="true"
                   />
                 </div>
               </div>
