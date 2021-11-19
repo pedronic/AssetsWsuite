@@ -60,7 +60,7 @@
             <div class="col-12">
               <div class="profile-content user-name-line d-flex">
                 <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                <div id="multiselect-input" v-if="id">
+                <div id="multiselect-input" class="multiple-true" v-if="id">
                   <multiselect
                     v-model="queue_default"
                     placeholder="Filas"
@@ -71,7 +71,7 @@
                     :required="true"
                   />
                 </div>
-                <div id="multiselect-input" v-else>
+                <div id="multiselect-input" class="multiple-true" v-else>
                   <multiselect
                     v-model="queue_def"
                     placeholder="Filas"
@@ -219,7 +219,9 @@ export default {
             console.log(postBody.queue_default);
             this.putRobot(postBody);
           } else {
-            this.queue_def.length == 0 ? postBody.queue_default = 0 :  postBody.queue_default = this.queue_def.code ;
+            this.queue_def.length == 0
+              ? (postBody.queue_default = 0)
+              : (postBody.queue_default = this.queue_def.code);
             console.log(postBody.queue_default);
             this.postNewRobot(postBody);
           }

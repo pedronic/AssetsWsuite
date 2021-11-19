@@ -150,9 +150,8 @@
               <div class="col-4">
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                  <div id="multiselect-input" v-if="id">
+                  <div id="multiselect-input" class="multiple-true" v-if="id">
                     <multiselect
-                    @change="choose(e)"
                       v-model="queue_default"
                       placeholder="Filas"
                       :label="'name'"
@@ -161,7 +160,7 @@
                       :multiple="false"
                     />
                   </div>
-                  <div id="multiselect-input" v-else>
+                  <div id="multiselect-input" class="multiple-true" v-else>
                     <multiselect
                       v-model="queue_def"
                       :preselect-first="true"
@@ -279,22 +278,20 @@ export default {
         let res = await axios.get(baseApiUrl + pages[u]);
         responses.push(res.data.data);
       }
-      var testConcat = responses[0].concat(responses[1], responses[2])
+      var testConcat = responses[0].concat(responses[1], responses[2]);
 
       //CRIAÇÃO DAS FILAS COM CADA REQUEST
 
-            let queues = [];
-            console.log("f.data.data\n", testConcat);
-            for (let u in testConcat) {
-              let fila = {};
-              fila.id = testConcat[u].id;
-              fila.code = testConcat[u].name;
-              fila.name = testConcat[u].name_queue;
-              queues.push({ ...fila });
-            }
-            this.queues = [...queues];
-
-
+      let queues = [];
+      console.log("f.data.data\n", testConcat);
+      for (let u in testConcat) {
+        let fila = {};
+        fila.id = testConcat[u].id;
+        fila.code = testConcat[u].name;
+        fila.name = testConcat[u].name_queue;
+        queues.push({ ...fila });
+      }
+      this.queues = [...queues];
     },
     async putAgent(nu) {
       console.log(nu);
@@ -349,7 +346,7 @@ export default {
         //   this.queue_default.push(this.queue_default[f]);
         // }
         let validAgent = !(this.agents.indexOf(this.agent) < -1);
-        
+
         if (validAgent) {
           console.log("valido");
           if (this.id) {
@@ -357,7 +354,9 @@ export default {
             console.log(postBody.queue_default);
             this.putAgent(postBody);
           } else {
-            this.queue_def.length == 0 ? postBody.queue_default = 0 :  postBody.queue_default = this.queue_def.code ;
+            this.queue_def.length == 0
+              ? (postBody.queue_default = 0)
+              : (postBody.queue_default = this.queue_def.code);
             console.log(postBody.queue_default);
             this.postNewAgent(postBody);
           }
@@ -368,11 +367,10 @@ export default {
   data() {
     return {
       tipo_jornadas: [],
-      queue_default: 
-        {
-          name: this.$route.params.queue_default,
-          code: this.$route.params.queue_default,
-        },
+      queue_default: {
+        name: this.$route.params.queue_default,
+        code: this.$route.params.queue_default,
+      },
       queue_def: [],
       agents: [],
       queues: [],
@@ -421,21 +419,23 @@ export default {
     this.getQueues();
     this.getAgents();
 
-    $(document).on("click", "#close-preview", function () {
+    $(document).on("click", "#close-preview", function() {
       $(".image-preview").popover("hide");
     });
 
-    $(function () {
+    $(function() {
       // Clear event
-      $(".image-preview-clear").click(function () {
-        $(".image-preview").attr("data-content", "").popover("hide");
+      $(".image-preview-clear").click(function() {
+        $(".image-preview")
+          .attr("data-content", "")
+          .popover("hide");
         $(".image-preview-filename").val("");
         $(".image-preview-clear").hide();
         $(".image-preview-input input:file").val("");
         $(".image-preview-input-title").text(" ");
       });
       // Create the preview image
-      $(".image-preview-input input:file").change(function () {
+      $(".image-preview-input input:file").change(function() {
         var img = $("<img/>", {
           id: "dynamic",
           width: 50,
@@ -444,7 +444,7 @@ export default {
         var file = this.files[0];
         var reader = new FileReader();
         // Set preview image into the popover data-content
-        reader.onload = function (e) {
+        reader.onload = function(e) {
           $(".image-preview-input-title").text(".  Trocar");
           $(".image-preview-clear").show();
           $(".image-preview-filename").val(file.name);
@@ -583,4 +583,4 @@ i.fal.fa-2x {
   box-shadow: none;
   border: none;
 }
-</style> 
+</style>

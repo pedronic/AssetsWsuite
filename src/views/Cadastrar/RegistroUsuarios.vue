@@ -144,7 +144,7 @@
               <div class="col-12">
                 <div class="profile-content user-name-line d-flex">
                   <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                  <div id="multiselect-input">
+                  <div id="multiselect-input" class="multiple-true">
                     <multiselect
                       v-model="filas_finish"
                       :close-on-select="false"
@@ -442,6 +442,7 @@ export default {
 </script>
 
 <style scoped>
+
 .btn#butao {
   padding: 2px 4px 0px 2px !important;
 }
