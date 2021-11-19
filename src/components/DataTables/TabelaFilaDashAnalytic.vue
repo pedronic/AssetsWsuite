@@ -4,7 +4,7 @@
       id="tabela-de-pausas"
       :ref="'tabela-de-pausas'"
       class="
-        tabela-pausas
+        tabela-dash
         table-sm table-hover table-striped
         dtr-inline
         w-100
@@ -388,12 +388,12 @@ input::-webkit-inner-spin-button {
   padding-right: 2px !important;
 }
 
-.tabela-pausas
+.tabela-dash
   > .table.b-table.table-sm
   > thead
   > tr
   > [aria-sort]:not(.b-table-sort-icon-left),
-.tabela-pausas
+.tabela-dash
   > .table.b-table.table-sm
   > tfoot
   > tr
@@ -401,19 +401,19 @@ input::-webkit-inner-spin-button {
   background-position: right calc(0.3rem / 2) bottom 10px;
   padding-right: calc(0.3rem + 0.65em);
 }
-.tabela-pausas > .table.b-table > thead > tr > [aria-sort="none"],
-.tabela-pausas > .table.b-table > tfoot > tr > [aria-sort="none"] {
+.tabela-dash > .table.b-table > thead > tr > [aria-sort="none"],
+.tabela-dash > .table.b-table > tfoot > tr > [aria-sort="none"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important;
 }
-.tabela-pausas > .table.b-table > thead > tr > [aria-sort="ascending"],
-.tabela-pausas > .table.b-table > tfoot > tr > [aria-sort="ascending"] {
+.tabela-dash > .table.b-table > thead > tr > [aria-sort="ascending"],
+.tabela-dash > .table.b-table > tfoot > tr > [aria-sort="ascending"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' opacity='.3' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
-.tabela-pausas > .table.b-table > thead > tr > [aria-sort="descending"],
-.tabela-pausas > .table.b-table > tfoot > tr > [aria-sort="descending"] {
+.tabela-dash > .table.b-table > thead > tr > [aria-sort="descending"],
+.tabela-dash > .table.b-table > tfoot > tr > [aria-sort="descending"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
-.tabela-pausas > .table.b-table > thead > tr > .table-b-table-default {
+.tabela-dash > .table.b-table > thead > tr > .table-b-table-default {
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -423,46 +423,13 @@ input::-webkit-inner-spin-button {
   vertical-align: middle !important;
 }
 
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {
-  width: 3.5%;
-  text-align: center;
-}
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="7"],
-[aria-colindex="6"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="7"],
-[aria-colindex="6"] {
-  width: 3%;
-  text-align: center;
-  justify-content: center;
-  /* display: table-cell; */
-  min-width: 100px;
-}
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="5"],
-[aria-colindex="4"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="5"],
-[aria-colindex="4"] {
-  width: 6%;
-  text-align: center;
-}
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="3"],
-[aria-colindex="2"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="3"],
-[aria-colindex="2"] {
-  width: 6%;
-  text-align: center;
-}
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="1"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
+.tabela-dash > .table.b-table > tbody > tr > [aria-colindex="1"],
+.tabela-dash > .table.b-table > thead > tr > [aria-colindex="1"] {
   text-align: left !important;
 }
-.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="2"]{
+.tabela-dash > .table.b-table > tbody > tr > [aria-colindex="2"]{
   text-align: right !important;
 }
 
 
-#editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
-#editar-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {
-  display: none !important;
-}
 </style>

@@ -416,7 +416,7 @@ export default {
 };
 </script>
 
-<style> 
+<style > 
 .pausas {
   display: inline !important;
 }
@@ -568,20 +568,27 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="3"],
-[aria-colindex="2"],
-.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="3"],
-[aria-colindex="2"] {
-  width: 6%;
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="3"]
+ {
+  width: 5%;
   text-align: center;
 }
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="2"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="2"]
+ {
+  width: 5%;
+    text-align: left;
+}
+
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="1"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
   width: 10%;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="1"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
-  text-align: left !important;
+  text-align: left ;
 }
+
 
 #editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
 #editar-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {

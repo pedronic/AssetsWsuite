@@ -1,4 +1,4 @@
-<!--  este é um componente que faz um formulário para castrar usuários no banco de dados-->
+<!--  este é um componente que faz um formulário para cadastrar usuários no banco de dados-->
 <template>
   <div class="formularios">
     <PagesSubHeader icon="fal fa-user" titulo="Usuários do sistema">
@@ -162,8 +162,8 @@
           {{ perfilName }}
           {{ queues }}
           {{ filas_finish }}
-          {{ filas }} -->
           {{ id }}
+          {{ filas }} -->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
               <button class="btn btn-dark botao-salvar" type="submit">

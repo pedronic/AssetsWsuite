@@ -180,9 +180,9 @@
           {{ jornadas_tipos }}
           {{ agent }}
           {{ queues }}
-          {{ queue_default.name }} -->
           {{ queue_def }}
           {{ queue_default }}
+          {{ queue_default.name }} -->
           <!-- DEPURAÇÃO [FIM] -->
           <!-- ------------------------------ -->
           <!-- <div class="panel">

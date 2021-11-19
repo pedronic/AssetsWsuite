@@ -111,10 +111,10 @@
           </div>
           <!-- LINHA 2: FIM -->
           <!-- DEPURAÇÃO -->
-          <!-- {{ servers }} -->
+          <!-- {{ servers }}
           {{ type }}
           {{ flag }}
-          {{ tipo }}
+          {{ tipo }} -->
           <!-- DEPURAÇÃO [FIM]-->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">

@@ -70,12 +70,14 @@
     <!-- Modal de adição [Início] -->
     <b-modal
       v-model="modalShow"
-      id="new_line"
+      id="new_line modal-center"
+      centered
       size="xl"
       ok-only
       ok-title="Salvar"
       ok-variant="info"
       @ok="refresh()"
+      @close="refresh()"
       modalShow="!modalShow"
       title=" "
     >
@@ -89,6 +91,7 @@
             :label="'name'"
             :close-on-select="false"
             :track-by="'id'"
+            open-direction="top"
             :options="uploadedQueues"
             :multiple="true"
             :selectLabel="MSprops.selectLabel"
