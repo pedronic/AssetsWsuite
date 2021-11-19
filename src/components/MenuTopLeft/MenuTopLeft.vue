@@ -4,9 +4,12 @@
     <action-menu id="action-menu" @click.native.prevent="actionClicked" :class="{'show': actionClass}" :expanded="actionClass"/>
     <relatorios-menu id="relatorios-menu" @click.native.prevent="relatoriosClicked" :class="{'show': relatoriosClass}" :expanded="relatoriosClass"/>
     <dash-menu id="dash-menu" @click.native.prevent="dashClicked" :class="{'show': dashClass}" :expanded="dashClass"/> -->
-    <admin-menu id="admin-menu" :class="{'show': adminClass}" :expanded="adminClass"/>
-    <action-menu id="action-menu" :class="{'show': actionClass}" :expanded="actionClass"/>
-    <relatorios-menu id="relatorios-menu" :class="{'show': relatoriosClass}" :expanded="relatoriosClass"/>
+    <!-- <admin-menu id="admin-menu" :class="{'show': adminClass}" :expanded="adminClass"/> -->
+    <admin-menu/>
+    <!-- <action-menu id="action-menu" :class="{'show': actionClass}" :expanded="actionClass"/> -->
+    <action-menu/>
+    <!-- <relatorios-menu id="relatorios-menu" :class="{'show': relatoriosClass}" :expanded="relatoriosClass"/> -->
+    <relatorios-menu/>
     <dash-menu id="dash-menu" :class="{'show': dashClass}" :expanded="dashClass"/>
   </div>
 </template>

@@ -61,3 +61,38 @@ label[for="status-button"]{
   .multiselect__tags{
       max-height: 500px !important;
   }
+
+  i.fal.iconDAM{
+    padding-right: 10px;
+    margin-left: -15px;
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  ul.dropdown-menu.show>div.container-fluid{
+      min-width: 250px;
+      line-height:2.8rem;
+  }
+  ul.dropdown-menu.show>div.container-fluid>div.col-12>div.row{
+      line-height:1.8rem;
+  }
+
+  ul.dropdown-menu.show>div.container-fluid>div.col-12>div.row>div.col-10, ul.dropdown-menu.show>div.container-fluid>div.col-12>div.row>div.col-2{
+      padding-left:0px;
+  }
+
+  button.btn.dropdown-toggle.btn-link.dropdown-toggle-no-caret{
+    min-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  li.dropdown-item.d-flex.itens{
+    padding-left: 0px;
+  }
+
+  span.iconDAM{
+    margin-left:5px;
+  }
