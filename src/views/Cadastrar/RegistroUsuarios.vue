@@ -92,6 +92,8 @@
                       :track-by="'id'"
                       :options="perfis"
                       :multiple="false"
+                      :allow-empty="false"
+                      :preselectFirst="true"
                     />
                   </div>
                 </div>
@@ -146,13 +148,14 @@
                   <i class="fal fa-road fa-2x" style="margin-left: 5px" />
                   <div id="multiselect-input" class="multiple-true">
                     <multiselect
+                      @select="inactive = false"
                       v-model="filas_finish"
                       :close-on-select="false"
                       placeholder="Filas"
                       :label="'name'"
                       :track-by="'id'"
                       :options="queues"
-                      :required="true"
+                      :allow-empty="false"
                       :multiple="true"
                     />
                   </div>
@@ -160,21 +163,25 @@
               </div>
             </div>
           </div>
-          <!-- 
+          <!-- DEPURAÇÃO
           {{ name }}
           {{ email }}
           {{ username }}
           {{ enable }}
           {{ perfilName }}
           {{ queues }}
-          {{ filas_finish }}
           {{ id }}
+          {{ filas_finish }}
           {{ filas }} -->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
-              <button class="btn btn-dark botao-salvar" type="submit">
+              <b-button
+                class="btn btn-dark botao-salvar"
+                :disabled="inactive"
+                type="submit"
+              >
                 Salvar
-              </button>
+              </b-button>
             </b-col>
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
@@ -194,14 +201,13 @@
 // import Usuario from "../../domain/User/Usuario";
 import Multiselect from "vue-multiselect";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-import "jquery";
 // import "select2";
-import axios from "axios";
+import axios from "axios"; //ferramenta responsável pela promisse (awair)
 import { baseApiUrl } from "@/config/global";
 
 export default {
   components: {
-    PagesSubHeader,
+    PagesSubHeader, //título da página com ícone (via slot)
     Multiselect,
   },
   name: "RegistroUsuarios",
@@ -210,6 +216,7 @@ export default {
       console.log("Filas Selecionadas:\n", this.filas_finish);
     },
     async getUserQueues() {
+      //pega as filas em que o usuário está inserido passando o ID enviado por ele na tabela
       console.clear();
       var res = await axios.get(baseApiUrl + "/users/queues/");
       var response = res.data;
@@ -223,9 +230,10 @@ export default {
           this.filas_finish.push(selectedQueue);
         }
       }
-      this.dataOK = true;
+      this.dataOK = true; //depois que está tudo ok, ele ativa as tabelas
     },
     async getQueues() {
+      //Pega todas as filas disponíveis
       let res = await axios.get(baseApiUrl + "/queues");
       let count = res.data.count;
       let limit = res.data.limit;
@@ -248,7 +256,6 @@ export default {
           pages.push(`/queues?page=${requests}`);
           requests--;
         }
-        console.log(pages);
       }
 
       // CRIAÇÃO REQUEST DE CADA PÁGINA
@@ -274,6 +281,7 @@ export default {
       this.dataOK = true;
     },
     async getUsers() {
+      //pega todas as chaves primárias do sistema para verificação de validade na função carregar()
       let users = await axios.get(baseApiUrl + "/users");
       for (let u in users) {
         this.userMails.push(users[u].email);
@@ -281,6 +289,7 @@ export default {
       }
     },
     async getPerfil() {
+      //Pega todas os perfis e adiciona no select de filas caso esteja no modo de edição
       let p = await axios.get(baseApiUrl + "/perfils");
       console.log("p.data.data\n", p.data.data);
       this.perfis = p.data.data;
@@ -290,43 +299,44 @@ export default {
             this.perfilName = this.perfis[u];
           }
         }
+      } else {
+        this.inactive = true;
       }
     },
     async postNewUser(nu) {
+      //postagem de novo usuário
       console.log(nu);
-      let s = await axios.post(`${baseApiUrl}/users/`, nu)
-      .catch();
+      let s = await axios.post(`${baseApiUrl}/users/`, nu);
       console.log("Post status:\n", s);
-
     },
     async putUser(nu) {
+      //posta novo usuário editado com base no ID
       console.log(nu);
       let s = await axios.put(`${baseApiUrl}/users/${this.id}`, nu);
       console.log("Put status:\n", s);
     },
     carregar() {
-      console.log("ye");
-      // Refatorar para incluir avisos de toast após ação
+      //submit
+      // Refatorar para incluir avisos de toast após ação, Não refatorar na fase 0
       let passCheck = !(this.password === this.confirmPassword);
       let blankPass = !(this.password.trim().length > 0);
       let blankName = !(this.name.trim().length > 0);
       let blankMail = !(this.email.trim().length > 0);
       let blankUser = !(this.username.trim().length > 0);
-      let blankProfile = !(this.perfilName.name.length > 0);
+      // let blankProfile = !(this.perfilName.name.length > 0);
       if (
         passCheck ||
         blankPass ||
         blankName ||
         blankMail ||
-        blankUser ||
-        blankProfile
+        blankUser //||
+        // blankProfile
       ) {
         console.log(passCheck);
         console.log(blankPass);
         console.log(blankName);
         console.log(blankUser);
         console.log(blankMail);
-        console.log(blankProfile);
         // console.log(validEmail);
         // console.log(validUsername);
       } else {
@@ -340,11 +350,11 @@ export default {
         postBody.type = "user";
         postBody.enable = this.enable == true ? 1 : 0;
 
-        for (let f in this.filas_finish) {
+        for (let filafinish in this.filas_finish) {
           let line = {};
-          line.queue_id = this.filas_finish[f].id;
-          line.queue_number = this.filas_finish[f].code;
-          line.queue_name = this.filas_finish[f].name;
+          line.queue_id = this.filas_finish[filafinish].id;
+          line.queue_number = this.filas_finish[filafinish].code;
+          line.queue_name = this.filas_finish[filafinish].name;
           this.userQueue.push(line);
         }
         postBody.userQueue = [...this.userQueue];
@@ -366,6 +376,7 @@ export default {
     return {
       // edition:
       filas_finish: [],
+      inactive: false,
       dataOK: false,
       id: this.$route.params.id,
       nameEdit: this.$route.params.name,
@@ -399,9 +410,11 @@ export default {
     this.getQueues();
     if (this.id) {
       this.dataOK = false;
-
       this.getUserQueues();
     }
+    // else {
+    //   this.filas_finish.push({id: 0, name: "Selecione as filas", code: "0"})
+    // }
 
     $(document).on("click", "#close-preview", function() {
       $(".image-preview").popover("hide");
@@ -442,7 +455,6 @@ export default {
 </script>
 
 <style scoped>
-
 .btn#butao {
   padding: 2px 4px 0px 2px !important;
 }
