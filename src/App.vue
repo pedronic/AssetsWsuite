@@ -66,10 +66,19 @@ export default {
 				this.$router.push({ name: 'Login' })
 			}
 			this.validatingToken = false
-		}
+		},
+    logout(){
+      // if (e) {e.returnValue = 'Changes you made may not be saved';}
+      // else {return null;}
+      localStorage.removeItem(userKey);
+      this.$store.commit('setUser', null);
+      this.$store.commit('setAccessPages', false);
+      this.$router.push({name: 'Login'});
+    }
 	},
 	created() {
-		this.validateToken()
+		this.validateToken();
+    window.addEventListener('beforeunload', this.logout())
 	},
   computed: mapState(["user"]),
 };
