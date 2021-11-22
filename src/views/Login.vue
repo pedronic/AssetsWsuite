@@ -200,8 +200,9 @@ export default {
       axios.get(baseApiUrl+'/users/'+uID)
       .then(res => {
         console.log("User Profile:\n",res.data)
-        if(res.data.data[0].perfil_id !== 1) this.setUserPages(res.data.data[0].perfil_id);
-        else this.setUserPages(14);
+        // if(res.data.data[0].perfil_id !== 1) this.setUserPages(res.data.data[0].perfil_id);
+        // else this.setUserPages(14);
+        this.setUserPages(res.data.data[0].perfil_id);
       })
     },
     getProfilePages(pID){

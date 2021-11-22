@@ -36,6 +36,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
+    path:'/lista-de-usuarios',
+    name: 'ListaUsuarios',
+    component: () => import('../views/Listas/ListaUsuarios.vue')
+  },
+  {
+    path:'/registro-usuarios',
+    name: 'RegistroUsuarios',
+    component: () => import('../views/Cadastrar/RegistroUsuarios.vue')
+  },
+  {
     path: '/relatorios-faturamento',
     name: 'RelatoriosFaturamento',
     // route level code-splitting
@@ -90,11 +100,6 @@ const routes = [
     component: () => import( '../views/Listas/ListaAgentes.vue')
   },
   {
-    path:'/registro-usuarios',
-    name: 'RegistroUsuarios',
-    component: () => import('../views/Cadastrar/RegistroUsuarios.vue')
-  },
-  {
     path: '/lista-de-robos',
     name: 'ListaRobos',
     component: () => import( '../views/Listas/ListaRobos.vue')
@@ -118,11 +123,6 @@ const routes = [
     path:'/registro-finalizacoes',
     name: 'RegistroFinalizacoes',
     component: () => import('../views/Cadastrar/RegistroFinalizacoes.vue')
-  },
-  {
-    path:'/lista-de-usuarios',
-    name: 'ListaUsuarios',
-    component: () => import('../views/Listas/ListaUsuarios.vue')
   },
   {
     path: '/dash-analitico',

@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import {userKey} from "@/config/global";
+import {userKey} from "../../config/global";
 import {mapState} from "vuex";
 export default {
     name: "UserHeader",
@@ -65,6 +65,10 @@ export default {
     methods:{
         logout(){
             localStorage.removeItem(userKey);
+            localStorage.removeItem('__userAccessPages');
+            localStorage.removeItem('__signinResponse');
+            localStorage.removeItem('__defaultAccessPages');
+            localStorage.removeItem('__pagesIndexTable');
             this.$store.commit('setUser', null);
             this.$store.commit('setAccessPages', false);
             this.$router.push({name: 'Login'});

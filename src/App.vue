@@ -70,15 +70,28 @@ export default {
     logout(){
       // if (e) {e.returnValue = 'Changes you made may not be saved';}
       // else {return null;}
-      localStorage.removeItem(userKey);
-      this.$store.commit('setUser', null);
-      this.$store.commit('setAccessPages', false);
-      this.$router.push({name: 'Login'});
+      var perfEntries = performance.getEntriesByType("navigation");
+      console.log("Performance.navigation.type:\n",perfEntries.at(-1).type)
+      if(perfEntries.at(-1).type === 'reload'){
+        localStorage.removeItem(userKey);
+        this.$store.commit('setUser', null);
+        this.$store.commit('setAccessPages', false);
+        this.$router.push({name: 'Login'});
+        console.log("Reload event!")
+      }
+      else return;
     }
 	},
 	created() {
 		this.validateToken();
-    window.addEventListener('beforeunload', this.logout())
+    /* window.addEventListener('beforeunload', this.logout() */ /* function(e) {
+      console.log("Target:\n",e.currentTarget);
+      
+      for(let i in e.currentTarget){
+        console.log("KEY:\t",i,"\n",e[i])
+      }
+      console.log("Performance.navigation.type:\n",PerformanceNavigationTiming.type)
+    } )*/
 	},
   computed: mapState(["user"]),
 };

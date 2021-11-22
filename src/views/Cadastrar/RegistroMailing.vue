@@ -57,6 +57,7 @@
                       <i class="fal fa-road fa-2x" style="margin-left: 5px" />
                       <div id="multiselect-input">
                         <multiselect
+                          class="multiple-true"
                           v-model="filas_finish"
                           :placeholder="'Filas'"
                           :label="'name'"
@@ -285,7 +286,7 @@ export default {
         axios.post(mailingApiUrl,formData, {
           headers:{
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${mailingTestToken}`
+            // 'Authorization': `bearer ${mailingTestToken}`
           }
         })
         .then(res => {

@@ -10,7 +10,8 @@
     <action-menu/>
     <!-- <relatorios-menu id="relatorios-menu" :class="{'show': relatoriosClass}" :expanded="relatoriosClass"/> -->
     <relatorios-menu/>
-    <dash-menu id="dash-menu" :class="{'show': dashClass}" :expanded="dashClass"/>
+    <!-- <dash-menu id="dash-menu" :class="{'show': dashClass}" :expanded="dashClass"/> -->
+    <dash-menu/>
   </div>
 </template>
 

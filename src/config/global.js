@@ -7,7 +7,7 @@ export const userKey = '__wsuite_user'
 export const baseApiUrl = "http://192.168.0.201:3535/v1"
 export const defaultOperatorSecret = "123456"
 export const mailingApiUrl = "http://172.22.11.31:3535/api/mailing"
-export const mailingTestToken = "3500|zXq3C5Hx3RkvkiYGKHUeKBs6Y0z2AfrKDB97XWHK"
+export const mailingTestToken = "3647|bhrzpV3HeusN77PE3fRASWtQc55jaC1M4loNVOCf"
 
 export function showError(e) {
     if(e && e.response && e.response.data) {
