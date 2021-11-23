@@ -134,6 +134,7 @@ export default {
       let users = [];
       let keys = Object.keys(this.pagesIndexTable);
       let hasPage = false;
+      let exists = res.data.data.length > 0 ? true : false;
       // let user = {};
           // {
           //     name: '',
@@ -161,12 +162,14 @@ export default {
           data.page_id = this.pagesIndexTable[keys[j]];
           hasPage = false;
           let thisPage = 0;
-          for (let k in u.pages){
-            if(u.pages[k].page_id !== data.page_id) continue;
-            else {
-                hasPage = true;
-                thisPage = k;
-                break;
+          if(exists){
+            for (let k in u.pages){
+              if(u.pages[k].page_id !== data.page_id) continue;
+              else {
+                  hasPage = true;
+                  thisPage = k;
+                  break;
+              }
             }
           }
           if(hasPage){
@@ -204,6 +207,7 @@ export default {
         // else this.setUserPages(14);
         this.setUserPages(res.data.data[0].perfil_id);
       })
+      .catch(showError)
     },
     getProfilePages(pID){
       axios.get(baseApiUrl+"/perfilspages")

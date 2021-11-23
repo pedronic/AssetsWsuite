@@ -209,7 +209,7 @@ export default {
     Multiselect,
     TabelaRegistroRotas
   },
-  name: "RegistroUsuarios",
+  name: "RegistroRotas",
   methods: {
     choice(filter) {
       this.filter = filter.toString();

@@ -92,7 +92,7 @@ export const defaultNewUserProfile = {
             read:false,
             edit:false,
             delete:false,
-            browser:true
+            browser:false
         },
         {
             name: 'Filas',

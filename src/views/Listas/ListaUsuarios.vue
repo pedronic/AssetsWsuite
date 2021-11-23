@@ -45,9 +45,9 @@
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
         <!-- Cabeçalho: FIM -->
-    <div class="panel">
+    <!-- <div class="panel">
       <div class="panel-container show">
-        <div class="panel-content">
+        <div class="panel-content"> -->
 
     <TabelaUsuariosCadastrados
     v-if="buildTable"
