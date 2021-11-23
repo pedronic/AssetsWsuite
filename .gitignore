@@ -21,3 +21,10 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Backup Files
+*_backup.vue
+*BU.vue
+*_BU.vue
+*_OLD.vue
+*copy.vue

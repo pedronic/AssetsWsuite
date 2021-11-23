@@ -1,0 +1,35 @@
+log.js?1afd:24 [HMR] Waiting for update signal from WDS...
+RegistroMailing.vue?d37c:354 Status:	 200  -  OK
+RegistroMailing.vue?d37c:358 Total Items:	 21 
+Total Pages:	 3 
+Per Pages:	 10
+RegistroMailing.vue?d37c:375 Total Items:	 true 	Total Pages:	 true
+RegistroMailing.vue?d37c:379 Status @getFilas():	 200  -  OK
+RegistroMailing.vue?d37c:375 Total Items:	 true 	Total Pages:	 true
+RegistroMailing.vue?d37c:379 Status @getFilas():	 200  -  OK
+RegistroMailing.vue?d37c:375 Total Items:	 true 	Total Pages:	 true
+RegistroMailing.vue?d37c:379 Status @getFilas():	 200  -  OK
+RegistroMailing.vue?d37c:405 Layout:
+ (63) ['client_id', 'title', 'name', 'contract', 'email', 'registry', 'due_date', 'overdue_amount', 'document', 'address', 'city', 'uf', 'cep', 'phone1', 'phone1_ddd', 'phone2', 'phone2_ddd', 'phone3', 'phone3_ddd', 'phone4', 'phone4_ddd', 'phone5', 'phone5_ddd', 'phone6', 'phone6_ddd', 'phone7', 'phone7_ddd', 'phone8', 'phone8_ddd', 'phone9', 'phone9_ddd', 'phone10', 'phone10_ddd', 'phone11', 'phone11_ddd', 'phone12', 'phone12_ddd', 'phone13', 'phone13_ddd', 'phone14', 'phone14_ddd', 'phone15', 'phone15_ddd', 'phone16', 'phone16_ddd', 'phone17', 'phone17_ddd', 'phone18', 'phone18_ddd', 'phone19', 'phone19_ddd', 'phone20', 'phone20_ddd', 'custom', 'custom2', 'custom3', 'custom4', 'custom5', 'custom6', 'custom7', 'custom8', 'custom9', 'custom10', __ob__: Observer] Layout Template:
+ client_id;title;name;contract;email;registry;due_date;overdue_amount;document;address;city;uf;cep;phone1;phone1_ddd;phone2;phone2_ddd;phone3;phone3_ddd;phone4;phone4_ddd;phone5;phone5_ddd;phone6;phone6_ddd;phone7;phone7_ddd;phone8;phone8_ddd;phone9;phone9_ddd;phone10;phone10_ddd;phone11;phone11_ddd;phone12;phone12_ddd;phone13;phone13_ddd;phone14;phone14_ddd;phone15;phone15_ddd;phone16;phone16_ddd;phone17;phone17_ddd;phone18;phone18_ddd;phone19;phone19_ddd;phone20;phone20_ddd;custom;custom2;custom3;custom4;custom5;custom6;custom7;custom8;custom9;custom10
+RegistroMailing.vue?d37c:423 Data:
+ 3
+app.bundle.js:1182 mobileCheckActivation on 1920 | activated: false
+app.bundle.js:1288 ✔ SlimScroll plugin active
+app.bundle.js:1315 OOPS! bs.tooltip is not loaded
+app.bundle.js:1363 ✔ Waves plugin active
+app.bundle.js:1754 ✔ Finished app.init() v4.5.1---------------------------
+app.bundle.js:2189 blur
+RegistroMailing.vue?d37c:162 Input File:
+ TESTE_preventivo 09_11v2.csv File {$path: '', name: 'TESTE_preventivo 09_11v2.csv', lastModified: 1636727675058, lastModifiedDate: Fri Nov 12 2021 11:34:35 GMT-0300 (Brasilia Standard Time), webkitRelativePath: '', …}
+RegistroMailing.vue?d37c:163 Files:
+ File {$path: '', name: 'TESTE_preventivo 09_11v2.csv', lastModified: 1636727675058, lastModifiedDate: Fri Nov 12 2021 11:34:35 GMT-0300 (Brasilia Standard Time), webkitRelativePath: '', …}
+RegistroMailing.vue?d37c:194 res after::@checkInputFile():
+ [__ob__: Observer]
+app.bundle.js:2196 focused
+app.bundle.js:2189 blur
+app.bundle.js:2196 focused
+RegistroMailing.vue?d37c:304 
+	ERROR RESPONSE:
+ {data: {…}, status: 422, statusText: 'Unprocessable Entity', headers: {…}, config: {…}, …}config: {url: 'http://172.22.11.31:3535/api/mailing', method: 'post', data: FormData, headers: {…}, transformRequest: Array(1), …}data: {message: 'The given data was invalid.', errors: {…}}headers: {cache-control: 'no-cache, private', content-length: '201', content-type: 'application/json'}request: XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 0, withCredentials: false, open: ƒ, …}status: 422statusText: "Unprocessable Entity"[[Prototype]]: Object
+app.bundle.js:2189 blur
