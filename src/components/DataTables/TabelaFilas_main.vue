@@ -20,53 +20,79 @@
       :per-page="10"
       :busy="busy"
     >
-      <template v-slot:head(name)="data">
+      <template v-slot:head(queue_number)="data">
+        <span>{{ data.label }}</span>
+      </template>
+      <template v-slot:head(name_queue)="data">
         <span>{{ data.label }}</span>
       </template>
       <template v-slot:head(type)="data">
         <span>{{ data.label }}</span>
       </template>
-      <template v-slot:head(ip)="data">
+      <template v-slot:head(queue_type)="data">
         <span>{{ data.label }}</span>
       </template>
+      <template v-slot:head(finalization_name)="data">
+        <span>{{ data.label }}</span>
+      </template>
+      <template v-slot:head(break_group_id)="data">
+        <span>{{ data.label }}</span>
+      </template>
+      <template v-slot:head(route_name)="data">
+        <span>{{ data.label }}</span>
+      </template>
+      <template v-slot:head(dial_format)="data">
+        <span>{{ data.label }}</span>
+      </template>
+      <template v-slot:head(speedy)="data">
+        <span>{{ data.label }}</span>
+      </template>
+
       <template v-slot:head(flag)="data">
         <span>{{ data.label }}</span>
       </template>
       <template v-slot:head(add)="data">
-        <!-- <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
-          <span v-html="data.label" class="head-add-button"/>
-        </b-button> -->
-        <router-link
-          :to="{ name: 'RegistroServidores', params: { serverID: newID } }"
+        <!-- v-b-modal="'new_line'" -->
+        <b-button
+          class="head-add-button btn-success"
+          :to="{ name: 'FilasCadastro' }"
+          variant="outline-dark"
         >
-          <b-button class="head-add-button btn-success" variant="outline-dark">
-            <span class="head-add-button" v-html="data.label" />
-          </b-button>
-        </router-link>
+          <span v-html="data.label" class="head-add-button" />
+        </b-button>
       </template>
 
-      <template v-slot:cell(name)="slot">
-        <span :id="slot.item.name + '_pausa'">{{ slot.value }}</span>
+      <template v-slot:cell(queue_number)="slot">
+        <span :id="slot.item.queue_number + '_pausa'">{{ slot.value }}</span>
+      </template>
+      <template v-slot:cell(name_queue)="slot">
+        <span :id="slot.item.queue_number + '_alerta'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(type)="slot">
-        <span :id="slot.item.name + '_alerta'">{{ slot.value }}</span>
+        <span :id="slot.item.queue_number + '_alerta'">{{ slot.value }}</span>
       </template>
-      <template v-slot:cell(ip)="slot">
-        <span :id="slot.item.name + '_alerta'">{{ slot.value }}</span>
+      <template v-slot:cell(queue_type)="slot">
+        <span :id="slot.item.queue_number + '_alerta'">{{ slot.value }}</span>
       </template>
-      <template v-slot:cell(perfil)="slot">
-        <span :id="slot.item.name + '_alerta'">{{ slot.value }}</span>
+      <template v-slot:cell(finalization_name)="slot">
+        <span :id="slot.item.queue_number + '_alerta'">{{ slot.value }}</span>
       </template>
-      <template v-slot:cell(limite)="slot">
-        <span :id="slot.item.name + '_limite'">{{ slot.value }}</span>
+      <template v-slot:cell(break_group_id)="slot">
+        <span :id="slot.item.queue_number + '_limite'">{{ slot.value }}</span>
       </template>
-      <template v-slot:cell(icone)="slot">
-        <span :id="slot.item.name + '_icone'" v-html="slot.value" />
+      <template v-slot:cell(route_name)="slot">
+        <span :id="slot.item.queue_number + '_icone'" v-html="slot.value" />
+      </template>
+      <template v-slot:cell(dial_format)="slot">
+        <span :id="slot.item.queue_number + '_alerta'">{{ slot.value }}</span>
+      </template>
+      <template v-slot:cell(speedy)="slot">
+        <span :id="slot.item.queue_number + '_alerta'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(flag)="slot">
         <b-form-checkbox
           v-model="slot.value"
-          :id="slot.item.name + '_ativa'"
+          :id="slot.item.queue_number + '_ativa'"
           :value="true"
           :unchecked-value="false"
           switch
@@ -74,44 +100,44 @@
         />
       </template>
       <template v-slot:cell(add)="slot">
+        <!-- v-b-modal="(slot.item.queue_number)+'_edit_modal'" 
+        , email: '', queue_number:'', -->
         <router-link
           :to="{
-            name: 'RegistroServidores',
+            name: 'FilasCadastro',
             params: {
+              username: slot.item.username,
+              queue_number: slot.item.queue_number,
+              email: slot.item.email,
+              perfilName: slot.item.perfilName,
+              enable: slot.item.enable,
               id: slot.item.id,
-              type: slot.item.type,
-              ip: slot.item.ip,
-              name: slot.item.name,
-              flag: slot.item.flag,
-              gateway_ext: slot.item.gateway_ext,
-              gateway_sip_user: slot.item.gateway_sip_user,
-              gateway_domain: slot.item.gateway_domain,
             },
           }"
         >
           <b-button
-            :id="slot.item.name + '_edit'"
+            :id="slot.item.queue_number + '_edit'"
             class="edit-btn"
             variant="outline"
             v-html="editIcon"
           />
         </router-link>
         <b-btn
-          :id="slot.item.name + '_add'"
+          :id="slot.item.queue_number + '_add'"
           v-html="deleteIcon"
           class="add-btn"
           variant="outline"
-          v-b-modal="slot.item.name + '_delete'"
+          v-b-modal="slot.item.queue_number + '_delete'"
         />
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.name + '_edit'">
+    <div v-for="(i, index) in filas" :key="i.queue_number + '_edit'">
       <b-modal
-        :id="i.name + '_edit_modal'"
-        :ref="i.name + '_edit_modal'"
-        title="Editar Servidor"
+        :id="i.queue_number + '_edit_modal'"
+        :ref="i.queue_number + '_edit_modal'"
+        title="Editar Fila"
         size="xl"
         :hide-header-close="true"
         :no-close-on-backdrop="true"
@@ -128,50 +154,61 @@
         <b-container fluid>
           <b-col cols="14">
             <b-row>
-              <b-col cols="4" class="name-head-container">
-                <span class="name-head">Nome</span>
+              <b-col cols="4" class="queue_number-head-container">
+                <span class="queue_number-head">Usuário</span>
               </b-col>
-              <b-col cols="2" class="nome-head-container">
-                <span class="nome-head">Tipo</span>
+              <b-col cols="2" class="username-head-container">
+                <span class="username-head">Nome</span>
               </b-col>
               <b-col cols="2" class="email-head-container">
-                <span class="email-head">ip</span>
+                <span class="email-head">Email</span>
               </b-col>
-              <b-col cols="1" class="status-head-container">
-                <span class="status-head">Status</span>
+              <b-col cols="1" class="perfilName-head-container">
+                <span class="perfilName-head">Perfil</span>
+              </b-col>
+              <b-col cols="1" class="enable-head-container">
+                <span class="enable-head">Status</span>
               </b-col>
             </b-row>
             <b-row>
-              <b-col cols="4" class="name-body-container">
+              <b-col cols="4" class="queue_number-body-container">
                 <b-form-input
-                  v-model="editRowInput.name"
+                  v-model="editRowInput.queue_number"
                   :presentState="i"
-                  :id="i.name + '_edit_row_pausa'"
-                  :ref="i.name + '_edit_row_pausa'"
+                  :id="i.queue_number + '_edit_row_pausa'"
+                  :ref="i.queue_number + '_edit_row_pausa'"
                   type="text"
                 />
               </b-col>
-              <b-col cols="2" class="nome-body-container">
+              <b-col cols="2" class="username-body-container">
                 <b-form-input
-                  v-model="editRowInput.tipo"
+                  v-model="editRowInput.username"
                   :presentState="i"
-                  :id="i.name + '_edit_row_produtiva'"
+                  :id="i.queue_number + '_edit_row_produtiva'"
                   type="text"
                 />
               </b-col>
               <b-col cols="2" class="email-body-container">
                 <b-form-input
-                  v-model="editRowInput.ip"
+                  v-model="editRowInput.email"
                   :presentState="i"
-                  :id="i.name + '_edit_row_obrigatoria'"
+                  :id="i.queue_number + '_edit_row_obrigatoria'"
                   type="text"
                 />
               </b-col>
-              <b-col cols="1" class="status-body-container">
-                <b-form-checkbox
-                  v-model="editRowInput.status"
+              <b-col cols="1" class="perfilName-body-container">
+                <b-form-input
+                  v-model="editRowInput.perfilName"
                   :presentState="i"
-                  :id="i.name + '_edit_row_ativa'"
+                  :id="i.queue_number + '_edit_row_alerta'"
+                  type="text"
+                ></b-form-input>
+              </b-col>
+              <b-col cols="1" class="enable-body-container">
+                <b-form-checkbox
+                  v-model="editRowInput.enable"
+                  :presentState="i"
+                  :id="i.queue_number + '_edit_row_ativa'"
                   :value="true"
                   :unchecked-value="false"
                   switch
@@ -185,7 +222,7 @@
       <!-- ---------------------------------------------------- -->
       <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
       <b-modal
-        :id="i.name + '_delete'"
+        :id="i.queue_number + '_delete'"
         title="ATENÇÃO!!!"
         :hide-header-close="false"
         :no-close-on-backdrop="false"
@@ -195,10 +232,10 @@
         ok-variant="danger"
         cancel-title="MANTER"
         cancel-variant="success"
-        @ok="deleteRow(i.name, i.id)"
-        @cancel="cancelDelete(i.name)"
+        @ok="deleteRow(i.queue_number, i.id)"
+        @cancel="cancelDelete(i.queue_number)"
       >
-        Tem certeza que deseja excluir o servidor <b>{{ i.name }}</b
+        Tem certeza que deseja excluir a pausa número <b>{{ i.queue_number }}</b
         >?
       </b-modal>
     </div>
@@ -208,7 +245,7 @@
     <b-modal
       id="new_line"
       refs="new_line"
-      title="Adicionar Novo Servidor"
+      title="Adicionar Nova Fila"
       size="xl"
       :hide-header-close="false"
       :no-close-on-backdrop="false"
@@ -224,45 +261,54 @@
       <b-container fluid>
         <b-col cols="12">
           <b-row>
-            <b-col cols="2" class="nome-head-container">
-              <span class="nome-head">Nome</span>
+            <b-col cols="4" class="queue_number-head-container">
+              <span class="queue_number-head">Usuário</span>
+            </b-col>
+            <b-col cols="2" class="username-head-container">
+              <span class="username-head">Nome</span>
             </b-col>
             <b-col cols="2" class="email-head-container">
-              <span class="email-head">Tipo</span>
+              <span class="email-head">Email</span>
             </b-col>
-            <b-col cols="1" class="perfil-head-container">
-              <span class="perfil-head">ip</span>
+            <b-col cols="1" class="perfilName-head-container">
+              <span class="perfilName-head">Perfil</span>
             </b-col>
-            <b-col cols="1" class="status-head-container">
-              <span class="status-head">Ação</span>
+            <b-col cols="1" class="enable-head-container">
+              <span class="enable-head">Ativa</span>
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="2" class="name-body-container">
+            <b-col cols="4" class="queue_number-body-container">
               <b-form-input
-                v-model="newRowInput.name"
+                v-model="newRowInput.queue_number"
                 :id="'new_row_pausa'"
                 type="text"
               ></b-form-input>
             </b-col>
-            <b-col cols="2" class="nome-body-container">
+            <b-col cols="2" class="username-body-container">
               <b-form-input
-                v-model="newRowInput.tipo"
+                v-model="newRowInput.username"
                 :id="'new_row_produtiva'"
                 type="text"
               />
             </b-col>
-            <b-col cols="1" class="email-body-container">
+            <b-col cols="2" class="email-body-container">
               <b-form-input
-                v-model="newRowInput.ip"
+                v-model="newRowInput.email"
                 :id="'new_row_obrigatoria'"
                 type="text"
               />
             </b-col>
-
-            <b-col cols="1" class="status-body-container">
+            <b-col cols="1" class="perfilName-body-container">
+              <b-form-input
+                v-model="newRowInput.perfilName"
+                :id="'new_row_alerta'"
+                type="text"
+              ></b-form-input>
+            </b-col>
+            <b-col cols="1" class="enable-body-container">
               <b-form-checkbox
-                v-model="newRowInput.status"
+                v-model="newRowInput.enable"
                 :id="'new_row_ativa'"
                 :value="true"
                 :unchecked-value="false"
@@ -279,62 +325,60 @@
 </template>
 
 <script>
-import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
+import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
 const defaultRow = {
-  name: "",
-  nome: false,
+  queue_number: "",
+  username: false,
   email: false,
-  perfil: "",
+  perfilName: "",
   limite: "",
   icone: "",
-  status: true,
+  enable: true,
   add: '<span class="fal fa-trash-alt"/>',
 };
 
 export default {
-  name: "TabelaServidores",
+  name: "TabelaFilas_main",
   mixins: [ValidateToaster],
   props: {
     items: Array,
     filter: String,
     filter_fields: Array,
-    isLoading:{type:Boolean, default:false}
   },
   methods: {
-    async deleteServer(id) {
-      let s = await axios.delete(`${baseApiUrl}/servers/${id}`);
+    async deleteUser(id) {
+      console.log("delete");
+      console.log(id);
+      let s = await axios.delete(`${baseApiUrl}/users/${id}`);
       console.clear();
       console.log("Delete status:\n", s);
     },
     deleteRow(ev, id) {
-      const p = this.names.indexOf(ev);
+      const p = this.queues_number.indexOf(ev);
       this.filas.splice(p, 1);
-      this.names.splice(p, 1);
+      this.queues_number.splice(p, 1);
       let toast = {
         isValidated: true,
-        title: "SERVIDOR EXCLUÍDO",
-        message: "Servidor " + ev.toUpperCase() + " excluído com sucesso!",
+        title: "FILA EXCLUÍDA",
+        message: "Fila " + ev.toUpperCase() + " excluída com sucesso!",
       };
-      this.deleteServer(id);
-
+      this.deleteUser(id);
       this.validateAndToast(toast);
     },
     cancelDelete(p) {
       let toast = {
         isValidated: false,
-        title: "SERVIDOR MANTIDO",
+        title: "FILA MANTIDO",
         message:
-          "Servidor " +
-          p.toUpperCase() +
-          " foi mantido. A exclusão foi cancelada.",
+          "Fila " + p.toUpperCase() + " foi mantida. A exclusão foi cancelada.",
       };
       this.validateAndToast(toast);
     },
     okayAdd() {
-      let newPausa = this.newRowInput.name.trim();
+      let newPausa = this.newRowInput.queue_number.trim();
       if (newPausa.length > 0) {
         console.log("Filas ok:");
         console.log(this.filas);
@@ -344,34 +388,32 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated: true,
-          title: "NOVO SERVIDOR ADICIONADO",
+          title: "NOVO FILA ADICIONADA",
           message:
-            "Novo servidor " +
-            newPausa.toUpperCase() +
-            " adicionado com sucesso!",
+            "Novo fila " + newPausa.toUpperCase() + " adicionada com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
         let toast = {
           isValidated: false,
-          title: "NOVO SERVIDOR VAZIO NÃO ADICIONADA",
+          title: "NOVA FILA VAZIA NÃO ADICIONADA",
           message:
-            "Nova Servidor " +
+            "Nova Fila " +
             newPausa.toUpperCase() +
-            " não foi adicionado. Não é possível adicionar Servidores sem nome ou com o nome em branco. A operação foi cancelada.",
+            " não foi adicionada. Não é possível adicionar Filas sem rota ou com o rota em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
     },
     cancelAdd() {
-      let newPausa = this.newRowInput.name.trim();
+      let newPausa = this.newRowInput.queue_number.trim();
       let toast = {
         isValidated: false,
-        title: "NOVO SERVIDOR NÃO ADICIONADO",
+        title: "NOVA FILA NÃO ADICIONADA",
         message:
-          "Novo Servidor " +
+          "Nova Fila " +
           newPausa.toUpperCase() +
-          " não foi adicionado. A operação de adicionar foi cancelada pelo usuário.",
+          " não foi adicionada. A operação de adicionar foi cancelada pelo usuário.",
       };
       this.validateAndToast(toast);
     },
@@ -382,10 +424,10 @@ export default {
       this.newRowInput = { ...this.newRowDefault };
     },
     updateRow(row) {
-      let p = this.editRowInput.name.trim();
+      let p = this.editRowInput.queue_number.trim();
 
       if (p.length > 0) {
-        // checando se o nome não está em branco
+        // checando se o username não está em branco
         /* Atualizando Fila e Pausas com dados editados */
         this.filas.splice(row, 1, { ...this.editRowInput });
         this.pausas.splice(row, 1, p);
@@ -393,8 +435,8 @@ export default {
 
         let toast = {
           isValidated: true,
-          title: "Servidor EDITADO",
-          message: "Servidor " + p.toUpperCase() + " editado com sucesso!",
+          title: "FILA EDITADA",
+          message: "Fila " + p.toUpperCase() + " editada com sucesso!",
         };
         this.validateAndToast(toast);
       } else {
@@ -402,25 +444,25 @@ export default {
 
         let toast = {
           isValidated: false,
-          title: "SERVIDOR NÃO EDITADA",
+          title: "FILA NÃO EDITADA",
           message:
-            "Servidor " +
+            "Fila " +
             p.toUpperCase() +
-            " não foi modificado. Não é possível atualizar um Servidor apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.",
+            " não foi modificada. Não é possível atualizar uma Fila apagando sua rota ou deixando apenas espaços em branco. A operação foi cancelada.",
         };
         this.validateAndToast(toast);
       }
     },
     cancelEdit(row) {
       this.editRowInput = { ...this.newRowDefault };
-      let p = this.filas[row].name;
+      let p = this.filas[row].queue_number;
       let toast = {
         isValidated: false,
-        title: "SERVIDOR NÃO EDITADO",
+        title: "FILA NÃO EDITADA",
         message:
-          "Servidor " +
+          "Fila " +
           p.toUpperCase() +
-          " não foi modificado. A edição foi cancelada pelo usuário.",
+          " não foi modificada. A edição foi cancelada pelo usuário.",
       };
       this.validateAndToast(toast);
     },
@@ -460,9 +502,12 @@ export default {
         newValue
       );
       this.filas = newValue.slice(1, newValue.length);
-      this.names = newValue[0].names;
+      this.queues_number = newValue[0].queues_number;
     },
   },
+  // computed() {
+  //   Boolean(this.item.enable);
+  //   },
   mounted() {
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
@@ -472,9 +517,9 @@ export default {
       newRowInput: Object.assign({}, this.newRowDefault),
       editRowInput: Object.assign({}, this.newRowDefault),
       editIcon: '<span class="fal fa-pencil"/>',
-      deleteIcon: '<span class="fal fa-trash-alt"/>',
       busy: this.isLoading,
-      names: this.items[0].names,
+      deleteIcon: '<span class="fal fa-trash-alt"/>',
+      queues_number: this.items[0].queues_number,
       icons: [
         { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
         { value: "i2", html: '<span class="fal fa-plus"/>' },
@@ -483,25 +528,55 @@ export default {
       ],
       fields: [
         {
-          key: "name",
+          key: "queue_number",
+          label: "Número",
+          sortable: true,
+        },
+        {
+          key: "name_queue",
           label: "Nome",
           sortable: true,
         },
         {
           key: "type",
-          label: "Tipo",
+          label: "Tipo (H x R)",
           sortable: true,
         },
         {
-          key: "ip",
-          label: "IP",
+          key: "queue_type",
+          label: "Tipo Fila",
           sortable: true,
         },
-
+        {
+          key: "finalization_name",
+          label: "Finalização",
+          sortable: true,
+        },
+        {
+          key: "break_group_id",
+          label: "Grupo de Pausas",
+          sortable: true,
+        },
+        {
+          key: "route_name",
+          label: "Rota",
+          sortable: true,
+        },
+        {
+          key: "dial_format",
+          label: "Modo de discagem",
+          sortable: true,
+        },
+        {
+          key: "speedy",
+          label: "Velocidade",
+          sortable: true,
+          //   tdStyle: "text-align: center",
+        },
         {
           key: "flag",
           label: "Status",
-          // Boolean
+          // Boolean,
         },
         {
           key: "add",
@@ -550,19 +625,19 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.name-head-container,
-.nome-head-container,
+.queue_number-head-container,
+.username-head-container,
 .email-head-container,
-.perfil-head-container,
+.perfilName-head-container,
 .limite-head-container,
 .icone-head-container,
-.status-head-container {
+.enable-head-container {
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
 
-.name-head {
+.queue_number-head {
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -572,29 +647,29 @@ input::-webkit-inner-spin-button {
   vertical-align: middle !important;
 }
 
-.nome-head,
+.username-head,
 .email-head,
-.perfil-head,
+.perfilName-head,
 .limite-head,
 .icone-head,
-.status-head {
+.enable-head {
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
   width: 100%;
-  padding-left: 0px;
+  padding-left: 0ch;
   text-align: center;
   vertical-align: middle !important;
   justify-content: center !important;
 }
 
-.name-body-container,
-.nome-body-container,
+.queue_number-body-container,
+.username-body-container,
 .email-body-container,
-.perfil-body-container,
+.perfilName-body-container,
 .limite-body-container,
 .icone-body-container,
-.status-body-container {
+.enable-body-container {
   display: flex;
   justify-content: center;
   align-content: center;
@@ -650,7 +725,8 @@ input::-webkit-inner-spin-button {
   width: 3%;
   text-align: center;
   justify-content: center;
-  display: table-cell;
+  /* display: table-cell; */
+  min-width: 100px;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="5"],
 [aria-colindex="4"],
@@ -658,7 +734,6 @@ input::-webkit-inner-spin-button {
 [aria-colindex="4"] {
   width: 6%;
   text-align: center;
-  min-width: 100px;
 }
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="3"],
 [aria-colindex="2"],
@@ -675,9 +750,21 @@ input::-webkit-inner-spin-button {
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
   text-align: left !important;
 }
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="9"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="9"] {
+  text-align: center !important;
+}
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="10"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="10"] {
+  text-align: center !important;
+}
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="11"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="11"] {
+  text-align: center !important;
+}
 
-#editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
-#editar-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {
+#editar-pausas > .table.b-table > tbody > tr > [aria-colindex="11"],
+#editar-pausas > .table.b-table > thead > tr > [aria-colindex="11"] {
   display: none !important;
 }
 </style>

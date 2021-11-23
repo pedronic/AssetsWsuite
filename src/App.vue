@@ -120,6 +120,7 @@ export default {
     }
   }
 }
-</style>
-
+// responsividade
 // validacao fields
+</style>
+/* Não era para filas de agentes aceitarem um corpo vazio?

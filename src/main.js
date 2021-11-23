@@ -34,31 +34,28 @@ Vue.use(VeeValidate, {
     }
   }
 });
-
-
-
-// selec2 (feito)
-// botão de remoção com box de confirmação
-// blacklist inserir uma barra de pesquisa em cada card (feito)
 // validar todos os inputs 
 // definir ícones
-// arrumar primeiro telefone (feito)
-// importar -> toast "sucesso" -> lista
-// mexer nas dimenoes dos inputes registro operadroras (feito)
-// textarea max 15 linhas (feito)
-// 2o formato discagem = dtmf (DONE)
-// plugin senha (feito)
-// mudar os labels para o do Pedro (feito)
-// recuo de tela (FEITO)
-// mudar tabela filas (feito)
-// input photo (feito)
-//barra de pesquisa lista (DONE)
-// tabela registro finalizações > cadastrar alterável (feito)
-//responsividade
-// VC3
-// Subtrair linhas
+//responsividade ~mobile~ 
+// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} {métodos GET em DashFilas}
 // criar script(após servidor) e finalização(após filas) no menu administrativo (done)
-// rever sorteables
-// rever fields
-// bug parametro booleano passado para as tabelas 
-// head lista mailing
+// rever sorteables (feito)
+// rever fields (feito)
+// bug parametro booleano passado para as tabelas (feito)
+// head lista mailing  (feito)
+// filas agentes only 0 (por enquanto) (feito)
+// status -> b-formcheackbox (feito)
+// tabelas em panel (feitos)
+// tabela operadora [Local], [LDN], [LDI], [...] -> (classes)
+// paginação em tabelas
+// campo filas nos métodos PUT de agent, usuario e robo (feito)
+// ajustes multiselect-vue (feito)
+// Padronizar tabs (feito)
+//ajustes na ativação e estlização do tab de DashFilas (feito)
+//efeito estranho de transição de tabela em DashFilas (feito)
+//bug click em qualquer opção da avelã (feito)
+//verificadores de erros de preenchimento forms
+// alinhamento colunas dashFilaAnalytic (feito)
+// items que serão exibidos em DashFilaAnal (feito)
+//min-width botoes da tabela (feito)
+// bug do sidebar que fica abrindo ao se aproximar (feito)

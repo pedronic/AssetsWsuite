@@ -27,7 +27,20 @@
             </router-link>
         </div>
                                             
+    <!-- </div> -->
+    <div class="dropdown-item d-flex itens">
+      <router-link to="/dash-analitico" class="mr-auto">
+        <i class="fal fa-list iconDAM"></i>
+        <span data-i18n="drpdwn.settings"> Dashboard Analítico</span>
+      </router-link>
     </div>
+    <!--<div class="dropdown-item d-flex itens">
+      <router-link to="/dash-filas" class="mr-auto">
+        <i class="fal fa-road iconDAM"></i>
+        <span data-i18n="drpdwn.settings"> Dash Filas</span>
+      </router-link>
+    </div> -->
+  </div>
 </template>
 
 <script>
@@ -71,13 +84,13 @@ export default {
 </script>
 
 <style>
-.w-app-drop-dash{
-     right: unset !important;
- }
- .itens i{
-     margin-right: 10px;
- }
- .iconDAM{
-     width: 20px;
- }
+.w-app-drop-dash {
+  right: unset !important;
+}
+.itens i {
+  margin-right: 10px;
+}
+.iconDAM {
+  width: 20px;
+}
 </style>

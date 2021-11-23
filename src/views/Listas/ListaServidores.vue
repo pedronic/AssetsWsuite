@@ -27,7 +27,8 @@
           <div class="d-flex" id="status-filter">
             <b-form-checkbox
               v-model="status_filter"
-              id="status-filter-button"
+              id="status-button"
+              class="status-filter-button"
               switch
               @change="setFilter(status_filter, 'flag')"
             />
@@ -36,13 +37,30 @@
       </div>
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-
-    <TabelaServidores
-      :items="items"
-      :filter="filter"
-      :filter_fields="filter_fields"
-      v-if="buildTable"
-    />
+    <div class="panel">
+      <div class="panel-container show">
+        <div class="panel-content">
+          <TabelaServidores
+            :items="items"
+            :filter="filter"
+            :filter_fields="filter_fields"
+            v-if="buildTable"
+            :isLoading="loadingPage"
+          />
+          <b-container fluid class="salvar-container">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="total_items"
+              :per-page="perPage"
+              prev-class="single-arrow-button"
+              next-class="single-arrow-button"
+              ellipsis-text="···"
+              @change="showSelectedPage"
+            />
+          </b-container>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,64 +70,86 @@ import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
+const perpage = 10;
+
 export default {
   components: {
     PagesSubHeader,
     TabelaServidores,
   },
   methods: {
+    showSelectedPage(page) {
+      this.loadingPage = true;
+      this.getServers(page);
+      this.loadingPage = false;
+    },
+
     setFilter(filter, field) {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getServers() {
-      let res = await axios.get(baseApiUrl + "/servers");
+    async getServers(page) {
+      let pag = page.toString();
+      let res = await axios.get(baseApiUrl + "/servers" + "?page=" + pag);
       let a = res.data.data;
+      this.total_items = res.data.count;
+      this.total_pages = Math.ceil(res.data.count / res.data.limit);
+      this.perPage = res.data.limit > perpage ? res.data.limit : perpage;
       let servers = [];
       let first = {};
       let items = [];
       let server = {};
 
-        // console.clear();
-        // console.log(u);
+      // console.clear();
+      // console.log(u);
       // for (let i in a) {
       //   u[i].flag = new Boolean(u[i].flag);
       //   this.items[0].names.push(u[i].name);
       //   this.items.push(u[i]);
       // }
-      for(let i in a){
-        servers.push(a[i].name)
+      for (let i in a) {
+        servers.push(a[i].name);
       }
       first.names = [...servers];
-      items.push({...first});
+      items.push({ ...first });
 
-      for(let i in a){
+      for (let i in a) {
+        server.id = a[i].id;
         server.name = a[i].name;
         server.type = a[i].type;
         server.ip = a[i].ip;
-        server.flag = a[i].flag?true:false;
-        items.push({...server});
+        server.flag = a[i].flag ? true : false;
+        server.gateway_ext = a[i].gateway_ext;
+        server.gateway_sip_user = a[i].gateway_sip_user;
+        server.gateway_domain = a[i].gateway_domain;
+        items.push({ ...server });
       }
-      console.log("Items @getServers():\n",this.items);
+      console.log("Items @getServers():\n", this.items);
       this.items = [...items];
-      this.buildTable = true;      
+      this.buildTable = true;
     },
-    
   },
   // get
   // post
   // put
   // delete
   created() {
-    this.getServers();
+    this.getServers(this.currentPage);
     // this.getPages();
     // this.setDefaultUser();
   },
   data() {
     return {
       msg: "",
-      buildTable:false,
-      items:null,
+      buildTable: false,
+      items: null,
+      // PAGINAÇÃO
+      currentPage: 1,
+      perPage: perpage,
+      loadingPage: false,
+      total_pages: 0,
+      total_items: 0,
+      //FIM DADOS PAGINAÇÃO
       /* [
         {
           names: ["Dickerson", "Larsen"],
@@ -118,12 +158,12 @@ export default {
         {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
       ], */
       names: [],
-      filter: '',
-      filter_fields: [''],
-      busca: '',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       flag_filter: true,
     };
-  }
+  },
 };
 </script>
 

@@ -47,7 +47,7 @@
       <b-modal
           :id="i.script+'_edit_modal'"
           :ref="i.script+'_edit_modal'"
-          title="Editar Pausa"
+          title="Editar Script"
           size="xl"
           :hide-header-close="true"
           :no-close-on-backdrop="true"
@@ -113,7 +113,7 @@
     <b-modal
         id="new_line"
         refs="new_line"
-        title="Adicionar Nova Pausa"
+        title="Adicionar Novo Script"
         size="xl"
         :hide-header-close="false"
         :no-close-on-backdrop="false"
@@ -182,7 +182,7 @@ import {baseApiUrl, defaultScriptRow} from '../../config/global';
 // };
 
 export default {
-  name:'TabelaPausas',
+  name:'TabelaScripts',
   mixins: [ValidateToaster],
   props:{
     items: Array,
@@ -197,8 +197,8 @@ export default {
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'USUÁRIO MANTIDO',
-        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
+        title:'SCRIPT MANTIDO',
+        message:'Script '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
@@ -349,8 +349,8 @@ export default {
       let p = this.filas[row].script;
       let toast = {
         isValidated:false,
-        title:'PAUSA NÃO EDITADA',
-        message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+        title:'SCRIPT NÃO EDITADO',
+        message:'Script '+p.toUpperCase()+' não foi modificado. A edição foi cancelado pelo usuário.',
       };
       this.validateAndToast(toast);
     }

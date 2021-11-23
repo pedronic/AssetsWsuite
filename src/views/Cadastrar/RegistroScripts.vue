@@ -87,8 +87,9 @@
               <label id="kkk" class="custom-control-label" for="customSwitch1"
                 >Status</label
               >
+              :checked="true"
             </div> -->
-            <b-form-checkbox switch :checked="true" id="status-button"><span>Status</span></b-form-checkbox>
+            <b-form-checkbox switch v-model="status" id="status-button"><span>Status</span></b-form-checkbox>
             </b-col>
           </b-row>
         </div>

@@ -115,6 +115,11 @@ const routes = [
     component: () => import( '../views/Listas/ListaScripts.vue')
   },
   {
+    path: '/lista-de-filas',
+    name: 'ListaFilas',
+    component: () => import( '../views/Listas/ListaFilas.vue')
+  },
+  {
     path:'/registro-scripts',
     name: 'RegistroScripts',
     component: () => import('../views/Cadastrar/RegistroScripts.vue')
@@ -131,6 +136,14 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/DashAnalitico.vue')
+  },
+  {
+    path: '/dash-filas',
+    name: 'DashFilas',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/DashFilas.vue')
   },
   {
     path: '/blacklist',

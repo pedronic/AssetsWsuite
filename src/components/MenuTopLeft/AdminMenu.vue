@@ -103,7 +103,7 @@
 
           <b-row v-if="userAccessPages[7].browser">
             <b-col cols='10'>      
-              <b-dd-item class="dropdown-item d-flex itens " :to="{ name: '' }" html='<i class="fal fa-list-ol iconDAM"/>'>
+              <b-dd-item class="dropdown-item d-flex itens " :to="{ name: 'ListaFilas' }" html='<i class="fal fa-list-ol iconDAM"/>'>
                 <i class="fal fa-road iconDAM"/><span class="iconDAM" >Filas</span>
               </b-dd-item>
             </b-col>

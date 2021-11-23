@@ -51,6 +51,11 @@
                   v-if="dataOK"
                   @select="setSelectedQueue"
                   @remove="removeDeselectedQueue"
+                  :selectLabel="MSprops.selectLabel"
+                  :selectGroupLabel="MSprops.selectGroupLabel"
+                  :selectedLabel="MSprops.selectedLabel"
+                  :deselectLabel="MSprops.deselectLabel"
+                  :deselectGroupLabel="MSprops.deselectGroupLabel"
                 />
               </div>
             </div>
@@ -89,14 +94,21 @@
                         <!-- rename it -->
                       </div>
                       <input
-                          type="text"
-                          placeholder="Arquivo"
-                          class="form-control image-preview-filename"
-                          id="input-pic"
-                          disabled="disabled"
+                        type="file"
+                        accept="txt, csv"
+                        name="input-file-preview"
                       />
-                      <!-- don't give a name === doesn't send on POST/GET -->
-                    </span>
+                      <!-- rename it -->
+                    </div>
+                    <!-- <input
+                      type="text"
+                      placeholder="Arquivo"
+                      class="form-control image-preview-filename"
+                      id="input-pic"
+                      disabled="disabled"
+                    />
+                     don't give a name === doesn't send on POST/GET 
+                  </span> -->
                 </div>
               </div>
             </div>
@@ -204,9 +216,11 @@
                         </div>
                       </div>
                     </div>
+                  </div>
+                <!-- </div>
+              </div>
             </div>
-            
-          </div>
+          </div> -->
           <b-row>
             <b-col class="mr-auto p-3" cols="auto">
               <b-button class="btn btn-dark botao-salvar" @click="importManual(total_phones,total_queues)">
@@ -227,7 +241,7 @@ import PagesSubHeader from "../../components/subheader/PagesSubHeader";
 import Multiselect from "vue-multiselect";
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
 import axios from 'axios';
-import {baseApiUrl} from '../../config/global';
+import {baseApiUrl, vueMultiselectProps} from '../../config/global';
 // import Vuex from 'vuex'
 
 const perpage = 10;
@@ -517,6 +531,7 @@ export default {
         {ddd:null, number:null, disabled:true}
       ],
       filas_finish: [],
+      MSprops: vueMultiselectProps,
       finish_filas: null,
       // [
       //   { name: "Fila 1000", code: "1000" },

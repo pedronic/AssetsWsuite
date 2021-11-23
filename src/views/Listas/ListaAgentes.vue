@@ -5,11 +5,19 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="filtro-grupo-pausa">
-            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'name')"></b-form-input>
+            <b-form-input
+              v-model="busca"
+              @keydown.enter.native="setFilter(busca, 'name')"
+            ></b-form-input>
             <div class="card">
-              <div class="card-body"/>
+              <div class="card-body" />
             </div>
-            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'name')"/>
+            <b-btn
+              type="submit"
+              id="pesquisa_faturamento"
+              class="btn btn-info waves-effect waves-themed fal fa-search"
+              @click="setFilter(busca, 'name')"
+            />
           </div>
         </div>
       </div>
@@ -17,11 +25,15 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="status-filter">
-            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'flag')"/>
+            <b-form-checkbox
+              v-model="status_filter"
+              id="status-filter-button"
+              switch
+              @change="setFilter(status_filter, 'flag')"
+            />
           </div>
         </div>
       </div>
-
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
     <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items" :isLoading="loadingPage" v-if="buildTable"/>
@@ -41,8 +53,8 @@
 </template>
 
 <script>
-import TabelaAgentes from '../../components/DataTables/TabelaAgentes.vue'
-import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import TabelaAgentes from "../../components/DataTables/TabelaAgentes.vue";
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
@@ -106,7 +118,6 @@ export default {
         console.log("Total da tabela:\t",this.total_items,"\tTotal de Páginas:\t",this.total_pages)
       })
     },
-    
   },
   // get
   // post
@@ -135,12 +146,12 @@ export default {
         {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
       ], */
       names: [],
-      filter: '',
-      filter_fields: [''],
-      busca: '',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       flag_filter: true,
     };
-  }
+  },
 };
 </script>
 
@@ -148,6 +159,13 @@ export default {
 .col-botoes {
   padding-left: 3px !important;
   padding-right: 3px !important;
+}
+
+.panel-content {
+  overflow: auto;
+}
+.panel .panel-container .panel-content {
+  padding: 0;
 }
 
 .col-inputs {
@@ -163,7 +181,6 @@ export default {
   padding: 0;
 }
 
-
 .card-body {
   padding: 5px;
   /* height: 50px; */
@@ -176,7 +193,8 @@ export default {
   margin-right: 0.3rem !important;
 }
 
-.card > .card-body > .d-flex > button, input {
+.card > .card-body > .d-flex > button,
+input {
   height: 38px !important;
 }
 

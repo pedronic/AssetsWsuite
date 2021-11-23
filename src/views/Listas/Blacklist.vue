@@ -78,6 +78,9 @@
               @change="showSelectedPage"
             />
           </b-container>
+        <!-- </div>
+      </div>
+    </div> -->
         </div>
         <div
           id="cadastrar"
@@ -324,6 +327,13 @@ export default {
 </script>
 
 <style scoped>
+.panel-content {
+  overflow: auto;
+}
+.panel .panel-container .panel-content {
+  padding: 0;
+}
+
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }

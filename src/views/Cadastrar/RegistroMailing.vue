@@ -2,7 +2,7 @@
   <div class="relatorios">
     <PagesSubHeader icon="fal fa-list-ol" titulo="Mailing">
       <div class="card">
-        <div class="card-body"/>
+        <div class="card-body" />
       </div>
     </PagesSubHeader>
   <!-- <div> -->
@@ -68,6 +68,11 @@
                           v-if="dataOK"
                           @select="total_queues++"
                           @remove="total_queues--"
+                          :selectLabel="MSprops.selectLabel"
+                          :selectGroupLabel="MSprops.selectGroupLabel"
+                          :selectedLabel="MSprops.selectedLabel"
+                          :deselectLabel="MSprops.deselectLabel"
+                          :deselectGroupLabel="MSprops.deselectGroupLabel"
                         />
                       </div>
                     </div>
@@ -127,11 +132,11 @@
 </template>
 
 <script>
-import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
+import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import Multiselect from "vue-multiselect";
 import ValidateToaster from '../../plugins/validateToaster.js';
 import axios from 'axios';
-import {baseApiUrl, mailingApiUrl, mailingTestUser} from '../../config/global';
+import {baseApiUrl, mailingApiUrl, mailingTestUser, vueMultiselectProps} from '../../config/global';
 import csv from 'csv';
 
 
@@ -467,10 +472,12 @@ export default {
       layout:null,
       layout_template:null,
       filas_finish: [],
-        finish_filas: [
-          { name: "Fila 1000", code: "1000" },
-          { name: "Fila 2000", code: "2000" },
-        ],
+      finish_filas: [
+        { name: "Fila 1000", code: "1000" },
+        { name: "Fila 2000", code: "2000" },
+      ],
+      MSprops: vueMultiselectProps,
+
       // msg: "",
       //   usuario: new Usuario(),
       //   id: this.$route.params.id,

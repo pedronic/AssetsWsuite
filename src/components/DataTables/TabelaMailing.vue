@@ -84,7 +84,7 @@ const defaultRow = {
 };
 
 export default {
-  name:'TabelaPausas',
+  name:'TabelaMailing',
   mixins: [ValidateToaster],
   props:{
     items: Array,
@@ -98,16 +98,16 @@ export default {
       this.mailings.splice(p,1);
       let toast = {
         isValidated:true,
-        title:'USUÁRIO EXCLUÍDO',
-        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
+        title:'MAILING EXCLUÍDO',
+        message:'Mailing '+ev.toUpperCase()+' excluído com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'USUÁRIO MANTIDO',
-        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
+        title:'MAILING MANTIDO',
+        message:'Mailing '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
@@ -122,16 +122,16 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO USUÁRIO ADICIONADA',
-          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
+          title:'NOVO MAILING ADICIONADO',
+          message:'Novo mailing '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO MAILING VAZIO NÃO ADICIONADA',
+          message:'Nova Mailing '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Mailings sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -141,8 +141,8 @@ export default {
       let newPausa = this.newRowInput.mailing.trim();
       let toast = {
         isValidated:false,
-        title:'NOVA PAUSA NÃO ADICIONADA',
-        message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title:'NOVO MAILING NÃO ADICIONADA',
+        message:'Novo Mailing '+newPausa.toUpperCase()+' não foi adicionado. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -163,8 +163,8 @@ export default {
 
         let toast = {
           isValidated:true,
-          title:'PAUSA EDITADA',
-          message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
+          title:'MAILING EDITADO',
+          message:'Mailing '+p.toUpperCase()+' editado com sucesso!',
         }
         this.validateAndToast(toast);
       }
@@ -173,8 +173,8 @@ export default {
 
         let toast = {
           isValidated:false,
-          title:'PAUSA NÃO EDITADA',
-          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title:'MAILING NÃO EDITADO',
+          message:'Mailing '+p.toUpperCase()+' não foi modificado. Não é possível atualizar um mailing apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -184,8 +184,8 @@ export default {
       let p = this.filas[row].mailing;
       let toast = {
         isValidated:false,
-        title:'PAUSA NÃO EDITADA',
-        message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+        title:'MAILNG NÃO EDITADO',
+        message:'Mailing '+p.toUpperCase()+' não foi modificado. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }
@@ -222,31 +222,39 @@ export default {
         {
           key:'mailing',
           label: 'Nome Mailing',
+          sortable: true,
         },
         {
           key:'ID',
-          label: 'ID'
+          label: 'ID',
+          sortable: true,
         },
         {
           key:'data_importacao',
-          label: 'Data Importação'
+          label: 'Data Importação',
+          sortable: true,
         },
         {
           key:'data_agendamento',
-          label: 'data_agendamento'
+          label: 'Data Agendamento',
+          sortable: true,
         },
         {
           key:'fila',
-          label: 'Fila'
+          label: 'Fila',
+          sortable: true,
         },{
           key:'usuario',
-          label: 'Usuário'
+          label: 'Usuário',
+          sortable: true,
         },{
           key:'registros_carregados',
-          label: 'Registros Carregados'
+          label: 'Registros Carregados',
+          sortable: true,
         },{
           key:'telefones_carregados',
-          label: 'Telefones Carregados'
+          label: 'Telefones Carregados',
+          sortable: true,
         },
 
         {

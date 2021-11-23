@@ -1,19 +1,19 @@
 // need to override just one or two small stylistic things and don't want to edit the main .scss files?  Add those overrides here
 .tab-content {
-    border: 2px solid #0d6d9dee;
-    // border-bottom-left-radius: 5px;
-    // border-bottom-right-radius: 5px;
-    border-radius: 1.5px 1.5px 5px 5px ;
-    margin: 0.5px 0.2px 0 0.2px ;
-    // border-right: 1px solid ;
-    // border-bottom: 1px solid;
-    padding: 10px;
-    padding-bottom: 20px;
+  border: 2px solid #0d6d9dee;
+  // border-bottom-left-radius: 5px;
+  // border-bottom-right-radius: 5px;
+  border-radius: 1.5px 1.5px 5px 5px;
+  margin: 0.5px 0.2px 0 0.2px;
+  // border-right: 1px solid ;
+  // border-bottom: 1px solid;
+  padding: 10px;
+  padding-bottom: 20px;
 }
 
-.btn-success.btn-outline-dark.disabled{
-    border-color: #2e2e2e;
-    background-color: #85cdae;
+.btn-success.btn-outline-dark.disabled {
+  border-color: #2e2e2e;
+  background-color: #85cdae;
 }
 
 label[for="status-button"]{
@@ -97,3 +97,7 @@ label[for="status-button"]{
   span.iconDAM{
     margin-left:5px;
   }
+
+// div.multiple-true > div.multiselect > div.multiselect__tags {
+//   max-height: 500px !important;
+// }

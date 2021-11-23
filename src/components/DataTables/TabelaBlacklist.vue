@@ -61,7 +61,7 @@
       <b-modal
           :id="i.subido+'_edit_modal'"
           :ref="i.subido+'_edit_modal'"
-          title="Editar Agente"
+          title="Editar Arquivo"
           size="xl"
           :hide-header-close="true"
           :no-close-on-backdrop="true"
@@ -135,7 +135,7 @@
     <b-modal
         id="new_line"
         refs="new_line"
-        title="Adicionar Nova Pausa"
+        title="Adicionar Novo Arquivo"
         size="xl"
         :hide-header-close="false"
         :no-close-on-backdrop="false"
@@ -209,16 +209,16 @@ export default {
       this.subidos.splice(p,1);
       let toast = {
         isValidated:true,
-        title:'USUÁRIO EXCLUÍDO',
-        message:'Usuário '+ev.toUpperCase()+' excluído com sucesso!',
+        title:'AQUIVO EXCLUÍDO',
+        message:'Arquivo '+ev.toUpperCase()+' excluído com sucesso!',
       }
       this.validateAndToast(toast);
     },
     cancelDelete(p){
       let toast = {
         isValidated:false,
-        title:'USUÁRIO MANTIDO',
-        message:'Usuário '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
+        title:'ARQUIVO MANTIDO',
+        message:'Arquivo '+p.toUpperCase()+' foi mantido. A exclusão foi cancelada.',
       };
       this.validateAndToast(toast);
     },
@@ -233,16 +233,16 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated:true,
-          title:'NOVO USUÁRIO ADICIONADA',
-          message:'Novo usuário '+newPausa.toUpperCase()+' adicionado com sucesso!',
+          title:'NOVO ARQUIVO ADICIONADO',
+          message:'Novo arquivo '+newPausa.toUpperCase()+' adicionado com sucesso!',
         }
         this.validateAndToast(toast);
       }
       else {
         let toast = {
           isValidated:false,
-          title:'NOVO USUÁRIO VAZIO NÃO ADICIONADA',
-          message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. Não é possível adicionar Pausas sem nome ou com o nome em branco. A operação foi cancelada.',
+          title:'NOVO ARQUIVO NÃO ADICIONADO',
+          message:'Novo Arquivo '+newPausa.toUpperCase()+' não foi adicionado. Não é possível adicionar arquivos sem nome ou com o nome em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -252,8 +252,8 @@ export default {
       let newPausa = this.newRowInput.subido.trim();
       let toast = {
         isValidated:false,
-        title:'NOVA PAUSA NÃO ADICIONADA',
-        message:'Nova Pausa '+newPausa.toUpperCase()+' não foi adicionada. A operação de adicionar foi cancelada pelo usuário.',
+        title:'NOVO ARQUIVO NÃO ADICIONADA',
+        message:'Novo arquivo '+newPausa.toUpperCase()+' não foi adicionado. A operação de adicionar foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     },
@@ -274,8 +274,8 @@ export default {
 
         let toast = {
           isValidated:true,
-          title:'PAUSA EDITADA',
-          message:'Pausa '+p.toUpperCase()+' editada com sucesso!',
+          title:'ARQUIVO EDITADO',
+          message:'Arquivo '+p.toUpperCase()+' editado com sucesso!',
         }
         this.validateAndToast(toast);
       }
@@ -284,8 +284,8 @@ export default {
 
         let toast = {
           isValidated:false,
-          title:'PAUSA NÃO EDITADA',
-          message:'Pausa '+p.toUpperCase()+' não foi modificada. Não é possível atualizar uma Pausa apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
+          title:'ARQUIVO NÃO EDITADO',
+          message:'Arquivo '+p.toUpperCase()+' não foi modificado. Não é possível atualizar um arquivo apagando seu nome ou deixando apenas espaços em branco. A operação foi cancelada.',
         }
         this.validateAndToast(toast);
       }
@@ -295,8 +295,8 @@ export default {
       let p = this.filas[row].subido;
       let toast = {
         isValidated:false,
-        title:'PAUSA NÃO EDITADA',
-        message:'Pausa '+p.toUpperCase()+' não foi modificada. A edição foi cancelada pelo usuário.',
+        title:'ARQUIVO NÃO EDITADO',
+        message:'Arquivo '+p.toUpperCase()+' não foi modificado. A edição foi cancelada pelo usuário.',
       };
       this.validateAndToast(toast);
     }
@@ -333,6 +333,7 @@ export default {
         {
           key:'subido',
           label: 'Arquivo',
+          sortable: true,
         },
         {
           key:'fila',
@@ -340,11 +341,13 @@ export default {
         },
         {
           key:'data_importacao',
-          label: 'Data de Importação'
+          label: 'Data de Importação',
+          sortable: true,
         },
         {
           key:'usuario',
-          label: 'Usuário'
+          label: 'Usuário',
+          sortable: true,
         },
         {
           key:'add',

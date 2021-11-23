@@ -179,20 +179,7 @@
             </b-col>
             <b-col class="p-3" cols="auto">
               <div class="custom-control custom-switch">
-                <input
-                  id="customSwitch1"
-                  checked
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
-                />
-                <input
-                  id="customSwitch1"
-                  class="custom-control-input bg-dark"
-                  type="checkbox"
-                />
-                <label id="kkk" class="custom-control-label" for="customSwitch1"
-                  >Status</label
-                >
+                <b-form-checkbox id="status-button" switch>Status</b-form-checkbox>
               </div>
             </b-col>
           </b-row>

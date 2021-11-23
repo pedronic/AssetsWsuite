@@ -4,11 +4,19 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="filtro-grupo-script">
-            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'script')"></b-form-input>
+            <b-form-input
+              v-model="busca"
+              @keydown.enter.native="setFilter(busca, 'nome')"
+            ></b-form-input>
             <div class="card">
-              <div class="card-body"/>
+              <div class="card-body" />
             </div>
-            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'script')"/>
+            <b-btn
+              type="submit"
+              id="pesquisa_faturamento"
+              class="btn btn-info waves-effect waves-themed fal fa-search"
+              @click="setFilter(busca, 'nome')"
+            />
           </div>
         </div>
       </div>
@@ -16,13 +24,19 @@
       <div class="card">
         <div class="card-body d-flex">
           <div class="d-flex" id="status-filter">
-            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+            <b-form-checkbox
+              v-model="status_filter"
+              id="status-button"
+              class="status-filter-button"
+              switch
+              @change="setFilter(status_filter, 'status')"
+            />
           </div>
         </div>
       </div>
     </PagesSubHeader>
-    
-    <div class="panel ">
+
+    <div class="panel">
       <div class="panel-container show">
         <div class="panel-content">
           <TabelaScripts :items="items" :filter="filter" :filter_fields="filter_fields" v-if="dataOK"/>
@@ -119,9 +133,9 @@ export default {
       ], */
       scripts: [],
       msg: "",
-      filter:'',
-      filter_fields:[''],
-      busca:'',
+      filter: "",
+      filter_fields: [""],
+      busca: "",
       status_filter: true,
     };
   },
@@ -133,17 +147,18 @@ export default {
   padding: 0;
 }
 
-.card-body{
+.card-body {
   padding: 5px;
   /* height: 50px; */
   /* width: 0;
   border: 0px;
   color: #ffffff transparent; */
 }
-.card > .card-body > .d-flex > button#pesquisa_faturamento{
+.card > .card-body > .d-flex > button#pesquisa_faturamento {
   margin-right: 0.3rem !important;
 }
-.card > .card-body > .d-flex > button,input{
+.card > .card-body > .d-flex > button,
+input {
   height: 38px !important;
 }
 .d-flex#filtro-grupo-script{
@@ -154,5 +169,4 @@ export default {
   box-shadow: none;
   border: none;
 }
-
 </style> 
