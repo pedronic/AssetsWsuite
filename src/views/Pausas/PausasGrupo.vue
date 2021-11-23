@@ -1,12 +1,17 @@
 <template>
     <div class="relatorios">
-        <pages-sub-header icon="fal fa-alarm-exclamation" titulo="Grupos de Pausas">
+        <PagesSubHeader icon="fal fa-alarm-exclamation" titulo="Grupos de Pausas">
             
             <div class="card">
                 <div class="card-body d-flex">
                     <div class="d-flex" id="filtro-grupo-pausa">
-                        <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="filter = busca"/>
                         <b-form-input v-model="busca" @keydown.enter.native="filter = busca"></b-form-input>
+                        
+                        <div class="card">
+                            <div class="card-body" />
+                        </div>
+                        
+                        <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="filter = busca"/>
                     </div>
                 </div>
             </div>
@@ -14,15 +19,8 @@
             <div class="card"/>
                 <div class="card-body"/>
 
-            <div class="card">
-                <div class="card-body d-flex">
-                    <div class="d-flex" id="add-grupo-pausa">
-                        <b-btn variant="success" class="fal fa-plus" v-b-modal="'new_line'"/>
-                    </div>
-                </div>
-            </div>
 
-        </pages-sub-header>
+        </PagesSubHeader>
         <tabela-grupo-pausas :filter='filter' :items="grupos" :pausasList="pausas" :isLoading="loadingPage" v-if="buildTable"/>
         <b-container fluid class="salvar-container">
             <b-pagination
@@ -183,8 +181,8 @@ export default {
 .d-flex#filtro-grupo-pausa{
     height: 38px !important;
 }
-/* .card{
+.card{
     box-shadow: none;
     border: none;
-} */
+}
 </style>

@@ -5,7 +5,9 @@
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(action)="data"> 
-                <span>{{data.label}}</span>
+                <b-btn variant="outline-dark" class="head-add-button btn-success" v-b-modal="'new_line'">
+                    <span v-html="data.label" class="head-add-button"/>
+                </b-btn>
             </template>
             
             
@@ -387,7 +389,7 @@ export default {
                 },
                 {
                     key:'action',
-                    label: 'Ação',
+                    label: '<span class="fal fa-plus fa-1x head-add-button"/>',
                     sortable: false
                 }
             ],

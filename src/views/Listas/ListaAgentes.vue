@@ -104,7 +104,7 @@ export default {
           agente.login_crm = a[i].login_crm;
           agente.email = a[i].email;
           agente.document = '';// Não disponível ainda. futuramente: a[i].document;
-          agente.last_login = a[i].last_login;
+          agente.last_login = a[i].last_login; // Não há campo e-mail na tabela de agentes
           agente.flag = a[i].flag?true:false;
           items.push({...agente});
         }
