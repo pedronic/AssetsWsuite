@@ -6,8 +6,9 @@ export const userKey = '__wsuite_user'
 //export const baseApiUrl = "http://172.22.4.34:3535/v1"
 export const baseApiUrl = "http://192.168.0.201:3535/v1"
 export const defaultOperatorSecret = "123456"
-export const mailingApiUrl = "http://172.22.11.31:3535/api/mailing"
+export const mailingApiUrl = "http://172.22.11.31:3535/api/"
 export const mailingTestToken = "3647|bhrzpV3HeusN77PE3fRASWtQc55jaC1M4loNVOCf"
+export const mailingTestUser = { username:"admin", password:"password"};
 
 export function showError(e) {
     if(e && e.response && e.response.data) {
@@ -353,4 +354,4 @@ export const dropdownRelatoriosPages = [14,15];
 
 export const dropdownDashPages = [16,17];
 
-export default { baseApiUrl, showError, userKey, mailingApiUrl, mailingTestToken, defaultNewUserProfile, defaultOperator, defaultQueue, defaultScriptRow, weekDaysByIndex, vueMultiselectProps, dropdownAdminPages, dropdownActionPages, dropdownRelatoriosPages, dropdownDashPages }
+export default { baseApiUrl, showError, userKey, mailingApiUrl, mailingTestUser, mailingTestToken, defaultNewUserProfile, defaultOperator, defaultQueue, defaultScriptRow, weekDaysByIndex, vueMultiselectProps, dropdownAdminPages, dropdownActionPages, dropdownRelatoriosPages, dropdownDashPages }

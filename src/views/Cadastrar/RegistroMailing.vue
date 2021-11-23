@@ -57,13 +57,13 @@
                       <i class="fal fa-road fa-2x" style="margin-left: 5px" />
                       <div id="multiselect-input">
                         <multiselect
-                          class="multiple-true"
+                          
                           v-model="filas_finish"
                           :placeholder="'Filas'"
                           :label="'name'"
                           :track-by="'code'"
                           :options="finish_filas"
-                          :multiple="true"
+                          :multiple="false"
                           :max-height="500"
                           v-if="dataOK"
                           @select="total_queues++"
@@ -92,7 +92,7 @@
                                 placeholder="Arquivo"
                                 form="file-upload"
                                 @input="checkInputFile"
-                                v-model="files"
+                                v-model="files_form"
                             />
                     </div>
                   </div>
@@ -131,7 +131,7 @@ import PagesSubHeader from '../../components/subheader/PagesSubHeader.vue'
 import Multiselect from "vue-multiselect";
 import ValidateToaster from '../../plugins/validateToaster.js';
 import axios from 'axios';
-import {baseApiUrl, mailingApiUrl, mailingTestToken} from '../../config/global';
+import {baseApiUrl, mailingApiUrl, mailingTestUser} from '../../config/global';
 import csv from 'csv';
 
 
@@ -158,9 +158,9 @@ export default {
       document.body.removeChild(element);
     },
     checkInputFile(file){
-      if(this.files){
+      if(this.files_form){
         console.log("Input File:\n",file.name,file);
-        console.log("Files:\n",this.files)
+        console.log("files_form:\n",this.files_form)
 
         const reader = new FileReader();
         reader.onloadend = (res) => {
@@ -195,7 +195,7 @@ export default {
       }
       else{
         this.mailing_ok = false;
-        console.log("No File:\n",this.files)
+        console.log("No File:\n",this.files_form)
       }
     },
     importMailing(queue){
@@ -204,7 +204,7 @@ export default {
       let data = this.mailing_date.split("-");
       let blankDate = !(data.length > 1)?true:false;
       let noQ = !(this.filas_finish.length > 0)?true:false;
-      let noMailing = !(this.files)?true:false;
+      let noMailing = !(this.files_form)?true:false;
       let errorMailing = !this.mailing_ok;
 
       // console.log("Form Data @importMailing():\n",formData);
@@ -272,21 +272,39 @@ export default {
         body.mailing_date = this.mailing_date;
         body.user_id = this.getUser();
         body.queue_id = this.filas_finish[queue].code;
-        body.filename = this.files.name;
+        body.filename = this.files_form.name.split('.')[0];
         this.currentQName = this.filas_finish[queue].name;
-        this.postMailing(body);
+        this.loginToFullVPN(body); // Refatorar e excluir funcionalidade deste método após migração dos DBs e serviços para servidor da WTechnology. Este método foi implementado apenas para automatizar processos de teste de importação de mailing
+        
+        // this.postMailing(body);
       }
     },
-    postMailing(body){
+    loginToFullVPN(body){ // Refatorar e excluir método após migração de DBs e Serviços de Backend para os servidores WTechnology
+      axios.post(mailingApiUrl + 'login', mailingTestUser)
+      .then(res => {
+        console.log("Status:\t",res.status," - ",res.statusText);
+        body.user_id = res.data.user.id;
+        this.postMailing(body,res.data.token);
+      })
+      .catch(error => {
+          console.log("\n\tERROR RESPONSE:\n",error.response)
+      });
+    },
+    postMailing(body,token){
       let formData = new FormData();
-      formData.append('file',this.files);
-      formData.append('body',body);
+      
+      // formData.append('body',body);
+      for(let i in body){
+        formData.append(i,body[i]);
+      }
+      formData.append('file',this.files_form);
+      console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",...formData);
       if(this.currentQueue>0){
         // console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
-        axios.post(mailingApiUrl,formData, {
+        axios.post(mailingApiUrl+'mailing',formData, {
           headers:{
             'Content-Type': 'multipart/form-data',
-            // 'Authorization': `bearer ${mailingTestToken}`
+            'Authorization': `bearer ${token}`
           }
         })
         .then(res => {
@@ -313,10 +331,10 @@ export default {
       }
       else{
         // console.log("Body @postMailing():\n",body,"\nForm Data @postMailing():\n",formData);
-        axios.post(mailingApiUrl,formData, {
+        axios.post(mailingApiUrl+'mailing',formData, {
           headers:{
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${mailingTestToken}`
+            'Authorization': `Bearer ${token}`
           }
         })
         .then(res => {
@@ -432,6 +450,7 @@ export default {
       empty_rows:0,
       mailing_ok:false,
       read:[],
+      files_form:null,
       files:null,
       mailing_name:'',
       today: new Date(),
