@@ -10,3 +10,90 @@
     padding: 10px;
     padding-bottom: 20px;
 }
+
+.btn-success.btn-outline-dark.disabled{
+    border-color: #2e2e2e;
+    background-color: #85cdae;
+}
+
+label[for="status-button"]{
+    padding-top: 0.35ch !important;
+}
+.b-table-sticky-header{
+    max-height: 62.3vh;
+}
+
+.page-item>button.page-link{
+    &:not([aria-checked="true"]){
+        &:not(:hover){
+            background-color: white !important;
+            color: black;
+        }
+    }
+    &:not(:hover){
+        background-color: #0d6d9d8f !important;
+        color: white;
+    }
+    &:hover{
+        background-color: #0d6d9d !important;
+        color: white;
+    }
+  }
+
+  .page-item.disabled>span.page-link{
+    // border-width: 2px !important;
+    // border-color: #eeeeee !important;  
+    // background-color: #eeeeeed7 !important;
+    color: black;
+  }
+
+  div.custom-file.b-form-file>label.custom-file-label{
+    border-radius: 0px !important;
+    border-left-color: black;
+    font-size: 16px;
+    color: #495057da;
+  }
+
+  div.custom-file.b-form-file{
+      margin-top: -5px !important;
+  }
+
+  div.multiple-true>div.multiselect__tags{
+      max-height: 500px !important;
+  }
+
+  i.fal.iconDAM{
+    padding-right: 10px;
+    margin-left: -15px;
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  ul.dropdown-menu.show>div.container-fluid{
+      min-width: 250px;
+      line-height:2.8rem;
+  }
+  ul.dropdown-menu.show>div.container-fluid>div.col-12>div.row{
+      line-height:1.8rem;
+      align-items: center;
+  }
+
+  ul.dropdown-menu.show>div.container-fluid>div.col-12>div.row>div.col-10, ul.dropdown-menu.show>div.container-fluid>div.col-12>div.row>div.col-2{
+      padding-left:0px;
+  }
+
+  button.btn.dropdown-toggle.btn-link.dropdown-toggle-no-caret{
+    min-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  li.dropdown-item.d-flex.itens{
+    padding-left: 0px;
+  }
+
+  span.iconDAM{
+    margin-left:5px;
+  }

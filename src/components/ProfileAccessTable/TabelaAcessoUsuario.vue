@@ -1,13 +1,16 @@
 <template>
     <div class="tabela-acesso-usuario profile-content">
-        <b-table class="tabela-acesso-usuario table-sm able-bordered table-hover table-striped w-100 dt-responsive dtr-inline" :items="items" responsive="true" :fields="fields" sticky-header>
-            <template v-slot:head(acesso)="data">
+        <b-table class="tabela-acesso-usuario table-sm table-hover table-striped w-100 dt-responsive dtr-inline" :items="items" responsive="true" :fields="fields" sticky-header >
+            <template v-slot:head(name)="data">
+                <span>{{data.label}}</span>
+            </template>
+            <template v-slot:head(modulo_name)="data">
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(add)="data">
                 <span v-html="data.label"></span>
             </template>
-            <template v-slot:head(view)="data">
+            <template v-slot:head(read)="data">
                 <span v-html="data.label"></span>
             </template>
             <template v-slot:head(edit)="data">
@@ -16,40 +19,47 @@
             <template v-slot:head(delete)="data">
                 <span v-html="data.label"></span>
             </template>
-            <template v-slot:head(browse)="data">
+            <template v-slot:head(browser)="data">
                 <span v-html="data.label"></span>
             </template>
             
-            <template v-slot:cell(acesso)="data">
+            <template v-slot:cell(name)="data">
+                <span>{{data.value}}</span>
+            </template>
+            <template v-slot:cell(modulo_name)="data">
                 <span>{{data.value}}</span>
             </template>
             <template v-slot:cell(add)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_add'" :ref="(slot.item.acesso)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+                <b-form-checkbox v-model="slot.item.add" :id="(slot.item.name)+'_add'" :ref="(slot.item.name)+'_add'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'add',slot.item.page_id)"/>
             </template>
-            <template v-slot:cell(view)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_view'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+            <template v-slot:cell(read)="slot">
+                <b-form-checkbox v-model="slot.item.read" :id="(slot.item.name)+'_read'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'read',slot.item.page_id)"/>
             </template>
             <template v-slot:cell(edit)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+                <b-form-checkbox v-model="slot.item.edit" :id="(slot.item.name)+'_edit'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'edit',slot.item.page_id)"/>
             </template>
             <template v-slot:cell(delete)="slot">
-                <b-form-checkbox v-model="slot.value" :id="(slot.item.acesso)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.acesso)"/>
+                <b-form-checkbox v-model="slot.item.delete" :id="(slot.item.name)+'_delete'" :value="true" :unchecked-value="false" :disabled="isDependantDisabled(slot.item.name,'delete',slot.item.page_id)"/>
             </template>
-            <template v-slot:cell(browse)="slot">
-                <b-form-checkbox v-model="slot.item.browse" :ref="(slot.item.acesso)+'_browse'" :id="(slot.item.acesso)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
+            <template v-slot:cell(browser)="slot">
+                <b-form-checkbox v-model="slot.item.browser" :ref="(slot.item.name)+'_browser'" :id="(slot.item.name)+'_browse'" :value="true" :unchecked-value="false" :disabled="isBrowseDisabled()" :browsable="slot.value"/>
             </template>
         </b-table>
     </div>    
 </template>
 
 <script>
+// var load = 0;
 export default {
     name:"TabelaAcessoUsuario",
     props:{
         items: Array,
         viewOnly: Boolean,
+        pages: Array,
+        // pages_index:Object,
     },
     created(){
+        // console.log("Pages que Tabela Acesso Usuario recebe @created:\n",this.pages)
         this.isBrowseDisabled = function(){
             if(this.viewOnly) {
                 return this.viewOnly;
@@ -58,50 +68,58 @@ export default {
                 return false;
             }
         }
-        this.isDependantDisabled = function(a){
+        this.isDependantDisabled = function(a,bread,index){
             var idd = {};
             if(this.viewOnly){
                 return this.viewOnly;
             }
+            else if(!this.pages[index-1][bread]){
+                return true;
+            }
             else{
                 for (let ii in this.items) {
-                    let k = this.items[ii].acesso;
-                    idd[k] = !this.items[ii].browse;
+                    let k = this.items[ii].name;
+                    idd[k] = !this.items[ii].browser;
                 }
-                console.log("a:\n",a)
-                console.log("idd:\n",idd)
-                console.log("idd[a]:\n",idd[a])
                 return idd[a];
             }
         }
     },
-    mounted: {
-        state() {
+    mounted() {
+        this.state = function() {
             let d;
             if (this.viewOnly) d=true;
-            else d= this.browsable;
+            else d = this.browsable;
             return d;
+        },
+        function(){
+            console.log(this.items);
         }
     },
     methods: {
+        setPagesIndexTable(){
+            this.pagesIndexTable = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+        }
     },
     data() {
         return {
-            data: this.items,
-            rowLabel: this.items.acesso,
             row: [this.items],
             isDisabled: this.viewOnly,
             fields: [
                 {
-                    key:"acesso",
+                    key:"name",
                     label: "Acesso",
+                },
+                {
+                    key:"modulo_name",
+                    label: "Módulos",
                 },
                 {
                     key: "add",
                     label: "<i class='fal fa-plus mr-2 head-items'/>",
                 },
                 {
-                    key:'view',
+                    key:'read',
                     label:"<i class='fal fa-eye mr-2 head-items'/>",
                 },
                 {
@@ -113,10 +131,10 @@ export default {
                     label:"<i class='fal fa-trash-alt mr-2 head-items' />",
                 },
                 {
-                    key:'browse',
+                    key:'browser',
                     label:"<i class='fal fa-mouse-pointer mr-2 head-items' />",
                 }
-            ]
+            ],
         }
     }
     
@@ -136,7 +154,10 @@ export default {
 }
 
 .tabela-acesso-usuario > .table.b-table > tbody > tr > [aria-colindex="1"]{
-    width: 90%;
+    width: 80%;
+}
+.tabela-acesso-usuario > .table.b-table > tbody > tr > [aria-colindex="2"]{
+    width: 10%;
 }
 .tabela-acesso-usuario > .table.b-table.table-sm > thead > tr > [aria-sort]:not(.b-table-sort-icon-left), .tabela-acesso-usuario > .table.b-table.table-sm > tfoot > tr > [aria-sort]:not(.b-table-sort-icon-left) {
 background-position: right calc(0.3rem / 2) bottom 10px;

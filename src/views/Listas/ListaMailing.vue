@@ -1,70 +1,34 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader titulo="Lista de mailing" icon="fal fa-list" >
+    <PagesSubHeader icon="fal fa-list" titulo="Lista de Mailing">
+
       <div class="card">
-        <div class="card-body"/>
-      </div>
-      <form class="container">
-        <div class="form-group">
-          <div class="row">
-            <div class="col-7 col-inputs">
-              <div class="input-group d-flex">
-
-                <input
-                    aria-describedby="basic-addon1"
-                    aria-label="Username"
-                    class="form-control"
-                    placeholder=""
-                    type="text"
-                    v-on:input="filter = $event.target.value"
-                />
-              </div>
+        <div class="card-body d-flex">
+          <div class="d-flex" id="filtro-grupo-pausa">
+            <b-form-input v-model="busca" @keydown.enter.native="setFilter(busca,'mailing')"></b-form-input>
+            <div class="card">
+              <div class="card-body"/>
             </div>
-
-            <div class="col-2 col-botoes">
-              <button class="btn btn-info waves-effect waves-themed dow-color2"  type="submit"><i
-                  class="fal fa-search"></i></button>
-
-            </div>
-            <div class="col-1 col-inputs mr-4">
-              <div
-                  class="
-
-                                      custom-control custom-switch
-                                      border border-0
-                                      mt-1
-                                    "
-              >
-                <input
-                    id="customSwitch1"
-                    class="custom-control-input bg-dark"
-                    type="checkbox"
-
-                />
-                <label
-                    class="custom-control-label"
-                    for="customSwitch1"
-                ></label>
-              </div>
-
-            </div>
-            <div class="col-1 col-botoes">
-              <router-link :to="{ name: 'RegistroMailing' }">
-                <button class="btn btn-success waves-effect waves-themed dow-color" name="pesquisa-faturamento"
-                        type="submit"><i class="fal fa-plus"></i></button>
-              </router-link>
-            </div>
-
+            <b-btn type="submit" id="pesquisa_faturamento" class="btn btn-info waves-effect waves-themed fal fa-search" @click="setFilter(busca,'mailing')"/>
           </div>
         </div>
-      </form>
+      </div>
+
+      <div class="card">
+        <div class="card-body d-flex">
+          <div class="d-flex" id="status-filter">
+            <b-form-checkbox v-model="status_filter" id="status-filter-button" switch @change="setFilter(status_filter,'status')"/>
+          </div>
+        </div>
+      </div>
+
     </PagesSubHeader>
     <!--    <h2 class="title"> {{ msg }}</h2>      -->
 
     <div class="panel ">
       <div class="panel-container show">
         <div class="panel-content">
-          <TabelaMailing/>
+          <TabelaMailing :items="items" :filter="filter" :filter_fields="filter_fields"/>
         </div>
       </div>
     </div>
@@ -83,12 +47,47 @@ export default {
   name: 'ListaMailing',
   data() {
     return {
-      filter: "",
-      usuarios: [],
+      items: [
+        {
+          mailings: ["Exemplo","Outro Exemplo"],
+        },
+        {
+          mailing: 'Exemplo',
+          ID: 'Ex',
+          data_importacao: 'ex@dom.com.br',
+          data_agendamento: 'lado',
+          fila: '',
+          usuario: '',
+          registros_carregados: '',
+          telefones_carregados: '',
+          status:true
+        },
+        {
+          mailing: 'Outro Exemplo',
+          ID: 'Ox',
+          data_importacao: 'ox@dom.com.br',
+          data_agendamento: 'pinda',
+          fila: '',
+          usuario: '',
+          registros_carregados: '',
+          telefones_carregados: '',
+          status:true
+        },
+      ],
+      
       msg: "",
+      filter:'',
+      filter_fields:[''],
+      busca:'',
+      status_filter: true,
     };
   },
-  methods: {},
+  methods: {
+    setFilter(filter,field){
+      this.filter = filter.toString();
+      this.filter_fields.splice(0,1,field);
+    }
+  },
   created() {
     this.service = new UsuarioMetodos(this.$resource);
     this.service.list().then(
@@ -113,6 +112,7 @@ export default {
 </script>
 
 <style scoped>
+
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }
@@ -133,12 +133,22 @@ export default {
 }
 .card-body{
   padding: 5px;
-  height: 50px;
-  width: 0;
-  border: 0;
-  color: #ffffff;
+  /* height: 50px; */
+  /* width: 0;
+  border: 0px;
+  color: #ffffff transparent; */
 }
-.card{
+.card > .card-body > .d-flex > button#pesquisa_faturamento{
+  margin-right: 0.3rem !important;
+}
+.card > .card-body > .d-flex > button,input{
+  height: 38px !important;
+}
+.d-flex#filtro-grupo-pausa{
+  height: 38px !important;
+}
+
+.card {
   box-shadow: none;
   border: none;
 }

@@ -36,6 +36,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
   {
+    path:'/lista-de-usuarios',
+    name: 'ListaUsuarios',
+    component: () => import('../views/Listas/ListaUsuarios.vue')
+  },
+  {
+    path:'/registro-usuarios',
+    name: 'RegistroUsuarios',
+    component: () => import('../views/Cadastrar/RegistroUsuarios.vue')
+  },
+  {
     path: '/relatorios-faturamento',
     name: 'RelatoriosFaturamento',
     // route level code-splitting
@@ -51,6 +61,7 @@ const routes = [
   {
     path: '/registro-operadoras',
     name: 'RegistroOperadoras',
+    props: true,
     component: () => import( '../views/Cadastrar/RegistroOperadoras.vue')
   },
   {
@@ -89,11 +100,6 @@ const routes = [
     component: () => import( '../views/Listas/ListaAgentes.vue')
   },
   {
-    path:'/registro-usuarios',
-    name: 'RegistroUsuarios',
-    component: () => import('../views/Cadastrar/RegistroUsuarios.vue')
-  },
-  {
     path: '/lista-de-robos',
     name: 'ListaRobos',
     component: () => import( '../views/Listas/ListaRobos.vue')
@@ -119,11 +125,6 @@ const routes = [
     component: () => import('../views/Cadastrar/RegistroFinalizacoes.vue')
   },
   {
-    path:'/lista-de-usuarios',
-    name: 'ListaUsuarios',
-    component: () => import('../views/Listas/ListaUsuarios.vue')
-  },
-  {
     path: '/dash-analitico',
     name: 'DashAnalitico',
     // route level code-splitting
@@ -145,6 +146,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
+    props:true,
     component: () => import(/* webpackChunkName: "about" */ '../views/Cadastrar/RegistroBlacklist.vue')
   },
   {
@@ -173,6 +175,7 @@ const routes = [
   {
     path: '/cadastrar-filas',
     name: 'FilasCadastro',
+    props: true,
     component: () => import('../views/Filas/FilasCadastro.vue')
   }
 ]

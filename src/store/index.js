@@ -1,4 +1,4 @@
-// import axios from "axios";
+import axios from "axios";
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -6,19 +6,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: true,
+    user: false,
+    login: false,
   },
   mutations: {
-    // setUser(state, user) {
-    //   state.user = user
-    //   if(user) {
-    //       axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`
+    setUser(state, user) {
+      state.user = user
+      if(user) {
+          axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`
           
-    //   } else {
-    //       delete axios.defaults.headers.common['Authorization']
+      } else {
+          delete axios.defaults.headers.common['Authorization']
           
-    //   }
-    // }
+      }
+    },
+    setAccessPages(state, login){
+      state.login = login;
+    }
   },
   actions: {
   },

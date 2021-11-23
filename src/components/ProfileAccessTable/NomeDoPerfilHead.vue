@@ -6,8 +6,8 @@
             <b-button variant="outline-dark" @click="showDetails()">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
-                <router-link :to="{name:'Perfil',params:{nome:this.text}}">
-                    <b-button variant="outline-dark" @click="enableEditName">
+                <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:items, pages:accessPages, uID:this.user.id}}">
+                    <b-button variant="outline-dark" >
                         <span class="fal fa-pencil"/>
                     </b-button>
                 </router-link>
@@ -16,7 +16,7 @@
             </b-button>
         </div>
         <div :class="this.show_details">
-            <tabela-acesso-usuario :viewOnly="viewOnly" :items="items"/>
+            <tabela-acesso-usuario :viewOnly="viewOnly" :items="items" />
         </div>
         <b-modal 
             :id="text" 
@@ -29,8 +29,8 @@
             ok-variant="danger" 
             cancel-title="MANTER" 
             cancel-variant="success"
-            @ok="okayFunc(text)" 
-            @cancel="cancelFunc(text)"
+            @ok="deleteProfile(text, user.id)" 
+            @cancel="cancelDelete(text)"
         >
             Tem certeza que deseja excluir o perfil de <b>{{this.text}}</b>?
         </b-modal>
@@ -40,6 +40,8 @@
 <script>
 import TabelaAcessoUsuario from './TabelaAcessoUsuario.vue'
 import ValidateToaster from '../../plugins/validateToaster.js'; //importando "mixin" (no caso está na pasta plugin)
+import axios from "axios";
+import {baseApiUrl} from "@/config/global";
 
 export default {
     name: "NomeDoPerfilHead",
@@ -52,32 +54,58 @@ export default {
         user: Object,
         viewOnly: Boolean,
         colID: String,
-        rowID: String,
-    },
-    computed:{        
+        rowID: Number,
+        users: Array,
     },
     methods: {
+        showUsers(){
+            // console.clear()
+            console.log("\nUsers recebidos",this.users)
+        },
         showDetails(){
             this.show_details_count++;
             this.arrow_icon_now = this.arrow_icon_list[this.show_details_count % 2];
             if(this.show_details.length > 0) this.show_details = "";
             else this.show_details = "d-none";
         },
-        enableEditName(){
-            // this.edit_name = !this.edit_name;
+        getPages(){
+            this.accessPages = JSON.parse(localStorage.getItem('__defaultAccessPages'));
+            // console.log("Pages na head:\n",this.accessPages,"\nPages index table na head:\n",this.pagesIndexTable);
         },
         confirmDelete(){
             this.confirmDeleteModal = !this.confirmDeleteModal;
         },
-        okayFunc(name){
-            let toast = {
-                isValidated:true,
-                title:'PERFIL EXCLUÍDO',
-                message:'Perfil de '+name.toUpperCase()+' excluído com sucesso!',
-            }
-            this.validateAndToast(toast);
+        deleteProfile(nome, id){
+            let uid = id.toString();
+            let Nome = nome.toString();
+            axios.delete(baseApiUrl+'/perfils/'+uid)
+            .then(res => {
+                if(res.status >= 200 && res.status < 300){
+                    let toast = {
+                        isValidated:true,
+                        title:'PERFIL EXCLUÍDO',
+                        message:'Perfil de '+ Nome.toUpperCase()+' excluído com sucesso!',
+                    };
+                    this.validateAndToast(toast);
+                    // let t0 = new Date();
+                    // let dt = 0;
+                    // while(dt<3000){
+                    //     let t1 = new Date();
+                    //     dt = t1-t0;
+                    // }
+                    this.users.splice(this.rowID,1);
+                }
+                else {
+                    let toast = {
+                        isValidated:false,
+                        title:'PERFIL NÃO EXCLUÍDO',
+                        message:'O perfil de '+Nome.toUpperCase()+' não pôde ser excluído. Motivo:'+res.statusText,
+                    };
+                    this.validateAndToast(toast);
+                }
+            })
         },
-        cancelFunc(name){
+        cancelDelete(name){
             let toast = {
                 isValidated:false,
                 title:'PERFIL NÃO EXCLUÍDO',
@@ -86,17 +114,20 @@ export default {
             this.validateAndToast(toast);
         }
     },
-    // watch: {
-    // },
+    created() {
+        this.getPages();
+        this.showUsers();
+    },
     data() {
         return {
             show_details:"d-none",
             text: this.user.name,
-            // edit_name: true,
             arrow_icon_list: ["fal fa-angle-down","fal fa-angle-up"],
             arrow_icon_now: "fal fa-angle-down",
             show_details_count: 0,
             confirmDeleteModal: false,
+            accessPages:[],
+            pagesIndexTable:{},
         }
     }
 }
