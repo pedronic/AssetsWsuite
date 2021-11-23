@@ -37,7 +37,11 @@
                         :track-by="'code'"
                         :options="types"
                         :multiple="false"
-                        :required="true"
+                        :selectLabel="MSprops.selectLabel"
+                        :selectGroupLabel="MSprops.selectGroupLabel"
+                        :selectedLabel="MSprops.selectedLabel"
+                        :deselectLabel="MSprops.deselectLabel"
+                        :deselectGroupLabel="MSprops.deselectGroupLabel"
                       />
                     </div>
                     <div id="multiselect-input" v-else>
@@ -49,7 +53,11 @@
                         :options="types"
                         :multiple="false"
                         :preselect-first="true"
-                        :required="true"
+                        :selectLabel="MSprops.selectLabel"
+                        :selectGroupLabel="MSprops.selectGroupLabel"
+                        :selectedLabel="MSprops.selectedLabel"
+                        :deselectLabel="MSprops.deselectLabel"
+                        :deselectGroupLabel="MSprops.deselectGroupLabel"
                       />
                     </div>
                   </div>
@@ -142,100 +150,24 @@
 </template>
 
 <script>
+import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import Multiselect from "vue-multiselect";
+import { vueMultiselectProps } from "../../config/global.js";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
 export default {
   components: {
-    PagesSubHeader,
+    PagesSubHeader, //título da página com ícone (via slot)
     Multiselect,
   },
   name: "RegistroServidores",
-  methods: {
-    async getServers() {
-      let agents = await axios.get(baseApiUrl + "/servers");
-      let data = agents.data.data;
-      for (let u in data) {
-        this.servers.push(data[u].name);
-      }
-    },
-    async putServer(nu) {
-      console.log(nu);
-      let s = await axios.put(`${baseApiUrl}/servers/${this.id}`, nu);
-      console.log("Put status:\n", s);
-    },
-    async postNewServer(nu) {
-      console.log(nu);
-      let s = await axios.post(`${baseApiUrl}/servers`, nu);
-      console.log("Post status:\n", s);
-    },
+  mixins: [ValidateToaster],
 
-    carregar() {
-      // Refatorar para incluir avisos de toast após ação
-
-      let blankSip = !(this.gateway_sip_user.trim().length > 0);
-      let blankExt = !(this.gateway_ext.trim().length > 0);
-      let blankDomain = !(this.gateway_domain.trim().length > 0);
-      let blankIP = !(this.ip.trim().length > 0);
-      let blankType = !(this.type.length > 0);
-      let blankName = !(this.name.trim().length > 0);
-      // console.clear();
-      if (
-        blankDomain ||
-        blankIP ||
-        blankType ||
-        blankName ||
-        blankExt ||
-        blankSip
-        // blankDocument
-      ) {
-        console.log(blankDomain);
-        console.log(blankIP);
-        console.log(blankName);
-        console.log(blankType);
-      } else {
-        let postBody = {};
-        postBody.ip = this.ip;
-        postBody.gateway_domain = this.gateway_domain.trim();
-        postBody.gateway_ext = this.gateway_ext.trim();
-        postBody.name = this.name.trim();
-        postBody.gateway_sip_user = this.gateway_sip_user.trim();
-        postBody.type = this.tipo.name;
-        postBody.flag = this.flag == true ? 1 : 0;
-        // postBody.email = this.email.trim();
-        // postBody.type = this.type;
-        // postBody.work_time = this.work_time;
-        // postBody.flag = this.flag;
-        // postBody.last_login = this.last_login;
-        // postBody.created_at = this.created_at;
-        // postBody.updated_at = this.updated_at;
-
-        // for (let f in this.queue_default) {
-        //   this.queue_default.push(this.queue_default[f]);
-        // }
-        let validServer = !(this.servers.indexOf(this.server) < -1);
-
-        if (validServer) {
-          console.log("valido");
-          if (this.id) {
-            postBody.type = this.type[0].name;
-            console.log(postBody.type);
-            this.putServer(postBody);
-          } else {
-            console.log(postBody.type);
-            this.postNewServer(postBody);
-          }
-        }
-      }
-    },
-  },
-  mounted() {
-    this.getServers();
-  },
   data() {
     return {
+      MSprops: vueMultiselectProps, //essa variável é global e carrega com ela a tradução das mensagens que aparecem no MultiSelect (ctrl + click)
       type: [
         {
           name: this.$route.params.type,
@@ -244,7 +176,6 @@ export default {
       ],
       tipo: [],
       flag: this.$route.params.flag,
-      servers: [],
       name: this.$route.params.name,
       ip: this.$route.params.ip,
       gateway_domain: this.$route.params.gateway_domain,
@@ -255,64 +186,124 @@ export default {
         { name: "app", code: "A" },
         { name: "database", code: "D" },
         { name: "Gateway", code: "G" },
-        { name: "PABX", code: "D" },
+        { name: "PABX", code: "PABX" },
         { name: "Robot", code: "R" },
       ],
-      // msg: "",
-      //   usuario: new Usuario(),
-      //   id: this.$route.params.id,
     };
+  },
+
+  methods: {
+    async putServer(nu) {
+      //posta novo servidor editado com base no ID
+      console.log(nu);
+      let s = await axios
+        .put(`${baseApiUrl}/servers/${this.id}`, nu)
+        .then(() => {
+          let toast = {
+            isValidated: true,
+            title: "SERVIDOR EDITADO!",
+            message: "Servidor editado com sucesso",
+          };
+          this.validateAndToast(toast);
+        })
+        .catch((error) => {
+          if (error.response.data.errno) {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: "Erro ao registrar servidor",
+            };
+            this.validateAndToast(toast);
+          } else {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: error.response.data,
+            };
+            this.validateAndToast(toast);
+          }
+        });
+      console.log("Put status:\n", s);
+    },
+    async postNewServer(nu) {
+      //postagem de novo servidor
+      console.log(nu);
+      let s = await axios
+        .post(`${baseApiUrl}/servers/`, nu)
+        .then(() => {
+          let toast = {
+            isValidated: true,
+            title: "SERVIDOR CRIADO!",
+            message: "Servidor criado com sucesso",
+          };
+          this.validateAndToast(toast);
+        })
+        .catch((error) => {
+          if (error.response.data.errno) {
+            let toast = {
+              isValidated: false,
+              title: "Erro",
+              message: "Erro ao registrar servidor",
+            };
+            this.validateAndToast(toast);
+          } else {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: error.response.data,
+            };
+            this.validateAndToast(toast);
+          }
+        });
+      console.log("Post status:\n", s);
+    },
+
+    carregar() {
+      // Refatorar para incluir avisos de toast após ação
+
+      let blankSip = !(this.gateway_sip_user.trim().length > 0);
+      let blankExt = !(this.gateway_ext.trim().length > 0);
+      let blankDomain = !(this.gateway_domain.trim().length > 0);
+      let blankIP = !(this.ip.trim().length > 0);
+      let blankName = !(this.name.trim().length > 0);
+      if (
+        blankDomain ||
+        blankIP ||
+        blankName ||
+        blankExt ||
+        blankSip
+      ) {
+        console.log(blankDomain);
+        console.log(blankIP);
+        console.log(blankName);
+        console.log(blankSip);
+        console.log(blankExt);
+      } else {
+        let postBody = {};
+        postBody.ip = this.ip.trim();
+        postBody.gateway_domain = this.gateway_domain.trim();
+        postBody.gateway_ext = this.gateway_ext.trim();
+        postBody.name = this.name.trim();
+        postBody.gateway_sip_user = this.gateway_sip_user.trim();
+        postBody.flag = this.flag == true ? 1 : 1; //por enquanto mandar true como padrão
+        if (this.id) {
+          postBody.type = this.type.name;
+          console.log(postBody.type);
+          this.putServer(postBody);
+        } else {
+          postBody.type = this.tipo.name;
+          console.log(postBody.type);
+          this.postNewServer(postBody);
+        }
+      }
+    },
+  },
+  mounted() { //carregar dados que serão exibidos da API
+    // this.getServers();
   },
 };
 </script>
 <style scoped>
-#input-pic {
-  border-left: 1px solid rgb(0, 0, 0) !important;
-}
-
-.btn-default {
-  background-image: linear-gradient(to top, #ffffff, #ffffff);
-}
-.image-preview-input {
-  position: relative;
-  overflow: hidden;
-  margin: 0px;
-  color: #333;
-  background-color: #fff;
-  border-color: #ccc;
-}
-.image-preview-input input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
-.image-preview-input-title {
-  margin-left: 2px;
-}
-.form-control:disabled,
-.form-control[readonly] {
-  background-color: #ffffff;
-  opacity: 1;
-}
-
-label#kkk {
-  padding-top: 2.7px;
-}
-
-.form-icon,
-.form-icon:hover {
-  width: 42px;
-}
-
-.centralize {
-  margin-left: 450px;
-}
 
 .botao-salvar {
   background-color: #0d6d9dad;
@@ -330,29 +321,11 @@ label#kkk {
   padding-left: 0%;
   padding-right: 0%;
 }
-.user-name-line2 {
-  align-items: center !important;
-  border-style: solid;
-  border-width: 1px;
-  height: 42px;
-  border-color: #d0cece;
-  padding-left: 0%;
-  padding-right: 0%;
-}
 #profile-name-input {
   margin-left: 5px;
   margin-right: 0px;
   border-left-color: black;
   border-radius: 0px;
-}
-#profile-name-input2 {
-  margin-left: 5px;
-  margin-right: 0px;
-  border-left-color: black;
-  border-radius: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
 }
 #multiselect-input {
   display: flex;
@@ -363,18 +336,6 @@ label#kkk {
 i.fal.fa-2x {
   width: 26px;
   height: 26px;
-}
-
-.bottom {
-  margin-top: 20px;
-}
-
-.panel-content {
-  overflow: auto;
-}
-
-.panel .panel-container .panel-content {
-  padding: 0;
 }
 
 .card-body {

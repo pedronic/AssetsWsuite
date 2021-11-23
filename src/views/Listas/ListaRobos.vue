@@ -70,7 +70,7 @@ export default {
       this.filter_fields.splice(0, 1, field);
     },
     async getAgentRobos() {
-      let res = await axios.get(baseApiUrl + "/agents?page=29");
+      let res = await axios.get(baseApiUrl + "/agents?page=31");
       let a = res.data.data;
       let robos = [];
       let first = {};

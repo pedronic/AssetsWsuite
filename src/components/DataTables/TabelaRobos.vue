@@ -87,7 +87,7 @@
             params: {
               id: slot.item.id,
               login_crm: slot.item.login_crm,
-              document: slot.item.document,
+              // document: slot.item.document,
               name: slot.item.name,
               flag: slot.item.flag,
               queue_default: slot.item.queue_default,

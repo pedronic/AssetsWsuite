@@ -88,11 +88,12 @@ export default {
           agente.login_crm = a[i].login_crm;
           agente.email = a[i].email;
           agente.document = ""; // Não disponível ainda. futuramente: a[i].document;
-          agente.last_login = a[i].last_login;
+          agente.company_id = a[i].company_id;
           agente.id = a[i].id;
           agente.queue_default = a[i].queue_default;
           agente.flag = a[i].flag ? true : false;
           agente.agent = a[i].agent;
+          agente.journey = a[i].journey;
           items.push({ ...agente });
         }
       }
