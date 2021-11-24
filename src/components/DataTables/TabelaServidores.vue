@@ -20,6 +20,8 @@
       :per-page="10"
       :busy="busy"
     >
+      <!--editando os headers das tabelas-->
+
       <template v-slot:head(name)="data">
         <span>{{ data.label }}</span>
       </template>
@@ -44,6 +46,7 @@
           </b-button>
         </router-link>
       </template>
+      <!--Editando cada célula da tebela-->
 
       <template v-slot:cell(name)="slot">
         <span :id="slot.item.name + '_pausa'">{{ slot.value }}</span>
@@ -73,6 +76,8 @@
           disabled
         />
       </template>
+      <!--célula de adição é personalizada dessa maneira para recebeer os dois botões-->
+
       <template v-slot:cell(add)="slot">
         <router-link
           :to="{
@@ -105,9 +110,10 @@
         />
       </template>
     </b-table>
-    <!-- ---------------------------------------------------- -->
+    <!-- ----------------------------------------------------A ser implementado futuramente -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
     <div v-for="(i, index) in filas" :key="i.name + '_edit'">
+      <!-- Faz o mapeamento de cada linha (item-objeto) da tabela -->
       <b-modal
         :id="i.name + '_edit_modal'"
         :ref="i.name + '_edit_modal'"
@@ -203,7 +209,7 @@
       </b-modal>
     </div>
     <!-- MODAL PARA EXCLUSÃO DE LINHA (FIM) -->
-    <!-- ---------------------------------------------------- -->
+    <!-- ---------------------------------------------------- A ser implementado futuramente -->
     <!-- MODAL PARA CRIAR NOVA LINHA (INÍCIO) -->
     <b-modal
       id="new_line"
@@ -284,6 +290,7 @@ import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
 const defaultRow = {
+  //linha para se exibir alguma coisa na tela caso ocorra alguma falha na requisição de dados
   name: "",
   nome: false,
   email: false,
@@ -298,18 +305,60 @@ export default {
   name: "TabelaServidores",
   mixins: [ValidateToaster],
   props: {
+    //recebe os itens, o parâmetro de filtragem e os campos a serem filtrados
     items: Array,
     filter: String,
     filter_fields: Array,
   },
+  data() {
+    return {
+      filas: this.items.slice(1, this.items.length), //o primeiro item se refere aos nomes de cada
+      newRowInput: Object.assign({}, this.newRowDefault), //cria um novo objeto com a nova linha criada
+      editRowInput: Object.assign({}, this.newRowDefault), //cria um novo objeto com a nova linha editada
+      editIcon: '<span class="fal fa-pencil"/>',
+      deleteIcon: '<span class="fal fa-trash-alt"/>',
+      busy: this.isLoading,
+      names: this.items[0].names, //usado em métodos de filtragem
+      fields: [
+        //todas as colunas que receberam chave e valores
+        {
+          key: "name",
+          label: "Nome",
+          sortable: true,
+        },
+        {
+          key: "type",
+          label: "Tipo",
+          sortable: true,
+        },
+        {
+          key: "ip",
+          label: "IP",
+          sortable: true,
+        },
+
+        {
+          key: "flag",
+          label: "Status",
+          // Boolean
+        },
+        {
+          key: "add",
+          label: '<span class="fal fa-plus fa-1x head-add-button"/>',
+        },
+      ],
+    };
+  },
+
   methods: {
     async deleteServer(id) {
+      //metódo de deleção de servidor (na base de dados)
       let s = await axios.delete(`${baseApiUrl}/servers/${id}`);
       console.clear();
       console.log("Delete status:\n", s);
     },
     deleteRow(ev, id) {
-      const p = this.names.indexOf(ev);
+      const p = this.names.indexOf(ev); //metódo de deleção de servidor
       this.filas.splice(p, 1);
       this.names.splice(p, 1);
       let toast = {
@@ -322,6 +371,7 @@ export default {
       this.validateAndToast(toast);
     },
     cancelDelete(p) {
+      //efeito que ocorre quando o usuário desiste da seleção
       let toast = {
         isValidated: false,
         title: "SERVIDOR MANTIDO",
@@ -333,6 +383,7 @@ export default {
       this.validateAndToast(toast);
     },
     okayAdd() {
+      //adição visual de novo usuário
       let newPausa = this.newRowInput.name.trim();
       if (newPausa.length > 0) {
         console.log("Filas ok:");
@@ -351,6 +402,7 @@ export default {
         };
         this.validateAndToast(toast);
       } else {
+        //em caso de o nome inserido for vazio
         let toast = {
           isValidated: false,
           title: "NOVO SERVIDOR VAZIO NÃO ADICIONADA",
@@ -363,6 +415,7 @@ export default {
       }
     },
     cancelAdd() {
+      //cancelamento do método de adição
       let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated: false,
@@ -401,7 +454,7 @@ export default {
 
         let toast = {
           isValidated: false,
-          title: "SERVIDOR NÃO EDITADA",
+          title: "SERVIDOR NÃO EDITADO",
           message:
             "Servidor " +
             p.toUpperCase() +
@@ -425,6 +478,7 @@ export default {
     },
   },
   created() {
+    //insere a nova linha no cache do navegador (em tempo de desenvolvimento)
     this.newRowDefault = { ...defaultRow };
     // this.newRowInput = Object.assign({},this.newRowDefault);
     // this.editRowInput = Object.assign({},this.newRowDefault);
@@ -435,7 +489,7 @@ export default {
     // this.editRowInput = this.filas;
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
-  watch: {
+  watch: { //a ser implementado
     // filas(newValue){
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
     // }
@@ -464,50 +518,6 @@ export default {
   },
   mounted() {
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
-  },
-  data() {
-    return {
-      filas: this.items.slice(1, this.items.length),
-      newRowInput: Object.assign({}, this.newRowDefault),
-      editRowInput: Object.assign({}, this.newRowDefault),
-      editIcon: '<span class="fal fa-pencil"/>',
-      deleteIcon: '<span class="fal fa-trash-alt"/>',
-      busy: this.isLoading,
-      names: this.items[0].names,
-      icons: [
-        { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
-        { value: "i2", html: '<span class="fal fa-plus"/>' },
-        { value: "i3", html: '<span class="fal fa-air-conditioner"/>' },
-        { value: "i4", html: '<span class="fal fa-abacus"/>' },
-      ],
-      fields: [
-        {
-          key: "name",
-          label: "Nome",
-          sortable: true,
-        },
-        {
-          key: "type",
-          label: "Tipo",
-          sortable: true,
-        },
-        {
-          key: "ip",
-          label: "IP",
-          sortable: true,
-        },
-
-        {
-          key: "flag",
-          label: "Status",
-          // Boolean
-        },
-        {
-          key: "add",
-          label: '<span class="fal fa-plus fa-1x head-add-button"/>',
-        },
-      ],
-    };
   },
 };
 </script>
@@ -544,6 +554,7 @@ input::-webkit-inner-spin-button {
 
 #new_row_limite,
 #new_row_alerta {
+  /*implementado no futuro modal*/
   width: 100%;
   padding: 0.2ch;
   text-align: center;
@@ -556,6 +567,7 @@ input::-webkit-inner-spin-button {
 .limite-head-container,
 .icone-head-container,
 .status-head-container {
+  /*estilização de todas as colunas*/
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
@@ -602,6 +614,15 @@ input::-webkit-inner-spin-button {
   padding-right: 2px !important;
 }
 
+.b-table-sticky-header > .table.b-table > thead > tr > th {
+  /*estilização padrão dos headers*/
+  position: sticky I !important;
+  top: -1px !important;
+  z-index: 2 !important;
+}
+/* estilização do íconezinho de sort */
+/*--------------------------![COMEÇO]!------------------------------------------------------*/
+
 .tabela-pausas
   > .table.b-table.table-sm
   > thead
@@ -627,7 +648,10 @@ input::-webkit-inner-spin-button {
 .tabela-pausas > .table.b-table > tfoot > tr > [aria-sort="descending"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
+/*--------------------------![FIM]!------------------------------------------------------*/
+
 .tabela-pausas > .table.b-table > thead > tr > .table-b-table-default {
+  /*Header*/
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -636,6 +660,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
   vertical-align: middle !important;
 }
+/*------------------------------Edição individual de cada coluna por sequência em que aparecem------------------------------------*/
 
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {

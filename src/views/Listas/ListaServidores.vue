@@ -66,16 +66,43 @@
 <script>
 import TabelaServidores from "../../components/DataTables/TabelaServidores.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-import axios from "axios";
+import axios from "axios"; //ferramenta responsável pela promise (await)
 import { baseApiUrl } from "@/config/global";
 
 const perpage = 10;
 
 export default {
   components: {
-    PagesSubHeader,
+    PagesSubHeader, //título da página com ícone (via slot) 
     TabelaServidores,
   },
+    data() {
+    return {
+      msg: "",
+      buildTable: false, //habilitado sempre que a tabela há de carregar novos dados
+      items: null,
+      // PAGINAÇÃO
+      currentPage: 1,
+      perPage: perpage,
+      loadingPage: false,
+      total_pages: 0,
+      total_items: 0,
+      //FIM DADOS PAGINAÇÃO
+      /* [
+        {
+          names: ["Dickerson", "Larsen"],
+        },
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
+      ], */
+      names: [],
+            //dados que serão usados no filtro
+      filter: "",
+      filter_fields: [""],
+      busca: "",
+    };
+  },
+
   methods: {
     showSelectedPage(page) {
       this.loadingPage = true;
@@ -83,11 +110,11 @@ export default {
       this.loadingPage = false;
     },
 
-    setFilter(filter, field) {
+    setFilter(filter, field) { //método de filtragem: pega o valor recebido (que pode ser true do valor de enable) e envia para o componente
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
-    async getServers(page) {
+    async getServers(page) { //pega os servidores da API
       let pag = page.toString();
       let res = await axios.get(baseApiUrl + "/servers" + "?page=" + pag);
       let a = res.data.data;
@@ -99,13 +126,7 @@ export default {
       let items = [];
       let server = {};
 
-      // console.clear();
-      // console.log(u);
-      // for (let i in a) {
-      //   u[i].flag = new Boolean(u[i].flag);
-      //   this.items[0].names.push(u[i].name);
-      //   this.items.push(u[i]);
-      // }
+      //inserindo os dados da requisição no field
       for (let i in a) {
         servers.push(a[i].name);
       }
@@ -125,67 +146,31 @@ export default {
       }
       console.log("Items @getServers():\n", this.items);
       this.items = [...items];
-      this.buildTable = true;
+      this.buildTable = true; //depois que está tudo ok, ele ativa as tabelas  
     },
   },
   // get
   // post
   // put
   // delete
-  created() {
+  created() { //assim que o componente for criado, vamos fazer a consulta a API e inserir na tabela
     this.getServers(this.currentPage);
     // this.getPages();
     // this.setDefaultUser();
-  },
-  data() {
-    return {
-      msg: "",
-      buildTable: false,
-      items: null,
-      // PAGINAÇÃO
-      currentPage: 1,
-      perPage: perpage,
-      loadingPage: false,
-      total_pages: 0,
-      total_items: 0,
-      //FIM DADOS PAGINAÇÃO
-      /* [
-        {
-          names: ["Dickerson", "Larsen"],
-        },
-        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', flag: true},
-        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', flag: false},
-      ], */
-      names: [],
-      filter: "",
-      filter_fields: [""],
-      busca: "",
-      flag_filter: true,
-    };
   },
 };
 </script>
 
 <style scoped>
-.dow-color2 {
-  background-color: rgb(13, 109, 157) !important;
-}
-
-.col-botoes {
-  padding-left: 3px !important;
-  padding-right: 3px !important;
-}
-.col-inputs {
-  padding-left: 3px !important;
-  padding-right: 10px !important;
-}
 
 .panel-content {
   overflow: auto;
 }
+
 .panel .panel-container .panel-content {
   padding: 0;
 }
+
 .card-body {
   padding: 5px;
   /* height: 50px; */
@@ -207,8 +192,5 @@ input {
 .card {
   box-shadow: none;
   border: none;
-}
-.dow-color {
-  background-color: #1a7f37 !important;
 }
 </style>

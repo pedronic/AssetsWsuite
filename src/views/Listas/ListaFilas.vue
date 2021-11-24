@@ -35,13 +35,6 @@
         </div>
       </div>
 
-      <!-- <div class="card">
-        <div class="card-body d-flex">
-          <router-link class="d-flex" id="add-grupo-pausa" :to="{path:'/registro-queues',params:{nome:''}}" >
-            <b-btn variant="success" class="fal fa-plus"/>
-          </router-link>
-        </div>
-      </div> -->
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
     <div class="panel">
@@ -74,83 +67,20 @@
 // import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
 import TabelaFilas_main from "../../components/DataTables/TabelaFilas_main.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-import axios from "axios";
+import axios from "axios"; //ferramenta responsável pela promise (await)
 import { baseApiUrl } from "@/config/global";
 
-const perpage = 10;
+const perpage = 10; //quantas vão mostrar por páginas
 
 export default {
   components: {
-    PagesSubHeader,
+    PagesSubHeader, //título da página com ícone (via slot)
     TabelaFilas_main,
   },
-  methods: {
-    showSelectedPage(page) {
-      this.loadingPage = true;
-      this.getQueues(page);
-      this.loadingPage = false;
-    },
-    setFilter(filter, field) {
-      this.filter = filter.toString();
-      this.filter_fields.splice(0, 1, field);
-    },
-    async getQueues(page) {
-      let pag = page.toString();
-      let res = await axios.get(baseApiUrl + "/queues" + "?page="+pag);
-      let a = res.data.data;
-      this.total_items = res.data.count;
-      this.total_pages = Math.ceil(res.data.count / res.data.limit);
-      this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
-      let queues = [];
-      let first = {};
-      let items = [];
-      let queue = {};
-
-      // console.clear();
-      // console.log(u);
-      // for (let i in a) {
-      //   u[i].enable = new Boolean(u[i].enable);
-      //   this.items[0].queues_number.push(u[i].name);
-      //   this.items.push(u[i]);
-      // }
-      for (let i in a) {
-        queues.push(a[i].queue_number);
-      }
-      first.queues_number = [...queues];
-      items.push({ ...first });
-
-      for (let i in a) {
-        queue.name_queue = a[i].name_queue;
-        queue.queue_number = a[i].queue_number;
-        queue.type = a[i].type;
-        queue.queue_type = a[i].queue_type;
-        queue.queue_id = a[i].queue_id;
-        queue.finalization_name = a[i].finalization_name; // Não disponível ainda. futuramente: a[i].profileName;
-        queue.break_group_id = a[i].break_group_id;
-        queue.route_name = a[i].route_name;
-        queue.dial_format = a[i].dial_format;
-        queue.speedy = a[i].speedy;
-        queue.flag = a[i].flag ? true : false;
-        items.push({ ...queue });
-      }
-      console.log("Items @getQueues():\n", this.items);
-      this.items = [...items];
-      this.buildTable = true;
-    },
-  },
-  // get
-  // post
-  // put
-  // delete
-  created() {
-    this.getQueues(this.currentPage);
-    // this.getPages();
-    // this.setDefaultUser();
-  },
-  data() {
+    data() {
     return {
       msg: "",
-      buildTable: false,
+      buildTable: false, //habilitado sempre que a tabela há de carregar novos dados
       items: null,
       // PAGINAÇÃO
       currentPage: 1,
@@ -167,29 +97,75 @@ export default {
         {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', enable: false},
       ], */
       queues_number: [],
+      //dados que serão usados no filtro
       filter: "",
       filter_fields: [""],
       busca: "",
       flag_filter: true,
     };
   },
+
+  methods: {
+    showSelectedPage(page) { //request de valores de acordo com a API
+      this.loadingPage = true;
+      this.getQueues(page);
+      this.loadingPage = false;
+    },
+    setFilter(filter, field) { //método de filtragem: pega o valor recebido (que pode ser true do valor de enable) e envia para o componente
+      this.filter = filter.toString();
+      this.filter_fields.splice(0, 1, field);
+    },
+    async getQueues(page) {
+      let pag = page.toString();
+      let res = await axios.get(baseApiUrl + "/queues" + "?page="+pag);
+      let a = res.data.data;
+      this.total_items = res.data.count;
+      this.total_pages = Math.ceil(res.data.count / res.data.limit);
+      this.perPage = (res.data.limit>perpage)?res.data.limit:perpage;
+      let queues = [];
+      let first = {};
+      let items = [];
+      let queue = {};
+
+ //inserindo os dados da requisição no field
+      for (let i in a) {
+        queues.push(a[i].queue_number);
+      }
+      first.queues_number = [...queues];
+      items.push({ ...first });
+
+      for (let i in a) {
+        queue.name_queue = a[i].name_queue;
+        queue.queue_number = a[i].queue_number;
+        queue.type = a[i].type;
+        queue.queue_type = a[i].queue_type;
+        queue.queue_id = a[i].queue_id;
+        queue.finalization_name = a[i].finalization_name; 
+        queue.break_group_id = a[i].break_group_id;
+        queue.route_name = a[i].route_name;
+        queue.dial_format = a[i].dial_format;
+        queue.speedy = a[i].speedy;
+        queue.flag = a[i].flag ? true : false;
+        items.push({ ...queue });
+      }
+      console.log("Items @getQueues():\n", this.items);
+      this.items = [...items];
+      this.buildTable = true; //depois que está tudo ok, ele ativa as tabelas  
+    },
+  },
+  // get
+  // post
+  // put
+  // delete
+  created() { //assim que o componente for criado, vamos fazer a consulta a API e inserir na tabela
+    this.getQueues(this.currentPage);
+    // this.getPages();
+    // this.setDefaultUser();
+  },
 };
 </script>
 
 <style scoped>
-.dow-color2 {
-  background-color: rgb(13, 109, 157) !important;
-}
-
-.col-botoes {
-  padding-left: 3px !important;
-  padding-right: 3px !important;
-}
-
-.col-inputs {
-  padding-left: 3px !important;
-  padding-right: 10px !important;
-}
 
 .panel-content {
   overflow: auto;
@@ -220,9 +196,5 @@ input {
 .card {
   box-shadow: none;
   border: none;
-}
-
-.dow-color {
-  background-color: #1a7f37 !important;
 }
 </style>

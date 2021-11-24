@@ -397,11 +397,14 @@ export default {
         blankName //||
         // blankDocument
       ) {
-        console.log(passCheck);
-        console.log(blankPass);
-        console.log(blankName);
-        console.log(blankAgent);
-        // console.log(blankDocument);
+        let toast = {
+          isValidated: false,
+          title: "NÃO FOI POSSÍVEL SALVAR O NOVO AGENTE",
+          message:
+            "O novo agente não pôde ser criado. Não é permitido salvar uma novo Agente com o Ramal ou Senha inválidos ou apenas com espaços em branco.",
+        };
+                  this.validateAndToast(toast);
+
       } else {
         let postBody = {};
         postBody.company_id = 2; //alterar quando o campo "compania" for criado

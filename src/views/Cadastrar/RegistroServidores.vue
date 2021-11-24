@@ -273,11 +273,14 @@ export default {
         blankExt ||
         blankSip
       ) {
-        console.log(blankDomain);
-        console.log(blankIP);
-        console.log(blankName);
-        console.log(blankSip);
-        console.log(blankExt);
+        let toast = {
+          isValidated: false,
+          title: "NÃO FOI POSSÍVEL SALVAR O NOVO SERVIDOR",
+          message:
+            "O novo servidor não pôde ser criado. Não é permitido salvar uma novo servidor com o nome inválido ou apenas com espaços em branco.",
+        };
+                  this.validateAndToast(toast);
+
       } else {
         let postBody = {};
         postBody.ip = this.ip.trim();

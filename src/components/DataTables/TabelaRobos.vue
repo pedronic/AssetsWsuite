@@ -1,5 +1,5 @@
 <template>
-  <div class="pausas">
+  <div class="pausas"> <!--todas as tabelas foram feitas em cima da primeira tabela que foi construída corretamente, que foi a tabela de pausas-->
     <b-table
       id="tabela-de-pausas"
       :ref="'tabela-de-pausas'"
@@ -18,6 +18,8 @@
       :filter-included-fields="filter_fields"
       sticky-header
     >
+        <!--editando os headers das tabelas-->
+
       <template v-slot:head(login_crm)="data">
         <span>{{ data.label }}</span>
       </template>
@@ -27,7 +29,7 @@
       <template v-slot:head(email)="data">
         <span>{{ data.label }}</span>
       </template>
-      <template v-slot:head(document)="data">
+      <template v-slot:head(agent)="data">
         <span>{{ data.label }}</span>
       </template>
       <template v-slot:head(last_login)="data">
@@ -51,7 +53,7 @@
           </b-button>
         </router-link>
       </template>
-
+      <!--Editando cada célula da tebela-->
       <template v-slot:cell(login_crm)="slot">
         <span :id="slot.item.name + '_alerta'">{{ slot.value }}</span>
       </template>
@@ -61,7 +63,7 @@
       <template v-slot:cell(email)="slot">
         <span :id="slot.item.name + '_alerta'">{{ slot.value }}</span>
       </template>
-      <template v-slot:cell(document)="slot">
+      <template v-slot:cell(agent)="slot">
         <span :id="slot.item.name + '_alerta'">{{ slot.value }}</span>
       </template>
       <template v-slot:cell(limite)="slot">
@@ -80,6 +82,7 @@
           disabled
         />
       </template>
+            <!--célula de adição é personalizada dessa maneira para recebeer os dois botões-->
       <template v-slot:cell(add)="slot">
         <router-link
           :to="{
@@ -87,7 +90,7 @@
             params: {
               id: slot.item.id,
               login_crm: slot.item.login_crm,
-              // document: slot.item.document,
+              // agent: slot.item.agent,
               name: slot.item.name,
               flag: slot.item.flag,
               queue_default: slot.item.queue_default,
@@ -112,9 +115,9 @@
         />
       </template>
     </b-table>
-    <!-- ---------------------------------------------------- -->
+    <!-- ----------------------------------------------------A ser implementado futuramente -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.name + '_edit'">
+    <div v-for="(i, index) in filas" :key="i.name + '_edit'"> <!-- Faz o mapeamento de cada linha (item-objeto) da tabela -->
       <b-modal
         :id="i.name + '_edit_modal'"
         :ref="i.name + '_edit_modal'"
@@ -144,8 +147,8 @@
               <b-col cols="2" class="email-head-container">
                 <span class="email-head">Email</span>
               </b-col>
-              <b-col cols="1" class="document-head-container">
-                <span class="document-head">Documento</span>
+              <b-col cols="1" class="agent-head-container">
+                <span class="agent-head">Documento</span>
               </b-col>
               <b-col cols="1" class="flag-head-container">
                 <span class="flag-head">Status</span>
@@ -177,9 +180,9 @@
                   type="text"
                 />
               </b-col>
-              <b-col cols="1" class="document-body-container">
+              <b-col cols="1" class="agent-body-container">
                 <b-form-input
-                  v-model="editRowInput.document"
+                  v-model="editRowInput.agent"
                   :presentState="i"
                   :id="i.name + '_edit_row_alerta'"
                   type="text"
@@ -200,7 +203,7 @@
         </b-container>
       </b-modal>
       <!-- MODAL PARA Edição DE LINHA (FIM) -->
-      <!-- ---------------------------------------------------- -->
+    <!-- ----------------------------------------------------A ser implementado futuramente -->
       <!-- MODAL PARA EXCLUSÃO DE LINHA (INÍCIO) -->
       <b-modal
         :id="i.name + '_delete'"
@@ -251,8 +254,8 @@
             <b-col cols="2" class="email-head-container">
               <span class="email-head">Email</span>
             </b-col>
-            <b-col cols="1" class="document-head-container">
-              <span class="document-head">Documento</span>
+            <b-col cols="1" class="agent-head-container">
+              <span class="agent-head">Documento</span>
             </b-col>
             <b-col cols="1" class="flag-head-container">
               <span class="flag-head">Ativa</span>
@@ -280,9 +283,9 @@
                 type="text"
               />
             </b-col>
-            <b-col cols="1" class="document-body-container">
+            <b-col cols="1" class="agent-body-container">
               <b-form-input
-                v-model="newRowInput.document"
+                v-model="newRowInput.agent"
                 :id="'new_row_alerta'"
                 type="text"
               ></b-form-input>
@@ -310,11 +313,11 @@ import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mi
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
-const defaultRow = {
+const defaultRow = { //linha para se exibir alguma coisa na tela caso ocorra alguma falha na requisição de dados
   name: "",
   login_crm: null,
   email: false,
-  document: "",
+  agent: "",
   limite: "",
   icone: "",
   flag: true,
@@ -324,13 +327,56 @@ const defaultRow = {
 export default {
   name: "TabelaRobos",
   mixins: [ValidateToaster],
-  props: {
+  props: { //recebe os itens, o parâmetro de filtragem e os campos a serem filtrados
     items: Array,
     filter: String,
     filter_fields: Array,
   },
+  data() {
+    return {
+      filas: this.items.slice(1, this.items.length),//o primeiro item se refere aos nomes de cada
+      newRowInput: Object.assign({}, this.newRowDefault),//cria um novo objeto com a nova linha criada
+      editRowInput: Object.assign({}, this.newRowDefault),//cria um novo objeto com a nova linha editada
+      editIcon: '<span class="fal fa-pencil"/>',
+      deleteIcon: '<span class="fal fa-trash-alt"/>',
+      names: this.items[0].names,
+      fields: [ //todas as colunas que receberam chave e valores
+        {
+          key: "login_crm",
+          label: "Login",
+          sortable: true,
+        },
+        {
+          key: "name",
+          label: "Nome",
+          sortable: true,
+        },
+
+        {
+          key: "agent",
+          label: "Ramal",
+          sortable: true,
+        },
+        {
+          key: "last_login",
+          label: "Login em",
+          sortable: true,
+        },
+        {
+          key: "flag",
+          label: "Status",
+          // Boolean,
+        },
+        {
+          key: "add",
+          label: '<span class="fal fa-plus fa-1x head-add-button"/>',
+        },
+      ],
+    };
+  },
+
   methods: {
-    async deleteRobot(id) {
+    async deleteRobot(id) { //metódo de deleção de usuário (na base de dados)
       let s = await axios.delete(`${baseApiUrl}/agents/${id}`);
       console.clear();
       console.log("Delete status:\n", s);
@@ -347,7 +393,7 @@ export default {
       this.deleteRobot(id);
       this.validateAndToast(toast);
     },
-    cancelDelete(p) {
+    cancelDelete(p) { //efeito que ocorre quando o usuário desiste da seleção
       let toast = {
         isValidated: false,
         title: "ROBÔ MANTIDO",
@@ -356,7 +402,7 @@ export default {
       };
       this.validateAndToast(toast);
     },
-    okayAdd() {
+    okayAdd() { //adição visual de novo usuário
       let newPausa = this.newRowInput.name.trim();
       if (newPausa.length > 0) {
         console.log("Robos ok:");
@@ -372,7 +418,7 @@ export default {
             "Novo robô " + newPausa.toUpperCase() + " adicionado com sucesso!",
         };
         this.validateAndToast(toast);
-      } else {
+      } else { //em caso de o nome inserido for vazio
         let toast = {
           isValidated: false,
           title: "NOVO ROBÔ VAZIO NÃO ADICIONADO",
@@ -384,7 +430,7 @@ export default {
         this.validateAndToast(toast);
       }
     },
-    cancelAdd() {
+    cancelAdd() { //cancelamento do método de adição
       let newPausa = this.newRowInput.name.trim();
       let toast = {
         isValidated: false,
@@ -446,7 +492,7 @@ export default {
       this.validateAndToast(toast);
     },
   },
-  created() {
+  created() { //insere a nova linha no cache do navegador (em tempo de desenvolvimento)
     this.newRowDefault = { ...defaultRow };
     // this.newRowInput = Object.assign({},this.newRowDefault);
     // this.editRowInput = Object.assign({},this.newRowDefault);
@@ -465,58 +511,10 @@ export default {
   mounted() {
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
-  data() {
-    return {
-      filas: this.items.slice(1, this.items.length),
-      newRowInput: Object.assign({}, this.newRowDefault),
-      editRowInput: Object.assign({}, this.newRowDefault),
-      editIcon: '<span class="fal fa-pencil"/>',
-      deleteIcon: '<span class="fal fa-trash-alt"/>',
-      names: this.items[0].names,
-      icons: [
-        { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
-        { value: "i2", html: '<span class="fal fa-plus"/>' },
-        { value: "i3", html: '<span class="fal fa-air-conditioner"/>' },
-        { value: "i4", html: '<span class="fal fa-abacus"/>' },
-      ],
-      fields: [
-        {
-          key: "login_crm",
-          label: "Login",
-          sortable: true,
-        },
-        {
-          key: "name",
-          label: "Nome",
-          sortable: true,
-        },
-
-        {
-          key: "document",
-          label: "Documento",
-          sortable: true,
-        },
-        {
-          key: "last_login",
-          label: "Login em",
-          sortable: true,
-        },
-        {
-          key: "flag",
-          label: "Status",
-          // Boolean,
-        },
-        {
-          key: "add",
-          label: '<span class="fal fa-plus fa-1x head-add-button"/>',
-        },
-      ],
-    };
-  },
 };
 </script>
 
-<style>
+<style> 
 span.fal {
   pointer-events: none;
 }
@@ -547,19 +545,24 @@ input::-webkit-inner-spin-button {
 }
 
 #new_row_limite,
-#new_row_alerta {
+#new_row_alerta { /*implementado no futuro modal*/
   width: 100%;
   padding: 0.2ch;
   text-align: center;
+}
+.b-table-sticky-header > .table.b-table > thead > tr > th { /*estilização padrão dos headers*/
+    position: sticky I !important;
+    top: -1px !important;
+    z-index: 2 !important;
 }
 
 .name-head-container,
 .login_crm-head-container,
 .email-head-container,
-.document-head-container,
+.agent-head-container,
 .limite-head-container,
 .icone-head-container,
-.flag-head-container {
+.flag-head-container { /*estilização de todas as colunas*/
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
@@ -577,7 +580,7 @@ input::-webkit-inner-spin-button {
 
 .login_crm-head,
 .email-head,
-.document-head,
+.agent-head,
 .limite-head,
 .icone-head,
 .flag-head {
@@ -594,7 +597,7 @@ input::-webkit-inner-spin-button {
 .name-body-container,
 .login_crm-body-container,
 .email-body-container,
-.document-body-container,
+.agent-body-container,
 .limite-body-container,
 .icone-body-container,
 .flag-body-container {
@@ -605,6 +608,9 @@ input::-webkit-inner-spin-button {
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
+
+/* estilização do íconezinho de sort */
+/*--------------------------![COMEÇO]!------------------------------------------------------*/
 
 .tabela-pausas
   > .table.b-table.table-sm
@@ -631,7 +637,9 @@ input::-webkit-inner-spin-button {
 .tabela-pausas > .table.b-table > tfoot > tr > [aria-sort="descending"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
-.tabela-pausas > .table.b-table > thead > tr > .table-b-table-default {
+/*--------------------------![FIM]!------------------------------------------------------*/
+
+.tabela-pausas > .table.b-table > thead > tr > .table-b-table-default { /*Header*/
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -640,6 +648,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
   vertical-align: middle !important;
 }
+/*------------------------------Edição individual de cada coluna por sequência em que aparecem------------------------------------*/
 
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {
@@ -676,6 +685,14 @@ input::-webkit-inner-spin-button {
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="1"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="1"] {
   text-align: left !important;
+}
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="2"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="2"] {
+  width: 10%;
+}
+.tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="2"],
+.tabela-pausas > .table.b-table > thead > tr > [aria-colindex="2"] {
+  text-align: center !important;
 }
 
 #editar-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],

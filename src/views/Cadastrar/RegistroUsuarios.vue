@@ -420,11 +420,13 @@ export default {
         blankUser //||
         // blankProfile
       ) {
-        console.log(passCheck);
-        console.log(blankPass);
-        console.log(blankName);
-        console.log(blankUser);
-        console.log(blankMail);
+        let toast = {
+          isValidated: false,
+          title: "NÃO FOI POSSÍVEL SALVAR O NOVO USUÁRIO",
+          message:
+            "O novo usuário não pôde ser criado. Não é permitido salvar uma Novo Usuário com o Nome ou Senha vazio ou apenas com espaços em branco.",
+        };
+        this.validateAndToast(toast);
         // console.log(validEmail);
         // console.log(validUsername);
       } else {

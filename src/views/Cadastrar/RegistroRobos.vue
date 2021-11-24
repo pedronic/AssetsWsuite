@@ -266,8 +266,14 @@ export default {
       // let blankDocument = !(this.document.trim().length > 0);
       // console.clear();
       if (blankName || blankAgent) {
-        console.log(blankName);
-        console.log(blankAgent);
+        let toast = {
+          isValidated: false,
+          title: "NÃO FOI POSSÍVEL SALVAR O NOVO ROBÔ",
+          message:
+            "O novo robô não pôde ser criado. Não é permitido salvar uma novo robô com o ramal ou Senha inválida ou apenas com espaços em branco.",
+        };
+                  this.validateAndToast(toast);
+
       } else {
         let postBody = {};
         postBody.name = this.name.trim();
