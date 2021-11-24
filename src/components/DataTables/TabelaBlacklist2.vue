@@ -26,7 +26,7 @@
         <!-- <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark">
           <span v-html="data.label" class="head-add-button"/>
         </b-button> -->
-        <b-button class="head-add-button btn-success" variant="outline-dark" :to="{name:'RegistroBlacklist', params:{bID:-1}}">
+        <b-button class="head-add-button btn-success" variant="outline-dark" :to="{name:'RegistroBlacklist', params:{bID:-1}}" :disabled="permissions.add">
           <span v-html="data.label" class="head-add-button"/>
         </b-button>
       </template>
@@ -56,7 +56,7 @@
         <b-form-checkbox v-model="slot.item.fila" :id="(slot.item.cadastrado)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
       </template> -->
       <template v-slot:cell(add)="slot">
-        <b-btn :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.cadastrado + '_delete'"/>
+        <b-btn :id="(slot.item.cadastrado)+'_'+(slot.item.id)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.cadastrado + '_delete'" :disabled="permissions.delete"/>
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
@@ -221,7 +221,12 @@ export default {
     items: Array,
     filter:String,
     filter_fields:Array,
-    isLoading:{type:Boolean, default:false}
+    isLoading:{type:Boolean, default:false},
+    permissions: {
+      add: {type:Boolean, default:false},
+      edit: {type:Boolean, default:false},
+      delete: {type:Boolean, default:false}
+    }
   },
   methods: {
     deleteRow(ev){

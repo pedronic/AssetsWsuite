@@ -7,129 +7,125 @@
         </div>
       </div>
     </PagesSubHeader>
-    <div class="card tab-card">
-      <div class="card-header tab-card-header">
-        <ul id="myTab" class="nav nav-tabs card-header-tabs" role="tablist">
-          <li class="nav-item">
-            <a
-              id="one-tab"
-              aria-controls="One"
-              aria-selected="true"
-              class="nav-link active"
-              data-toggle="tab"
-              href="#subir"
-              role="tab"
-              >Subidos em Arquivos</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              id="two-tab"
-              aria-controls="Two"
-              aria-selected="false"
-              class="nav-link"
-              data-toggle="tab"
-              href="#cadastrar"
-              role="tab"
-              >Cadastros Manuais</a
-            >
-          </li>
-        </ul>
-      </div>
+    <b-container fluid id="foundIt" v-if="dataOK">
+      <b-tabs justified>
 
-      <div id="myTabContent" class="tab-content">
-        <div
-          id="subir"
-          aria-labelledby="one-tab"
-          class="tab-pane fade show active p-3"
-          role="tabpanel"
-        >
-          <div class="card">
-            <div class="card-body d-flex">
-              <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input
-                  v-model="busca"
-                  @keydown.enter.native="setFilter(busca, 'subido')"
-                ></b-form-input>
-                <div class="card">
-                  <div class="card-body" />
-                </div>
-                <b-btn
-                  type="submit"
-                  id="pesquisa_faturamento"
-                  class="btn btn-info waves-effect waves-themed fal fa-search"
-                  @click="setFilter(busca, 'subido')"
-                />
-               
-              </div>
-            </div>
-          </div>
+        <!-- TAB 1 {Subidos em Arquivos} -->
+          <b-tab title="Subidos em Arquivos">
+            <b-container fluid>
+              <b-col cols='12'>
+                <!-- Linha 1 {Filtro de Busca por Texto} -->
+                  <b-row class="tab-top-section-row">
+                    <b-col cols='4'>
+                      <div class="card">
+                        <div class="card-body d-flex">
+                          <div class="d-flex" id="filtro-grupo-pausa">
+                            <b-form-input
+                              v-model="busca"
+                              @keydown.enter.native="setFilter(busca, 'subido')"
+                            ></b-form-input>
+                            <div class="card">
+                              <div class="card-body" />
+                            </div>
+                            <b-btn
+                              type="submit"
+                              id="pesquisa_faturamento"
+                              class="btn btn-info waves-effect waves-themed fal fa-search"
+                              @click="setFilter(busca, 'subido')"
+                            />                           
+                          </div>
+                        </div>
+                      </div>
+                    </b-col>
+                  </b-row>
+                <!-- Linha 1 - FIM -->
 
-          <TabelaBlacklist :items="items" :filter="filter" :filter_fields="filter_fields" v-if="dataOK" />
-          <b-container fluid class="salvar-container">
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="total_items"
-              :per-page="perPage"
+                <!-- Linha 2: {Tabela Blacklist} -->
+                  <b-row class="filas-top-section-row">
+                    <b-col cols='12'>
+                      <TabelaBlacklist :items="items" :filter="filter" :filter_fields="filter_fields" v-if="dataOK" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
+                      <b-container fluid class="salvar-container">
+                        <b-pagination
+                          v-model="currentPage"
+                          :total-rows="total_items"
+                          :per-page="perPage"
 
-              prev-class="single-arrow-button"
-              next-class="single-arrow-button"
-              ellipsis-text="···"
-              @change="showSelectedPage"
-            />
-          </b-container>
-        <!-- </div>
-      </div>
-    </div> -->
-        </div>
-        <div
-          id="cadastrar"
-          aria-labelledby="two-tab"
-          class="tab-pane fade p-3"
-          role="tabpanel"
-        >
-         <div class="card">
-            <div class="card-body d-flex">
-              <div class="d-flex" id="filtro-grupo-pausa">
-                <b-form-input
-                  v-model="busca2"
-                  @keydown.enter.native="setFilter2(busca2, 'cadastrado')"
-                ></b-form-input>
-                <div class="card">
-                  <div class="card-body" />
-                </div>
-                <b-btn
-                  type="submit"
-                  id="pesquisa_faturamento"
-                  class="btn btn-info waves-effect waves-themed fal fa-search"
-                  @click="setFilter2(busca2, 'cadastrado')"
-                />
-                 <b-form-checkbox
-                class="ml-2 mt-2"
-                  v-model="status_filter2"
-                  id="status-filter-button"
-                  switch
-                  @change="setFilter2(status_filter2, 'status')"
-                />
-              </div>
-            </div>
-          </div>
-          <TabelaBlacklist2 :items="items2" :filter="filter2" :filter_fields="filter_fields2" v-if="dataOK2" :isLoading="loadingPage"/>
-          <b-container fluid class="salvar-container">
-            <b-pagination
-              v-model="currentPage2"
-              :total-rows="total_items2"
-              :per-page="perPage"
+                          prev-class="single-arrow-button"
+                          next-class="single-arrow-button"
+                          ellipsis-text="···"
+                          @change="showSelectedPage"
+                        />
+                      </b-container>
+                    </b-col>
+                  </b-row>
+                <!-- Linha 2 - FIM -->
+              </b-col>
+            </b-container>
+          </b-tab>
+        <!-- TAB 1 - FIM -->
 
-              prev-class="single-arrow-button"
-              next-class="single-arrow-button"
-              ellipsis-text="···"
-              @change="showSelectedPage2"
-            />
-          </b-container>
-        </div>
-      </div>
-    </div>
+        <!-- TAB 2 {Cadastros Manuais} -->
+          <b-tab title="Carregados Manualmente">
+            <b-container fluid>
+              <b-col cols='12'>
+                <!-- Linha 1 {Filtro de Busca por Texto + Status} -->
+                  <b-row class="tab-top-section-row">
+                    <b-col cols='4'>
+                      <div class="card">
+                        <div class="card-body d-flex">
+                          <div class="d-flex" id="filtro-grupo-pausa">
+                            <b-form-input
+                              v-model="busca2"
+                              @keydown.enter.native="setFilter2(busca2, 'cadastrado')"
+                            ></b-form-input>
+                            <div class="card">
+                              <div class="card-body" />
+                            </div>
+                            <b-btn
+                              type="submit"
+                              id="pesquisa_faturamento"
+                              class="btn btn-info waves-effect waves-themed fal fa-search"
+                              @click="setFilter2(busca2, 'cadastrado')"
+                            />
+                             <b-form-checkbox
+                            class="ml-2 mt-2"
+                              v-model="status_filter2"
+                              id="status-filter-button"
+                              switch
+                              @change="setFilter2(status_filter2, 'status')"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </b-col>
+                  </b-row>
+                <!-- Linha 1 - FIM -->
+
+                <!-- Linha 2: {Tabela Blacklist 2} -->
+                  <b-row class="filas-top-section-row">
+                    <b-col cols='12'>
+                      <TabelaBlacklist2 :items="items2" :filter="filter2" :filter_fields="filter_fields2" v-if="dataOK2" :isLoading="loadingPage" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
+                      <b-container fluid class="salvar-container">
+                        <b-pagination
+                          v-model="currentPage2"
+                          :total-rows="total_items2"
+                          :per-page="perPage"
+
+                          prev-class="single-arrow-button"
+                          next-class="single-arrow-button"
+                          ellipsis-text="···"
+                          @change="showSelectedPage2"
+                        />
+                      </b-container>
+                    </b-col>
+                  </b-row>
+                <!-- Linha 2 - FIM -->
+              </b-col>
+            </b-container>
+          </b-tab>
+        <!-- TAB 2 - FIM -->
+      </b-tabs>
+    </b-container>
   </div>
 </template>
 
@@ -150,6 +146,13 @@ export default {
     TabelaBlacklist2,
   },
   methods: {
+    getPermission(){
+      let page = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+      let perms = JSON.parse(localStorage.getItem('__userAccessPages'));
+      this.adds = perms[page.Blacklist - 1].add;
+      this.edits = perms[page.Blacklist - 1].edit;
+      this.deletes = perms[page.Blacklist - 1].delete;
+    },
     setFilter(filter,field){
       this.filter = filter.toString();
       this.filter_fields.splice(0,1,field);
@@ -165,6 +168,7 @@ export default {
       this.loadingPage = false;
     },
     getArquivosBlacklists(page){
+      this.getPermission();
       let pag = page.toString();
       axios.get(baseApiUrl+'/blacklists'+'?page='+pag)
       .then(res => {
@@ -265,6 +269,10 @@ export default {
   },  
   data() {
       return {
+        adds:null,
+        edits:null,
+        deletes:null,
+        reads:null,
         dataOK:false,
         total_items:0,
         total_pages:0,

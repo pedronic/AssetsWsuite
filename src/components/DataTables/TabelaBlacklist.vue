@@ -21,7 +21,7 @@
       <template v-slot:head(add)="data">
         <!-- <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark"> -->
         <router-link  :to="{name:'RegistroBlacklist',params:{bID:0}}">
-          <b-button class="head-add-button btn-success" variant="outline-dark">
+          <b-button class="head-add-button btn-success" variant="outline-dark" :disabled="permissions.add">
             <span v-html="data.label" class="head-add-button"/>
           </b-button>
         </router-link>
@@ -39,20 +39,15 @@
       <template v-slot:cell(usuario)="slot">
         <span :id="(slot.item.subido)+'_alerta'">{{slot.value}}</span>
       </template>
-      <!-- <template v-slot:cell(limite)="slot">
-        <span :id="(slot.item.subido)+'_limite'">{{slot.value}}</span>
-      </template>
-      <template v-slot:cell(icone)="slot">
-        <span :id="(slot.item.subido)+'_icone'" v-html="slot.value" />
-      </template>
-      <template v-slot:cell(status)="slot">
-        <b-form-checkbox v-model="slot.value" :id="(slot.item.subido)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
-      </template> -->
       <template v-slot:cell(add)="slot">
+
+<!-- REVER: Reimplementar função e botão após endpoint pronto -->
         <!-- <router-link  :to="{name:'RegistroBlacklist',params:{bID:slot.item.id}}">
           <b-button :id="(slot.item.subido)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.subido)+'_edit_modal'"  v-html="editIcon"/>
         </router-link> -->
-        <b-btn :id="(slot.item.subido)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.subido + '_delete'"/>
+<!-- REVER - FIM -->
+
+        <b-btn :id="(slot.item.subido)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.subido + '_delete'" :disabled="permissions.delete"/>
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
@@ -201,6 +196,11 @@ export default {
     items: Array,
     filter:String,
     filter_fields:Array,
+    permissions: {
+      add: {type:Boolean, default:false},
+      edit: {type:Boolean, default:false},
+      delete: {type:Boolean, default:false}
+    }
   },
   methods: {
     deleteRow(ev){

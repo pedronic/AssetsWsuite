@@ -1,238 +1,225 @@
 <template>
   <div class="relatorios">
-    <PagesSubHeader icon="fal fa-align-slash" titulo="Cadastro blacklist">
+    <PagesSubHeader icon="fal fa-align-slash" titulo="Cadastro Blacklist">
       <div class="cart">
         <div class="cart-body" />
       </div>
     </PagesSubHeader>
-    <div class="card tab-card">
-      <div class="card-header tab-card-header">
-        <ul id="myTab" class="nav nav-tabs card-header-tabs" role="tablist">
-          <li class="nav-item">
-            <a
-              id="one-tab"
-              aria-controls="One"
-              aria-selected="true"
-              class="nav-link active"
-              data-toggle="tab"
-              href="#subir"
-              role="tab"
-              >Subir</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              id="two-tab"
-              aria-controls="Two"
-              aria-selected="false"
-              class="nav-link"
-              data-toggle="tab"
-              href="#cadastrar"
-              role="tab"
-              >Cadastrar</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div id="myTabContent" class="tab-content">
-        <div class="justify-content-left">
-          <div class="col-12 mt-2">
-            <div class="profile-content user-name-line d-flex">
-              <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-              <div id="multiselect-input">
-                <multiselect
-                  v-model="filas_finish"
-                  :placeholder="'Filas'"
-                  :label="'name'"
-                  :track-by="'code'"
-                  :options="finish_filas"
-                  :multiple="true"
-                  v-if="dataOK"
-                  @select="setSelectedQueue"
-                  @remove="removeDeselectedQueue"
-                  :selectLabel="MSprops.selectLabel"
-                  :selectGroupLabel="MSprops.selectGroupLabel"
-                  :selectedLabel="MSprops.selectedLabel"
-                  :deselectLabel="MSprops.deselectLabel"
-                  :deselectGroupLabel="MSprops.deselectGroupLabel"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      <!-- TAB 1 -->
-        <div
-          id="subir"
-          aria-labelledby="one-tab"
-          class="tab-pane fade show active p-3"
-          role="tabpanel"
-        >
-          <div class="row justify-content-left">
-            <div class="col-4">
-              <div class="profile-content user-name-line d-flex">
-                <div class="input-group image-preview">
-                    <span class="input-group">
-                      <!-- image-preview-clear button -->
-                      <button
-                          type="button"
-                          class="btn btn-default image-preview-clear"
-                          style="display: none"
-                      >
-                        <span class="glyphicon glyphicon-remove">Limpar</span> 
-                      </button>
-                      <!-- image-preview-input -->
-                      <div class="btn btn-default image-preview-input" id="butao">
-                          <i id="pic" class="fal fa-at fa-2x"></i
-                          >
-                        <span class="image-preview-input-title "> </span>
-                        <input
-                            type="file"
-                            accept="txt, csv"
-                            name="input-file-preview"
-                        />
-                        <!-- rename it -->
+  
+  <!-- TABS CONTENT -->
+    <b-container fluid id="foundIt">
+      <b-tabs justified>
+        <!-- TAB 1 {Subir} -->
+          <b-tab title="Subir">
+            <b-container fluid>
+              <b-col cols='12'>
+                <!-- Linha 1 {Filas} -->
+                  <b-row class="tab-top-section-row">
+                    <b-col cols='12'>
+                      <div class="profile-content user-name-line d-flex">
+                        <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                        <div id="multiselect-input">
+                          <multiselect
+                            class="multiple-true"
+                            v-model="filas_finish"
+                            :placeholder="'Filas'"
+                            :label="'name'"
+                            :track-by="'code'"
+                            :options="finish_filas"
+                            :multiple="true"
+                            v-if="dataOK"
+                            @select="setSelectedQueue"
+                            @remove="removeDeselectedQueue"
+                            :selectLabel="MSprops.selectLabel"
+                            :selectGroupLabel="MSprops.selectGroupLabel"
+                            :selectedLabel="MSprops.selectedLabel"
+                            :deselectLabel="MSprops.deselectLabel"
+                            :deselectGroupLabel="MSprops.deselectGroupLabel"
+                          />
+                        </div>
                       </div>
-                      <input
-                        type="file"
-                        accept="txt, csv"
-                        name="input-file-preview"
-                      />
-                      <!-- rename it -->
-                    </div>
-                    <!-- <input
-                      type="text"
-                      placeholder="Arquivo"
-                      class="form-control image-preview-filename"
-                      id="input-pic"
-                      disabled="disabled"
-                    />
-                     don't give a name === doesn't send on POST/GET 
-                  </span> -->
-                </div>
-              </div>
-            </div>
-          </div>
-          <b-row>
-            <b-col class="mr-auto p-3" cols="auto">
-              <button class="btn btn-dark botao-salvar" type="submit">
-                <i class="fal fa-upload mr-2"></i>Importar
-              </button>
-            </b-col>
-            <b-col class="p-3" cols="auto"> </b-col>
-          </b-row>
-        </div>
-      <!-- TAB 1: FIM -->
+                    </b-col>
+                  </b-row>
+                <!-- Linha 1 - FIM -->
 
-      <!-- TAB 2 -->
-        <div
-          id="cadastrar"
-          aria-labelledby="two-tab"
-          class="tab-pane fade p-3"
-          role="tabpanel"
-        >
-          <div class="card mb-g border shadow-0" id="interativo">
-            <div class="card-header">
-              <div class="row no-gutters align-items-center">
-                <div class="col">
-                  <span class="h6 font-weight-bold text-uppercase">Número</span>
-                </div>
-                <div class="col d-flex">
-                  <a
-                    href="#"
-                    class="
-                      btn btn-outline-success btn-sm
-                      ml-auto
-                      mr-2
-                      flex-shrink-0
-                    "
-                    @click="addPhoneLine"
-                    ><i class="fal fa-plus"></i
-                  ></a>
-                  <a
-                    href="#"
-                    class="btn btn-outline-danger btn-sm flex-shrink-0"
-                    @click="removePhoneLine"
-                    ><i class="fal fa-minus"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <div class="mt-2">
-                    <div v-for="i of putins" :key="i">
-                      <div class="pl-3">
-                        <div
-                          class="
-                            row
-                            mb-2
-                            no-gutters
-                            row-grid
-                            align-items-stretch
-                          "
-                        >
-                          <div class="col-1 mr-2">
-                            <div class="profile-content user-name-line d-flex">
-                              <i
-                                class="fal fa-ad fa-2x"
-                                style="margin-left: 5px"
-                              />
-                              <b-form-input
-                                id="profile-name-input"
-                                type="number"
-                                min="11"
-                                max="99"
-                                placeholder="DDD"
-                                :disabled='phones[i].disabled'
-                                :style="phones[i].disabled?disabled_enforcement:enabled_enforcement"
-                                v-model="phones[i].ddd"
-                              />
+                <!-- Linha 2 {Carregar Arquivo} -->
+                  <b-row class="filas-top-section-row">
+                    <b-col cols='4'>
+                      <div class="profile-content user-name-line d-flex" style="height:38px;">
+                        <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                          <b-form-file
+                            id="profile-name-input2"
+                            accept=".csv"
+                            name="input-file-preview"
+                            placeholder="Arquivo"
+                            form="file-upload"
+                            @input="checkInputFile"
+                            v-model="files_form"
+                          />
+                      </div>
+                    </b-col>
+                  </b-row>
+                <!-- Linha 2 - FIM -->
+
+                <!-- Linha 3: {Botão Importar} -->
+                  <b-row>
+                    <b-col class="mr-auto p-3" cols="auto">
+                      <button class="btn btn-dark botao-salvar" type="submit">
+                        <i class="fal fa-upload mr-2"/>Importar
+                      </button>
+                    </b-col>
+                    <b-col class="p-3" cols="auto"/>
+                  </b-row>
+                <!-- Linha 3 - FIM -->
+              </b-col>
+            </b-container>
+          </b-tab>
+        <!-- TAB 1 - FIM -->
+
+        <!-- TAB 2 {Cadastrar} -->
+          <b-tab title="Cadastrar">
+            <b-container fluid>
+              <b-col cols='12'>
+                <!-- Linha 1 {Filas} -->
+                  <b-row class="tab-top-section-row">
+                    <b-col cols='12'>
+                      <div class="profile-content user-name-line d-flex">
+                        <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                        <div id="multiselect-input">
+                          <multiselect
+                            class="multiple-true"
+                            v-model="filas_finish"
+                            :placeholder="'Filas'"
+                            :label="'name'"
+                            :track-by="'code'"
+                            :options="finish_filas"
+                            :multiple="true"
+                            v-if="dataOK"
+                            @select="setSelectedQueue"
+                            @remove="removeDeselectedQueue"
+                            :selectLabel="MSprops.selectLabel"
+                            :selectGroupLabel="MSprops.selectGroupLabel"
+                            :selectedLabel="MSprops.selectedLabel"
+                            :deselectLabel="MSprops.deselectLabel"
+                            :deselectGroupLabel="MSprops.deselectGroupLabel"
+                          />
+                        </div>
+                      </div>
+                    </b-col>
+                  </b-row>
+                <!-- Linha 1 - FIM -->
+
+                <!-- Linha 2 {Número} -->
+                  <b-row class="filas-top-section-row">
+                    <b-col cols='12'>
+                      <div class="card mb-g border shadow-0" id="interativo">
+                        <div class="card-header">
+                          <div class="row no-gutters align-items-center">
+                            <div class="col">
+                              <span class="h6 font-weight-bold text-uppercase">Número</span>
+                            </div>
+                            <div class="col d-flex">
+                              <a
+                                href="#"
+                                class="
+                                  btn btn-outline-success btn-sm
+                                  ml-auto
+                                  mr-2
+                                  flex-shrink-0
+                                "
+                                @click="addPhoneLine"
+                                ><i class="fal fa-plus"></i
+                              ></a>
+                              <a
+                                href="#"
+                                class="btn btn-outline-danger btn-sm flex-shrink-0"
+                                @click="removePhoneLine"
+                                ><i class="fal fa-minus"></i
+                              ></a>
                             </div>
                           </div>
-                          <div class="col-3">
-                            <div class="d-inline">
+                        </div>
+                        <div class="mt-2">
+                          <div v-for="i of putins" :key="i">
+                            <div class="pl-3">
                               <div
-                                class="profile-content user-name-line d-flex"
+                                class="
+                                  row
+                                  mb-2
+                                  no-gutters
+                                  row-grid
+                                  align-items-stretch
+                                "
                               >
-                                <i
-                                  class="fal fa-at fa-2x"
-                                  style="margin-left: 5px"
-                                />
-                                <b-form-input
-                                  id="profile-name-input"
-                                  type="number"
-                                  min="11111111"
-                                  max="999999999"
-                                  :no-wheel='true'
-                                  placeholder="Número"
-                                  :disabled='phones[i].disabled'
-                                  :style="phones[i].disabled?disabled_enforcement:enabled_enforcement"
-                                  v-model="phones[i].number"
-                                  @keydown.up.prevent
-                                  @keydown.down.prevent
-                                />
+                                <div class="col-1 mr-2">
+                                  <div class="profile-content user-name-line d-flex">
+                                    <i
+                                      class="fal fa-ad fa-2x"
+                                      style="margin-left: 5px"
+                                    />
+                                    <b-form-input
+                                      id="profile-name-input"
+                                      type="number"
+                                      min="11"
+                                      max="99"
+                                      placeholder="DDD"
+                                      :disabled='phones[i].disabled'
+                                      :style="phones[i].disabled?disabled_enforcement:enabled_enforcement"
+                                      v-model="phones[i].ddd"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-3">
+                                  <div class="d-inline">
+                                    <div
+                                      class="profile-content user-name-line d-flex"
+                                    >
+                                      <i
+                                        class="fal fa-at fa-2x"
+                                        style="margin-left: 5px"
+                                      />
+                                      <b-form-input
+                                        id="profile-name-input"
+                                        type="number"
+                                        min="11111111"
+                                        max="999999999"
+                                        :no-wheel='true'
+                                        placeholder="Número"
+                                        :disabled='phones[i].disabled'
+                                        :style="phones[i].disabled?disabled_enforcement:enabled_enforcement"
+                                        v-model="phones[i].number"
+                                        @keydown.up.prevent
+                                        @keydown.down.prevent
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                <!-- </div>
-              </div>
-            </div>
-          </div> -->
-          <b-row>
-            <b-col class="mr-auto p-3" cols="auto">
-              <b-button class="btn btn-dark botao-salvar" @click="importManual(total_phones,total_queues)">
-                <i class="fal fa-upload mr-2"></i>Importar
-              </b-button>
-            </b-col>
-            <b-col class="p-3" cols="auto"> </b-col>
-          </b-row>
-        </div>
-      <!-- TAB 2: FIM -->
-      </div>
-    </div>
+                    </b-col>
+                  </b-row>
+                <!-- Linha 2 - FIM -->
+
+                <!-- Linha 3: {Botão Importar} -->
+                  <b-row>
+                    <b-col class="mr-auto p-3" cols="auto">
+                      <button class="btn btn-dark botao-salvar" type="submit">
+                        <i class="fal fa-upload mr-2"/>Importar
+                      </button>
+                    </b-col>
+                    <b-col class="p-3" cols="auto"/>
+                  </b-row>
+                <!-- Linha 3 - FIM -->
+              </b-col>
+            </b-container>
+          </b-tab>
+        <!-- TAB 2 - FIM -->
+      </b-tabs>
+    </b-container>
+  <!-- TABS CONTENT - FIM -->
   </div>
 </template>
 
@@ -668,5 +655,14 @@ i.fal.fa-2x {
 .card {
   box-shadow: none;
   border: none;
+}
+
+.tab-top-section-row {
+    margin-top: 2.5ch;
+    margin-bottom: 2ch;
+}
+
+.filas-top-section-row {
+    margin-bottom: 3ch;
 }
 </style>
