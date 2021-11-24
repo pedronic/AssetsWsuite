@@ -1,5 +1,5 @@
 <template>
-  <div class="pausas">
+  <div class="pausas"> <!--todas as tabelas foram feitas em cima da primeira tabela que foi construída corretamente, que foi a tabela de pausas-->
     <b-table
       id="tabela-de-pausas"
       :ref="'tabela-de-pausas'"
@@ -18,6 +18,7 @@
       :filter-included-fields="filter_fields"
       sticky-header
     >
+    //editando os headers das tabelas
       <template v-slot:head(name)="data">
         <span>{{ data.label }}</span>
       </template>
@@ -44,6 +45,7 @@
         </b-button>
       </template>
 
+      Editando cada célula da tebela
       <template v-slot:cell(name)="slot">
         <span :id="slot.item.name + '_pausa'">{{ slot.value }}</span>
       </template>
@@ -72,6 +74,7 @@
           disabled
         />
       </template>
+      //célula de adição é personalizada dessa maneira para recebeer os dois botões
       <template v-slot:cell(add)="slot">
         <!-- v-b-modal="(slot.item.name)+'_edit_modal'" 
         , email: '', name:'', -->
@@ -104,9 +107,9 @@
         />
       </template>
     </b-table>
-    <!-- ---------------------------------------------------- -->
+    <!-- ----------------------------------------------------A ser implementado futuramente -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
-    <div v-for="(i, index) in filas" :key="i.name + '_edit'">
+    <div v-for="(i, index) in filas" :key="i.name + '_edit'"> <!-- Faz o mapeamento de cada linha (item-objeto) da tabela -->
       <b-modal
         :id="i.name + '_edit_modal'"
         :ref="i.name + '_edit_modal'"
@@ -213,7 +216,7 @@
       </b-modal>
     </div>
     <!-- MODAL PARA EXCLUSÃO DE LINHA (FIM) -->
-    <!-- ---------------------------------------------------- -->
+    <!-- ---------------------------------------------------- A ser implementado futuramente -->
     <!-- MODAL PARA CRIAR NOVA LINHA (INÍCIO) -->
     <b-modal
       id="new_line"
@@ -302,7 +305,7 @@ import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
-const defaultRow = {
+const defaultRow = { //linha para se exibir alguma coisa na tela caso ocorra alguma falha na requisição de dados
   name: "",
   username: false,
   email: false,
@@ -316,20 +319,20 @@ const defaultRow = {
 export default {
   name: "TabelaPausas",
   mixins: [ValidateToaster],
-  props: {
+  props: { //recebe os itens, o parâmetro de filtragem e os campos a serem filtrados
     items: Array,
     filter: String,
     filter_fields: Array,
   },
   methods: {
-    async deleteUser(id) {
+    async deleteUser(id) { //metódo de deleção de usuário (na base de dados)
       console.log("delete");
       console.log(id);
       let s = await axios.delete(`${baseApiUrl}/users/${id}`);
       console.clear();
       console.log("Delete status:\n", s);
     },
-    deleteRow(ev, id) {
+    deleteRow(ev, id) { //metódo de deleção de usuário (na base de dados)
       const p = this.names.indexOf(ev);
       this.filas.splice(p, 1);
       this.names.splice(p, 1);

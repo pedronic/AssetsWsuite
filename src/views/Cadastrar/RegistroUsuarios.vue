@@ -265,7 +265,7 @@ export default {
           this.filas_finish.push(selectedQueue);
         }
       }
-      this.dataOK = true; //depois que está tudo ok, ele ativa as tabelas
+      this.dataOK = true; //depois que está tudo ok, ele ativa o layout
     },
     async getQueues() {
       //Pega todas as filas disponíveis

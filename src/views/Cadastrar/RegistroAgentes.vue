@@ -436,7 +436,7 @@ export default {
     },
   },
   mounted() {
-    //montagens de valores das listas e get usuários para checar se já existem (chaves primárias)
+    //montagens de valores das listas
     this.getQueues();
     this.getAgents();
 

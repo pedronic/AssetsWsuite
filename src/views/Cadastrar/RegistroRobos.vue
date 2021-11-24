@@ -256,7 +256,7 @@ export default {
         queues.push({ ...fila });
       }
       this.queues = [...queues];
-      this.dataOK = true;
+      this.dataOK = true; //depois que está tudo ok, ele ativa o layout
     },
 
     carregar() {

@@ -65,16 +65,35 @@
 // import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
 import TabelaUsuariosCadastrados from "../../components/DataTables/TabelaUsuariosCadastrados.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-import axios from "axios";
+import axios from "axios"; //ferramenta responsável pela promise (await)
 import { baseApiUrl } from "@/config/global";
 
 export default {
   components: {
-    PagesSubHeader,
+    PagesSubHeader, //título da página com ícone (via slot)
     TabelaUsuariosCadastrados,
   },
+    data() {
+    return {
+      buildTable:false, //habilitado sempre que a tabela há de carregar novos dados
+      items:null,
+      /* [ modelo de como os dados devem vir
+        {
+          names: ["Dickerson", "Larsen"],
+        },
+        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', enable: true},
+        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', enable: false},
+      ], */
+      names: [],
+      //dados que serão usados no filtro
+      filter: '',
+      filter_fields: [''],
+      busca: '',
+    };
+  },
+
   methods: {
-    setFilter(filter, field) {
+    setFilter(filter, field) { //método de filtragem: pega o valor recebido (que pode ser true do valor de enable) e envia para o componente
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
@@ -86,13 +105,6 @@ export default {
       let items = [];
       let usuario = {};
 
-        // console.clear();
-        // console.log(u);
-      // for (let i in a) {
-      //   u[i].enable = new Boolean(u[i].enable);
-      //   this.items[0].names.push(u[i].name);
-      //   this.items.push(u[i]);
-      // }
       for(let i in a){
         usuarios.push(a[i].name)
       }
@@ -105,60 +117,22 @@ export default {
         usuario.email = a[i].email;
         usuario.id = a[i].id;
         usuario.perfilName = a[i].perfilName;// Não disponível ainda. futuramente: a[i].profileName;
-        usuario.enable = a[i].enable?true:false;
+        usuario.enable = a[i].enable ? true : false;
         items.push({...usuario});
       }
       console.log("Items @getUsers():\n",this.items);
       this.items = [...items];
-      this.buildTable = true;      
+      this.buildTable = true; //depois que está tudo ok, ele ativa as tabelas  
     },
     
   },
-  // get
-  // post
-  // put
-  // delete
-  created() {
+  created() { //assim que o componente for criado, vamos fazer a consulta a API e inserir na tabela
     this.getUsers();
-    // this.getPages();
-    // this.setDefaultUser();
   },
-  data() {
-    return {
-      msg: "",
-      buildTable:false,
-      items:null,
-      /* [
-        {
-          names: ["Dickerson", "Larsen"],
-        },
-        {login_crm: "", name: "Macdonald", email:'', document:'', last_login:'', enable: true},
-        {login_crm: "", name: "Shaw", email:'', document:'', last_login:'', enable: false},
-      ], */
-      names: [],
-      filter: '',
-      filter_fields: [''],
-      busca: '',
-      flag_filter: true,
-    };
-  }
 };
 </script>
 
 <style scoped>
-.dow-color2 {
-  background-color: rgb(13, 109, 157) !important;
-}
-
-.col-botoes {
-  padding-left: 3px !important;
-  padding-right: 3px !important;
-}
-
-.col-inputs {
-  padding-left: 3px !important;
-  padding-right: 10px !important;
-}
 
 .panel-content {
   overflow: auto;
@@ -191,7 +165,4 @@ input {
   border: none;
 }
 
-.dow-color {
-  background-color: #1a7f37 !important;
-}
 </style> 
