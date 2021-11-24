@@ -1158,6 +1158,8 @@ export default {
         "Aguarde, a Lista de Pausas está sendo carregada...";
       this.getBreaksFromGroup(value.code);
     },
+    //------------------------------------------------------------------------
+    //Métodos de preenchimento e rest dos campos
     emptyListaDePausas() {
       this.lista_de_pausas = null;
       // this.lista_de_pausas = [...this.lista_de_pausas_default];
@@ -1289,6 +1291,7 @@ export default {
     resetSelectedMusicOnHold() {
       this.queue.musiconhold = null;
     },
+    //------------------------------------------------------------------------------------------------------
     saveNewQueue() { //valida todas as filas e POSTa no servidor
       const blankQName = !(this.queue.name_queue.length > 0) ? true : false;
       const blankQNumber = !(this.queue.queue_number.length > 0) ? true : false;
