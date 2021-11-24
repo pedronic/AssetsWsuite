@@ -248,10 +248,6 @@ export default {
     mixins: [ValidateToaster],
     props:{
         items: Array,
-        editable:{
-            type:Boolean,
-            default:true
-        },
         isLoading:{type:Boolean, default:false},
         permissions: {
             add: {type:Boolean, default:false},
@@ -451,7 +447,6 @@ export default {
     data(){
         return {
             busy:this.isLoading,
-            isEditable:this.editable?false:true,
             filas: this.items.slice(1,this.items.length),
             newRowInput: Object.assign({},this.newRowDefault),
             editRowInput: Object.assign({},this.newRowDefault),

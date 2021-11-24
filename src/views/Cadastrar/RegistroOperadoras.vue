@@ -890,7 +890,8 @@ label#kkk {
 }
 
 i.fal.fa-2x {
-  width: 26px;
+  min-width: 26px;
+  max-width: 26px;
   height: 26px;
 }
 
