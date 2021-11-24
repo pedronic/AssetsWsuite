@@ -5,7 +5,7 @@
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(action)="data"> 
-                <b-btn variant="outline-dark" class="head-add-button btn-success" v-b-modal="'new_line'">
+                <b-btn variant="outline-dark" class="head-add-button btn-success" v-b-modal="'new_line'" :disabled="permissions.add">
                     <span v-html="data.label" class="head-add-button"/>
                 </b-btn>
             </template>
@@ -15,16 +15,16 @@
                 <span :id="slot.item.grupo+'_grupo'">{{slot.item.grupo}}</span>
             </template>
             <template v-slot:cell(action)="slot">
-                <b-button :id="slot.item.grupo + '_edit'" class="edit-btn" variant="outline"  v-b-modal="slot.item.grupo+'_edit_modal'" v-html="editIcon"/>
-                <b-btn :id="slot.item.grupo + '_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.grupo+'_delete_modal'"/>
+                <b-button :id="slot.item.grupo + '_edit'" class="edit-btn" variant="outline"  v-b-modal="slot.item.grupo+'_edit_modal_'+slot.index" v-html="editIcon" :disabled="permissions.edit"/>
+                <b-btn :id="slot.item.grupo + '_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.grupo+'_delete_modal'" :disabled="permissions.delete"/>
             </template>                
         </b-table>
 <!-- ---------------------------------------------------- -->
         <div v-for="(i, index) in grupos" :key="i.grupo+'_modals'">
             <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
             <b-modal 
-                :id="i.grupo+'_edit_modal'"
-                :ref="i.grupo+'_edit_modal'"
+                :id="i.grupo+'_edit_modal_'+index"
+                :ref="i.grupo+'_edit_modal_'+index"
                 title='Editar Grupo de Pausas'
                 size="xl"
                 :hide-header-close="true"
@@ -156,7 +156,13 @@ export default {
         items: Array,
         filter: String,
         pausasList: Array,
-        isLoading:{type:Boolean, default:false}
+        isLoading:{type:Boolean, default:false},
+        permissions: {
+            add: {type:Boolean, default:false},
+            edit: {type:Boolean, default:false},
+            delete: {type:Boolean, default:false},
+            read: {type:Boolean, default:false},
+        }
     },
     methods: {
         deleteRow(nomeDoGrupo, id){ //recebe nome do grupo e apaga da lista de grupos de pausas local

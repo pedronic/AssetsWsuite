@@ -144,7 +144,8 @@ export default {
     return {
       adds:null,
       edits:null,
-      deletes:null,      
+      deletes:null,
+      reads:null,   
       items: null,
       /* [
         {

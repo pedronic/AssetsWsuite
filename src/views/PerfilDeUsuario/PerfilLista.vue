@@ -10,7 +10,7 @@
             </div>
         </pages-sub-header>
         <b-container fluid v-if="dataOK">
-            <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
+            <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id" :permissions='{add:!adds, edit:!edits, delete:!deletes, read:!read}'/>
         </b-container>
     </div>
 </template>
@@ -36,7 +36,7 @@ export default{
             this.adds = perms[page.Perfil - 1].add;
             this.edits = perms[page.Perfil - 1].edit;
             this.deletes = perms[page.Perfil - 1].delete;
-
+            this.reads = perms[page.Perfil - 1].read;
         },
         async getUsersDEPRECATED(){
             let res = await axios.get(baseApiUrl+"/perfilspages");
@@ -236,6 +236,7 @@ export default{
             adds:null,
             edits:null,
             deletes:null,
+            reads:null,
             names:[],
             profiles:[],
             users:[],

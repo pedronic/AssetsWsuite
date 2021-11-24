@@ -23,7 +23,7 @@
                 <span>{{data.label}}</span>
             </template>
             <template v-slot:head(add)="data" >
-                <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark" :disabled="isEditable">
+                <b-button class="head-add-button btn-success"  v-b-modal="'new_line'" variant="outline-dark" :disabled="permissions.add">
                     <span v-html="data.label" class="head-add-button"/>
                 </b-button>
             </template>
@@ -50,8 +50,8 @@
                 <b-form-checkbox v-model="slot.item.ativa" :id="(slot.item.pausa)+'_ativa'" :value="true" :unchecked-value="false" switch disabled/>
             </template>
             <template v-slot:cell(add)="slot" >
-                <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'"  v-html="editIcon" :disabled="isEditable"/>
-                <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'" :disabled="isEditable"/>
+                <b-button :id="(slot.item.pausa)+'_edit'" class="edit-btn" variant="outline"  v-b-modal="(slot.item.pausa)+'_edit_modal'"  v-html="editIcon" :disabled="permissions.edit"/>
+                <b-btn :id="(slot.item.pausa)+'_add'" v-html="deleteIcon" class="add-btn" variant="outline" v-b-modal="slot.item.pausa + '_delete'" :disabled="permissions.delete"/>
             </template>
         </b-table>
 <!-- ---------------------------------------------------- -->
@@ -252,7 +252,13 @@ export default {
             type:Boolean,
             default:true
         },
-        isLoading:{type:Boolean, default:false}
+        isLoading:{type:Boolean, default:false},
+        permissions: {
+            add: {type:Boolean, default:false},
+            edit: {type:Boolean, default:false},
+            delete: {type:Boolean, default:false},
+            read: {type:Boolean, default:false},
+        }
     },
     methods: {
         deleteRow(nomeDaPausa, id){
@@ -445,7 +451,7 @@ export default {
     data(){
         return {
             busy:this.isLoading,
-            isEditable:this.editable?null:'disabled',
+            isEditable:this.editable?false:true,
             filas: this.items.slice(1,this.items.length),
             newRowInput: Object.assign({},this.newRowDefault),
             editRowInput: Object.assign({},this.newRowDefault),

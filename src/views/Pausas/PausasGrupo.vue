@@ -21,7 +21,7 @@
 
 
         </PagesSubHeader>
-        <tabela-grupo-pausas :filter='filter' :items="grupos" :pausasList="pausas" :isLoading="loadingPage" v-if="buildTable"/>
+        <tabela-grupo-pausas :filter='filter' :items="grupos" :pausasList="pausas" :isLoading="loadingPage" v-if="buildTable" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
         <b-container fluid class="salvar-container">
             <b-pagination
               v-model="currentPage"
@@ -54,12 +54,20 @@ export default {
         TabelaGrupoPausas
     },
     methods: {
+        getPermission(){
+            let page = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+            let perms = JSON.parse(localStorage.getItem('__userAccessPages'));
+            this.adds = perms[page.Pausas - 1].add;
+            this.edits = perms[page.Pausas - 1].edit;
+            this.deletes = perms[page.Pausas - 1].delete;
+        },
         showSelectedPage(page){
             this.loadingPage = true;
             this.getGrupos(page);
             this.loadingPage = false;
         },
         async getPausas(){
+            this.getPermission();
             let res = await axios.get(baseApiUrl+"/breaks");
             let p = res.data.data;
             let pausas = [];
@@ -132,6 +140,10 @@ export default {
     },
     data(){
         return{
+            adds:null,
+            edits:null,
+            deletes:null,
+            reads:null,
             loadingPage:false,
             total_items:0,
             total_pages:0,

@@ -36,7 +36,7 @@
       </div>
     </PagesSubHeader>
     <!-- Cabeçalho: FIM -->
-    <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items" :isLoading="loadingPage" v-if="buildTable"/>
+    <TabelaAgentes :filter="filter" :filter_fields="filter_fields" :items="items" :isLoading="loadingPage" v-if="buildTable" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
     <b-container fluid class="salvar-container">
       <b-pagination
         v-model="currentPage"
@@ -61,11 +61,22 @@ import { baseApiUrl } from "@/config/global";
 const perpage = 10;
 
 export default {
+  name:"ListaAgentes",
+  props:{
+    //
+  },
   components: {
     PagesSubHeader,
     TabelaAgentes,
   },
   methods: {
+    getPermission(){
+      let page = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+      let perms = JSON.parse(localStorage.getItem('__userAccessPages'));
+      this.adds = perms[page.Agentes - 1].add;
+      this.edits = perms[page.Agentes - 1].edit;
+      this.deletes = perms[page.Agentes - 1].delete;
+    },
     setFilter(filter, field) {
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
@@ -130,6 +141,10 @@ export default {
   },
   data() {
     return {
+      adds:null,
+      edits:null,
+      deletes:null,
+      reads:null,
       loadingPage:false,
       msg: "",
       buildTable:false,

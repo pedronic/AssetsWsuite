@@ -3,7 +3,7 @@
         <div class="profile-content user-name-line d-flex">
             <i class="fal fa-user-secret fa-2x" style="margin-left: 5px;" />
             <b-form-input id="profile-name-input" v-model="text" :disabled="true"/>
-            <b-button variant="outline-dark" @click="showDetails()">
+            <b-button variant="outline-dark" @click="showDetails()" :disabled="permissions.read">
                 <span :class="this.arrow_icon_now"/>
             </b-button>
                 <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:items, pages:accessPages, uID:this.user.id}}">
@@ -59,7 +59,8 @@ export default {
         permissions: {
           add: {type:Boolean, default:false},
           edit: {type:Boolean, default:false},
-          delete: {type:Boolean, default:false}
+          delete: {type:Boolean, default:false},
+          read: {type:Boolean, default:false},
         }
     },
     methods: {

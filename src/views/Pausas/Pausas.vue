@@ -5,7 +5,7 @@
                 <div class="card-body"/>
             </div>
         </pages-sub-header>
-        <tabela-pausas :items="items" :isLoading="loadingPage" v-if="buildTable"/>
+        <tabela-pausas :items="items" :isLoading="loadingPage" v-if="buildTable" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
         <b-container fluid class="salvar-container">
             <b-pagination
               v-model="currentPage"
@@ -43,12 +43,20 @@ export default {
         TabelaPausas,
     },
     methods: {
+        getPermission(){
+            let page = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+            let perms = JSON.parse(localStorage.getItem('__userAccessPages'));
+            this.adds = perms[page.Pausas - 1].add;
+            this.edits = perms[page.Pausas - 1].edit;
+            this.deletes = perms[page.Pausas - 1].delete;
+        },
         showSelectedPage(page){
             this.loadingPage = true;
             this.getNames(page);
             this.loadingPage = false;
         },
         async getPausas(page){
+            this.getPermission();
             let pag = page.toString();
             let res = await axios.get(baseApiUrl+"/breaks"+"?page="+pag);
             let p = res.data.data;
@@ -90,6 +98,10 @@ export default {
     },
     data(){
         return{
+            adds:null,
+            edits:null,
+            deletes:null,
+            reads:null,
             loadingPage:false,
             total_items:0,
             total_pages:0,

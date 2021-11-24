@@ -31,6 +31,7 @@
           class="head-add-button btn-success"
           :to="{ name: 'RegistroAgentes' }"
           variant="outline-dark"
+          :disabled="permissions.add"
         >
           <span v-html="data.label" class="head-add-button" />
         </b-button>
@@ -85,6 +86,7 @@
             class="edit-btn"
             variant="outline"
             v-html="editIcon"
+            :disabled="permissions.edit"
           />
         </router-link>
         <b-btn
@@ -93,6 +95,7 @@
           class="add-btn"
           variant="outline"
           v-b-modal="slot.item.name + '_delete'"
+          :disabled="permissions.delete"
         />
       </template>
     </b-table>
@@ -313,7 +316,13 @@ export default {
     items: Array,
     filter:String,
     filter_fields:Array,
-    isLoading:{type:Boolean, default:false}
+    isLoading:{type:Boolean, default:false},
+    permissions: {
+      add: {type:Boolean, default:false},
+      edit: {type:Boolean, default:false},
+      delete: {type:Boolean, default:false},
+      read: {type:Boolean, default:false},
+    }
   },
   methods: {
     async deleteUser(id) {
