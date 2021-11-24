@@ -36,7 +36,7 @@
       </div>
     </PagesSubHeader>
   <!-- Cabeçalho: FIM -->
-    <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable" :isLoading="loadingPage"/>
+    <TabelaOperadoras :items="items" :filter="filter" :filter_fields="filter_fields" v-if="buildTable" :isLoading="loadingPage" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
     <b-container fluid class="salvar-container">
             <b-pagination
               v-model="currentPage"
@@ -70,7 +70,16 @@ export default {
     TabelaOperadoras,
   },
   methods: {
+    getPermission(){
+      let page = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+      let perms = JSON.parse(localStorage.getItem('__userAccessPages'));
+      this.adds = perms[page.Operadoras - 1].add;
+      this.edits = perms[page.Operadoras - 1].edit;
+      this.deletes = perms[page.Operadoras - 1].delete;
+
+    },
     async getOperadoras() {
+      this.getPermission();
       let res = await axios.get(baseApiUrl + "/operators");
       let p = res.data.data;
       let operadoras = [];
@@ -133,6 +142,9 @@ export default {
   },
   data() {
     return {
+      adds:null,
+      edits:null,
+      deletes:null,      
       items: null,
       /* [
         {

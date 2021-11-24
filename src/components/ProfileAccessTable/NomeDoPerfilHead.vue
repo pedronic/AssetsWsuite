@@ -7,11 +7,11 @@
                 <span :class="this.arrow_icon_now"/>
             </b-button>
                 <router-link :to="{name:'Perfil',params:{nome:this.user.name, userData:items, pages:accessPages, uID:this.user.id}}">
-                    <b-button variant="outline-dark" >
+                    <b-button variant="outline-dark" :disabled="permissions.edit">
                         <span class="fal fa-pencil"/>
                     </b-button>
                 </router-link>
-            <b-button v-b-modal="text" variant="outline-dark">
+            <b-button v-b-modal="text" variant="outline-dark" :disabled="permissions.delete">
                 <span class="fal fa-trash-alt"/>
             </b-button>
         </div>
@@ -56,6 +56,11 @@ export default {
         colID: String,
         rowID: Number,
         users: Array,
+        permissions: {
+          add: {type:Boolean, default:false},
+          edit: {type:Boolean, default:false},
+          delete: {type:Boolean, default:false}
+        }
     },
     methods: {
         showUsers(){

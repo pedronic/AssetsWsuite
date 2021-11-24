@@ -39,8 +39,8 @@
       <template v-slot:head(add)="data">
         <!-- <b-button v-b-modal="'new_line'" class="head-add-button btn-success" variant="outline-dark"> -->
         <router-link  :to="{name:'RegistroOperadoras',params:{opID: newID}}">
-          <b-button class="head-add-button btn-success" variant="outline-dark">
-            <span class="head-add-button" v-html="data.label"/>
+          <b-button class="head-add-button btn-success" variant="outline-dark" :disabled="permissions.add">
+            <span class="head-add-button" v-html="data.label" />
           </b-button>
         </router-link>
       </template>
@@ -89,10 +89,10 @@
         <router-link  :to="{name:'RegistroOperadoras', params:{opID: slot.item.id}}">
           <!-- <b-button :id="(slot.item.operadora)+'_edit'" v-b-modal="(slot.item.operadora)+'_edit_modal'" class="edit-btn"
                     variant="outline" v-html="editIcon"/> -->
-          <b-button :id="(slot.item.operadora)+'_edit'" class="edit-btn" variant="outline" v-html="editIcon"/>
+          <b-button :id="(slot.item.operadora)+'_edit'" class="edit-btn" variant="outline" v-html="editIcon" :disabled="permissions.edit"/>
         </router-link>
         <b-btn :id="(slot.item.operadora)+'_add'" v-b-modal="slot.item.operadora + '_delete'" class="add-btn" variant="outline"
-               v-html="deleteIcon"/>
+               v-html="deleteIcon" :disabled="permissions.delete"/>
       </template>
     </b-table>
     <!-- ---------------------------------------------------- -->
@@ -355,7 +355,12 @@ export default {
   mixins: [ValidateToaster],
   props: {
     items: Array,
-    isLoading:{type:Boolean, default:false}
+    isLoading:{type:Boolean, default:false},
+    permissions: {
+      add: {type:Boolean, default:false},
+      edit: {type:Boolean, default:false},
+      delete: {type:Boolean, default:false}
+    }
   },
   methods: {
     deleteRow(op,id) {

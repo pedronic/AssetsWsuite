@@ -4,13 +4,13 @@
             <div class="card">
                 <div class="card-body d-flex">
                     <router-link class="d-flex" id="add-perfil" :to="{name:'Perfil', params:{nome:'', userData: defaultUserData.data, pages: defaultAccessPages, uID:''}}" >
-                        <b-btn variant="success" class="fal fa-plus" />
+                        <b-btn variant="success" class="fal fa-plus" :disabled="!adds"/>
                     </router-link>
                 </div>
             </div>
         </pages-sub-header>
         <b-container fluid v-if="dataOK">
-            <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id"/>
+            <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id" :permissions='{add:!adds, edit:!edits, delete:!deletes}'/>
         </b-container>
     </div>
 </template>
@@ -30,6 +30,14 @@ export default{
         NomeDoPerfilHead,
     },
     methods: {
+        getPermission(){
+            let page = JSON.parse(localStorage.getItem('__pagesIndexTable'));
+            let perms = JSON.parse(localStorage.getItem('__userAccessPages'));
+            this.adds = perms[page.Perfil - 1].add;
+            this.edits = perms[page.Perfil - 1].edit;
+            this.deletes = perms[page.Perfil - 1].delete;
+
+        },
         async getUsersDEPRECATED(){
             let res = await axios.get(baseApiUrl+"/perfilspages");
             let u = res.data.data;
@@ -202,6 +210,7 @@ export default{
             // this.getPerfis();
         },
         getPerfis(){
+            this.getPermission();
             axios.get(baseApiUrl+"/perfils")
             .then(res => {
                 console.log("Status:\t",res.status," - ",res.statusText);
@@ -224,6 +233,9 @@ export default{
     },
     data(){
         return{
+            adds:null,
+            edits:null,
+            deletes:null,
             names:[],
             profiles:[],
             users:[],
