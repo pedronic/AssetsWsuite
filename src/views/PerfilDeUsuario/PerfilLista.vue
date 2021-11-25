@@ -10,7 +10,7 @@
             </div>
         </pages-sub-header>
         <b-container fluid v-if="dataOK">
-            <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id" :permissions='{add:!adds, edit:!edits, delete:!deletes, read:!read}'/>
+            <nome-do-perfil-head :viewOnly="true" v-for="(user, index) in users" :items="user.data" :user="user" :users="users" :rowID="index" :key="user.id" :permissions='{add:!adds, edit:!edits, delete:!deletes, read:!reads}'/>
         </b-container>
     </div>
 </template>
