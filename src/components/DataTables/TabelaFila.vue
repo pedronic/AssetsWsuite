@@ -15,9 +15,7 @@
       :fields="fields"
       sticky-header
     >
-      <!-- :filter="filter"
-      filter-debounce="50"
-      :filter-included-fields="filter_fields" -->
+          <!--editando os headers das tabelas-->
       <template v-slot:thead-top>
         <b-tr>
           <b-th class="bg-primary" colspan="7">{{ queue_name }}</b-th>
@@ -44,6 +42,7 @@
       <template v-slot:head(bina)="data">
         <span>{{ data.label }}</span>
       </template>
+      <!--Editando cada célula da tebela-->
 
       <template v-slot:cell(status)="slot">
         <span :id="slot.item.agent + '_pausa'">{{ slot.value }}</span>
@@ -78,7 +77,7 @@ import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
-const defaultRow = {
+const defaultRow = { //linha para se exibir alguma coisa na tela caso ocorra alguma falha na requisição de dados
   agent: "",
   username: false,
   email: false,
@@ -92,7 +91,7 @@ const defaultRow = {
 export default {
   name: "TabelaFila",
   mixins: [ValidateToaster],
-  props: {
+  props: { //recebe os itens, o parâmetro de filtragem e os campos a serem filtrados
     queue_name: String,
     id: String,
   },
@@ -100,14 +99,14 @@ export default {
     return {
       referential: 0,
       buildTable: false,
-      newRowInput: Object.assign({}, this.newRowDefault),
-      editRowInput: Object.assign({}, this.newRowDefault),
+      newRowInput: Object.assign({}, this.newRowDefault), //cria um novo objeto com a nova linha criada
+      editRowInput: Object.assign({}, this.newRowDefault), //cria um novo objeto com a nova linha editada
       editIcon: '<span class="fal fa-pencil"/>',
       deleteIcon: '<span class="fal fa-trash-alt"/>',
       msg: "",
       items: [],
       // this.items.slice(1, this.items.length)
-      filas: [
+      filas: [ //valores padrões recebidos
         {
           status: "available",
           duration: "00:00:42",
@@ -130,19 +129,7 @@ export default {
         },
       ],
       agents: [],
-      // this.items[0].agents
-      icons: [
-        { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
-        { value: "i2", html: '<span class="fal fa-plus"/>' },
-        { value: "i3", html: '<span class="fal fa-air-conditioner"/>' },
-        { value: "i4", html: '<span class="fal fa-abacus"/>' },
-      ],
-      fields: [
-        // {
-        //   key: "queue_name",
-        //   label: this.queue_name,
-        //   sortable: true,
-        // },
+      fields: [  //todas as colunas que receberam chave e valores
 
         {
           key: "status",
@@ -181,7 +168,7 @@ export default {
   },
 
   methods: {
-    setBrowserData(items) {
+    setBrowserData(items) { 
       sessionStorage.setItem(this.id, JSON.stringify(items));
       var cache = JSON.parse(sessionStorage.getItem(`${this.id}`));
       this.items = [...cache];
@@ -272,122 +259,8 @@ export default {
       // this.buildTable = true;
     },
 
-    deleteRow(ev, id) {
-      const p = this.agents.indexOf(ev);
-      this.filas.splice(p, 1);
-      this.agents.splice(p, 1);
-      let toast = {
-        isValidated: true,
-        title: "USUÁRIO EXCLUÍDO",
-        message: "Usuário " + ev.toUpperCase() + " excluído com sucesso!",
-      };
-      this.deleteUser(id);
-      this.validateAndToast(toast);
-    },
-    cancelDelete(p) {
-      let toast = {
-        isValidated: false,
-        title: "USUÁRIO MANTIDO",
-        message:
-          "Usuário " +
-          p.toUpperCase() +
-          " foi mantido. A exclusão foi cancelada.",
-      };
-      this.validateAndToast(toast);
-    },
-    okayAdd() {
-      let newPausa = this.newRowInput.agent.trim();
-      if (newPausa.length > 0) {
-        console.log("Filas ok:");
-        console.log(this.filas);
-        console.log("New Row Input:");
-        console.log(this.newRowInput);
-        this.filas.push(Object.assign({}, this.newRowInput));
-        this.pausas.push(newPausa);
-        let toast = {
-          isValidated: true,
-          title: "NOVO USUÁRIO ADICIONADA",
-          message:
-            "Novo usuário " +
-            newPausa.toUpperCase() +
-            " adicionado com sucesso!",
-        };
-        this.validateAndToast(toast);
-      } else {
-        let toast = {
-          isValidated: false,
-          title: "NOVO USUÁRIO VAZIO NÃO ADICIONADA",
-          message:
-            "Nova Pausa " +
-            newPausa.toUpperCase() +
-            " não foi adicionada. Não é possível adicionar Pausas sem username ou com o username em branco. A operação foi cancelada.",
-        };
-        this.validateAndToast(toast);
-      }
-    },
-    cancelAdd() {
-      let newPausa = this.newRowInput.agent.trim();
-      let toast = {
-        isValidated: false,
-        title: "NOVA PAUSA NÃO ADICIONADA",
-        message:
-          "Nova Pausa " +
-          newPausa.toUpperCase() +
-          " não foi adicionada. A operação de adicionar foi cancelada pelo usuário.",
-      };
-      this.validateAndToast(toast);
-    },
-    populateEditLine(i) {
-      this.editRowInput = { ...this.filas[i] };
-    },
-    populateNewLine() {
-      this.newRowInput = { ...this.newRowDefault };
-    },
-    updateRow(row) {
-      let p = this.editRowInput.agent.trim();
-
-      if (p.length > 0) {
-        // checando se o username não está em branco
-        /* Atualizando Fila e Pausas com dados editados */
-        this.filas.splice(row, 1, { ...this.editRowInput });
-        this.pausas.splice(row, 1, p);
-        this.editRowInput = { ...this.newRowDefault };
-
-        let toast = {
-          isValidated: true,
-          title: "PAUSA EDITADA",
-          message: "Pausa " + p.toUpperCase() + " editada com sucesso!",
-        };
-        this.validateAndToast(toast);
-      } else {
-        this.editRowInput = { ...this.newRowDefault };
-
-        let toast = {
-          isValidated: false,
-          title: "PAUSA NÃO EDITADA",
-          message:
-            "Pausa " +
-            p.toUpperCase() +
-            " não foi modificada. Não é possível atualizar uma Pausa apagando seu username ou deixando apenas espaços em branco. A operação foi cancelada.",
-        };
-        this.validateAndToast(toast);
-      }
-    },
-    cancelEdit(row) {
-      this.editRowInput = { ...this.newRowDefault };
-      let p = this.filas[row].agent;
-      let toast = {
-        isValidated: false,
-        title: "PAUSA NÃO EDITADA",
-        message:
-          "Pausa " +
-          p.toUpperCase() +
-          " não foi modificada. A edição foi cancelada pelo usuário.",
-      };
-      this.validateAndToast(toast);
-    },
   },
-  created() {
+  created() { //insere a nova linha no cache do navegador (em tempo de desenvolvimento)
     this.newRowDefault = { ...defaultRow };
     this.getFields();
     // parseInt(this.id)
@@ -451,10 +324,15 @@ input::-webkit-inner-spin-button {
 }
 
 #new_row_limite,
-#new_row_alerta {
+#new_row_alerta { /*implementado no futuro modal*/
   width: 100%;
   padding: 0.2ch;
   text-align: center;
+}
+.b-table-sticky-header > .table.b-table > thead > tr > th { /*estilização padrão dos headers*/
+    position: sticky I !important;
+    top: -1px !important;
+    z-index: 2 !important;
 }
 
 .agent-head-container,
@@ -463,7 +341,7 @@ input::-webkit-inner-spin-button {
 .perfilName-head-container,
 .limite-head-container,
 .icone-head-container,
-.enable-head-container {
+.enable-head-container {  /*estilização de todas as colunas*/
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
@@ -510,6 +388,8 @@ input::-webkit-inner-spin-button {
   padding-right: 2px !important;
 }
 
+/* estilização do íconezinho de sort */
+/*--------------------------![COMEÇO]!------------------------------------------------------*/
 .tabela-pausas
   > .table.b-table.table-sm
   > thead
@@ -535,7 +415,9 @@ input::-webkit-inner-spin-button {
 .tabela-pausas > .table.b-table > tfoot > tr > [aria-sort="descending"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
-.tabela-pausas > .table.b-table > thead > tr > .table-b-table-default {
+/*--------------------------![FIM]!------------------------------------------------------*/
+
+.tabela-pausas > .table.b-table > thead > tr > .table-b-table-default { /*Header*/
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -544,6 +426,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
   vertical-align: middle !important;
 }
+/*------------------------------Edição individual de cada coluna por sequência em que aparecem------------------------------------*/
 
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {

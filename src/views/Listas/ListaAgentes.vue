@@ -118,6 +118,14 @@ export default {
           agente.last_login = a[i].last_login; // Não há campo e-mail na tabela de agentes
           agente.flag = a[i].flag?true:false;
           items.push({...agente});
+          agente.document = ""; // Não disponível ainda. futuramente: a[i].document;
+          agente.company_id = a[i].company_id;
+          agente.id = a[i].id;
+          agente.queue_default = a[i].queue_default;
+          agente.flag = a[i].flag ? true : false;
+          agente.agent = a[i].agent;
+          agente.journey = a[i].journey;
+          items.push({ ...agente });
         }
         // console.log("Items @getNames():\n",items);
         this.items = [...items];

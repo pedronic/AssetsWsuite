@@ -72,11 +72,13 @@
             params: {
               id: slot.item.id,
               login_crm: slot.item.login_crm,
+              journey: slot.item.journey,
               email: slot.item.email,
               document: slot.item.document,
               agent: slot.item.agent,
               name: slot.item.name,
               flag: slot.item.flag,
+              company_id: slot.item.company_id,
               queue_default: slot.item.queue_default,
             },
           }"

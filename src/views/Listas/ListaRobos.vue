@@ -7,7 +7,7 @@
           <div class="d-flex" id="filtro-grupo-pausa">
             <b-form-input
               v-model="busca"
-              @keydown.enter.native="setFilter(busca, 'name')"
+              @keydown.enter.native="setFilter(busca, 'agent')"
             ></b-form-input>
             <div class="card">
               <div class="card-body" />
@@ -16,7 +16,7 @@
               type="submit"
               id="pesquisa_faturamento"
               class="btn btn-info waves-effect waves-themed fal fa-search"
-              @click="setFilter(busca, 'name')"
+              @click="setFilter(busca, 'agent')"
             />
           </div>
         </div>
@@ -58,7 +58,7 @@
 // import UsuarioMetodos from "../domain/User/UsuarioMetodos";
 import TabelaRobos from "../../components/DataTables/TabelaRobos.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-import axios from "axios";
+import axios from "axios"; //ferramenta responsável pela promise (await)
 import { baseApiUrl } from "@/config/global";
 
 const perpage = 10;
@@ -69,7 +69,7 @@ export default {
     TabelaRobos,
   },
   methods: {
-    setFilter(filter, field) {
+    setFilter(filter, field) { //método de filtragem: pega o valor recebido (que pode ser true do valor de enable) e envia para o componente
       this.filter = filter.toString();
       this.filter_fields.splice(0, 1, field);
     },
@@ -105,7 +105,7 @@ export default {
           robo.name = a[i].name;
           robo.login_crm = a[i].login_crm;
           robo.email = a[i].email;
-          robo.document = ""; // Não disponível ainda. futuramente: a[i].document;
+          robo.agent = a[i].agent; // Não disponível ainda. futuramente: a[i].document;
           robo.last_login = a[i].last_login;
           robo.queue_default = a[i].queue_default;
           robo.flag = a[i].flag ? true : false;
@@ -115,7 +115,7 @@ export default {
       }
       this.items = [...items];
       console.log("Items @getAgentRobos():\n", this.items);
-      this.buildTable = true;
+      this.buildTable = true; //depois que está tudo ok, ele ativa as tabelas  
     },
   },
   // get
@@ -155,14 +155,7 @@ export default {
 </script>
 
 <style scoped>
-.col-botoes {
-  padding-left: 3px !important;
-  padding-right: 3px !important;
-}
-.col-inputs {
-  padding-left: 3px !important;
-  padding-right: 10px !important;
-}
+
 .panel-content {
   overflow: auto;
 }
@@ -192,8 +185,5 @@ input {
 .card {
   box-shadow: none;
   border: none;
-}
-.dow-color {
-  background-color: #1a7f37 !important;
 }
 </style>

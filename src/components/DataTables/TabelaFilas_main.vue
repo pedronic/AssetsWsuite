@@ -20,6 +20,8 @@
       :per-page="10"
       :busy="busy"
     >
+        <!--editando os headers das tabelas-->
+
       <template v-slot:head(queue_number)="data">
         <span>{{ data.label }}</span>
       </template>
@@ -47,6 +49,7 @@
       <template v-slot:head(speedy)="data">
         <span>{{ data.label }}</span>
       </template>
+      <!--Editando cada célula da tebela-->
 
       <template v-slot:head(flag)="data">
         <span>{{ data.label }}</span>
@@ -61,6 +64,7 @@
           <span v-html="data.label" class="head-add-button" />
         </b-button>
       </template>
+      <!--célula de adição é personalizada dessa maneira para recebeer os dois botões-->
 
       <template v-slot:cell(queue_number)="slot">
         <span :id="slot.item.queue_number + '_pausa'">{{ slot.value }}</span>
@@ -131,7 +135,7 @@
         />
       </template>
     </b-table>
-    <!-- ---------------------------------------------------- -->
+    <!-- ----------------------------------------------------A ser implementado futuramente -->
     <!-- MODAL PARA Edição DE LINHA (INÍCIO) -->
     <div v-for="(i, index) in filas" :key="i.queue_number + '_edit'">
       <b-modal
@@ -240,7 +244,7 @@
       </b-modal>
     </div>
     <!-- MODAL PARA EXCLUSÃO DE LINHA (FIM) -->
-    <!-- ---------------------------------------------------- -->
+    <!-- ---------------------------------------------------- A ser implementado futuramente -->
     <!-- MODAL PARA CRIAR NOVA LINHA (INÍCIO) -->
     <b-modal
       id="new_line"
@@ -329,7 +333,7 @@ import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 
-const defaultRow = {
+const defaultRow = { //linha para se exibir alguma coisa na tela caso ocorra alguma falha na requisição de dados
   queue_number: "",
   username: false,
   email: false,
@@ -343,20 +347,89 @@ const defaultRow = {
 export default {
   name: "TabelaFilas_main",
   mixins: [ValidateToaster],
-  props: {
+  props: {//recebe os itens, o parâmetro de filtragem e os campos a serem filtrados
     items: Array,
     filter: String,
     filter_fields: Array,
   },
+    data() {
+    return {
+      filas: this.items.slice(1, this.items.length), //o primeiro item se refere aos nomes de cada
+      newRowInput: Object.assign({}, this.newRowDefault), //cria um novo objeto com a nova linha criada
+      editRowInput: Object.assign({}, this.newRowDefault), //cria um novo objeto com a nova linha editada
+      editIcon: '<span class="fal fa-pencil"/>',
+      busy: this.isLoading,
+      deleteIcon: '<span class="fal fa-trash-alt"/>',
+      queues_number: this.items[0].queues_number, //usado em métodos de filtragem
+      fields: [ //todas as colunas que receberam chave e valores
+        {
+          key: "queue_number",
+          label: "Número",
+          sortable: true,
+        },
+        {
+          key: "name_queue",
+          label: "Nome",
+          sortable: true,
+        },
+        {
+          key: "type",
+          label: "Tipo (H x R)",
+          sortable: true,
+        },
+        {
+          key: "queue_type",
+          label: "Tipo Fila",
+          sortable: true,
+        },
+        {
+          key: "finalization_name",
+          label: "Finalização",
+          sortable: true,
+        },
+        {
+          key: "break_group_id",
+          label: "Grupo de Pausas",
+          sortable: true,
+        },
+        {
+          key: "route_name",
+          label: "Rota",
+          sortable: true,
+        },
+        {
+          key: "dial_format",
+          label: "Modo de discagem",
+          sortable: true,
+        },
+        {
+          key: "speedy",
+          label: "Velocidade",
+          sortable: true,
+          //   tdStyle: "text-align: center",
+        },
+        {
+          key: "flag",
+          label: "Status",
+          // Boolean,
+        },
+        {
+          key: "add",
+          label: '<span class="fal fa-plus fa-1x head-add-button"/>',
+        },
+      ],
+    };
+  },
+
   methods: {
-    async deleteUser(id) {
+    async deleteUser(id) { //metódo de deleção de fila (na base de dados)
       console.log("delete");
       console.log(id);
       let s = await axios.delete(`${baseApiUrl}/users/${id}`);
       console.clear();
       console.log("Delete status:\n", s);
     },
-    deleteRow(ev, id) {
+    deleteRow(ev, id) { //metódo de deleção de usuário
       const p = this.queues_number.indexOf(ev);
       this.filas.splice(p, 1);
       this.queues_number.splice(p, 1);
@@ -368,16 +441,16 @@ export default {
       this.deleteUser(id);
       this.validateAndToast(toast);
     },
-    cancelDelete(p) {
+    cancelDelete(p) { //efeito que ocorre quando o usuário desiste da seleção
       let toast = {
         isValidated: false,
-        title: "FILA MANTIDO",
+        title: "FILA MANTIDa",
         message:
           "Fila " + p.toUpperCase() + " foi mantida. A exclusão foi cancelada.",
       };
       this.validateAndToast(toast);
     },
-    okayAdd() {
+    okayAdd() { //adição visual de novo usuário
       let newPausa = this.newRowInput.queue_number.trim();
       if (newPausa.length > 0) {
         console.log("Filas ok:");
@@ -388,12 +461,12 @@ export default {
         this.pausas.push(newPausa);
         let toast = {
           isValidated: true,
-          title: "NOVO FILA ADICIONADA",
+          title: "NOVA FILA ADICIONADA",
           message:
-            "Novo fila " + newPausa.toUpperCase() + " adicionada com sucesso!",
+            "Nova fila " + newPausa.toUpperCase() + " adicionada com sucesso!",
         };
         this.validateAndToast(toast);
-      } else {
+      } else {  //em caso de o nome inserido for vazio
         let toast = {
           isValidated: false,
           title: "NOVA FILA VAZIA NÃO ADICIONADA",
@@ -405,7 +478,7 @@ export default {
         this.validateAndToast(toast);
       }
     },
-    cancelAdd() {
+    cancelAdd() { //cancelamento do método de adição
       let newPausa = this.newRowInput.queue_number.trim();
       let toast = {
         isValidated: false,
@@ -467,7 +540,7 @@ export default {
       this.validateAndToast(toast);
     },
   },
-  created() {
+  created() {  //insere a nova linha no cache do navegador (em tempo de desenvolvimento)
     this.newRowDefault = { ...defaultRow };
     // this.newRowInput = Object.assign({},this.newRowDefault);
     // this.editRowInput = Object.assign({},this.newRowDefault);
@@ -478,7 +551,7 @@ export default {
     // this.editRowInput = this.filas;
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
   },
-  watch: {
+  watch: { //a ser implementado
     // filas(newValue){
     //     localStorage.setItem('__pedro-dev', JSON.stringify(newValue));
     // }
@@ -510,80 +583,6 @@ export default {
   //   },
   mounted() {
     // this.filas = JSON.parse(localStorage.getItem('__pedro-dev'));
-  },
-  data() {
-    return {
-      filas: this.items.slice(1, this.items.length),
-      newRowInput: Object.assign({}, this.newRowDefault),
-      editRowInput: Object.assign({}, this.newRowDefault),
-      editIcon: '<span class="fal fa-pencil"/>',
-      busy: this.isLoading,
-      deleteIcon: '<span class="fal fa-trash-alt"/>',
-      queues_number: this.items[0].queues_number,
-      icons: [
-        { value: "i1", html: '<span class="fal fa-trash-alt"/>' },
-        { value: "i2", html: '<span class="fal fa-plus"/>' },
-        { value: "i3", html: '<span class="fal fa-air-conditioner"/>' },
-        { value: "i4", html: '<span class="fal fa-abacus"/>' },
-      ],
-      fields: [
-        {
-          key: "queue_number",
-          label: "Número",
-          sortable: true,
-        },
-        {
-          key: "name_queue",
-          label: "Nome",
-          sortable: true,
-        },
-        {
-          key: "type",
-          label: "Tipo (H x R)",
-          sortable: true,
-        },
-        {
-          key: "queue_type",
-          label: "Tipo Fila",
-          sortable: true,
-        },
-        {
-          key: "finalization_name",
-          label: "Finalização",
-          sortable: true,
-        },
-        {
-          key: "break_group_id",
-          label: "Grupo de Pausas",
-          sortable: true,
-        },
-        {
-          key: "route_name",
-          label: "Rota",
-          sortable: true,
-        },
-        {
-          key: "dial_format",
-          label: "Modo de discagem",
-          sortable: true,
-        },
-        {
-          key: "speedy",
-          label: "Velocidade",
-          sortable: true,
-          //   tdStyle: "text-align: center",
-        },
-        {
-          key: "flag",
-          label: "Status",
-          // Boolean,
-        },
-        {
-          key: "add",
-          label: '<span class="fal fa-plus fa-1x head-add-button"/>',
-        },
-      ],
-    };
   },
 };
 </script>
@@ -619,7 +618,7 @@ input::-webkit-inner-spin-button {
 }
 
 #new_row_limite,
-#new_row_alerta {
+#new_row_alerta {  /*implementado no futuro modal*/
   width: 100%;
   padding: 0.2ch;
   text-align: center;
@@ -631,7 +630,7 @@ input::-webkit-inner-spin-button {
 .perfilName-head-container,
 .limite-head-container,
 .icone-head-container,
-.enable-head-container {
+.enable-head-container { /*estilização de todas as colunas*/
   display: flex;
   padding-left: 2px !important;
   padding-right: 2px !important;
@@ -677,7 +676,8 @@ input::-webkit-inner-spin-button {
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
-
+/* estilização do íconezinho de sort */
+/*--------------------------![COMEÇO]!------------------------------------------------------*/
 .tabela-pausas
   > .table.b-table.table-sm
   > thead
@@ -703,7 +703,8 @@ input::-webkit-inner-spin-button {
 .tabela-pausas > .table.b-table > tfoot > tr > [aria-sort="descending"] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='white' opacity='.3' d='M51 1l25 23 24 22H1l25-22z'/%3e%3cpath fill='white' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e");
 }
-.tabela-pausas > .table.b-table > thead > tr > .table-b-table-default {
+/*--------------------------![FIM]!------------------------------------------------------*/
+.tabela-pausas > .table.b-table > thead > tr > .table-b-table-default { /*Header*/
   background-color: #0d6d9d !important;
   color: #fff !important;
   border-color: #0d6d9d !important;
@@ -712,6 +713,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
   vertical-align: middle !important;
 }
+/*------------------------------Edição individual de cada coluna por sequência em que aparecem------------------------------------*/
 
 .tabela-pausas > .table.b-table > tbody > tr > [aria-colindex="8"],
 .tabela-pausas > .table.b-table > thead > tr > [aria-colindex="8"] {

@@ -1,6 +1,7 @@
 <!--  este é um componente que faz um formulário para cadastrar usuários no banco de dados-->
 <template>
   <div class="formularios">
+    <!--Refatorado: row, col e d-inline-->
     <PagesSubHeader icon="fal fa-user" titulo="Usuários do sistema">
       <div class="card">
         <div class="card-body" />
@@ -9,97 +10,94 @@
     <div v-if="dataOK">
       <form @submit.prevent="carregar()" class="conteiner">
         <div class="form-group">
-          <div class="d-inline">
-            <div class="row mb-2">
-              <div class="col-4">
-                <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    v-model="name"
-                    id="profile-name-input"
-                    type="text"
-                    placeholder="Nome"
-                    :required="true"
+          <b-row class="mb-2">
+            <b-col cols="4">
+              <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-ad fa-2x" style="margin-left: 5px" />
+                <b-form-input
+                  v-model="name"
+                  id="profile-name-input"
+                  type="text"
+                  placeholder="Nome"
+                  :required="true"
+                />
+              </div>
+            </b-col>
+            <b-col cols="4">
+              <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-at fa-2x" style="margin-left: 5px" />
+                <b-form-input
+                  v-model="email"
+                  id="profile-name-input"
+                  type="email"
+                  placeholder="Email"
+                  :required="true"
+                />
+              </div>
+            </b-col>
+            <b-col cols="4">
+              <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-user fa-2x" style="margin-left: 5px" />
+                <b-form-input
+                  v-model="username"
+                  id="profile-name-input"
+                  type="text"
+                  placeholder="Usuário"
+                  :required="true"
+                />
+              </div>
+            </b-col>
+          </b-row>
+
+          <b-row class="mb-2 justify-content-center">
+            <b-col cols="4">
+              <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-key fa-2x" style="margin-left: 5px" />
+                <b-form-input
+                  v-model="password"
+                  id="profile-name-input"
+                  type="password"
+                  placeholder="Senha"
+                  :required="true"
+                />
+              </div>
+            </b-col>
+            <b-col cols="4">
+              <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-key fa-2x" style="margin-left: 5px" />
+                <b-form-input
+                  v-model="confirmPassword"
+                  id="profile-name-input"
+                  type="password"
+                  placeholder="Confirmar Senha"
+                  :required="true"
+                />
+              </div>
+            </b-col>
+            <b-col cols="4">
+              <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
+                <div id="multiselect-input">
+                  <multiselect
+                    v-model="perfilName"
+                    :placeholder="'Perfil'"
+                    :label="'name'"
+                    :track-by="'id'"
+                    :options="perfis"
+                    :multiple="false"
+                    :allow-empty="false"
+                    :preselectFirst="true"
+                    :selectLabel="MSprops.selectLabel"
+                    :selectGroupLabel="MSprops.selectGroupLabel"
+                    :selectedLabel="MSprops.selectedLabel"
+                    :deselectLabel="MSprops.deselectLabel"
+                    :deselectGroupLabel="MSprops.deselectGroupLabel"
                   />
                 </div>
               </div>
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                    <i class="fal fa-at fa-2x" style="margin-left: 5px" />
-                    <b-form-input
-                      v-model="email"
-                      id="profile-name-input"
-                      type="email"
-                      placeholder="Email"
-                      :required="true"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-user fa-2x" style="margin-left: 5px" />
-                  <b-form-input
-                    v-model="username"
-                    id="profile-name-input"
-                    type="text"
-                    placeholder="Usuário"
-                    :required="true"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="d-inline">
-            <div class="row mb-2 justify-content-center">
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                    <i class="fal fa-key fa-2x" style="margin-left: 5px" />
-                    <b-form-input
-                      v-model="password"
-                      id="profile-name-input"
-                      type="password"
-                      placeholder="Senha"
-                      :required="true"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="d-inline">
-                  <div class="profile-content user-name-line d-flex">
-                    <i class="fal fa-key fa-2x" style="margin-left: 5px" />
-                    <b-form-input
-                      v-model="confirmPassword"
-                      id="profile-name-input"
-                      type="password"
-                      placeholder="Confirmar Senha"
-                      :required="true"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-id-card fa-2x" style="margin-left: 5px" />
-                  <div id="multiselect-input">
-                    <multiselect
-                      v-model="perfilName"
-                      :placeholder="'Perfil'"
-                      :label="'name'"
-                      :track-by="'id'"
-                      :options="perfis"
-                      :multiple="false"
-                      :allow-empty="false"
-                      :preselectFirst="true"
-                    />
-                  </div>
-                </div>
-              </div>
-              <!-- <div class="col-4">
-                <div class="d-inline">
+            </b-col>
+            <!-- <div class="col-4">
+                
                   <div class="profile-content user-name-line d-flex">
                     <div class="input-group image-preview">
                       <span class="input-group">
@@ -139,36 +137,38 @@
                   </div>
                 </div>
               </div> -->
-            </div>
-          </div>
-          <div class="d-inline">
-            <div class="row mb-2">
-              <div class="col-12">
-                <div class="profile-content user-name-line d-flex">
-                  <i class="fal fa-road fa-2x" style="margin-left: 5px" />
-                  <div id="multiselect-input" class="multiple-true">
-                    <multiselect
-                      @select="inactive = false"
-                      v-model="filas_finish"
-                      :close-on-select="false"
-                      placeholder="Filas"
-                      :label="'name'"
-                      :track-by="'id'"
-                      :options="queues"
-                      :allow-empty="false"
-                      :multiple="true"
-                    />
-                  </div>
+          </b-row>
+
+          <b-row class="mb-2">
+            <b-col cols="12">
+              <div class="profile-content user-name-line d-flex">
+                <i class="fal fa-road fa-2x" style="margin-left: 5px" />
+                <div id="multiselect-input" class="multiple-true">
+                  <multiselect
+                    @select="inactive = false"
+                    v-model="filas_finish"
+                    :close-on-select="false"
+                    placeholder="Filas"
+                    :label="'name'"
+                    :track-by="'id'"
+                    :options="queues"
+                    :allow-empty="false"
+                    :multiple="true"
+                    :selectLabel="MSprops.selectLabel"
+                    :selectGroupLabel="MSprops.selectGroupLabel"
+                    :selectedLabel="MSprops.selectedLabel"
+                    :deselectLabel="MSprops.deselectLabel"
+                    :deselectGroupLabel="MSprops.deselectGroupLabel"
+                  />
                 </div>
               </div>
-            </div>
-          </div>
+            </b-col>
+          </b-row>
           <!-- DEPURAÇÃO
           {{ name }}
           {{ email }}
           {{ username }}
           {{ enable }}
-          {{ perfilName }}
           {{ queues }}
           {{ id }}
           {{ filas_finish }}
@@ -198,11 +198,11 @@
 </template>
 
 <script>
-// import Usuario from "../../domain/User/Usuario";
+import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 import Multiselect from "vue-multiselect";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-// import "select2";
-import axios from "axios"; //ferramenta responsável pela promisse (awair)
+import { vueMultiselectProps } from "../../config/global.js";
+import axios from "axios"; //ferramenta responsável pela promise (await)
 import { baseApiUrl } from "@/config/global";
 
 export default {
@@ -221,6 +221,41 @@ export default {
     _email: String,
     _username: String,
   },
+  mixins: [ValidateToaster],
+
+  data() {
+    return {
+      filas_finish: [],
+      inactive: false, //botão submit por padrão vem inativo até que o evento de select de filas o ative (filas não pode não receber um valor selecionado)
+      dataOK: false, //habilitado sempre que a tela há de carregar novos dados
+      id: this.$route.params.id,
+      nameEdit: this.$route.params.name,
+      usernameEdit: this.$route.params.username,
+      emailEdit: this.$route.params.email,
+      enable: this.$route.params.enable,
+      MSprops: vueMultiselectProps, //essa variável é global e carrega com ela a tradução das mensagens que aparecem no MultiSelect (ctrl + click)
+      perfilName: [],
+      userMails: [],
+      userNames: [],
+      msg: "",
+      queues: [],
+      perfis: [],
+      name: this.$route.params.name,
+      email: this.$route.params.email,
+      username: this.$route.params.username,
+      password: "",
+      confirmPassword: "",
+      perfil_id: [],
+      userQueue: [],
+      //Modelo de como a fila há de ser preenchida
+      queueObject: {
+        queue_id: "",
+        queue_number: "",
+        queue_name: "",
+      },
+    };
+  },
+
   methods: {
     testPerfilSelect() {
       console.log("Filas Selecionadas:\n", this.filas_finish);
@@ -240,7 +275,7 @@ export default {
           this.filas_finish.push(selectedQueue);
         }
       }
-      this.dataOK = true; //depois que está tudo ok, ele ativa as tabelas
+      this.dataOK = true; //depois que está tudo ok, ele ativa o layout
     },
     async getQueues() {
       //Pega todas as filas disponíveis
@@ -290,14 +325,15 @@ export default {
       this.queues = [...queues];
       this.dataOK = true;
     },
-    async getUsers() {
-      //pega todas as chaves primárias do sistema para verificação de validade na função carregar()
-      let users = await axios.get(baseApiUrl + "/users");
-      for (let u in users) {
-        this.userMails.push(users[u].email);
-        this.userNames.push(users[u].username);
-      }
-    },
+    // async getUsers() {
+    //   //pega todas as chaves primárias do sistema para verificação de validade na função carregar()
+    //   let users = await axios.get(baseApiUrl + "/users");
+    //   let data = users.data.data;
+    //   for (let u in data) {
+    //     this.userMails.push(data[u].email);
+    //     this.userNames.push(data[u].username);
+    //   }
+    // },
     async getPerfil() {
       //Pega todas os perfis e adiciona no select de filas caso esteja no modo de edição
       let p = await axios.get(baseApiUrl + "/perfils");
@@ -316,13 +352,65 @@ export default {
     async postNewUser(nu) {
       //postagem de novo usuário
       console.log(nu);
-      let s = await axios.post(`${baseApiUrl}/users/`, nu);
+      let s = await axios
+        .post(`${baseApiUrl}/users/`, nu)
+        .then(() => {
+          let toast = {
+            isValidated: true,
+            title: "USUÁRIO CRIADO!",
+            message: "Usuário criado com sucesso",
+          };
+          this.validateAndToast(toast);
+        })
+        .catch((error) => {
+          if (error.response.data.errno) {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: "Erro no servidor",
+            };
+            this.validateAndToast(toast);
+          } else {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: error.response.data,
+            };
+            this.validateAndToast(toast);
+          }
+        });
       console.log("Post status:\n", s);
     },
     async putUser(nu) {
       //posta novo usuário editado com base no ID
       console.log(nu);
-      let s = await axios.put(`${baseApiUrl}/users/${this.id}`, nu);
+      let s = await axios
+        .put(`${baseApiUrl}/users/${this.id}`, nu)
+        .then(() => {
+          let toast = {
+            isValidated: true,
+            title: "USUÁRIO EDITADO!",
+            message: "Usuário editado com sucesso",
+          };
+          this.validateAndToast(toast);
+        })
+        .catch((error) => {
+          if (error.response.data.errno) {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: "Erro no servidor",
+            };
+            this.validateAndToast(toast);
+          } else {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: error.response.data,
+            };
+            this.validateAndToast(toast);
+          }
+        });
       console.log("Put status:\n", s);
     },
     carregar() {
@@ -342,11 +430,13 @@ export default {
         blankUser //||
         // blankProfile
       ) {
-        console.log(passCheck);
-        console.log(blankPass);
-        console.log(blankName);
-        console.log(blankUser);
-        console.log(blankMail);
+        let toast = {
+          isValidated: false,
+          title: "NÃO FOI POSSÍVEL SALVAR O NOVO USUÁRIO",
+          message:
+            "O novo usuário não pôde ser criado. Não é permitido salvar uma Novo Usuário com o Nome ou Senha vazio ou apenas com espaços em branco.",
+        };
+        this.validateAndToast(toast);
         // console.log(validEmail);
         // console.log(validUsername);
       } else {
@@ -368,70 +458,38 @@ export default {
           this.userQueue.push(line);
         }
         postBody.userQueue = [...this.userQueue];
-        let validEmail = !(this.userMails.indexOf(this.email.trim()) > -1);
-        let validUsername = !(
-          this.userNames.indexOf(this.username.trim()) > -1
-        );
-        if (validEmail || validUsername) {
-          if (this.id) {
-            this.putUser(postBody);
-          } else {
-            this.postNewUser(postBody);
-          }
+        // let validEmail = !(this.userMails.indexOf(this.email.trim()) > -1);
+        // let validUsername = !(
+        //   this.userNames.indexOf(this.username.trim()) > -1
+        // );
+        // if (validEmail || validUsername) {
+        if (this.id) {
+          this.putUser(postBody);
+        } else {
+          this.postNewUser(postBody);
         }
+        // }
       }
     },
   },
-  data() {
-    return {
-      // edition:
-      filas_finish: [],
-      inactive: false,
-      dataOK: false,
-      id: this._id,
-      nameEdit: this._nameEdit,
-      usernameEdit: this._username,
-      emailEdit: this._emailEdit,
-      enable: this._enable,
-      perfilName: [],
-      userMails: [],
-      userNames: [],
-      msg: "",
-      states: [],
-      queues: [],
-      perfis: [],
-      name: this._name,
-      email: this._email,
-      username: this._username,
-      password: "",
-      confirmPassword: "",
-      perfil_id: [],
-      userQueue: [],
-      queueObject: {
-        queue_id: "",
-        queue_number: "",
-        queue_name: "",
-      },
-    };
-  },
   mounted() {
+    //montagens de valores das listas e get usuários para checar se já existem (chaves primárias)
     this.getPerfil();
-    this.getUsers();
+    // this.getUsers();
     this.getQueues();
     if (this.id) {
+      //caso possua ID, estamos no modo de edição, então temos que buscar as filass em que esses usuários estão registrados
       this.dataOK = false;
       this.getUserQueues();
     }
-    // else {
-    //   this.filas_finish.push({id: 0, name: "Selecione as filas", code: "0"})
-    // }
 
+    //modelagem do campo foto que será implementado futuramente
     $(document).on("click", "#close-preview", function() {
       $(".image-preview").popover("hide");
     });
 
     $(function() {
-      // Clear event
+      // limpar evento
       $(".image-preview-clear").click(function() {
         $(".image-preview")
           .attr("data-content", "")
@@ -441,7 +499,7 @@ export default {
         $(".image-preview-input input:file").val("");
         $(".image-preview-input-title").text(" ");
       });
-      // Create the preview image
+      // pré-visualizar a imagem escolhida
       $(".image-preview-input input:file").change(function() {
         var img = $("<img/>", {
           id: "dynamic",
@@ -450,7 +508,7 @@ export default {
         });
         var file = this.files[0];
         var reader = new FileReader();
-        // Set preview image into the popover data-content
+        // pega a imagem de pré-visulização e coloca em um popover
         reader.onload = function(e) {
           $(".image-preview-input-title").text(".  Trocar");
           $(".image-preview-clear").show();
@@ -465,22 +523,10 @@ export default {
 </script>
 
 <style scoped>
-.btn#butao {
-  padding: 2px 4px 0px 2px !important;
-}
 .user-name-line {
   align-items: center !important;
   border-style: solid;
   border-width: 1px;
-  border-color: #d0cece;
-  padding-left: 0%;
-  padding-right: 0%;
-}
-.user-name-line2 {
-  align-items: center !important;
-  border-style: solid;
-  border-width: 1px;
-  height: 42px;
   border-color: #d0cece;
   padding-left: 0%;
   padding-right: 0%;
@@ -491,20 +537,46 @@ export default {
   border-left-color: black;
   border-radius: 0px;
 }
-#profile-name-input2 {
-  margin-left: 5px;
-  margin-right: 0px;
-  border-left-color: black;
-  border-radius: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
-}
-#input-pic {
-  border-left: 1px solid rgb(0, 0, 0) !important;
-  /* border-color: rgb(0, 0, 0)!important; */
+
+label#kkk {
+  /*mini espaçamento vertical no label "Status"*/
+  padding-top: 2.7px;
 }
 
+.botao-salvar {
+  background-color: #0d6d9dad;
+}
+
+.botao-salvar:hover {
+  background-color: #0d6d9d;
+}
+
+#multiselect-input {
+  display: flex;
+  width: 100%;
+  margin-left: 6px;
+}
+
+i.fal.fa-2x {
+  width: 26px;
+  height: 26px;
+}
+.card-body {
+  padding: 5px;
+  height: 50px;
+  width: 0;
+  border: 0;
+  color: #ffffff;
+}
+
+.card {
+  box-shadow: none;
+  border: none;
+}
+/*estilizações da foto
+.btn#butao {
+  padding: 2px 4px 0px 2px !important;
+}
 .btn-default {
   background-image: linear-gradient(to top, #ffffff, #ffffff);
 }
@@ -513,7 +585,7 @@ export default {
   overflow: hidden;
   margin: 0px;
   color: #333;
-  /* width: 35px; */
+  width: 35px; 
   background-color: #fff;
   border-color: #ccc;
 }
@@ -536,57 +608,8 @@ export default {
   background-color: #ffffff;
   opacity: 1;
 }
-
-label#kkk {
-  padding-top: 2.7px;
-}
-
-/*.form-icon,*/
-/*.form-icon:hover {*/
-/*  width: 42px;*/
-/*}*/
-
-.botao-salvar {
-  background-color: #0d6d9dad;
-}
-
-.botao-salvar:hover {
-  background-color: #0d6d9d;
-}
-
-#multiselect-input {
-  display: flex;
-  width: 100%;
-  margin-left: 6px;
-}
-
-i.fal.fa-2x {
-  width: 26px;
-  height: 26px;
-}
-
-.bottom {
-  margin-top: 20px;
-}
-
-.panel-content {
-  overflow: auto;
-}
-
-.panel .panel-container .panel-content {
-  padding: 0;
-}
-
-.card-body {
-  padding: 5px;
-  height: 50px;
-  width: 0;
-  border: 0;
-  color: #ffffff;
-}
-
-.card {
-  box-shadow: none;
-  border: none;
-}
+#input-pic {
+  border-left: 1px solid rgb(0, 0, 0) !important;
+  border-color: rgb(0, 0, 0)!important; 
+}*/
 </style>

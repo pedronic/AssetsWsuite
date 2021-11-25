@@ -74,14 +74,14 @@
 // import UsuarioMetodos from "../../domain/User/UsuarioMetodos";
 import TabelaUsuariosCadastrados from "../../components/DataTables/TabelaUsuariosCadastrados.vue";
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
-import axios from "axios";
+import axios from "axios"; //ferramenta responsável pela promise (await)
 import { baseApiUrl } from "@/config/global";
 
 const perpage = 10;
 
 export default {
   components: {
-    PagesSubHeader,
+    PagesSubHeader, //título da página com ícone (via slot)
     TabelaUsuariosCadastrados,
   },
   methods: {
@@ -107,13 +107,6 @@ export default {
       let items = [];
       let usuario = {};
 
-        // console.clear();
-        // console.log(u);
-      // for (let i in a) {
-      //   u[i].enable = new Boolean(u[i].enable);
-      //   this.items[0].names.push(u[i].name);
-      //   this.items.push(u[i]);
-      // }
       for(let i in a){
         usuarios.push(a[i].name)
       }
@@ -126,12 +119,12 @@ export default {
         usuario.email = a[i].email;
         usuario.id = a[i].id;
         usuario.perfilName = a[i].perfilName;// Não disponível ainda. futuramente: a[i].profileName;
-        usuario.enable = a[i].enable?true:false;
+        usuario.enable = a[i].enable ? true : false;
         items.push({...usuario});
       }
       console.log("Items @getUsers():\n",this.items);
       this.items = [...items];
-      this.buildTable = true;      
+      this.buildTable = true; //depois que está tudo ok, ele ativa as tabelas  
     },
     
   },
@@ -172,19 +165,6 @@ export default {
 </script>
 
 <style scoped>
-.dow-color2 {
-  background-color: rgb(13, 109, 157) !important;
-}
-
-.col-botoes {
-  padding-left: 3px !important;
-  padding-right: 3px !important;
-}
-
-.col-inputs {
-  padding-left: 3px !important;
-  padding-right: 10px !important;
-}
 
 .panel-content {
   overflow: auto;
@@ -217,7 +197,4 @@ input {
   border: none;
 }
 
-.dow-color {
-  background-color: #1a7f37 !important;
-}
 </style> 

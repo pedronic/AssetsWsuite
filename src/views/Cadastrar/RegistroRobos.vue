@@ -34,7 +34,6 @@
                       id="profile-name-input"
                       type="text"
                       placeholder="Login"
-                      :required="true"
                     />
                   </div>
                 </div>
@@ -64,7 +63,7 @@
                   <multiselect
                     v-model="queue_default"
                     placeholder="Filas"
-                    :label="'name'"
+                    :label="'code'"
                     :track-by="'id'"
                     :options="queues"
                     :multiple="false"
@@ -91,7 +90,8 @@
                 Salvar
               </button>
             </b-col>
-            <!-- {{ queues }}
+            <!-- DEPURAÇÃO
+            {{ queues }}
             {{ queue_default }}
             {{ names }}
             {{ id }} -->
@@ -123,27 +123,104 @@
 
 <script>
 import Multiselect from "vue-multiselect";
+import ValidateToaster from "../../plugins/validateToaster.js"; //importando "mixin" (no caso está na pasta plugin)
 import PagesSubHeader from "../../components/subheader/PagesSubHeader.vue";
 import axios from "axios";
 import { baseApiUrl } from "@/config/global";
 
 export default {
   components: {
-    Multiselect,
+    Multiselect, //título da página com ícone (via slot)
     PagesSubHeader,
   },
+    mixins: [ValidateToaster],
+
+  data() {
+    return {
+      dataOK: false,
+      names: [],
+      queue_default: [
+        {
+          name: this.$route.params.queue_default,
+          code: this.$route.params.queue_default,
+        },
+      ],
+      queue_def: [],
+      queues: null,
+      flag: this.$route.params.flag,
+      id: this.$route.params.id,
+      name: this.$route.params.name,
+      login_crm: this.$route.params.login_crm,
+      agent: this.$route.params.agent,
+    };
+  },
+
   methods: {
     async putRobot(nu) {
+      //posta novo robo editado com base no ID
       console.log(nu);
-      let s = await axios.put(`${baseApiUrl}/agents/${this.id}`, nu);
+      let s = await axios
+        .put(`${baseApiUrl}/agents/${this.id}`, nu)
+        .then(() => {
+          let toast = {
+            isValidated: true,
+            title: "ROBÔ EDITADO!",
+            message: "Robô editado com sucess",
+          };
+          this.validateAndToast(toast);
+        })
+        .catch((error) => {
+          if (error.response.data.errno) {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: "Erro no servidor",
+            };
+            this.validateAndToast(toast);
+          } else {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: error.response.data,
+            };
+            this.validateAndToast(toast);
+          }
+        });
       console.log("Put status:\n", s);
     },
     async postNewRobot(nu) {
-      let s = await axios.post(`${baseApiUrl}/agents`, nu);
+      console.log(nu);
+      let s = await axios
+        .post(`${baseApiUrl}/agents`, nu)
+        .then(() => {
+          let toast = {
+            isValidated: true,
+            title: "ROBÔ CRIADO!",
+            message: "Robô criado com sucesso",
+          };
+          this.validateAndToast(toast);
+        })
+        .catch((error) => {
+          if (error.response.data.errno) {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: "Erro no servidor",
+            };
+            this.validateAndToast(toast);
+          } else {
+            let toast = {
+              isValidated: false,
+              title: "FALHA",
+              message: error.response.data,
+            };
+            this.validateAndToast(toast);
+          }
+        });
       console.log("Post status:\n", s);
     },
 
-    async getRobots() {
+    async getQueues() {
       let res = await axios.get(baseApiUrl + "/queues");
       let count = res.data.count;
       let limit = res.data.limit;
@@ -191,25 +268,28 @@ export default {
         queues.push({ ...fila });
       }
       this.queues = [...queues];
-      this.dataOK = true;
+      this.dataOK = true; //depois que está tudo ok, ele ativa o layout
     },
 
     carregar() {
       // Refatorar para incluir avisos de toast após ação
       let blankName = !(this.name.trim().length > 0);
-      let blankLogin_crm = !(this.login_crm.trim().length > 0);
-      let blankAgent = !(this.agent > -1);
+      let blankAgent = !(this.agent.trim().length > 0);
       // let blankDocument = !(this.document.trim().length > 0);
       // console.clear();
-      if (blankName || blankLogin_crm || blankAgent) {
-        console.log(blankName);
-        console.log(blankLogin_crm);
-        console.log(blankAgent);
+      if (blankName || blankAgent) {
+        let toast = {
+          isValidated: false,
+          title: "NÃO FOI POSSÍVEL SALVAR O NOVO ROBÔ",
+          message:
+            "O novo robô não pôde ser criado. Não é permitido salvar uma novo robô com o ramal ou Senha inválida ou apenas com espaços em branco.",
+        };
+                  this.validateAndToast(toast);
+
       } else {
         let postBody = {};
-        postBody.id = this.id;
         postBody.name = this.name.trim();
-        postBody.login_crm = this.login_crm.trim();
+        postBody.login_crm = this.login_crm;
         postBody.queue_default = this.queue_default;
         postBody.type = "robot";
         postBody.company_id = 2;
@@ -217,61 +297,34 @@ export default {
         postBody.password = "null";
         postBody.confirmPassword = "null";
         postBody.flag = this.flag == true ? 1 : 0;
-        postBody.agent = this.agent;
+        postBody.agent = this.agent.trim();
         // for (let f in this.filas_finish) {
         //   this.queue_default.push(this.filas_finish[f]);
         // }
-        let validRobot = !(this.names.indexOf(this.name.trim()) > -1);
-        console.log(this.names.indexOf(this.name.trim()) > -1);
-        console.log(postBody);
-        if (validRobot) {
-          console.log("valido");
-          if (this.id) {
-            postBody.queue_default = this.queue_default.code;
-            console.log(postBody.queue_default);
-            this.putRobot(postBody);
-          } else {
-            this.queue_def.length == 0
-              ? (postBody.queue_default = 0)
-              : (postBody.queue_default = this.queue_def.code);
-            console.log(postBody.queue_default);
-            this.postNewRobot(postBody);
-          }
+        if (this.id) {
+          postBody.queue_default = this.queue_default.code;
+          console.log(postBody.queue_default);
+          this.putRobot(postBody);
+        } else {
+          this.queue_def.length == 0
+            ? (postBody.queue_default = 0)
+            : (postBody.queue_default = this.queue_def.code);
+          console.log(postBody.queue_default);
+          this.postNewRobot(postBody);
         }
       }
     },
   },
-  data() {
-    return {
-      dataOK: false,
-      names: [],
-      queue_default: [
-        {
-          name: this.$route.params.queue_default,
-          code: this.$route.params.queue_default,
-        },
-      ],
-      queue_def: [],
-      filas_finish: [],
-      queues: null,
-      flag: this.$route.params.flag,
-      id: this.$route.params.id,
-      name: this.$route.params.name,
-      login_crm: this.$route.params.login_crm,
-      agent: this.$route.params.agent,
-    };
-  },
   created() {
-    this.getRobots();
     this.getQueues();
   },
 };
 </script>
 <style scoped>
-#input-pic {
-  border-left: 1px solid rgb(0, 0, 0) !important;
+/*estilizações da foto
+.btn#butao {
+  padding: 2px 4px 0px 2px !important;
 }
-
 .btn-default {
   background-image: linear-gradient(to top, #ffffff, #ffffff);
 }
@@ -280,6 +333,7 @@ export default {
   overflow: hidden;
   margin: 0px;
   color: #333;
+  width: 35px; 
   background-color: #fff;
   border-color: #ccc;
 }
@@ -302,19 +356,11 @@ export default {
   background-color: #ffffff;
   opacity: 1;
 }
+#input-pic {
+  border-left: 1px solid rgb(0, 0, 0) !important;
+  border-color: rgb(0, 0, 0)!important; 
+}*/
 
-label#kkk {
-  padding-top: 2.7px;
-}
-
-.form-icon,
-.form-icon:hover {
-  width: 42px;
-}
-
-.centralize {
-  margin-left: 450px;
-}
 #multiselect-input {
   display: flex;
   width: 100%;
@@ -337,29 +383,11 @@ label#kkk {
   padding-left: 0%;
   padding-right: 0%;
 }
-.user-name-line2 {
-  align-items: center !important;
-  border-style: solid;
-  border-width: 1px;
-  height: 42px;
-  border-color: #d0cece;
-  padding-left: 0%;
-  padding-right: 0%;
-}
 #profile-name-input {
   margin-left: 5px;
   margin-right: 0px;
   border-left-color: black;
   border-radius: 0px;
-}
-#profile-name-input2 {
-  margin-left: 5px;
-  margin-right: 0px;
-  border-left-color: black;
-  border-radius: 0px;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
 }
 #multiselect-input {
   display: flex;
@@ -370,18 +398,6 @@ label#kkk {
 i.fal.fa-2x {
   width: 26px;
   height: 26px;
-}
-
-.bottom {
-  margin-top: 20px;
-}
-
-.panel-content {
-  overflow: auto;
-}
-
-.panel .panel-container .panel-content {
-  padding: 0;
 }
 
 .card-body {
