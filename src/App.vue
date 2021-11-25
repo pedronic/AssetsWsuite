@@ -27,6 +27,7 @@ import Header from "@/views/layout/Header.vue";
 import Sidebar from "@/views/layout/Sidebar.vue";
 import Footer from "@/views/layout/Footer.vue";
 import Content from "@/views/layout/Content.vue";
+import Loading from "@/components/Loading.vue"
 // import Login from "@/views/Login.vue";
 
 export default {
@@ -36,6 +37,7 @@ export default {
     Footer,
     Content,
     // Login,
+    Loading
   },
   data: function() {
 		return {

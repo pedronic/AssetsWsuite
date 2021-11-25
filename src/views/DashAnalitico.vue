@@ -5,18 +5,11 @@
             <div class="card">
                 <div class="card-body">
                     <form>
-                      <select class="form-control" id="example-select">
+                      <select class="form-control" id="example-select" v-model="selected">
                         
-                        <option>Acumulado do dia </option>           
-                        <option>Online</option>
-                        <option>5 minutos</option>
-                        <option>10 minutos</option>
-                        <option>15 minutos</option>
-                        <option>30 minutos</option>
-                        <option>1 Hora</option>
-                        <option>2 Horas</option>
-                        <option>4 Horas</option>
-                        <option>8 Horas</option>
+                        <option v-for="reportType in reportTypes" :key="reportType.codigo" :value="reportType.codigo" >{{reportType.valor}} </option>           
+                        
+                        
                       </select>
                     </form>
                 </div>
@@ -25,7 +18,7 @@
         <div class="panel ">
             <div class="panel-container show">
                 <div class="panel-content">
-                    <tabela-dashboard/>
+                    <tabela-dashboard :atualizar="selected"/>
                 </div>
             </div>
         </div>
@@ -33,6 +26,8 @@
 </template>
 
 <script>
+// import axios from "axios";
+// import {baseApiUrl} from "@/config/global";
 import TabelaDashboard from '../components/DataTables/TabelaDashboard.vue'
 import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
 export default {
@@ -41,6 +36,44 @@ export default {
     TabelaDashboard, 
     PagesSubHeader  
   },
+  data: function () {
+    return{
+      selected:'acumulado',
+      reportTypes:[
+        {codigo:"acumulado", valor:"Acumulado do dia"},
+        {codigo:"online", valor:"Online"}
+      ],
+      data: []
+    }
+  },
+  
+  computed: {
+      iniciando(){
+        return this.setdash()
+      }
+    //  return this.setdash()
+  },
+  methods:{
+    //   intervaloDados: function (){
+    //       setInterval(async () => {
+    //           const dados = await axios.get(`${baseApiUrl}/dashboardAnalytics`)
+    //           this.data = dados.data;
+    //       },60000);
+    //   },
+    //   dados: async function (){
+    //        const dados = await axios.get(`${baseApiUrl}/dashboardAnalytics`)
+    //         this.data = dados.data;
+    //   }
+    setdash(){
+      if(this.selected == 'online'){
+        console.log("selecionado ", this.selected)
+        this.$store.commit('setDashboard', true);
+      }else{
+        this.$store.commit('setDashboard', false);
+        console.log("selecionado ", this.selected)
+      }
+    }
+  }
 
 }
 </script>

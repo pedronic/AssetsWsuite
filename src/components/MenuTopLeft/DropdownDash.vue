@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown-menu dropdown-menu-animated dropdown-lg w-app-drop-dash">
+    <div class="dropdown-menu dropdown-menu-animated dropdown-lg w-app-drop-dash"  v-if="user.type === 'user'">
         <!-- <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
             <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                     <span class="mr-2">
@@ -16,13 +16,13 @@
         <div class="dropdown-divider m-0"></div>
         <div class="dropdown-item d-flex itens" >
             <router-link to="" class="mr-auto">
-            <i class="fal fa-eye"></i>
+            <i class="fal fa-eye iconDAM"></i>
             <span data-i18n="drpdwn.settings"> Painel de Supervisão</span>
             </router-link>
         </div>
         <div class="dropdown-item d-flex itens">
             <router-link to="/dash-analitico" class="mr-auto" >
-                    <i class="fal fa-list"></i>
+                    <i class="fal fa-list iconDAM"></i>
             <span data-i18n="drpdwn.settings"> Dashboard Analítico</span>
             </router-link>
         </div>
@@ -31,8 +31,19 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
+
 export default {
-    name: "DropdownDash"
+    name: "DropdownDash",
+     data(){
+        return{
+            userType:''
+        }
+    },
+    computed: mapState(['user']),
+    mounted(){
+        this.userType = this.user.types
+    }
 }
 </script>
 
@@ -42,5 +53,8 @@ export default {
  }
  .itens i{
      margin-right: 10px;
+ }
+ .iconDAM{
+     width: 20px;
  }
 </style>

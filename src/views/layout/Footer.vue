@@ -20,18 +20,13 @@
           </router-link>
         </li>
         <li class="pl-3">
-          <router-link to="/login" class="text-secondary fw-700">
-            Login
-          </router-link>
-        </li>
-        <li class="pl-3">
-          <a href="info_app_docs.html" class="text-secondary fw-700"
+          <a href="https://wtchnology.com.br/info_app_docs.html" class="text-secondary fw-700"
             >Documentation</a
           >
         </li>
         <li class="pl-3 fs-xl">
           <a
-            href="https://wrapbootstrap.com/user/MyOrange"
+            href="https://wtchnology.com.br"
             class="text-secondary"
             target="_blank"
             ><i class="fal fa-question-circle" aria-hidden="true"></i

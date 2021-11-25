@@ -16,15 +16,21 @@
         <div class="dropdown-divider m-0"></div>
         
         <div class="dropdown-item d-flex itens">
-            <router-link to="" class="mr-auto" >
-                <i class="fal fa-file-audio"></i>
+            <router-link to="/relatorios-gravacoes" class="mr-auto" >
+                <i class="fal fa-file-audio iconDAM"></i>
                 <span data-i18n="drpdwn.settings"> Relatório de Gravações</span>
             </router-link>
         </div>
-        <div class="dropdown-item d-flex itens" >
+        <div class="dropdown-item d-flex itens" v-if="user.type === 'user'" >
             <router-link to="/relatorios-faturamento" class="mr-auto">
-                <i class="fal fa-file-invoice-dollar"></i>
+                <i class="fal fa-file-invoice-dollar iconDAM"></i>
                 <span data-i18n="drpdwn.settings"> Relatório de Faturamento</span>
+            </router-link>
+        </div>
+        <div class="dropdown-item d-flex itens" v-if="user.type === 'user'">
+            <router-link to="/relatorios-chamadas" class="mr-auto" >
+                <i class="fal fa-file-spreadsheet iconDAM"></i>
+                <span data-i18n="drpdwn.settings"> Relatório de Chamadas</span>
             </router-link>
         </div>
         
@@ -35,8 +41,19 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 export default {
-    name:"DropdownRelatorios"
+    name:"DropdownRelatorios",
+    
+    data(){
+        return{
+            userType:''
+        }
+    },
+    computed: mapState(['user']),
+    mounted(){
+        this.userType = this.user.types
+    }
 }
 </script>
 
@@ -46,5 +63,8 @@ export default {
  }
  .itens i{
      margin-right: 10px;
+ }
+ .iconDAM{
+     width: 20px;
  }
 </style>

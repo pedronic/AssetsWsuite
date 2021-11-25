@@ -44,15 +44,163 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/RelatoriosFaturamento.vue')
   },
   {
+    path: '/relatorios-gravacoes',
+    name: 'RelatoriosGravacoes',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/RelatoriosGravacoes.vue')
+  },
+  {
     path: '/dash-analitico',
     name: 'DashAnalitico',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/DashAnalitico.vue')
+  },
+  {
+    path: '/relatorios-chamadas',
+    name: 'relatoriosChamadas',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/relatoriosChamadas.vue')
+  },
+  {
+    path: '/registro-agentes',
+    name: 'RegistroAgentes',
+    component: () => import( '../views/Cadastrar/RegistroAgentes.vue')
+  },
+  {
+    path: '/registro-operadoras',
+    name: 'RegistroOperadoras',
+    component: () => import( '../views/Cadastrar/RegistroOperadoras.vue')
+  },
+  {
+    path: '/registro-mailing',
+    name: 'RegistroMailing',
+    component: () => import( '../views/Cadastrar/RegistroMailing.vue')
+  },
+  {
+    path: '/registro-servidores',
+    name: 'RegistroServidores',
+    component: () => import( '../views/Cadastrar/RegistroServidores.vue')
+  },
+  {
+    path: '/lista-de-mailing',
+    name: 'ListaMailing',
+    component: () => import( '../views/Listas/ListaMailing.vue')
+  },
+  {
+    path: '/lista-de-servidores',
+    name: 'ListaServidores',
+    component: () => import( '../views/Listas/ListaServidores.vue')
+  },
+  {
+    path: '/lista-de-finalizacoes',
+    name: 'ListaFinalizacoes',
+    component: () => import( '../views/Listas/ListaFinalizacoes.vue')
+  },
+  {
+    path: '/lista-de-operadoras',
+    name: 'ListaOperadoras',
+    component: () => import( '../views/Listas/ListaOperadoras.vue')
+  },
+  {
+    path: '/lista-de-agentes',
+    name: 'ListaAgentes',
+    component: () => import( '../views/Listas/ListaAgentes.vue')
+  },
+  {
+    path:'/registro-usuarios',
+    name: 'RegistroUsuarios',
+    component: () => import('../views/Cadastrar/RegistroUsuarios.vue')
+  },
+  {
+    path: '/lista-de-robos',
+    name: 'ListaRobos',
+    component: () => import( '../views/Listas/ListaRobos.vue')
+  },
+  {
+    path:'/registro-robos',
+    name: 'RegistroRobos',
+    component: () => import('../views/Cadastrar/RegistroRobos.vue')
+  },
+  {
+    path: '/lista-de-scripts',
+    name: 'ListaScripts',
+    component: () => import( '../views/Listas/ListaScripts.vue')
+  },
+  {
+    path:'/registro-scripts',
+    name: 'RegistroScripts',
+    component: () => import('../views/Cadastrar/RegistroScripts.vue')
+  },
+  {
+    path:'/registro-finalizacoes',
+    name: 'RegistroFinalizacoes',
+    component: () => import('../views/Cadastrar/RegistroFinalizacoes.vue')
+  },
+  {
+    path:'/usuarios',
+    name: 'ListaUsuarios',
+    component: () => import('../views/Usuarios/ListaUsuarios.vue')
+  },
+  {
+    path: '/dash-analitico',
+    name: 'DashAnalitico',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/DashAnalitico.vue')
+  },
+  {
+    path: '/blacklist',
+    name: 'Blacklist',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Listas/Blacklist.vue')
+  },
+  {
+    path: '/registro-blacklist',
+    name: 'RegistroBlacklist',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Cadastrar/RegistroBlacklist.vue')
+  },
+  {
+    path: '/perfil-usuario',
+    name: 'Perfil',
+    props: true,
+    component: () => import('../views/PerfilDeUsuario/Perfil.vue')
+  },
+  {
+    path: '/lista-de-perfil',
+    name: 'PerfilLista',
+    // replace: true,
+    component: () => import('../views/PerfilDeUsuario/PerfilLista.vue')
+  },
+  {
+    path: '/pausas',
+    name: 'Pausas',
+    // replace: true,
+    component: () => import('../views/Pausas/Pausas.vue')
+  },
+  {
+    path: '/grupo-de-pausas',
+    name: 'PausasGrupo',
+    component: () => import('../views/Pausas/PausasGrupo.vue')
+  },
+  {
+    path: '/cadastrar-filas',
+    name: 'FilasCadastro',
+    component: () => import('../views/Filas/FilasCadastro.vue')
   }
-]
 
+]
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

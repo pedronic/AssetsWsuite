@@ -20,23 +20,7 @@
                                         <i class="fal fa-rabbit-fast"></i>
                                         <span data-i18n="drpdwn.settings"> Em Construção</span>
                                     </a>
-                                    <a href="#" class="dropdown-item w-app-edit-fast" data-action="app-reset">
-                                        <i class="fal fa-rabbit-fast"></i>
-                                        <span data-i18n="drpdwn.settings"> Em Construção</span>
-                                    </a>
-                                    <a href="#" class="dropdown-item w-app-edit-fast" data-action="app-reset">
-                                        <i class="fal fa-rabbit-fast"></i>
-                                        <span data-i18n="drpdwn.settings"> Em Construção</span>
-                                    </a>
-                                    <a href="#" class="dropdown-item w-app-edit-fast" data-action="app-reset">
-                                        <i class="fal fa-rabbit-fast"></i>
-                                        <span data-i18n="drpdwn.settings"> Em Construção</span>
-                                    </a>
-                                    <a href="#" class="dropdown-item w-app-edit-fast" data-action="app-reset">
-                                        <i class="fal fa-rabbit-fast"></i>
-                                        <span data-i18n="drpdwn.settings"> Em Construção</span>
-                                    </a>
-                                    
+                                                                        
                                 </div>
 </template>
 
