@@ -1,23 +1,23 @@
 <template>
-  <div id="app" class="page-wrapper" :class="{ 'auth': !user }" >
+  <b-container responsive fluid id="app" :class="{ 'auth': !user }" style="padding: 0 0px 0 10px;">
     <div class="page-inner" :class="{'bg-brand-gradient' : !user}" >
-      <Sidebar />
+      <Sidebar v-if="user" />
       <div class="page-content-wrapper" :class="{'bg-transparent m-0': !user}">
-        <Header/>
-        <!-- <Loading v-if="validatingToken" /> -->
+        <Header v-if="user" />
+        <Loading v-if="validatingToken" />
         <!-- <div id="nav">
           <router-link to="/">Home</router-link> |
           <router-link to="/about">About</router-link>
         </div> 
         <router-view /> -->
-        <Content />
-        <Footer />
+        <Content v-else />
+        <Footer v-if="user"  />
       </div>
     </div>
     <!-- <div class="page-inner bg-brand-gradient" v-else>
+      <login />
     </div> -->
-      <!-- <login /> -->
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -125,4 +125,4 @@ export default {
 // responsividade
 // validacao fields
 </style>
-/* Não era para filas de agentes aceitarem um corpo vazio?
+//  Não era para filas de agentes aceitarem um corpo vazio?

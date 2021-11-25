@@ -15,8 +15,8 @@ import "@/plugins/vueMultiselect.js"
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import VeeValidate from 'vee-validate';
-import msg from './pt_BR';
+// import VeeValidate from 'vee-validate';
+// import msg from './pt_BR';
 
 
 Vue.config.productionTip = false
@@ -27,7 +27,7 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
-Vue.use(VeeValidate, {
+/* Vue.use(VeeValidate, {
 
   locale: 'pt_BR',
   dictionary: {
@@ -35,4 +35,4 @@ Vue.use(VeeValidate, {
       messages: msg
     }
   }
-});
+}); */

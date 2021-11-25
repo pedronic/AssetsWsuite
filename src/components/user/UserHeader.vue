@@ -1,7 +1,7 @@
 <template>
     <div>
         <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2">
-            <img src="img/demo/avatars/avatar-admin.png" class="profile-image rounded-circle" alt="Dr. Codex Lantern">
+            <b-img :src="avatar" class="profile-image rounded-circle" fluid alt="Cool Aid"/>
             <!-- you can also add username next to the avatar with the codes below:
             <span class="ml-1 mr-1 text-truncate text-truncate-header hidden-xs-down">Me</span>
             <i class="ni ni-chevron-down hidden-xs-down"></i> -->
@@ -10,7 +10,7 @@
             <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
                 <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
                     <span class="mr-2">
-                        <img src="img/demo/avatars/avatar-admin.png" class="rounded-circle profile-image" alt="Dr. Codex Lantern">
+                        <b-img :src="avatar" class="rounded-circle profile-image" fluid alt="Dr. Codex Lantern"/>
                     </span>
                     <div class="info-card-text">
                         <div class="fs-lg text-truncate text-truncate-lg"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dr. Codex Lantern</font></font></div>
@@ -59,9 +59,15 @@
 <script>
 import {userKey} from "../../config/global";
 import {mapState} from "vuex";
+import avatar from "../../assets/img/147144.png";
 export default {
     name: "UserHeader",
     computed: mapState(["user"]),
+    data(){
+        return{
+            avatar: avatar,
+        }
+    },
     methods:{
         logout(){
             localStorage.removeItem(userKey);
@@ -72,7 +78,7 @@ export default {
             this.$store.commit('setUser', null);
             this.$store.commit('setAccessPages', false);
             this.$router.push({name: 'Login'});
-        }
+        },
 
     }
 

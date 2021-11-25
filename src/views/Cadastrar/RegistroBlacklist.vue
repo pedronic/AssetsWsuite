@@ -1,8 +1,10 @@
 <template>
   <div class="relatorios">
     <PagesSubHeader icon="fal fa-align-slash" titulo="Cadastro Blacklist">
-      <div class="cart">
-        <div class="cart-body" />
+      <div class="card">
+        <div class="card-body d-flex">
+          <div class="d-flex" id="filtro-grupo-pausa"> </div>
+        </div>
       </div>
     </PagesSubHeader>
   

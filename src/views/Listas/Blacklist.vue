@@ -3,7 +3,7 @@
     <PagesSubHeader icon="fal fa-list" titulo="Blacklist">
       <div class="card">
         <div class="card-body d-flex">
-          <div class="d-flex" id="status-filter"></div>
+          <div class="d-flex" id="filtro-grupo-pausa"> </div>
         </div>
       </div>
     </PagesSubHeader>
@@ -335,12 +335,12 @@ export default {
 </script>
 
 <style scoped>
-.panel-content {
+/* .panel-content {
   overflow: auto;
 }
 .panel .panel-container .panel-content {
   padding: 0;
-}
+} */
 
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;

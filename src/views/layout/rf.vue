@@ -57,9 +57,9 @@
 
 <script>
 
-import DataTable from "@andresouzaabreu/vue-data-table";
+// import DataTable from "@andresouzaabreu/vue-data-table";
 import "@andresouzaabreu/vue-data-table/dist/DataTable.css";
-Vue.component("tabela", DataTable);
+// Vue.component("tabela", DataTable);
 export default {
     
 

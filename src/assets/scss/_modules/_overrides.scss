@@ -102,3 +102,16 @@ label[for="status-button"]{
 // div.multiple-true > div.multiselect > div.multiselect__tags {
 //   max-height: 500px !important;
 // }
+
+main.page-content{
+  padding: 15px 0 0 10px !important;
+}
+
+div#app.auth > div > div > main.page-content{
+  padding: 0px 0 0 10px !important;
+}
+
+div#app.container-fluid.auth{
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
