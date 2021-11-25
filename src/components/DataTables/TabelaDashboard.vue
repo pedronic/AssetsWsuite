@@ -7,439 +7,226 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import axios from "axios";
+import {baseApiUrl, showError} from "@/config/global";
 export default {
-    name: "TableDashboard",
+    name: "TabelaDashboard",
+    props:{
+      atualizar:{
+        type: String,
+        default: ""
+      }
+    },
     data(){
-        return{
-            fields: [
+      return{
+        fields: [
           {
-            key: 'ID',
+            key: 'id',
             label: 'ID',
             sortable: true
           },
           {
-            key: 'Campanha',
+            key: 'queue_name',
             label: 'Campanha',
             sortable: true
           },
           {
-            key: 'Agentes',
+            key: 'agent',
             label: 'Agentes',
             sortable: true
           },
           {
-            key: 'Falando',
+            key: 'agent_incoming',
             label: 'Falando',
             sortable: true
           },
           {
-            key: 'TME',
+            key: 'tme',
             label: 'TME',
             sortable: true
           },
           {
-            key: 'TMA',
+            key: 'tma',
             label: 'TMA',
             sortable: true
           },
           {
-            key: 'p_Ocupação_Canais',
+            key: 'channel_use_percent',
             label: '% Ocupação Canais',
             sortable: true
           },
           {
-            key: 'p_Ocupação_Agentes',
+            key: 'agents_incoming_percent',
             label: '% Ocupação Agentes',
             sortable: true
           },
           {
-            key: 'Mailing_Importado',
+            key: 'mailing_import',
             label: 'Mailing Importado',
             sortable: true
           },
           {
-            key: 'Mailing_Trabalhado',
+            key: 'mailing_processed',
             label: 'Mailing Trabalhado',
             sortable: true
           },
           {
-            key: 'p_Penetração',
+            key: 'penetration',
             label: '% Penetração',
             sortable: true
           },
           {
-            key: 'Spin',
+            key: 'spin',
             label: 'Spin',
             sortable: true
           },
           {
-            key: 'Tempo_Total_Logado',
+            key: 'time_all_logged',
             label: 'Tempo Total Logado',
             sortable: true
           },
           {
-            key: 'Tempo_Total_Falado',
+            key: 'time_all_spoken',
             label: 'Tempo Total Falado',
             sortable: true
           },
           {
-            key: 'Tempo_Total_Ocioso',
+            key: 'time_all_free',
             label: 'Tempo Total Ocioso',
             sortable: true
           },
           {
-            key: 'Chamadas',
+            key: 'dial',
             label: 'Chamadas',
             sortable: true
           },
           {
-            key: 'Atendidas',
+            key: 'anwsered',
             label: 'Atendidas',
             sortable: true
           },
           {
-            key: 'p_CPC',
+            key: 'cpc_percent',
             label: '% CPC',
             sortable: true
           },
           {
-            key: 'p_CPCA',
+            key: 'cpca_percent',
             label: '% CPCA',
             sortable: true
           },
           {
-            key: 'p_Alega_Pagamento',
+            key: 'claim_percent',
             label: '% Alega Pagamento',
             sortable: true
           },
           {
-            key: 'p_Promessa',
+            key: 'promise_percent',
             label: '% Promessa',
             sortable: true
           },
           {
-            key: 'CPC',
+            key: 'cpc',
             label: 'CPC',
             sortable: true
           },
           {
-            key: 'CPCA',
+            key: 'cpca',
             label: 'CPCA',
             sortable: true
           },
           {
-            key: 'Alega_Pagamento',
+            key: 'claim_payment',
             label: 'Alega Pagamento',
             sortable: true
           },
           {
-            key: 'Promessa',
+            key: 'promise',
             label: 'Promessa',
             sortable: true
           },
-          {
-            key: 'Valor_Promessa',
-            label: 'Valor Promessa',
-            sortable: true
-          },
+         
         ],
-        items: [
-          { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-        { 
-              isActive: true, 
-              ID: '2078',
-              Campanha: 'PRE_CHURN_MOVEL_M1_PJ_D',
-              Agentes: '12',
-              Falando: '9',
-              TME: '00:00:01',
-              TMA: '00:00:23',
-              p_Ocupação_Canais: '94%',
-              p_Ocupação_Agentes: '75%',
-              Mailing_Importado: '48391',
-              Mailing_Trabalhado: '64912',
-              p_Penetração: '46%',
-              Spin: '0,37',
-              Tempo_Total_Logado: '127:01:00',
-              Tempo_Total_Falado: '122:19:15',
-              Tempo_Total_Ocioso: '04:41:45',
-              Chamadas: '70037',
-              Atendidas: '27661',
-              p_CPC: '2%',
-              p_CPCA: '2%',
-              p_Alega_Pagamento: '3%',
-              p_Promessa: '56%',
-              CPC: '753',
-              CPCA: '728',
-              Alega_Pagamento: '25',
-              Promessa: '374',
-              Valor_Promessa: '37049',
-        },
-
-        ]
+        items: [],
+        //loadPage: '',
+        intervalo: ''
+      }
+    },
+    methods:{
+      getDadosDash(){
+        
+         
+            axios.get(`${baseApiUrl}/dashboardAnalytics?userid=${this.user.id}`)
+            .then(rt => this.items = rt.data.data).catch(showError)
+            console.log ('reload acumulado', this.user)
+            this.getDadosInterval('pausa')
+          
+         
+       
+      },
+      getDadosInterval(pausa){
+        
+        if(!pausa){
+           setInterval(function() {
+            axios.get(`${baseApiUrl}/dashboardAnalytics?userid=${this.user.id}`)
+            .then(rt => this.items = rt.data.data).catch(showError)
+            console.log('intervalo' )
+            
+          }, 15000);
+        }else{
+          clearInterval(this.intervalo)
+          clearInterval(this.intervalo)
+          console.log(" limpo")
         }
-    }
-
+      },
+      
+    },
+    // updated(){
+    //   if(this.loadPage == 'online'){
+    //     this.getDadosInterval()
+    //   }
+    // },
+    computed:mapState(['user']),
+       
+    
+    mounted(){
+        if(this.atualizar ==='acumulado'){
+          this.getDadosDash()
+          this. getDadosInterval('pausa')
+        }
+      console.log("mounted",this.atualizar)
+      this.loadPage = this.atualizar
+    },
+    watch:{
+      loadPage(newValue){
+        let pausa = 0
+        let interval =''
+        if(newValue == "acumulado" && pausa == 1){
+          console.log('wath: ',newValue)
+          this.getDadosDash()
+          this. getDadosInterval('pausa')
+          clearInterval(interval)
+          clearInterval(interval)
+          console.log(" limpo")
+        }
+        if(newValue == "online"){
+           console.log('wath: ',newValue)
+           interval = setInterval(function(){
+             this.getDadosDash()
+             console.log('intervalo' )
+           }, 15000)
+           
+           
+        }
+      },
+      
+      
+    },
+    
+   
 }
+
 </script>
 
 <style>

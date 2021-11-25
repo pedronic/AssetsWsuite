@@ -155,7 +155,6 @@ export default {
 </script>
 
 <style scoped>
-
 .panel-content {
   overflow: auto;
 }

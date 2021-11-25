@@ -191,8 +191,8 @@ const routes = [
     props: true,
     component: () => import('../views/Filas/FilasCadastro.vue')
   }
-]
 
+]
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

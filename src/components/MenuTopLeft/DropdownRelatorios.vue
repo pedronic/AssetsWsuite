@@ -27,6 +27,12 @@
                 <span data-i18n="drpdwn.settings"> Relatório de Faturamento</span>
             </router-link>
         </div>
+        <div class="dropdown-item d-flex itens" v-if="user.type === 'user'">
+            <router-link to="/relatorios-chamadas" class="mr-auto" >
+                <i class="fal fa-file-spreadsheet iconDAM"></i>
+                <span data-i18n="drpdwn.settings"> Relatório de Chamadas</span>
+            </router-link>
+        </div>
         
         
         

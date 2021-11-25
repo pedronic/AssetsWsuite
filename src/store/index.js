@@ -8,6 +8,8 @@ export default new Vuex.Store({
   state: {
     user: false,
     login: false,
+    // user: null,
+    dashboard: false
   },
   mutations: {
     setUser(state, user) {
@@ -22,7 +24,19 @@ export default new Vuex.Store({
     },
     setAccessPages(state, login){
       state.login = login;
-    }
+    },
+    setDashboard(state, dashboard) {
+        
+      if(dashboard === undefined){
+        state.dashboard = !state.dashboard
+      }else{
+        state.dashboard = dashboard
+      }
+        
+       
+      console.log('stado do dash',state.dashboard)
+    },
+   
   },
   actions: {
   },

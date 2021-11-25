@@ -112,7 +112,6 @@ export default {
 </script>
 
 <style scoped>
-
 .dow-color2 {
   background-color: rgb(13, 109, 157) !important;
 }

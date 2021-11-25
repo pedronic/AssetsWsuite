@@ -1,5 +1,5 @@
 <template>
-  <div class="relatorios-faturamento">
+<div class="relatorios-chamadas">
    
       <!-- <pages-sub-header titulo="Relatório de Faturamento" icon="fal fa-file-invoice-dollar" :msgSmall="msg">
          
@@ -42,10 +42,10 @@
                 </div> -->
             <!-- </div> -->
         <!-- </form>
-                
+                <i class="fal fa-file-spreadsheet"></i>
       </pages-sub-header> -->
-      <sub-header-commun titulo="Relatório de Faturamento" icon="fal fa-file-invoice-dollar" :msgSmall="msg" class="reportBilling">
-        <form class="container">
+      <sub-header-commun titulo="Relatório de Chamadas" icon="fal fa-file-spreadsheet" :msgSmall="msg" class="reportBilling">
+        <form class="container-fluid">
             <div class="form-group ">
                 <div class="row">
                     <div class="col-3 col-inputs">
@@ -63,23 +63,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 col-inputs">
-                        <input class="form-control" id="example-date" type="date" name="date" v-model="dtinicio"  value="dtinicio" :max="dtinitModel" :maxlength="dtinitModel" >
+                     <div class="col-2 col-inputs">
+                        <input class="form-control" id="example-date" type="text" name="doc" v-model="document" :max="dtinitModel" :maxlength="dtinitModel" placeholder="CPF/CNPJ" >
                     </div>
-                    <div class="col-4 col-inputs">
-                        <input class="form-control" id="example-date" type="date" name="date" v-model="dtfim" value="dtfim" :max="dtendModel" :maxlength="dtendModel" >
+                    <div class="col-3 col-inputs">
+                        <input class="form-control" id="example-date" type="date" name="date-in" v-model="dtinicio"  value="dtinicio" :max="dtinitModel" :maxlength="dtinitModel" >
+                    </div>
+                    <div class="col-3 col-inputs">
+                        <input class="form-control" id="example-date" type="date" name="date-out" v-model="dtfim" value="dtfim" :max="dtendModel" :maxlength="dtendModel" >
                     </div>
                     <div class="col-1 col-botoes searchtReportBilling d-flex">
-                        <button class="btn btn-sm btn-info waves-effect waves-themed d-flex align-items-center " @click.prevent="getDados" ><i class="fal fa-search"></i></button>
-                         <button-export class="btn btn-sm btn-success waves-effect waves-themed dow-color d-flex align-items-center" 
+                        <button class="btn btn-sm btn-info waves-effect waves-themed d-flex align-items-center" @click.prevent="getDados" ><i class="fal fa-search"></i></button>
+                        <button-export class="btn btn-sm btn-success waves-effect waves-themed dow-color d-flex align-items-center" 
                         :fields="json_fields"
                         :data="dataForExcel"
-                        worksheet="W Suite Report Billing"
+                        worksheet="W Suite Rec Report"
                         type="xls"
-                        name="Wsuite-ReportBilling.xls"><i class="fal fa-file-download"></i></button-export>
+                        name="Wsuite-RecReport.xls"><i class="fal fa-file-download"></i></button-export>
                         
                     </div>
-                    
+                    <!-- <div class="col-1 col-botoes exportReportBilling">
+                        
+                        
+                    </div> -->
                 </div>
             </div>
          </form>
@@ -87,7 +93,12 @@
       <div class="panel ">
           <div class="panel-container show">
               <div class="panel-content">
-                <b-table striped hover :items="items" :fields="fields" class="table-sm" id="tabela" :no-sort-reset="true" :sort-compare-options="{ numeric: true, sensitivity: 'base' }"></b-table>
+                <b-table striped hover :items="items" :fields="fields" class="table-sm" id="tabela" :no-sort-reset="true" :sort-compare-options="{ numeric: true, sensitivity: 'base' }">
+                     <template #cell(call_rec)="data">
+                       <audio controls preload="metadata"><source :src="data.value" type="audio/x-wav"></audio>
+                       
+                    </template>
+                </b-table>
                 
               </div>
               <div class="panel-footer ml-3 mt-3">
@@ -96,6 +107,7 @@
           </div>
       </div>
   </div>
+  
 </template>
 
 <script>
@@ -106,201 +118,128 @@ import {baseApiUrl, showError} from "@/config/global";
 //import PagesSubHeader from '../components/subheader/PagesSubHeader.vue'
 //import subHeaderCommun from '../components/subheader/PagesSubHeader.vue'
 import SubHeaderCommun from '../components/subheader/subHeaderCommun.vue';
-//import app from '@/assets/js/app';
+import app from '@/assets/js/app';
 export default {
+    name: "RelatoriosGravacoes",
     components: { 
       //PagesSubHeader, 
       //TabelaRelatorioFaturamento
       // subHeaderCommun,
         SubHeaderCommun
     },
-    name:"RelatoriosFaturamento",
-    
      data() {
       return {
         // Note 'isActive' is left out and will not appear in the rendered table
-        fields: [
-          {
-            key: 'agent_id',
-            label: 'Agentes',
-            sortable: true
-          },
-           {
-            key: 'agent_name',
-            label: 'Nome',
-            sortable: true
-          },
-           {
-            key: 'login_date',
-            label: 'Data_Login',
-            sortable: true, 
-            formatter: value=> this.dateFormatter(value)
-          },
-           {
-            key: 'login_hour',
-            label: 'Hora Login',
-            sortable: true
-          },
-           {
-            key: 'logout_date',
-            label: 'Data_Logoff',
-            sortable: true,
-            formatter: value=> this.dateFormatter(value)
-          },
-           {
-            key: 'logout_hour',
-            label: 'Hora Logoff',
-            sortable: true
-          },
-           {
-            key: 'logged_time_total',
-            label: 'Tempo Total Logado',
-            sortable: true
-          },
-           {
-            key: 'unlogged_time_total',
-            label: 'Tempo Total Deslogado',
-            sortable: true
-          },
-           {
-            key: 'adherence',
-            label: '% Aderência',
-            sortable: true, 
-            formatter: value=> this.aderencia(value)
-          },
-           {
-            key: 'break_official',
-            label: 'Pausas Oficiais',
-            sortable: true
-          },
-           {
-            key: 'break_exceeded',
-            label: 'Pausas Excedido',
-            sortable: true
-          },
-           {
-            key: 'break_productive',
-            label: 'Pausas Produtivas',
-            sortable: true
-          },
-           {
-            key: 'break_others',
-            label: 'Outras Pausas',
-            sortable: true
-          },
-           {
-            key: 'break_total',
-            label: 'Tempo Total Pausas',
-            sortable: true
-          },
-          {
-            key: 'queue_number',
-            label: 'Filas',
-            sortable: true
-          },
-          {
-            key: 'operation_time',
-            label: 'Tempo em Operação',
-            sortable: true
-          },
-          {
-            key: 'available_time',
-            label: 'Tempo Total Disponível',
-            sortable: true
-          },
-          {
-            key: 'tme',
-            label: 'TME',
-            sortable: true
-          },
-          {
-            key: 'attendance_time',
-            label: 'Tempo em Atendimento',
-            sortable: true
-          },
-          {
-            key: 'tma',
-            label: 'TMA',
-            sortable: true
-          },
-          {
-            key: 'outgoing_qty',
-            label: 'Entrantes',
-            sortable: true
-          },
-          {
-            key: 'outgoing_time',
-            label: 'Tempo Entrantes',
-            sortable: true
-          },
-          {
-            key: 'incoming_qty',
-            label: 'Saintes',
-            sortable: true
-          },
-          {
-            key: 'incoming_time',
-            label: 'Tempo Falado',
-            sortable: true
-          },
-          {
-            key: 'pos_attendance_time',
-            label: 'Tempo Pós-Atendimento',
-            sortable: false
-          },
-          
-          {
-            key: 'nickname_revenues',
-            label: 'Campanha',
-            sortable: true,
-            // Variant applies to the whole column, including the header and footer
-            //variant: 'danger'
-          }
+        fields: [{
+                key: 'client_id',
+                label: 'ID do Cliente',
+                sortable: true
+            },
+            {
+                key: 'calldate',
+                label: 'Data',
+                sortable: true,
+                formatter: value=> this.dateFormatter(value)
+            },
+            {
+                key: 'time',
+                label: 'Hora',
+                sortable: true,
+                formatter: value=> app.TimeFormatter(value)
+            },
+            {
+                key: 'client_name',
+                label: 'Nome',
+                sortable: true
+            },
+            {
+                key: 'client_doc',
+                label: 'Documento',
+                sortable: true, 
+                
+            },
+            {
+                key: 'queue_name',
+                label: 'Fila',
+                sortable: true
+            },
+             {
+                key: 'mailing_name',
+                label: 'Mainling',
+                sortable: true
+            },
+            {
+                key: 'cdr_disposition',
+                label: 'status Chamada',
+                sortable: true,
+            },
+                
+            {
+                key: 'phone_ddd',
+                label: 'ddd',
+                sortable: true
+            },
+            {
+                key: 'phone_number',
+                label: 'Telefone',
+                sortable: true
+            },
+             {
+                key: 'route_name',
+                label: 'Rota',
+                sortable: true
+            },
+            {
+                key: 'operator_name',
+                label: 'Operadora',
+                sortable: true
+            },
+            {
+                key: 'isdn',
+                label: 'isdn',
+                sortable: true
+            },
+            // {
+            //     key: 'cdr_duration',
+            //     label: 'duração',
+            //     sortable: true
+            // },
+             {
+                key: 'status',
+                label: 'Status transfer',
+                sortable: true
+            },
+            
+           
         ],
         json_fields:{
-          Agente:'agent_id',
-          Nome:'agent_name',
-          Data_Login:{
-            field:'login_date',
+          ID:'client_id',
+          data:{
+            field:'calldate',
             callback: (value) => {
               return this.dateFormatter(value);
             },
           },
-          Hr_Login:'login_hour',
-          Data_Logoff:{
-            field:'logout_date',
+          Hora:{
+            field:'time',
             callback: (value) => {
-              return this.dateFormatter(value);
+              return app.TimeFormatter(value);
             },
           },
-          Hr_Logoff:'logout_hour',
-          Tempo_Total_Logado:'logged_time_total',
-          Tempo_Total_Deslogado:'unlogged_time_total',
-          Pc_Aderencia:{
-            field:'adherence',
+          Nome:'client_name',
+          Documento:'client_doc',
+          Fila:'queue_name',
+          status_chamada:'cdr_disposition',
+          ddd:'phone_ddd',
+          telefone:'phone_number',
+          rec:{
+            field:'call_rec',
             callback: (value) => {
-              return this.aderencia(value);
-            }
+              return this.audio(value);
             },
-          Pausas_Oficiais_Tempo:'break_official',
-          Pausas_Oficiais_Excedido:'break_exceeded',
-          Pausa_Produtiva:'break_productive',
-          Outras_Pausas:'break_others',
-          Tempo_Total_Pausa:'break_total',
-          Filas:'queue_number',
-          Temp_Em_Operacao:'operation_time',
-          Tempo_Total_Disponível:'available_time',
-          tme:'tme',
-          Tempo_Em_Atendimento:'attendance_time',
-          tma:'tma',
-          Entrantes_Qtd:'outgoing_qty',
-          Entrantes_Tempo:'outgoing_time',
-          Saintes_Qtd:'incoming_qty',
-          Saintes_Tempo:'attendance_time',
-          Tempo_Aftercal:'pos_attendance_time',
-          Carteira:'queue_name'
+          }
 
-        },
+      },
         items: [
         //  {
         //     id: 179,
@@ -414,21 +353,24 @@ export default {
           },
         ],
         dtinitModel: new Date(),
-        dtendModel:new Date()
+        dtendModel:new Date(),
+        document:''
       }
     },
     methods:{
       getDados(){
         let msg = this.queueSelect.toString();
-        let dtinicio = this. dateFormatter(this.dtinicio +'T00:00:01');
-        let dtfim = this. dateFormatter(this.dtfim +'T00:00:01');
+        let dtinicio = this.dateFormatter(this.dtinicio +'T00:00:01');
+        let dtfim = this.dateFormatter(this.dtfim +'T23:00:01');
         if(this.queueSelect.length > 0){
           this.msg = `Filas selecionadas ${msg} data inico selecionada: ${dtinicio} data fim selecionada: ${dtfim}`;
-          let queues = `&queueSelect=${this.queueSelect}`
-          let urlString = `${baseApiUrl}/reportBilling?page=${this.page}&dtinicio=${this.dtinicio}&dtfim=${this.dtfim}&userid=${this.user.id}${queues}` 
+          let queues = `&queueSelect=${this.queueSelect}`;
+          let doc = this.document != '' ? `&doc=${this.document}`: '';
+          let urlString = `${baseApiUrl}/reportCalls?page=${this.page}&dtinicio=${this.dtinicio}&dtfim=${this.dtfim}&userid=${this.user.id}${queues}${doc}` 
         axios.get(urlString)
           .then(rt => {
-              this.montarItens(rt.data.data);
+              this.items = rt.data.data;
+              this.dataForExcel = rt.data.data;
               this.count = rt.data.count;
               this.limit = rt.data.limit;
               
@@ -441,6 +383,9 @@ export default {
         }
         
           
+      },
+      audio(purl){
+          return `http://172.22.4.48/audios/${purl}`
       },
       dateFormatter(params){
         const dt = new Date(params);
@@ -457,9 +402,9 @@ export default {
 
         return rt
       },
-      yesterday(){
+      today(){
         const dt = new Date();
-        let dia = dt.getDate(dt.setDate(dt.getDate() - 1)).toString();
+        let dia = dt.getDate().toString();
         let mes = (dt.getMonth()+1).toString() //+1 pois no getMonth Janeiro começa com zero.
         
         let diaF = (dia.length == 1) ? '0'+dia : dia;
@@ -468,8 +413,7 @@ export default {
         let anoF = dt.getFullYear();
 
         const rt =  `${anoF}-${mesF}-${diaF}`;
-        // console.log(dia.length);
-        // console.log(rt)
+        //console.log(rt)
 
         return rt
       },
@@ -482,16 +426,19 @@ export default {
         }
 
       },
+    
+
       loadDados(){
-          
-        let urlString = `${baseApiUrl}/reportBilling?page=${this.page}&dtinicio=${this.dtinicio}&dtfim=${this.dtfim}&userid=${this.user.id}` 
-        axios.get(urlString)
+        
+        let urlString = `${baseApiUrl}/reportCalls?page=${this.page}&dtinicio=${this.dtinicio}&dtfim=${this.dtfim}&userid=${this.user.id}` 
+         axios.get(urlString)
           .then(rt =>{ 
-            this.montarItens(rt.data.data);            
+            this.items = rt.data.data
+            this.dataForExcel = rt.data.data;
             this.count = rt.data.count;
             this.limit = rt.data.limit;
             }).catch(showError)
-            // console.log ('load dados' , urlString)
+            console.log ('load dados' , urlString)
         
       },
       loadsQueues(){
@@ -500,83 +447,32 @@ export default {
           .then(rt => {
             this.queues = rt.data
             }).catch(showError)
-            //console.log ('GET dados queues' )
+            console.log ('GET dados queues' )
            
-      }, 
-      montarItens(itens){
-          let it = itens;
-          for(let i = 0; i < it.length; i++){
-            if(typeof it[i].available_time != "undefined"){
-              // let ttl = app.TimeInt(it[i].operation_time)
-              // let ttd = app.TimeInt(it[i].attendance_time)
-              // console.log('time ttl: ', ttl)
-              //let tta = ttl - ttd;
-              it[i].available_time = this.TimeDiff(it[i].operation_time, it[i].attendance_time);
-              it[i].adherence = this.calcAder(it[i].available_time, it[i].attendance_time, it[i].break_total, it[i].operation_time)
-              //console.log('diferença entre datas times: ',tta)
-              //console.log(it[i].available_time);
-            }
-          }
-          this.items = it;
-          this.dataForExcel = it;
-      },
-      TimeDiff(timein, timeout){
-          // let init = timein.split(':')
-          // let out = timeout.split(':')
-          // return `${init[0] - out[0]}:${init[1] - out[1]}:${init[2] - out[2]}`
-
-          let ms = this.$moment(timein,"HH:mm:ss").diff( this.$moment(timeout,"HH:mm:ss"));
-          let d =  this.$moment.duration(ms);
-          let s = Math.floor(d.asHours()) +  this.$moment.utc(ms).format(":mm:ss");
-
-          console.log('time moment: ', d);
-          return s;
-      },
-      calcAder(timein, timeout,braak, total){
-        let tini = this.$moment(timein,"HH:mm:ss").second() ;
-        let tout = this.$moment(timeout,"HH:mm:ss").second();
-        let b = this.$moment(braak,"HH:mm:ss").second();
-        let t = this.$moment(total,"HH:mm:ss").second();
-        let rt = ((tini + tout + b) / t) * 100;
-        
-
-        console.log('time moment: ', rt);
-        return rt;
       }
     },
     mounted(){
-      this.dtfim= this.yesterday();
-      this.dtinicio= this.yesterday();
+      this.dtfim= this.today();
+      this.dtinicio= this.today();
       this.loadDados();
       this.loadsQueues();
       
-      this.dtinitModel = this.yesterday();
-      this.dtendModel = this.yesterday();
+      this.dtinitModel = this.today();
+      this.dtendModel = this.today();
       // console.log (this.yesterday());
     },
      watch: {
         page() {
             this.loadDados()
             console.log(this.page);
-        },
-        // item(){
-        //   let it = this.items;
-        //   for(let i = 0; i < it.length; i++){
-        //     if(typeof it[i].available_time != "undefined"){
-        //       let ttl = app.TimeInt(it[i].logged_time_total)
-        //       let ttd = app.TimeInt(it[i].incoming_time)
-        //       let tta = ttl - ttd;
-        //       this.items[i].available_time = app.TimeFormatter(tta);
-        //       console.log(this.items[i].available_time);
-        //     }
-        //   }
-        // }
+        }
     },
     computed: mapState(["user"]),
+
 }
 </script>
 
-<style >
+<style>
 .reportBilling{
   padding-bottom: 10px;
 }
@@ -640,7 +536,7 @@ export default {
     border-color: #3787ff;
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 15%), 0 1px 1px rgb(0 0 0 / 8%);
     }
-    @media (min-width: 1390px){
+    @media (min-width: 1250px){
       .reportBilling form{
         padding-left: 220px;
       }

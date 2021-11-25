@@ -242,7 +242,6 @@ input {
   padding-left: 0%;
   padding-right: 0%;
 }
-
 .user-name-line2 {
   align-items: center !important;
   border-style: solid;
@@ -254,14 +253,12 @@ input {
   padding-left: 0%;
   padding-right: 0%;
 }
-
 #profile-name-input {
   margin-left: 5px;
   margin-right: 0px;
   border-left-color: black;
   border-radius: 0px;
 }
-
 #profile-name-input2 {
   margin-left: 5px;
   margin-right: 0px;

@@ -517,7 +517,6 @@ export default {
   padding-left: 0%;
   padding-right: 0%;
 }
-
 #profile-name-input {
   margin-left: 5px;
   margin-right: 0px;

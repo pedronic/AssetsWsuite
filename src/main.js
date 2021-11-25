@@ -6,6 +6,8 @@ import "jquery"
 import "@/plugins/bootstrap"
 import "@/config/smartadmin"
 import "@/plugins/loadscript.js"
+import "@/plugins/bottonExport"
+import "@/plugins/moments.js"
 import "@/plugins/vmask.js"
 import "@/plugins/vueMultiselect.js"
 
@@ -34,28 +36,3 @@ Vue.use(VeeValidate, {
     }
   }
 });
-// validar todos os inputs 
-// definir ícones
-//responsividade ~mobile~ 
-// Subtrair linhas {métodos post} {tabelas com funções desnecessáras} {laços nos métodos gets} {métodos GET em DashFilas}
-// criar script(após servidor) e finalização(após filas) no menu administrativo (done)
-// rever sorteables (feito)
-// rever fields (feito)
-// bug parametro booleano passado para as tabelas (feito)
-// head lista mailing  (feito)
-// filas agentes only 0 (por enquanto) (feito)
-// status -> b-formcheackbox (feito)
-// tabelas em panel (feitos)
-// tabela operadora [Local], [LDN], [LDI], [...] -> (classes)
-// paginação em tabelas
-// campo filas nos métodos PUT de agent, usuario e robo (feito)
-// ajustes multiselect-vue (feito)
-// Padronizar tabs (feito)
-//ajustes na ativação e estlização do tab de DashFilas (feito)
-//efeito estranho de transição de tabela em DashFilas (feito)
-//bug click em qualquer opção da avelã (feito)
-//verificadores de erros de preenchimento forms
-// alinhamento colunas dashFilaAnalytic (feito)
-// items que serão exibidos em DashFilaAnal (feito)
-//min-width botoes da tabela (feito)
-// bug do sidebar que fica abrindo ao se aproximar (feito)
