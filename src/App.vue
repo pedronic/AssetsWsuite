@@ -1,5 +1,5 @@
 <template>
-  <b-container responsive fluid id="app" :class="{ 'auth': !user }" style="padding: 0 0px 0 10px;">
+  <div id="app" class="page-wrapper" :class="{ 'auth': !user }" >
     <div class="page-inner" :class="{'bg-brand-gradient' : !user}" >
       <Sidebar v-if="user" />
       <div class="page-content-wrapper" :class="{'bg-transparent m-0': !user}">
@@ -17,7 +17,7 @@
     <!-- <div class="page-inner bg-brand-gradient" v-else>
       <login />
     </div> -->
-  </b-container>
+  </div>
 </template>
 
 <script>
